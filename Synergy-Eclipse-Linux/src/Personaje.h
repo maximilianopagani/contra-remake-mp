@@ -20,10 +20,22 @@ public:
 	void actualizar();
 	void renderizar();
 	void eventos(SDL_Event evento);
+	void limpiar();
+
+	void saltando();
+	void caminando();
+	void setCondicion(bool _rebote){ rebote = _rebote;}
+
 
 private:
 	int posX;
 	int posY;
+	int pos;
+	int posCaminando;
+	bool rebote;
+	char* spriteNames[4];
+	char* spriteCaminando[4];
+
 	SDL_Texture* personajeTextura;
 	SDL_Rect srcRect ,desRect;
 	SDL_Renderer* renderer;

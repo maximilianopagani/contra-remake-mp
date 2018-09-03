@@ -5,6 +5,7 @@
 SDL_Rect srcR,desR;
 
 Personaje* Gio;
+Uint32 frameStart=0 , frameTiempo , frameEspera;
 
 Juego::Juego(){ enEjecucion=true;}
 
@@ -19,10 +20,12 @@ void Juego::juegoInicializacion(){
         if(window){
             std::cout<<"Se creo la ventana"<<std::endl;
         }
+
+        //SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
         renderer = SDL_CreateRenderer(window,-1,0);
         if(renderer){
             std::cout<<"Se creo el renderer"<<std::endl;
-            SDL_SetRenderDrawColor(renderer,255,0,0,200);
+            SDL_SetRenderDrawColor(renderer,255,255,255,200);
         }
 
         enEjecucion=true;
@@ -31,42 +34,28 @@ void Juego::juegoInicializacion(){
         enEjecucion=false;
     }
 
-    /*SDL_Surface* superficieTemp = IMG_Load("personaje.png");
-    personajeTextura = SDL_CreateTextureFromSurface(renderer,superficieTemp);
-    SDL_FreeSurface(superficieTemp);
-    desR.h = 64;
-    desR.w = 64 ;
-    desR.x = 40;
-    desR.y = 40;*/
-
-    Gio = new Personaje("personaje.png",renderer);
+    Gio = new Personaje("imagenes/espera1.png",renderer);
 }
 
 void Juego::eventosManejo(){
-    SDL_Event evento;
-    SDL_PollEvent(&evento);
 
-    if(evento.type == SDL_QUIT){ enEjecucion = false ;}
-    Gio->eventos(evento);
-    /*switch(evento.key.keysym.sym){
-        case SDLK_ESCAPE:
-            enEjecucion= false;
-            break;
-        case SDLK_UP:
-            desR.y = desR.y - 4 ;
-            break;
-        case SDLK_LEFT:
-            desR.x = desR.x-4;
-            break;
-        case SDLK_RIGHT:
-             desR.x = desR.x+4;
-            break;
-        case SDLK_DOWN:
-            desR.y = desR.y + 4;
-            break;
-        default:
-            break;
-    }*/
+
+	SDL_Event evento;
+
+	frameStart++;
+
+    while(SDL_PollEvent(&evento)){
+
+    	if(evento.type == SDL_QUIT){ enEjecucion = false ;}
+    	Gio->eventos(evento);
+    	frameStart = 0;
+   }
+
+    if(frameStart > 50) {
+    	Gio->actualizar();
+    	SDL_Delay(100);
+    }
+
 }
 
 void Juego::actualizar(){
@@ -79,12 +68,12 @@ void Juego::renderizar(){
     SDL_RenderClear(renderer);
     //Copy a portion of the texture to the current rendering target.
     Gio->renderizar();
-    // SDL_RenderCopy(renderer,personajeTextura,NULL,&desR);
     //ACTUALIZA LA PANTALLA CON EL RENDER REALIZADO
     SDL_RenderPresent(renderer);
 }
 
 void Juego:: limpiar(){
+	Gio-> limpiar();
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();
