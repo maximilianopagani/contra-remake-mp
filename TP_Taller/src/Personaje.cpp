@@ -9,6 +9,8 @@
 
 extern Game* synergy;
 
+#define GRAVITY_SPEED 0.3 // Pixels per iteration
+
 Personaje::Personaje()
 {
 	crouchTexture = Grapher::loadTexture("imagenes/disparoagachado.png");
@@ -33,10 +35,9 @@ Personaje::Personaje()
 
 	pos = 0;
 	posCaminando = 0;
-	rebote = true;
 
-	//speed_x = 0;
-	//speed_y = 0;
+	speed_x = 0;
+	speed_y = 0;
 
 	aimingAt = AIM_FRONT;
 	state = STATE_STANDING;
@@ -46,10 +47,13 @@ Personaje::Personaje()
 	srcRect.x = 0;
 	srcRect.y = 0;
 
-	desRect.h = 64;
-	desRect.w = 64 ;
-	desRect.x = 200 ;
-	desRect.y = 225 ;
+	pos_x = 200 ;
+	pos_y = 225 ;
+
+	renderRect.x = pos_x;
+	renderRect.y = pos_y;
+	renderRect.h = 64;
+	renderRect.w = 64 ;
 
 	lastShotTime = 0;
 	shotCooldown = 200; // En milisegundos. Esto podria modelarse dentro de una arma, como una caracteristica de la misma, si pidiesen distintas armas.
@@ -62,44 +66,20 @@ void Personaje::handleEvent(SDL_Event evento)
 	 switch(evento.key.keysym.sym)
 	 {
 	 	 case SDLK_SPACE:
-			if(rebote)
-			{
-				this->jumping();
-				rebote = false;
-				break;
-			}
-
-			rebote = true ;
+			this->jump();
 			break;
 
 		case SDLK_LEFT:
-			if(rebote)
-			{
-				desRect.x = desRect.x - 5;
-				this->walking();
-				rebote = false;
-				break;
-			}
-
-			rebote = true ;
+			this->walk(-7);
 			break;
 
 		case SDLK_RIGHT:
-			if(rebote)
-			{
-				desRect.x = desRect.x + 5;
-				this->walking();
-				rebote = false;
-				break;
-			}
-
-			rebote = true ;
+			this->walk(7);
 			break;
 
 		case SDLK_z:
 			this->shoot(); // Ver porque se esta ejecutando cada case 2 veces, hay algo que no esta bien. Las texturas tambien, se cargan 2 veces. Salvo flecha izq y derecha, el resto duplica todos
-			// EL problema es que faltaba un --else if(evento.type == SDL_KEYDOWN)-- en el PollEvent, ya que llamaba a personaje.eventhandler aún para otros eventos no de teclado
-			break;
+			break; // EL problema es que faltaba un --else if(evento.type == SDL_KEYDOWN)-- en el PollEvent, ya que llamaba a personaje.eventhandler aún para otros eventos no de teclado
 
 		case SDLK_x:
 			this->shoot(250);
@@ -154,13 +134,13 @@ void Personaje::shoot(int distanceToTravel)
 		switch(aimingAt)
 		{
 			case AIM_UP:
-				synergy->catchFiredBullet(new Bullet(desRect.x, desRect.y, 7, -7, distanceToTravel));
+				synergy->catchFiredBullet(new Bullet(renderRect.x, renderRect.y, 7, -7, distanceToTravel));
 				break;
 			case AIM_DOWN:
-				synergy->catchFiredBullet(new Bullet(desRect.x, desRect.y, 7, 7, distanceToTravel));
+				synergy->catchFiredBullet(new Bullet(renderRect.x, renderRect.y, 7, 7, distanceToTravel));
 				break;
 			case AIM_FRONT:
-				synergy->catchFiredBullet(new Bullet(desRect.x, desRect.y, 10, 0, distanceToTravel));
+				synergy->catchFiredBullet(new Bullet(renderRect.x, renderRect.y, 10, 0, distanceToTravel));
 				break;
 		}
 
@@ -170,19 +150,65 @@ void Personaje::shoot(int distanceToTravel)
 
 void Personaje::update()
 {
+	/*
 	renderTexture = idleTexture[pos];
 	pos++;
 
 	if(pos == 4)
 		pos = 0;
+	*/
 
-	//desRect.x += speed_x;
-	//desRect.y += speed_y;
+	renderRect.x = pos_x - level1->getCameraPos();
+	renderRect.y = pos_y;
+
+	pos_x += speed_x;
+
+	// para scroll vertical, si se va debajo del cero muere
+	if(pos_x < level1->getCameraPos() || pos_x > level1->getMapWidth() - 10) // Si quiere irse de los limites absolutos del mapa. NO aceptamos desertores =P
+		pos_x -= speed_x;
+
+	speed_x = 0;
+
+
+	if(this->onPlatform()) // Está sobre una plataforma, puede saltar o parar caida
+	{
+		if(speed_y < 0) // está por saltar
+		{
+			renderTexture = jumpingTexture[0]; // Aplicamos textura de salto
+
+			pos_y += speed_y;
+			speed_y += GRAVITY_SPEED;
+		}
+		else if(speed_y > 0)
+		{
+			speed_y = 0; // Entonces frenamos la caida, si hubiese
+
+			if(state == STATE_JUMPING) // Seteamos el estado parado
+			{
+				state = STATE_STANDING;
+				renderTexture = idleTexture[0];
+			}
+		}
+	}
+	else if(speed_y < 0) // esta ascendiendo en un salto o a punto de saltar
+	{
+		renderTexture = jumpingTexture[0]; // Aplicamos textura de salto
+
+		pos_y += speed_y;
+		speed_y += GRAVITY_SPEED;
+	}
+	else if(speed_y > 0) // Esta cayendo
+	{
+		renderTexture = jumpingTexture[1]; // Aplicamos textura de caida
+
+		pos_y += speed_y;
+		speed_y += GRAVITY_SPEED;
+	}
 }
 
 void Personaje::render()
 {
-	SDL_RenderCopy(Grapher::gameRenderer, renderTexture, NULL, &desRect);
+	SDL_RenderCopy(Grapher::gameRenderer, renderTexture, NULL, &renderRect);
 }
 
 void Personaje::clean()
@@ -213,38 +239,47 @@ void Personaje::clean()
 	}
 }
 
-void Personaje::jumping()
+void Personaje::jump()
 {
+	if(state != STATE_JUMPING)
+	{
+		speed_y += -8.5;
+		state = STATE_JUMPING;
+	}
+
+	/*
 	for(int i=0 ; i < 15 ; i++)
 	{
-		desRect.y = desRect.y -5 ;
+		pos_y = pos_y - 5;
 		SDL_RenderClear(Grapher::gameRenderer);
-		renderTexture = jumpingTexture[0];
 		this->render();
 		SDL_RenderPresent(Grapher::gameRenderer);
 		SDL_Delay(15);
 	}
 
+	renderTexture = jumpingTexture[1];
 	for(int i=0 ; i < 14 ; i++)
 	{
-		 desRect.y = desRect.y +5 ;
+		 pos_y = pos_y + 5;
 		 SDL_RenderClear(Grapher::gameRenderer);
-		 renderTexture = jumpingTexture[1];
 		 this->render();
 	     SDL_RenderPresent(Grapher::gameRenderer);
 		 SDL_Delay(15);
 	}
 
-	desRect.y = desRect.y +5 ;
+	pos_y = pos_y + 5;
 	SDL_RenderClear(Grapher::gameRenderer);
 	renderTexture = idleTexture[0];
 	this->render();
 	SDL_RenderPresent(Grapher::gameRenderer);
 	SDL_Delay(30);
+	*/
 }
 
-void Personaje::walking()
+void Personaje::walk(int _speed_x)
 {
+	speed_x = _speed_x;
+
 	renderTexture = walkingTexture[posCaminando];
 	posCaminando++;
 

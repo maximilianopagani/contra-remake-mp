@@ -31,10 +31,6 @@ class Game
 
         bool enEjecucion;
 
-        // A futuro a implementar esto en clase nivel o escenario
-        SDL_Texture* level1Background = NULL;
-        SDL_Rect level1Rect;
-
         // Manejo de balas
 		std::list<Bullet*> gameBullets;
 		std::list<Bullet*>::iterator gameBulletsIterator;

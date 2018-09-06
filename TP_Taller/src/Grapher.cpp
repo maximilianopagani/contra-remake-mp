@@ -23,7 +23,7 @@ bool loadGrapher()
 	{
 		printf("SDL initialized successfully.\n");
 
-		window = SDL_CreateWindow("Contra Remake - Taller de Programación I", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, Grapher::screenWidth, Grapher::screenHeight, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow("Contra Remake - Taller de Programación I", SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED, Grapher::windowWidth, Grapher::windowHeight, SDL_WINDOW_SHOWN);
 
 		if(window == NULL)
 		{
@@ -68,8 +68,8 @@ bool loadGrapher()
 SDL_Window* Grapher::gameWindow = NULL;
 SDL_Renderer* Grapher::gameRenderer = NULL;
 
-int Grapher::screenWidth = 800;
-int Grapher::screenHeight = 600;
+int Grapher::windowWidth = 800;
+int Grapher::windowHeight = 600;
 
 void Grapher::setGameWindow(SDL_Window* windowToUse)
 {

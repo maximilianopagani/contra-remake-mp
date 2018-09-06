@@ -10,6 +10,7 @@
 
 #include "Game.h"
 #include "Grapher.h"
+#include "Level.h"
 
 extern int globalOffset;
 

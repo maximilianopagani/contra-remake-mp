@@ -19,7 +19,7 @@ class Grapher
 {
 	public:
 
-		static int screenWidth, screenHeight;
+		static int windowWidth, windowHeight;
 		static SDL_Window* gameWindow;
 		static SDL_Renderer* gameRenderer;
 		static void setGameWindow(SDL_Window* windowToUse);

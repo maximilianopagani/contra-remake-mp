@@ -54,7 +54,7 @@ void Bullet::move()
 
 bool Bullet::outOfLimits()
 {
-	if(pos_rect.x < 0 || pos_rect.x > Grapher::screenWidth || pos_rect.y < 0 || pos_rect.y > Grapher::screenHeight || (max_travel_distance > 0 && traveled_distance > max_travel_distance))
+	if(pos_rect.x < 0 || pos_rect.x > Grapher::windowWidth || pos_rect.y < 0 || pos_rect.y > Grapher::windowHeight || (max_travel_distance > 0 && traveled_distance > max_travel_distance))
 		return true;
 	else
 		return false;

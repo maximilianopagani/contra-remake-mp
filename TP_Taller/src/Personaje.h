@@ -9,6 +9,9 @@
 #define PERSONAJE_H_
 
 #include "Headers.h"
+#include "Level.h"
+
+extern Level* level1;
 
 class Personaje
 {
@@ -21,21 +24,23 @@ class Personaje
 		void handleEvent(SDL_Event evento);
 		void clean();
 
-		void jumping();
-		void walking();
-		void shoot(int distanceToTravel = 0); // EN un futuro, si se pide, se podria definir aca, segun el arma y ciertas condiciones del personaje, que tipo de bullet crear, que velocidad, duracion, etc
-		void setCondition(bool _rebote) { rebote = _rebote; }
-		SDL_Rect getPosition() { return desRect; }
+		void jump();
+		void walk(int _speed_x);
+		void shoot(int distanceToTravel = 0); // En un futuro, si se pide, se podria definir aca, segun el arma y ciertas condiciones del personaje, que tipo de bullet crear, que velocidad, duracion, etc
+		int getPositionX() { return pos_x; }
+		int getPositionY() { return pos_y; }
+		bool onPlatform() { return (pos_y > 210 && pos_y < 240); }
 
 		virtual ~Personaje();
 
 	private:
 
+		int pos_x, pos_y; // Posicion absoluta con respecto al mapa gigante.
+
 		int pos;
 		int posCaminando;
-		bool rebote;
 
-		//int speed_x, speed_y;
+		float speed_x, speed_y;
 
 		enum AimingPosition {AIM_UP, AIM_DOWN, AIM_FRONT};
 		AimingPosition aimingAt;
@@ -55,7 +60,9 @@ class Personaje
 		SDL_Texture* aimFrontTexture;
 		SDL_Texture* jumpingTexture[2];
 
-		SDL_Rect srcRect, desRect;
+		SDL_Rect srcRect;
+
+		SDL_Rect renderRect;
 };
 
 #endif /* SRC_PERSONAJE_H_ */
