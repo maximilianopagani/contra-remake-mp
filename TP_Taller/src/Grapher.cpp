@@ -50,11 +50,11 @@ bool loadGrapher()
 
 		if(!(IMG_Init(imgFlags) & imgFlags))
 		{
-			printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+			printf("SDL_Image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 			return false;
 		}
 		else
-			printf("SDL_image initialized successfully.\n");
+			printf("SDL_Image initialized successfully.\n");
 	}
 
 	Grapher::setGameWindow(window);
@@ -97,8 +97,8 @@ SDL_Texture* Grapher::loadTexture(std::string path)
 
 		if(texture == NULL)
 			printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-		//else
-			//printf("Texture from image %s loaded successfully.\n", path.c_str());
+		else
+			printf("Texture from image %s loaded successfully.\n", path.c_str());
 
 		SDL_FreeSurface(surface);
 	}

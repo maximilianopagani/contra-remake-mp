@@ -17,7 +17,7 @@ Game::~Game(){}
 void Game::init()
 {
 	enEjecucion=true;
-    Gio = new Personaje("imagenes/espera1.png");
+    Gio = new Personaje();
 
     // A futuro a implementar esto en clase nivel o escenario
     level1Background = Grapher::loadTexture("imagenes/ContraMapStage1BGresized.png");

@@ -13,7 +13,7 @@ int main(int argc, char* args[])
 	else
 	{
 		//Manejo del framerate
-		const int FPS = 23;
+		const int FPS = 40;
 		const int frameDelay = 1000 / FPS ;
 
 		Uint32 timeAtIterationStart;

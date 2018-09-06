@@ -14,7 +14,7 @@ class Personaje
 {
 	public:
 
-		Personaje(std::string texturePath);
+		Personaje();
 
 		void update();
 		void render();
@@ -31,19 +31,30 @@ class Personaje
 
 	private:
 
-		// enum CharacterState {STATE_JUMPING, STATE_STANDING, STATE_CROUCHING};
-		// CharacterState state;
-
 		int pos;
 		int posCaminando;
 		bool rebote;
+
+		//int speed_x, speed_y;
+
+		enum AimingPosition {AIM_UP, AIM_DOWN, AIM_FRONT};
+		AimingPosition aimingAt;
+
+		enum CharacterState {STATE_JUMPING, STATE_STANDING, STATE_WALKING, STATE_CROUCHING};
+		CharacterState state;
+
 		Uint32 lastShotTime;
 		Uint32 shotCooldown;
 
-		std::string spriteNames[4];
-		std::string spriteCaminando[4];
+		SDL_Texture* renderTexture;
+		SDL_Texture* idleTexture[4];
+		SDL_Texture* walkingTexture[4];
+		SDL_Texture* crouchTexture;
+		SDL_Texture* aimDownTexture;
+		SDL_Texture* aimUpTexture;
+		SDL_Texture* aimFrontTexture;
+		SDL_Texture* jumpingTexture[2];
 
-		SDL_Texture* personajeTextura;
 		SDL_Rect srcRect, desRect;
 };
 
