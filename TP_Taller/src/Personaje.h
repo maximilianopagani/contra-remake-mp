@@ -24,7 +24,7 @@ class Personaje
 		void handleEvent(SDL_Event evento);
 		void clean();
 
-		void jump();
+		void jump(int _speed_y);
 		void walk(int _speed_x);
 		void shoot(int distanceToTravel = 0); // En un futuro, si se pide, se podria definir aca, segun el arma y ciertas condiciones del personaje, que tipo de bullet crear, que velocidad, duracion, etc
 		int getPositionX() { return pos_x; }

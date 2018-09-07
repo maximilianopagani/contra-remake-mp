@@ -10,7 +10,7 @@
 
 #include "Grapher.h"
 
-enum ScrollingType {VERTICAL, HORIZONTAL};
+enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
 
 class Level
 {
@@ -21,9 +21,12 @@ class Level
 		void render();
 		void clean();
 		void updateCamera(int playerPosX, int playerPosY);
-		int getCameraPos() { return renderRect.x; }
+
 		int getMapWidth() { return mapWidth; }
 		int getMapHeight() { return mapHeight; }
+
+		int getCameraPosX() { return renderRect.x; }
+		int getCameraPosY() { return renderRect.y; }
 
 		virtual ~Level();
 

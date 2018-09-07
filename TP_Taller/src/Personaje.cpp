@@ -9,7 +9,7 @@
 
 extern Game* synergy;
 
-#define GRAVITY_SPEED 0.3 // Pixels per iteration
+#define GRAVITY_SPEED 0.35 // Pixels per iteration
 
 Personaje::Personaje()
 {
@@ -66,7 +66,7 @@ void Personaje::handleEvent(SDL_Event evento)
 	 switch(evento.key.keysym.sym)
 	 {
 	 	 case SDLK_SPACE:
-			this->jump();
+			this->jump(-9);
 			break;
 
 		case SDLK_LEFT:
@@ -134,13 +134,13 @@ void Personaje::shoot(int distanceToTravel)
 		switch(aimingAt)
 		{
 			case AIM_UP:
-				synergy->catchFiredBullet(new Bullet(renderRect.x, renderRect.y, 7, -7, distanceToTravel));
+				synergy->catchFiredBullet(new Bullet(pos_x, pos_y, 7, -7, distanceToTravel));
 				break;
 			case AIM_DOWN:
-				synergy->catchFiredBullet(new Bullet(renderRect.x, renderRect.y, 7, 7, distanceToTravel));
+				synergy->catchFiredBullet(new Bullet(pos_x, pos_y, 7, 7, distanceToTravel));
 				break;
 			case AIM_FRONT:
-				synergy->catchFiredBullet(new Bullet(renderRect.x, renderRect.y, 10, 0, distanceToTravel));
+				synergy->catchFiredBullet(new Bullet(pos_x, pos_y, 10, 0, distanceToTravel));
 				break;
 		}
 
@@ -158,13 +158,10 @@ void Personaje::update()
 		pos = 0;
 	*/
 
-	renderRect.x = pos_x - level1->getCameraPos();
-	renderRect.y = pos_y;
-
 	pos_x += speed_x;
 
 	// para scroll vertical, si se va debajo del cero muere
-	if(pos_x < level1->getCameraPos() || pos_x > level1->getMapWidth() - 10) // Si quiere irse de los limites absolutos del mapa. NO aceptamos desertores =P
+	if(pos_x < level1->getCameraPosX() || pos_x > (level1->getMapWidth() - 20)) // Si quiere irse de los limites absolutos del mapa. NO aceptamos desertores =P
 		pos_x -= speed_x;
 
 	speed_x = 0;
@@ -208,6 +205,9 @@ void Personaje::update()
 
 void Personaje::render()
 {
+	renderRect.x = pos_x - level1->getCameraPosX(); // Ajuste de offset. Muevo la posicion absoluta global del personaje en el mapa a la relativa a la ventana
+	renderRect.y = pos_y; // - level1->getCameraPosY()
+
 	SDL_RenderCopy(Grapher::gameRenderer, renderTexture, NULL, &renderRect);
 }
 
@@ -239,41 +239,13 @@ void Personaje::clean()
 	}
 }
 
-void Personaje::jump()
+void Personaje::jump(int _speed_y)
 {
 	if(state != STATE_JUMPING)
 	{
-		speed_y += -8.5;
+		speed_y += _speed_y;
 		state = STATE_JUMPING;
 	}
-
-	/*
-	for(int i=0 ; i < 15 ; i++)
-	{
-		pos_y = pos_y - 5;
-		SDL_RenderClear(Grapher::gameRenderer);
-		this->render();
-		SDL_RenderPresent(Grapher::gameRenderer);
-		SDL_Delay(15);
-	}
-
-	renderTexture = jumpingTexture[1];
-	for(int i=0 ; i < 14 ; i++)
-	{
-		 pos_y = pos_y + 5;
-		 SDL_RenderClear(Grapher::gameRenderer);
-		 this->render();
-	     SDL_RenderPresent(Grapher::gameRenderer);
-		 SDL_Delay(15);
-	}
-
-	pos_y = pos_y + 5;
-	SDL_RenderClear(Grapher::gameRenderer);
-	renderTexture = idleTexture[0];
-	this->render();
-	SDL_RenderPresent(Grapher::gameRenderer);
-	SDL_Delay(30);
-	*/
 }
 
 void Personaje::walk(int _speed_x)

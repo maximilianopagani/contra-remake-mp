@@ -7,8 +7,6 @@ Uint32 frameStart=0;
 Personaje* Gio;
 Level* level1;
 
-int globalOffset = 0;
-
 Game::Game()
 {
 	enEjecucion = false;
@@ -22,7 +20,7 @@ void Game::init()
 
     Gio = new Personaje();
 
-    level1 = new Level(HORIZONTAL);
+    level1 = new Level(SCROLLING_HORIZONTAL);
 }
 
 void Game::catchFiredBullet(Bullet* firedBullet)

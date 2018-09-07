@@ -12,8 +12,6 @@
 #include "Grapher.h"
 #include "Level.h"
 
-extern int globalOffset;
-
 using namespace std;
 
 #endif /* SRC_HEADERS_H_ */
