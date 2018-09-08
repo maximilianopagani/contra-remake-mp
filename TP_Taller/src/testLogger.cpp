@@ -2,7 +2,7 @@
 // Name        : testLogger.cpp
 // Author      : pola17
 //============================================================================
-
+/*
 #include "../include/Logger.hh"
 
 int main() {
@@ -56,4 +56,4 @@ int main() {
     LOGGER_ERROR("en error");
     LOGGER_KILL();
     return 0;
-}
+}*/

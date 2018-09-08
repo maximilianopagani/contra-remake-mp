@@ -24,7 +24,7 @@ class Personaje
 		void handleEvent(SDL_Event evento);
 		void clean();
 
-		void jump(int _speed_y);
+		void jump();
 		void walk(int _speed_x);
 		void shoot(int distanceToTravel = 0); // En un futuro, si se pide, se podria definir aca, segun el arma y ciertas condiciones del personaje, que tipo de bullet crear, que velocidad, duracion, etc
 		int getPositionX() { return pos_x; }
@@ -39,13 +39,15 @@ class Personaje
 
 		int pos;
 		int posCaminando;
+		int distanceJump;
 
-		float speed_x, speed_y;
+		//float speed_x, speed_y;
 
-		enum AimingPosition {AIM_UP, AIM_DOWN, AIM_FRONT};
+		enum AimingPosition {AIM_UP, AIM_DOWN, AIM_FRONT,AIM_CROUCHING};
 		AimingPosition aimingAt;
 
-		enum CharacterState {STATE_JUMPING, STATE_STANDING, STATE_WALKING, STATE_CROUCHING};
+		enum CharacterState {STATE_JUMPING,STATE_JUMPING_DOWN, STATE_STANDING, STATE_WALKING,
+			STATE_CROUCHING,STATE_DEFAULT,STATE_ALERT};
 		CharacterState state;
 
 		Uint32 lastShotTime;

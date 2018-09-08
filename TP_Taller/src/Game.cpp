@@ -2,15 +2,11 @@
 
 SDL_Rect srcR,desR;
 
-Uint32 frameStart=0;
 
-Personaje* Gio;
+Personaje* Player;
 Level* level1;
 
-Game::Game()
-{
-	enEjecucion = false;
-}
+Game::Game(){}
 
 Game::~Game(){}
 
@@ -18,7 +14,7 @@ void Game::init()
 {
 	enEjecucion = true;
 
-    Gio = new Personaje();
+    Player = new Personaje();
 
     level1 = new Level(SCROLLING_HORIZONTAL);
 }
@@ -32,7 +28,7 @@ void Game::handleEvents()
 {
 	SDL_Event evento;
 
-	frameStart++;
+
 
     while(SDL_PollEvent(&evento))
     {
@@ -42,25 +38,19 @@ void Game::handleEvents()
     	}
     	else if(evento.type == SDL_KEYDOWN)
     	{
-			Gio->handleEvent(evento);
-			frameStart = 0; // Para que es este script de frames aca?
+			Player->handleEvent(evento);
+
     	}
     }
 
-    /*
-    if(frameStart > 50)
-    {
-    	Gio->update();
-    	SDL_Delay(100);
-    }
-    */
+
 }
 
 void Game::update()
 {
-	Gio->update();
+	Player->update();
 
-	level1->updateCamera(Gio->getPositionX(), Gio->getPositionY());
+	level1->updateCamera(Player->getPositionX(), Player->getPositionY());
 
 	// Actualizacion de posicion de balas
 	for(gameBulletsIterator = gameBullets.begin(); gameBulletsIterator != gameBullets.end();)
@@ -88,7 +78,7 @@ void Game::render()
     level1->render();
 
     //Copy a portion of the texture to the current rendering target.
-    Gio->render();
+    Player->render();
 
     // Renderizado de balas
 	for(gameBulletsIterator = gameBullets.begin(); gameBulletsIterator != gameBullets.end();)
@@ -103,7 +93,7 @@ void Game::render()
 
 void Game::clean()
 {
-	Gio->clean();
+	Player->clean();
 
 	level1->clean();
 
