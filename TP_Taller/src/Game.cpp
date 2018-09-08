@@ -1,12 +1,12 @@
 #include "Game.h"
 
-SDL_Rect srcR,desR;
+Personaje* gamePlayer;
+Level* gameLevel;
 
-
-Personaje* Player;
-Level* level1;
-
-Game::Game(){}
+Game::Game()
+{
+	enEjecucion = false;
+}
 
 Game::~Game(){}
 
@@ -14,9 +14,9 @@ void Game::init()
 {
 	enEjecucion = true;
 
-    Player = new Personaje();
+    gameLevel = new Level(LEVEL1);
 
-    level1 = new Level(SCROLLING_HORIZONTAL);
+    gamePlayer= new Personaje();
 }
 
 void Game::catchFiredBullet(Bullet* firedBullet)
@@ -28,8 +28,6 @@ void Game::handleEvents()
 {
 	SDL_Event evento;
 
-
-
     while(SDL_PollEvent(&evento))
     {
     	if(evento.type == SDL_QUIT)
@@ -38,19 +36,16 @@ void Game::handleEvents()
     	}
     	else if(evento.type == SDL_KEYDOWN)
     	{
-			Player->handleEvent(evento);
-
+    		gamePlayer->handleEvent(evento);
     	}
     }
-
-
 }
 
 void Game::update()
 {
-	Player->update();
+	gamePlayer->update();
 
-	level1->updateCamera(Player->getPositionX(), Player->getPositionY());
+	gameLevel->updateCamera(gamePlayer->getPositionX(), gamePlayer->getPositionY());
 
 	// Actualizacion de posicion de balas
 	for(gameBulletsIterator = gameBullets.begin(); gameBulletsIterator != gameBullets.end();)
@@ -75,10 +70,10 @@ void Game::render()
     SDL_RenderClear(Grapher::gameRenderer);
 
     //Render background
-    level1->render();
+    gameLevel->render();
 
     //Copy a portion of the texture to the current rendering target.
-    Player->render();
+    gamePlayer->render();
 
     // Renderizado de balas
 	for(gameBulletsIterator = gameBullets.begin(); gameBulletsIterator != gameBullets.end();)
@@ -93,9 +88,9 @@ void Game::render()
 
 void Game::clean()
 {
-	Player->clean();
+	gamePlayer->clean();
 
-	level1->clean();
+	gameLevel->clean();
 
     SDL_DestroyWindow(Grapher::gameWindow);
     SDL_DestroyRenderer(Grapher::gameRenderer);

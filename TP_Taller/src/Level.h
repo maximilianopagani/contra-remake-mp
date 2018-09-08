@@ -10,13 +10,13 @@
 
 #include "Grapher.h"
 
-enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
+enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};
 
 class Level
 {
 	public:
 
-		Level(ScrollingType _scrolling);
+		Level(LevelNumber _level);
 
 		void render();
 		void clean();
@@ -28,14 +28,20 @@ class Level
 		int getCameraPosX() { return renderRect.x; }
 		int getCameraPosY() { return renderRect.y; }
 
+		int getPlayerSpawnX() { return playerSpawnX; }
+		int getPlayerSpawnY() { return playerSpawnY; }
+
 		virtual ~Level();
 
 	private:
 
 		int mapWidth, mapHeight, border;
 
+		int playerSpawnX, playerSpawnY;
+
 		SDL_Rect renderRect;
 
+		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
 		ScrollingType scrolling;
 
 		SDL_Texture* background1;

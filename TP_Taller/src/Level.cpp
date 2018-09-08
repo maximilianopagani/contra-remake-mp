@@ -7,25 +7,60 @@
 
 #include "Level.h"
 
-Level::Level(ScrollingType _scrolling)
+Level::Level(LevelNumber _level)
 {
-	background1 = Grapher::loadTexture("imagenes/ContraLevel1BackgroundRezised8312x600.png");
-	//background2 = NULL;
-	//background3 = NULL;
+	switch(_level)
+	{
+		case LEVEL1:
+		{
+			scrolling = SCROLLING_HORIZONTAL;
 
-	scrolling = _scrolling;
+			background1 = Grapher::loadTexture("imagenes/ContraLevel1BackgroundRezised8312x600.png");
+			//background2 = NULL;
+			//background3 = NULL;
 
-	if(scrolling == SCROLLING_HORIZONTAL)
-		border = (Grapher::windowWidth / 10) * 6; // Margen al 60% del ancho
-	else
-		border = (Grapher::windowHeight / 10) * 6; // Margen al 60% de la altura
+			playerSpawnX = 200;
+			playerSpawnY = 225;
+			break;
+		}
+		case LEVEL2:
+		{
+			scrolling = SCROLLING_VERTICAL;
+
+			background1 = Grapher::loadTexture("imagenes/ContraLevel3BackgroundRezised800x6797.png");
+			//background2 = NULL;
+			//background3 = NULL;
+
+			playerSpawnX = 200;
+			playerSpawnY = 6600;
+			break;
+		}
+		case LEVEL3:
+		{
+			scrolling = SCROLLING_HORIZONTAL;
+
+			background1 = Grapher::loadTexture("imagenes/ContraLevel5BackgroundRezised12760x600.png");
+			//background2 = NULL;
+			//background3 = NULL;
+
+			playerSpawnX = 200;
+			playerSpawnY = 225;
+			break;
+		}
+	}
 
 	SDL_QueryTexture(background1, NULL, NULL, &mapWidth, &mapHeight);
 
-	if(_scrolling == SCROLLING_HORIZONTAL)
+	if(scrolling == SCROLLING_HORIZONTAL)
+	{
+		border = (Grapher::windowWidth / 10) * 6; // Margen al 60% del ancho
 		renderRect.y = 0;
+	}
 	else
+	{
+		border = mapHeight - (Grapher::windowHeight / 10) * 6; // Margen al 60% de la altura
 		renderRect.y = mapHeight - Grapher::windowHeight;
+	}
 
 	renderRect.x = 0;
 	renderRect.h = Grapher::windowHeight;
@@ -63,19 +98,17 @@ void Level::updateCamera(int playerPosX, int playerPosY)
 			{
 				renderRect.x += (playerPosX - border);
 				border = playerPosX;
-
 			}
 		}
 	}
 	else // Vertical
 	{
-		if(renderRect.y < 0)
+		if(renderRect.y > 0)
 		{
-			if(playerPosY >= border)
+			if(playerPosY <= border)
 			{
-				renderRect.y += (playerPosY - border);
+				renderRect.y -= (border - playerPosY);
 				border = playerPosY;
-
 			}
 		}
 	}
