@@ -138,7 +138,7 @@ void Personaje::shoot(int distanceToTravel){
 				synergy->catchFiredBullet(new Bullet(pos_x+30, pos_y+10, 10, 0, distanceToTravel));
 				break;
 			case AIM_CROUCHING:
-				synergy->catchFiredBullet(new Bullet(pos_x+30, pos_y+25, 10, 0, distanceToTravel));
+				synergy->catchFiredBullet(new Bullet(pos_x+30, pos_y+40, 10, 0, distanceToTravel));
 				break;
 		}
 
