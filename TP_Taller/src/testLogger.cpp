@@ -5,7 +5,7 @@
 
 #include "../include/Logger.hh"
 
-int main() {
+int testMain() {
 
 	LOGGER_INIT(Logger::DEBUG);
     LOGGER_DEBUG("en debug");
