@@ -7,7 +7,7 @@
 
 #include "Bullet.h"
 
-extern Level* level1;
+extern Level* gameLevel;
 
 SDL_Rect* Bullet::source_rect = NULL;
 SDL_Texture* Bullet::source_texture = NULL;
@@ -62,7 +62,7 @@ void Bullet::move()
 
 bool Bullet::outOfLimits()
 {
-	if(pos_x < 0 || render_rect.x > Grapher::windowWidth || pos_y < 0 || render_rect.y > Grapher::windowHeight || (max_travel_distance > 0 && traveled_distance > max_travel_distance))
+	if((max_travel_distance > 0 && traveled_distance > max_travel_distance) || pos_x < 0 || pos_x > gameLevel->getMapWidth() || render_rect.x > Grapher::windowWidth || pos_y < 0 || pos_y > gameLevel->getMapHeight() || render_rect.y > Grapher::windowHeight)
 		return true;
 	else
 		return false;
@@ -70,16 +70,10 @@ bool Bullet::outOfLimits()
 
 void Bullet::checkCollision() {}
 
-bool Bullet::render()
+void Bullet::render()
 {
-	render_rect.x = pos_x - level1->getCameraPosX(); // Ajuste de offset. Muevo la posicion absoluta global de la bala en el mapa a la relativa a la ventana
-	render_rect.y = pos_y; // - level1->getCameraPosY()
+	render_rect.x = pos_x - gameLevel->getCameraPosX(); // Ajuste de offset. Muevo la posicion absoluta global de la bala en el mapa a la relativa a la ventana
+	render_rect.y = pos_y - gameLevel->getCameraPosY();
 
-	if(!SDL_RenderCopy(Grapher::gameRenderer, source_texture, source_rect, &render_rect))
-		return true;
-	else
-	{
-		printf("Unable to render bullet texture. SDL Error: %s\n", SDL_GetError());
-		return false;
-	}
+	SDL_RenderCopy(Grapher::gameRenderer, source_texture, source_rect, &render_rect);
 }

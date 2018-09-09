@@ -21,7 +21,7 @@ class Bullet
 		void move();
 		void checkCollision();
 		bool outOfLimits();
-		bool render();
+		void render();
 
 		static void loadBulletsGraphicsResources();
 

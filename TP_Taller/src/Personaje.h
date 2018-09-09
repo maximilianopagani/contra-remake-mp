@@ -11,7 +11,7 @@
 #include "Headers.h"
 #include "Level.h"
 
-extern Level* level1;
+extern Level* gameLevel;
 
 class Personaje
 {
@@ -25,7 +25,7 @@ class Personaje
 		void clean();
 
 		void jump(int _speed_y);
-		void walk(int _speed_x);
+		void moveX(int _speed_x);
 		void shoot(int distanceToTravel = 0); // En un futuro, si se pide, se podria definir aca, segun el arma y ciertas condiciones del personaje, que tipo de bullet crear, que velocidad, duracion, etc
 		int getPositionX() { return pos_x; }
 		int getPositionY() { return pos_y; }
@@ -42,10 +42,10 @@ class Personaje
 
 		float speed_x, speed_y;
 
-		enum AimingPosition {AIM_UP, AIM_DOWN, AIM_FRONT};
+		enum AimingPosition {AIM_UP, AIM_DOWN, AIM_FRONT, AIM_CROUCHING};
 		AimingPosition aimingAt;
 
-		enum CharacterState {STATE_JUMPING, STATE_STANDING, STATE_WALKING, STATE_CROUCHING};
+		enum CharacterState {STATE_JUMPING, STATE_STANDING, STATE_WALKING, STATE_CROUCHING, STATE_FALLING};
 		CharacterState state;
 
 		Uint32 lastShotTime;
@@ -53,14 +53,12 @@ class Personaje
 
 		SDL_Texture* renderTexture;
 		SDL_Texture* idleTexture[4];
-		SDL_Texture* walkingTexture[4];
+		SDL_Texture* walkingTexture[12];
 		SDL_Texture* crouchTexture;
 		SDL_Texture* aimDownTexture;
 		SDL_Texture* aimUpTexture;
 		SDL_Texture* aimFrontTexture;
 		SDL_Texture* jumpingTexture[2];
-
-		SDL_Rect srcRect;
 
 		SDL_Rect renderRect;
 };
