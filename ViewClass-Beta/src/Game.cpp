@@ -7,6 +7,7 @@ Game::Game(GameView* gameView)
 	enEjecucion = false;
 	level = NULL;
 	player = NULL;
+
 }
 
 Game::~Game(){}

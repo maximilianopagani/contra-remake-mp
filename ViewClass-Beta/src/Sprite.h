@@ -25,11 +25,10 @@ public:
 	void destroy();
 
 private:
-	int destinationHeight, destinationWidth, maxWidth;
+	int destinationHeight, destinationWidth, maxWidth, maxHeight;
 	GameView* view = NULL;
 	SDL_Texture* texture=NULL;
 	SDL_Rect src;
-	std::string imagenName;
 };
 
 #endif /* SPRITE_H_ */

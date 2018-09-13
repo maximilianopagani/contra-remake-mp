@@ -67,6 +67,11 @@ void GameView::draw(SDL_Texture* texture, SDL_Rect* src, int posX, int posY, int
 void GameView::show(){
 	SDL_RenderPresent(render);
 }
+
+void GameView::queryTexture(SDL_Texture* texture,int* width ,int* height){
+	SDL_QueryTexture(texture, NULL, NULL, width, height);
+}
+
 void GameView::delay(int milisegundos){
 	SDL_Delay(milisegundos);
 }

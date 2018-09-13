@@ -7,6 +7,7 @@ Game* synergy;
 int main(int argc, char* args[])
 {
 	GameView* view = new GameView();
+
 	if(!view->init())
 	{
 		printf("Failed to initialize Grapher.\n" );
@@ -16,7 +17,6 @@ int main(int argc, char* args[])
 		//Manejo del framerate
 		const int FPS = 40;
 		const int frameDelay = 1000 / FPS ;
-
 		Uint32 timeAtIterationStart;
 		int iterationTime;
 

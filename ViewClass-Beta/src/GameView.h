@@ -25,23 +25,16 @@ public:
 	void show();
 	SDL_Texture* textureGenerator(std::string path);
 	void destroy();
+	void queryTexture(SDL_Texture* texture,int* width, int* height);
 
 	void setCameraPosition(int posX, int posY){
 		camera_x_position = posX;
 		camera_y_position = posY;
 	}
 
-	Uint32 getTricks() {
-		return SDL_GetTicks();
-	}
-
-	int getWidth(){
-		return windowWidth;
-	}
-
-	int getHeight(){
-		return windowHeight;
-	}
+	Uint32 getTricks() { return SDL_GetTicks();}
+	int getWidth(){	return windowWidth;}
+	int getHeight(){ return windowHeight;}
 
 private:
 	SDL_Window* window;

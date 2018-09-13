@@ -11,12 +11,9 @@ Sprite::Sprite(GameView* _view, std::string imagen, int wCLip, int hClip, int _d
 	view =_view ;
 	destinationWidth = _destinationWidth ;
 	destinationHeight = _destinationHeight ;
-	// TODO obtener maxWidth y maxHeight con sdl_querytexture
-	maxWidth = NULL;
-	imagenName = imagen;
 
-	texture = view->textureGenerator(imagenName.c_str());
-
+	texture = view->textureGenerator(imagen.c_str());
+	view->queryTexture(texture,&maxWidth,&maxHeight);
 	src.x = 0;
 	src.y = 0;
 	src.w = wCLip;
@@ -26,7 +23,6 @@ Sprite::Sprite(GameView* _view, std::string imagen, int wCLip, int hClip, int _d
 Sprite::~Sprite() {}
 
 void Sprite::render(int x, int y){
-//	texture = view->textureGenerator(imagenName.c_str());
 	view->draw(texture,&src,x,y,destinationWidth,destinationHeight);
 
 	this->update();
