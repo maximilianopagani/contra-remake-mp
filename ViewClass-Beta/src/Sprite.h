@@ -23,9 +23,18 @@ public:
 	void render(int x , int y);
 	void update();
 	void destroy();
+	void manualMod();
+	void setPostion(int x , int y);
+
+	//Getters
+	int getRecX(){ return src.x; }
+	int getRecY(){ return src.y; }
+	int getMapWidth(){ return maxWidth; }
+	int getMapHeight(){ return maxHeight; }
 
 private:
 	int destinationHeight, destinationWidth, maxWidth, maxHeight;
+	bool manualMode ;
 	GameView* view = NULL;
 	SDL_Texture* texture=NULL;
 	SDL_Rect src;

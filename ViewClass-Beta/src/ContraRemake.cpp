@@ -30,8 +30,10 @@ int main(int argc, char* args[])
 			timeAtIterationStart = view->getTricks();
 
 			synergy->handleEvents();
-			synergy->update();
+
 			synergy->render();
+
+			synergy->update();
 
 			//Manejo del framerate
 			iterationTime = view->getTricks() - timeAtIterationStart;

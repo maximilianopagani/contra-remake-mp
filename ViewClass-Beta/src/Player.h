@@ -24,14 +24,37 @@ public:
 
 	int getPosX(){ return pos_x; }
 	int getPosY(){ return pos_y; }
-	//TODO funciones del jugador per se
-	// jump
+
+	//ACCIONES
+	void jump();
+	void walkLeft();
+	void walkRight();
+	void pointUP();
+	void pointDown();
+	void bodyToGround();
+	void shoot();
 
 private:
-	GameView* view = NULL;
-	Sprite* sprite = NULL;
+	int pos_x , pos_y , maxDistanceJump;
+	static const int MAX_ANIMATIONS = 9;
 
-	int pos_x , pos_y;
+	enum StatePlayer {
+		STATE_WALKINGRIGHT,
+		STATE_WALKINGlEFT,
+		STATE_STADING,
+		STATE_JUMPINGUP,
+		STATE_JUMPINGDOWN,
+		STATE_POINTUP,
+		STATE_POINTFRONT,
+		STATE_POINTDOWN,
+		STATE_POINTBODYTOGROUND
+		};
+	StatePlayer state;
+
+	enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND};
+
+	GameView* view = NULL;
+	Sprite* animations[MAX_ANIMATIONS];
 };
 
 #endif /* PLAYER_H_ */

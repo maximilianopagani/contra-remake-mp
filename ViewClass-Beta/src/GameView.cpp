@@ -56,7 +56,7 @@ void GameView::clear(){
 
 void GameView::draw(SDL_Texture* texture, SDL_Rect* src, int posX, int posY, int width ,int height){
 	SDL_Rect dest;
-	dest.x = posX;
+	dest.x = posX - camera_x_position;
 	dest.y = posY;
 	dest.w = width;
 	dest.h = height;

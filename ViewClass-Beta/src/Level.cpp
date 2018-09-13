@@ -19,8 +19,8 @@ Level::Level(GameView* gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			sprite = new Sprite(gameView,"imagenes/ContraLevel1BackgroundRezised8312x600.png",800, 600, 800, 600);
-
+			sprite = new Sprite(gameView,"image/level1.png",800, 600, 800, 600);
+			sprite->manualMod();
 			playerSpawnX = 200;
 			playerSpawnY = 225;
 			break;
@@ -29,7 +29,7 @@ Level::Level(GameView* gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_VERTICAL;
 
-//			background = this->gameView->textureGenerator("imagenes/ContraLevel3BackgroundRezised800x6797.png");
+			//background = this->gameView->textureGenerator("imagenes/ContraLevel3BackgroundRezised800x6797.png");
 			sprite = new Sprite(gameView,"imagenes/ContraLevel1BackgroundRezised8312x600.png",800, 600, 800, 600);
 
 			playerSpawnX = 200;
@@ -40,7 +40,7 @@ Level::Level(GameView* gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-//			background = this->gameView->textureGenerator("imagenes/ContraLevel5BackgroundRezised12760x600.png");
+			//background = this->gameView->textureGenerator("imagenes/ContraLevel5BackgroundRezised12760x600.png");
 			sprite = new Sprite(gameView,"imagenes/ContraLevel1BackgroundRezised8312x600.png",800, 600, 800, 600);
 
 			playerSpawnX = 200;
@@ -50,13 +50,13 @@ Level::Level(GameView* gameView, LevelNumber _level)
 	}
 
 	//TODO pasar esto a gameView
-//	SDL_QueryTexture(background1, NULL, NULL, &mapWidth, &mapHeight);
+	//gameView->queryTexture(background1, NULL, NULL, &mapWidth, &mapHeight);
 //
-//	if(scrolling == SCROLLING_HORIZONTAL)
-//	{
-//		border = (this->gameView->getWidth() / 10) * 6; // Margen al 60% del ancho
-//		renderRect.y = 0;
-//	}
+	if(scrolling == SCROLLING_HORIZONTAL)
+	{
+		border = this->gameView->getWidth()*0.6; // Margen al 60% del ancho
+		//renderRect.y = 0;
+	}
 //	else
 //	{
 //		border = mapHeight - (this->gameView->getHeight() / 10) * 6; // Margen al 60% de la altura
@@ -89,14 +89,15 @@ void Level::updateCamera(int playerPosX, int playerPosY)
 	//TODO cambiar posX y posY
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
-//		if((renderRect.x + Grapher::windowWidth) < mapWidth)
-//		{
-//			if(playerPosX >= border)
-//			{
-//				renderRect.x += (playerPosX - border);
-//				border = playerPosX;
-//			}
-//		}
+		if((sprite->getRecX() + gameView->getWidth() ) < sprite->getMapWidth())
+		{
+			if(playerPosX >= border)
+			{
+				//sprite->getRecX() + (playerPosX - border);
+				sprite->setPostion( sprite->getRecX() + (playerPosX - border) , 0);
+				border = playerPosX;
+			}
+		}
 	}
 	else // Vertical
 	{

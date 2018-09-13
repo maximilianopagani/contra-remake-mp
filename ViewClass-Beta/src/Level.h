@@ -33,7 +33,7 @@ class Level
 //		int border;
 
 		int posX, posY;
-		int playerSpawnX, playerSpawnY;
+		int playerSpawnX, playerSpawnY , border;
 
 		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
 		ScrollingType scrolling;
