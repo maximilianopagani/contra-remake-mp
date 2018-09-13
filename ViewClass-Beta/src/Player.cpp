@@ -53,14 +53,6 @@ void Player::update(){
 				if(maxDistanceJump == 150) 	state = STATE_STADING;
 
 				break;
-		case STATE_WALKINGlEFT:
-				pos_x -= 5 ;
-				state=STATE_STADING;
-				break;
-		case STATE_WALKINGRIGHT:
-				pos_x += 5 ;
-				state=STATE_STADING;
-				break;
 		default:
 				break;
 	}
@@ -73,12 +65,16 @@ void Player::walkLeft(){
 
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN ){
 		state = STATE_WALKINGlEFT;
+		animations[state]->update();
+		pos_x -= 5 ;
 	}
 }
 void Player::walkRight(){
 
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN ){
 		state = STATE_WALKINGRIGHT;
+		animations[state]->update();
+		pos_x += 5 ;
 	}
 }
 void Player::pointUP(){

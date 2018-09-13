@@ -27,8 +27,6 @@ Sprite::~Sprite() {}
 
 void Sprite::render(int x, int y){
 	view->draw(texture,&src,x,y,destinationWidth,destinationHeight);
-
-	if(!manualMode ) this->update();
 }
 void Sprite::update(){
 	src.x = src.x + src.w;
