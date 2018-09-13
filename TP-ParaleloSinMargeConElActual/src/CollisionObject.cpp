@@ -54,6 +54,10 @@ bool CollisionObject:: CharacterCollision(Personaje* player , ObjectGame* enemy)
 
 }
 
+bool CollisionHandler:: colisiona(CollitionObjetc* uno, CollitionObject* dos){
+
+}
+
 bool CollisionObject:: BulletCollision(Bullet* bullet , ObjectGame* enemy){
 
 	//En posicion (0,0) el personaje tiene centro en (32,32)

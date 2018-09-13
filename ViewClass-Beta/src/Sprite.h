@@ -7,8 +7,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include "SDLView.h"
 #include <list>
+#include "GameView.h"
 
 using namespace std;
 
@@ -16,14 +16,17 @@ using namespace std;
 #define SPRITE_H_
 
 class Sprite {
+
 public:
-	Sprite(SDL_View* view, std::string imagen, int w, int h, int wCLip, int hClip, int maxWidth);
+	Sprite(GameView* view, std::string imagen, int _destinationWidth, int _destinationHeight, int wCLip, int hClip);
 	virtual ~Sprite();
 	void render(int x , int y);
 	void update();
+	void destroy();
+
 private:
-	int width, height, maxWidth;
-	SDL_View* view = NULL;
+	int destinationHeight, destinationWidth, maxWidth;
+	GameView* view = NULL;
 	SDL_Texture* texture=NULL;
 	SDL_Rect src;
 	std::string imagenName;

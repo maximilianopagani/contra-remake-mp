@@ -1,5 +1,6 @@
 src/ContraRemake.o: ../src/ContraRemake.cpp ../src/Headers.h \
- ../src/Game.h ../src/Personaje.h ../src/Bullet.h ../src/Grapher.h
+ ../src/Game.h ../src/Personaje.h ../src/Level.h ../src/Grapher.h \
+ ../src/Bullet.h
 
 ../src/Headers.h:
 
@@ -7,6 +8,8 @@ src/ContraRemake.o: ../src/ContraRemake.cpp ../src/Headers.h \
 
 ../src/Personaje.h:
 
-../src/Bullet.h:
+../src/Level.h:
 
 ../src/Grapher.h:
+
+../src/Bullet.h:

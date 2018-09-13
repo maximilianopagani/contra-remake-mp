@@ -5,13 +5,22 @@
  *      Author: Giova
  */
 
-#include "SDLView.h"
+#include "GameView.h"
 
-SDL_View::SDL_View() {}
+GameView::GameView() {
+	window = NULL;
+	render = NULL;
+	windowHeight = 600;
+	windowWidth = 800;
+	camera_x_position = 0;
+	camera_y_position = 0;
+}
 
-SDL_View::~SDL_View() {}
+GameView::~GameView() {
+	destroy();
+}
 
-bool SDL_View::initLoader(){
+bool GameView::init(){
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
 	{
@@ -20,7 +29,7 @@ bool SDL_View::initLoader(){
 	}
 	else {
 		//Create window
-		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN );
+		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN );
 		if( window == NULL )
 		{
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -41,27 +50,28 @@ bool SDL_View::initLoader(){
 	return true;
 }
 
-void SDL_View::clear(){
+void GameView::clear(){
 	SDL_RenderClear(render);
 }
 
-void SDL_View::rendering(SDL_Texture* textureew, int x, int y, int w ,int h, SDL_Rect* src){
+void GameView::draw(SDL_Texture* texture, SDL_Rect* src, int posX, int posY, int width ,int height){
 	SDL_Rect dest;
-	dest.x = x;
-	dest.y = y;
-	dest.w = w;
-	dest.h = h;
+	dest.x = posX;
+	dest.y = posY;
+	dest.w = width;
+	dest.h = height;
 
-	SDL_RenderCopy(render,textureew,src,&dest);
+	SDL_RenderCopy(render,texture,src,&dest);
 }
-void SDL_View::show(){
+
+void GameView::show(){
 	SDL_RenderPresent(render);
 }
-void SDL_View::delay(int milisegundos){
+void GameView::delay(int milisegundos){
 	SDL_Delay(milisegundos);
 }
 
-SDL_Texture* SDL_View::textureGenerator(std::string path){
+SDL_Texture* GameView::textureGenerator(std::string path){
 		SDL_Texture* texture = NULL;
 		SDL_Surface* surface = IMG_Load(path.c_str());
 
@@ -83,9 +93,9 @@ SDL_Texture* SDL_View::textureGenerator(std::string path){
 		return texture;
 }
 
-void SDL_View::clean(){
+void GameView::destroy(){
 	SDL_DestroyRenderer(render);
-	SDL_DestroyWindow( window );
+	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
 

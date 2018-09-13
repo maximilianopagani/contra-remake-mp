@@ -8,21 +8,33 @@ CPP_SRCS += \
 ../src/ContraRemake.cpp \
 ../src/Game.cpp \
 ../src/Grapher.cpp \
-../src/Personaje.cpp 
+../src/Level.cpp \
+../src/Logger.cpp \
+../src/Personaje.cpp \
+../src/Utils.cpp \
+../src/testLogger.cpp 
 
 OBJS += \
 ./src/Bullet.o \
 ./src/ContraRemake.o \
 ./src/Game.o \
 ./src/Grapher.o \
-./src/Personaje.o 
+./src/Level.o \
+./src/Logger.o \
+./src/Personaje.o \
+./src/Utils.o \
+./src/testLogger.o 
 
 CPP_DEPS += \
 ./src/Bullet.d \
 ./src/ContraRemake.d \
 ./src/Game.d \
 ./src/Grapher.d \
-./src/Personaje.d 
+./src/Level.d \
+./src/Logger.d \
+./src/Personaje.d \
+./src/Utils.d \
+./src/testLogger.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
