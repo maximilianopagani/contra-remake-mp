@@ -14,8 +14,8 @@
 class Game
 {
     public:
-
         Game(GameView* gameView);
+        virtual ~Game();
 
         void init();
         void handleEvents();
@@ -24,16 +24,11 @@ class Game
         void destroy();
         bool state() { return enEjecucion; }
 
-        virtual ~Game();
-
     private:
-
-        GameView* gameView;
         bool enEjecucion;
-
+        GameView* gameView;
         Player* player;
         Level* level;
-
 };
 
 #endif /* SRC_GAME_H_ */

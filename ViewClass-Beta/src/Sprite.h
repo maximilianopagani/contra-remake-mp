@@ -20,11 +20,12 @@ class Sprite {
 public:
 	Sprite(GameView* view, std::string imagen, int _destinationWidth, int _destinationHeight, int wCLip, int hClip);
 	virtual ~Sprite();
+
 	void render(int x , int y);
 	void update();
 	void destroy();
 	void manualMod();
-	void setPostion(int x , int y);
+	void setSourcePostion(int x , int y);
 
 	//Getters
 	int getRecX(){ return src.x; }

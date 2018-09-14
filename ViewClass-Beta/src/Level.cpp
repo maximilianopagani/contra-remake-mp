@@ -94,7 +94,7 @@ void Level::updateCamera(int playerPosX, int playerPosY)
 			if(playerPosX >= border)
 			{
 				//sprite->getRecX() + (playerPosX - border);
-				sprite->setPostion( sprite->getRecX() + (playerPosX - border) , 0);
+				sprite->setSourcePostion( sprite->getRecX() + (playerPosX - border) , 0);
 				border = playerPosX;
 			}
 		}

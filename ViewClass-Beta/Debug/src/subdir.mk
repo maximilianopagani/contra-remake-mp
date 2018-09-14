@@ -4,6 +4,7 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
+../src/Bullet.cpp \
 ../src/ContraRemake.cpp \
 ../src/Game.cpp \
 ../src/GameView.cpp \
@@ -14,6 +15,7 @@ CPP_SRCS += \
 ../src/Utils.cpp 
 
 OBJS += \
+./src/Bullet.o \
 ./src/ContraRemake.o \
 ./src/Game.o \
 ./src/GameView.o \
@@ -24,6 +26,7 @@ OBJS += \
 ./src/Utils.o 
 
 CPP_DEPS += \
+./src/Bullet.d \
 ./src/ContraRemake.d \
 ./src/Game.d \
 ./src/GameView.d \

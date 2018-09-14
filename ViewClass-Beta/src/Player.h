@@ -5,9 +5,10 @@
  *      Author: giova
  */
 
+//#include "Headers.h"
 #include "Sprite.h"
-#include <list>
 #include "GameView.h"
+#include "Bullet.h"
 
 #ifndef PLAYER_H_
 #define PLAYER_H_
@@ -38,7 +39,7 @@ private:
 	int pos_x , pos_y , maxDistanceJump;
 	static const int MAX_ANIMATIONS = 9;
 
-	enum StatePlayer {
+	enum PlayerState {
 		STATE_WALKINGRIGHT,
 		STATE_WALKINGlEFT,
 		STATE_STADING,
@@ -49,12 +50,21 @@ private:
 		STATE_POINTDOWN,
 		STATE_POINTBODYTOGROUND
 		};
-	StatePlayer state;
+	PlayerState state;
 
-	enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND};
+	// manejo de disparo
+	enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND,AIM_BACK};
+	AimPosition aimingAt;
+	Uint32 lastShotTime = 0;
+	Uint32 shotCooldown = 200;
 
-	GameView* view = NULL;
+	// Manejo de balas
+	std::list<Bullet*> bullets;
+	std::list<Bullet*>::iterator bulletsIterator;
+
+	GameView* gameView;
 	Sprite* animations[MAX_ANIMATIONS];
+	Sprite* bulletSprite;
 };
 
 #endif /* PLAYER_H_ */

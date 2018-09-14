@@ -6,6 +6,7 @@
  */
 
 #include "GameView.h"
+#include "Headers.h"
 
 GameView::GameView() {
 	window = NULL;
@@ -24,7 +25,8 @@ bool GameView::init(){
 	//Initialize SDL
 	if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
 	{
-		printf( "SDL could not initialize! SDL_Error: %s\n", SDL_GetError() );
+		string error = SDL_GetError();
+		LOGGER_ERROR("SDL could not initialize! SDL_Error: " + error);
 		return false;
 	}
 	else {
@@ -32,7 +34,8 @@ bool GameView::init(){
 		window = SDL_CreateWindow( "SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, windowWidth, windowHeight, SDL_WINDOW_SHOWN );
 		if( window == NULL )
 		{
-			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
+			string error = SDL_GetError();
+			LOGGER_ERROR("Window could not be created! SDL_Error: " + error);
 			return false;
 		}
 	}
@@ -43,8 +46,10 @@ bool GameView::init(){
 	//Initialize PNG loading
 	int imgFlags = IMG_INIT_PNG;
 
-	if(!(IMG_Init(imgFlags) & imgFlags)){
-		printf("SDL_Image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+	if(!(IMG_Init(imgFlags) & imgFlags))
+	{
+		string error = IMG_GetError();
+		LOGGER_ERROR("SDL_Image could not initialize! SDL_image Error: " + error);
 		return false;
 	}
 	return true;
@@ -80,21 +85,26 @@ SDL_Texture* GameView::textureGenerator(std::string path){
 		SDL_Texture* texture = NULL;
 		SDL_Surface* surface = IMG_Load(path.c_str());
 
-		if(surface == NULL){
-			printf("Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError());
-
+		if(surface == NULL)
+		{
+			string error = IMG_GetError();
+			LOGGER_ERROR("Unable to load image " + path + " SDL_image Error: " + error);
 			//ACA PONER UNA IMAGEN POR DEFECTO CUANDO NOS QUITAN UNA IMAGEN PARA LAS PRUEBAS
 		}
-		else{
+		else
+		{
 			texture = SDL_CreateTextureFromSurface(render, surface);
 
-			if(texture == NULL)
-				printf("Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-			else
-				printf("Texture from image %s loaded successfully.\n", path.c_str());
+			if(texture == NULL) {
+				LOGGER_ERROR("Unable to create texture from " + path + " SDL Error: " + SDL_GetError());
+			}
+			else {
+				LOGGER_INFO("Texture from image " + path + " loaded successfully.");
+			}
 
 			SDL_FreeSurface(surface);
 		}
+
 		return texture;
 }
 

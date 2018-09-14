@@ -10,6 +10,8 @@
 
 #include "Game.h"
 #include "Level.h"
+#include "Logger.hh"
+
 
 using namespace std;
 

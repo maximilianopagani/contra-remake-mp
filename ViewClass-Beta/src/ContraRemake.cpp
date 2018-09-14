@@ -1,16 +1,18 @@
 #include "Headers.h"
 #include "GameView.h"
 
-
 Game* synergy;
 
 int main(int argc, char* args[])
 {
+
+	LOGGER_INIT_FILELESS(Logger::DEBUG);
+
 	GameView* view = new GameView();
 
 	if(!view->init())
 	{
-		printf("Failed to initialize Grapher.\n" );
+		LOGGER_ERROR("Failed to initialize GameView");
 	}
 	else
 	{

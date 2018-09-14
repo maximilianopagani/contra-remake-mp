@@ -4,7 +4,6 @@
 Game::Game(GameView* _gameView){
 	gameView = _gameView;
 	enEjecucion = false;
-
 	level = NULL;
 	player = NULL;
 }
@@ -13,7 +12,6 @@ Game::~Game(){}
 
 void Game::init(){
 	enEjecucion = true;
-
     level = new Level(gameView, LEVEL1);
     player= new Player(gameView);
 }

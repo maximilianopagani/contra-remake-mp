@@ -37,7 +37,7 @@ void Sprite::manualMod(){
 	manualMode = true ;
 }
 
-void Sprite::setPostion(int x , int y){
+void Sprite::setSourcePostion(int x , int y){
 	src.x = x ;
 	src.y = y ;
 }
