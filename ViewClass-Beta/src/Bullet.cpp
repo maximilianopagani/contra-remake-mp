@@ -7,7 +7,8 @@
 
 #include "Bullet.h"
 
-Bullet::Bullet(GameView* _gameView, Sprite* _sprite, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel) {
+Bullet::Bullet(GameView* _gameView, Sprite* _sprite, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel)
+{
 	gameView = _gameView;
 	sprite = _sprite;
 	pos_x = _pos_x;
@@ -18,22 +19,18 @@ Bullet::Bullet(GameView* _gameView, Sprite* _sprite, int _pos_x, int _pos_y, int
 	max_travel_distance = distanceToTravel;
 }
 
-Bullet::~Bullet() {
-}
+Bullet::~Bullet() {}
 
-void Bullet::fly()
+void Bullet::updatePos()
 {
 	pos_x += speed_x;
 	pos_y += speed_y;
 	traveled_distance += sqrt(pow(speed_x,2)+pow(speed_y,2));
 }
 
-void Bullet::checkCollision()
-{}
-
 bool Bullet::outOfLimits()
 {
-	if((max_travel_distance > 0 && traveled_distance > max_travel_distance) || pos_x < 0 || pos_x > gameView->getWidth() || pos_y < 0 || pos_y > gameView->getHeight())
+	if((max_travel_distance > 0 && traveled_distance > max_travel_distance) || gameView->outOfWindow(pos_x, pos_y))
 		return true;
 	else
 		return false;
@@ -41,5 +38,5 @@ bool Bullet::outOfLimits()
 
 void Bullet::render()
 {
-	sprite->render(pos_x,pos_y);
+	sprite->render(pos_x, pos_y);
 }

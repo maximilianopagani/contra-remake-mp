@@ -26,6 +26,8 @@ public:
 	int getPosX(){ return pos_x; }
 	int getPosY(){ return pos_y; }
 
+	void spawn(int x, int y);
+
 	//ACCIONES
 	void jump();
 	void walkLeft();
@@ -42,7 +44,7 @@ private:
 	enum PlayerState {
 		STATE_WALKINGRIGHT,
 		STATE_WALKINGlEFT,
-		STATE_STADING,
+		STATE_STANDING,
 		STATE_JUMPINGUP,
 		STATE_JUMPINGDOWN,
 		STATE_POINTUP,
@@ -55,8 +57,8 @@ private:
 	// manejo de disparo
 	enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND,AIM_BACK};
 	AimPosition aimingAt;
-	Uint32 lastShotTime = 0;
-	Uint32 shotCooldown = 200;
+	Uint32 lastShotTime;
+	Uint32 shotCooldown;
 
 	// Manejo de balas
 	std::list<Bullet*> bullets;

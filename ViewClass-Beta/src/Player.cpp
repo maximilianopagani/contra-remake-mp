@@ -7,17 +7,18 @@
 
 #include "Player.h"
 
-Player::Player(GameView* _view) {
+Player::Player(GameView* _view)
+{
 	gameView = _view;
-	pos_x =200;
-	pos_y =225;
+	pos_x = 200;
+	pos_y = 250;
 	maxDistanceJump=150;
 
-	state = STATE_STADING;
+	state = STATE_STANDING;
 
 	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png",128, 128, 64, 64);
 	animations[STATE_WALKINGlEFT] = new Sprite(gameView,"image/walkingLeft.png",128, 128,64, 64);
-	animations[STATE_STADING] = new Sprite(gameView,"image/stading.png",512, 384,64, 64);
+	animations[STATE_STANDING] = new Sprite(gameView,"image/stading.png",512, 384,64, 64);
 	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumpUp.png",512, 384, 64, 64);
 	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumpDown.png",512, 384,64, 64);
 	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png",512, 384,64, 64);
@@ -27,12 +28,17 @@ Player::Player(GameView* _view) {
 
 	aimingAt = AIM_FRONT;
 
-	bulletSprite = new Sprite(gameView,"imagenes/CharacterSprites.png",8,8,8,8);
-	bulletSprite->setSourcePostion(104,8);
+	bulletSprite = new Sprite(gameView, "imagenes/CharacterSprites.png", 8, 8, 8, 8);
+	bulletSprite->setSourceRectXY(104, 8);
 
+	lastShotTime = 0;
+	shotCooldown = 200;
 }
 
-Player::~Player() {}
+Player::~Player()
+{
+	this->destroy();
+}
 
 void Player::render()
 {
@@ -62,7 +68,7 @@ void Player::update(){
 				pos_y += 5;
 				pos_x += 1;
 				maxDistanceJump += 5;
-				if(maxDistanceJump == 150) 	state = STATE_STADING;
+				if(maxDistanceJump == 150) 	state = STATE_STANDING;
 
 				break;
 		default:
@@ -72,7 +78,7 @@ void Player::update(){
 	// Actualizacion de posicion de balas
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
 	{
-	    (*bulletsIterator)->fly();
+	    (*bulletsIterator)->updatePos();
 
 	    if((*bulletsIterator)->outOfLimits())
 	    {
@@ -90,6 +96,7 @@ void Player::update(){
 void Player::jump(){
 	state = STATE_JUMPINGUP;
 }
+
 void Player::walkLeft(){
 
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN ){
@@ -99,6 +106,7 @@ void Player::walkLeft(){
 		aimingAt = AIM_BACK;
 	}
 }
+
 void Player::walkRight(){
 
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN ){
@@ -108,18 +116,21 @@ void Player::walkRight(){
 		aimingAt = AIM_FRONT;
 	}
 }
+
 void Player::pointUP(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
 		state = STATE_POINTUP;
 		aimingAt = AIM_UP;
 	}
 }
+
 void Player::pointDown(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
 		state = STATE_POINTDOWN;
 		aimingAt = AIM_DOWN;
 	}
 }
+
 void Player::bodyToGround(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
 		state = STATE_POINTBODYTOGROUND;
@@ -129,10 +140,10 @@ void Player::bodyToGround(){
 
 void Player::shoot()
 {
-	Uint32 currentShotTime = gameView->getTricks();
+	Uint32 currentShotTime = gameView->getTicks();
 	int distanceToTravel = 200;
 
-	if((gameView->getTricks() - lastShotTime) > shotCooldown)
+	if((currentShotTime - lastShotTime) > shotCooldown)
 	{
 		switch(aimingAt)
 		{
@@ -162,9 +173,24 @@ void Player::shoot()
 	}
 }
 
+void Player::spawn(int x, int y)
+{
+	pos_x = x;
+	pos_y = y;
+	state = STATE_STANDING;
+	aimingAt = AIM_FRONT;
+	lastShotTime = 0;
+	shotCooldown = 200;
+	bullets.clear();
+}
+
 void Player::destroy()
 {
-	for(int i = 0 ; i < MAX_ANIMATIONS ; i ++){
+	for(int i = 0 ; i < MAX_ANIMATIONS ; i ++)
+	{
 		animations[i]->destroy();
 	}
+
+	bulletSprite->destroy();
+	bulletSprite = NULL;
 }

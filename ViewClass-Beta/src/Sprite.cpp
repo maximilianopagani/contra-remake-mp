@@ -7,43 +7,49 @@
 
 #include "Sprite.h"
 
-Sprite::Sprite(GameView* _view, std::string imagen, int wCLip, int hClip, int _destinationWidth, int _destinationHeight) {
-	view =_view ;
-	manualMode = false;
+Sprite::Sprite(GameView* _gameView, std::string path, int _source_rect_width, int _source_rect_height, int _dest_rect_width, int _dest_rect_height)
+{
+	gameView = _gameView;
 
-	destinationWidth = _destinationWidth ;
-	destinationHeight = _destinationHeight ;
+	destinationWidth = _dest_rect_width;
+	destinationHeight = _dest_rect_height;
 
-	texture = view->textureGenerator(imagen.c_str());
-	view->queryTexture(texture,&maxWidth,&maxHeight);
+	texture = gameView->textureGenerator(path.c_str());
+
+	gameView->queryTexture(texture, &textureWidth, &textureHeight);
 
 	src.x = 0;
 	src.y = 0;
-	src.w = wCLip;
-	src.h = hClip;
+	src.w = _source_rect_width;
+	src.h = _source_rect_height;
 }
 
-Sprite::~Sprite() {}
-
-void Sprite::render(int x, int y){
-	view->draw(texture,&src,x,y,destinationWidth,destinationHeight);
+Sprite::~Sprite()
+{
+	this->destroy();
 }
-void Sprite::update(){
+
+void Sprite::render(int x, int y, bool applyOffset)
+{
+	if(!applyOffset || !gameView->outOfWindow(x, y)) // Si es el mapa (viene con applyOffset false) o si es otro objecto dentro de la ventana
+	{
+		gameView->draw(texture, &src, x, y, destinationWidth, destinationHeight, applyOffset);
+	}
+}
+
+void Sprite::update()
+{
 	src.x = src.x + src.w;
-	if (src.x >= maxWidth) src.x = 0;
+
+	if(src.x >= textureWidth)
+		src.x = 0;
 }
 
-void Sprite::manualMod(){
-	manualMode = true ;
-}
-
-void Sprite::setSourcePostion(int x , int y){
-	src.x = x ;
-	src.y = y ;
-}
-
-void Sprite::destroy() {
+void Sprite::destroy()
+{
 	SDL_DestroyTexture(texture);
-	this->view = nullptr;
+
+	texture = NULL;
+	gameView = NULL;
 }
 

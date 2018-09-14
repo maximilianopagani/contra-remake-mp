@@ -14,6 +14,7 @@
 class Game
 {
     public:
+
         Game(GameView* gameView);
         virtual ~Game();
 
@@ -22,10 +23,19 @@ class Game
         void update();
         void render();
         void destroy();
+
+        void restartGame();
+        void nextLevel();
+        void endGame();
+
         bool state() { return enEjecucion; }
 
     private:
+
         bool enEjecucion;
+
+        int currentLevel;
+
         GameView* gameView;
         Player* player;
         Level* level;

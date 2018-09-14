@@ -11,9 +11,9 @@
 const string Logger::LEVEL_NAMES[] =
 {
     "DEBUG",
-    "INFO ",
+    "INFO",
     "ERROR",
-	" OFF "
+	"OFF"
 };
 
 
@@ -29,20 +29,20 @@ void Logger::init(Level aLevel, const string& logFile)
     if (logFile != "")
         instance.fileStream.open(logFile.c_str(), std::ofstream::app);
 
-    logs("INIT ","----------------------------|MODE : " + LEVEL_NAMES[aLevel] + "|----------------------------");
+    logs("INIT","----------------------------|MODE : " + LEVEL_NAMES[aLevel] + "|----------------------------");
 }
 
 void Logger::kill()
 {
     instance.active = false;
-	instance.level = Level::OFF;
-    if (instance.fileStream.is_open())
+	instance.level = OFF;
+    if(instance.fileStream.is_open())
         instance.fileStream.close();
 }
 
 void Logger::logs(Level aLevel, const string& message)
 {
-    if (instance.active && aLevel >= instance.level)
+    if(instance.active && aLevel >= instance.level)
     	logs(LEVEL_NAMES[aLevel], message);
 }
 
