@@ -88,9 +88,7 @@ void Player::update(){
 }
 
 void Player::jump(){
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN ){
 	state = STATE_JUMPINGUP;
-	}
 }
 void Player::walkLeft(){
 
@@ -132,7 +130,7 @@ void Player::bodyToGround(){
 void Player::shoot()
 {
 	Uint32 currentShotTime = gameView->getTricks();
-	int distanceToTravel = 800;
+	int distanceToTravel = 200;
 
 	if((gameView->getTricks() - lastShotTime) > shotCooldown)
 	{
@@ -162,10 +160,6 @@ void Player::shoot()
 
 		lastShotTime = currentShotTime;
 	}
-}
-void Player::frontAim(){
-	state = STATE_STADING;
-	aimingAt = AIM_FRONT ;
 }
 
 void Player::destroy()

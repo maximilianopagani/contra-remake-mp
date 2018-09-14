@@ -34,19 +34,6 @@ public:
 	void pointDown();
 	void bodyToGround();
 	void shoot();
-	void frontAim();
-	void test(){
-
-		 //std::cout<<"ENtre"<<std::endl;
-		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN ){
-				state = STATE_WALKINGRIGHT;
-				animations[state]->update();
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+50, pos_y+25, 10, 0, 800));
-				pos_x += 5 ;
-				aimingAt = AIM_FRONT;
-		}
-	}
-
 
 private:
 	int pos_x , pos_y , maxDistanceJump;
