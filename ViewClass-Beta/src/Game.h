@@ -9,6 +9,7 @@
 
 #include "Player.h"
 #include "Level.h"
+#include "KeyEventHandler.h"
 #include "Headers.h"
 
 class Game
@@ -27,6 +28,7 @@ class Game
     private:
         bool enEjecucion;
         GameView* gameView;
+        KeyEventHandler* keyhanlder;
         Player* player;
         Level* level;
 };
