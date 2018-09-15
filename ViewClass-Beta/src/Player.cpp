@@ -11,7 +11,7 @@ Player::Player(GameView* _view)
 {
 	gameView = _view;
 	pos_x = 200;
-	pos_y = 250;
+	pos_y = 225;
 	maxDistanceJump=150;
 
 	state = STATE_STANDING;
@@ -32,7 +32,7 @@ Player::Player(GameView* _view)
 	bulletSprite->setSourceRectXY(104, 8);
 
 	lastShotTime = 0;
-	shotCooldown = 200;
+	shotCooldown = 100;
 }
 
 Player::~Player()
@@ -57,12 +57,12 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	currentKeyStates = _currentKeyStates;
 
 	if(currentKeyStates[SDL_SCANCODE_RIGHT]) { this->walkRight(); }
-	else if(currentKeyStates[SDL_SCANCODE_LEFT]) { this->walkLeft(); }
-	else if(currentKeyStates[SDL_SCANCODE_Z]) { this->shoot(); }
-	else if(currentKeyStates[SDL_SCANCODE_UP]) { this->pointUP(); }
-	else if(currentKeyStates[SDL_SCANCODE_DOWN]) { this->pointDown(); }
-	else if(currentKeyStates[SDL_SCANCODE_SPACE]) { this->jump(); }
-	else if(currentKeyStates[SDL_SCANCODE_LCTRL]) { this->bodyToGround(); }
+	if(currentKeyStates[SDL_SCANCODE_LEFT]) { this->walkLeft(); }
+	if(currentKeyStates[SDL_SCANCODE_Z]) { this->shoot(); }
+	if(currentKeyStates[SDL_SCANCODE_UP]) { this->pointUP(); }
+	if(currentKeyStates[SDL_SCANCODE_DOWN]) { this->pointDown(); }
+	if(currentKeyStates[SDL_SCANCODE_SPACE]) { this->jump(); }
+	if(currentKeyStates[SDL_SCANCODE_LCTRL]) { this->bodyToGround(); }
 }
 
 void Player::update(){
@@ -107,7 +107,9 @@ void Player::update(){
 }
 
 void Player::jump(){
-	state = STATE_JUMPINGUP;
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN ){
+		state = STATE_JUMPINGUP;
+	}
 }
 
 void Player::walkLeft(){
@@ -121,13 +123,15 @@ void Player::walkLeft(){
 }
 
 void Player::walkRight(){
-
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN ){
-		state = STATE_WALKINGRIGHT;
-		animations[state]->update();
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
 		pos_x += 5 ;
-		aimingAt = AIM_FRONT;
-	}
+		if(state == STATE_POINTBODYTOGROUND)	aimingAt = AIM_BODYTOGROUND;
+		else {
+			aimingAt = AIM_FRONT;
+			state = STATE_WALKINGRIGHT;
+			animations[state]->update();
+		}
+	}else aimingAt = AIM_FRONT;
 }
 
 void Player::pointUP(){
@@ -135,6 +139,7 @@ void Player::pointUP(){
 		state = STATE_POINTUP;
 		aimingAt = AIM_UP;
 	}
+	else  aimingAt = AIM_UP;
 }
 
 void Player::pointDown(){
@@ -142,6 +147,8 @@ void Player::pointDown(){
 		state = STATE_POINTDOWN;
 		aimingAt = AIM_DOWN;
 	}
+	else  aimingAt = AIM_DOWN;
+
 }
 
 void Player::bodyToGround(){
@@ -154,7 +161,7 @@ void Player::bodyToGround(){
 void Player::shoot()
 {
 	Uint32 currentShotTime = gameView->getTicks();
-	int distanceToTravel = 200;
+	int distanceToTravel = 800;
 
 	if((currentShotTime - lastShotTime) > shotCooldown)
 	{
