@@ -41,12 +41,6 @@ class Player
 
 		void handleKeys(const Uint8* _currentKeyStates);
 
-		void aimDown();
-		void aimUp();
-		void aimLeft();
-		void aimRight();
-		void aimFront();
-
 	private:
 
 		int pos_x, pos_y, maxDistanceJump;
