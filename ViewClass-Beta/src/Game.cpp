@@ -37,47 +37,13 @@ void Game::handleEvents()
 		{
 			enEjecucion = false ;
 		}
-		else if(event.type == SDL_KEYDOWN){
-
-			 switch(event.key.keysym.sym) {
-
-				 case SDLK_SPACE:
-					 	 player->jump();
-					 	 break;
-
-				 case SDLK_LEFT:
-					 	 player->walkLeft();
-					 	 break;
-
-				 case SDLK_RIGHT:
-					 	 player->walkRight();
-					 	 break;
-
-				 case SDLK_z:
-					 	 player->shoot();
-						 break;
-
-				 case SDLK_DOWN:
-					     player->pointDown();
-						 break;
-
-				 case SDLK_UP:
-					 	 player->pointUP();
-						 break;
-
-				 case SDLK_LCTRL:
-					 	 player->bodyToGround();
-						 break;
-
-				 case SDLK_n:
-					 	 this->nextLevel();
-						 break;
-
-				 default:
-						 break;
-				 }
-		 }
+		else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n)
+		{
+			this->nextLevel();
+		}
 	}
+
+	player->handleKeys(SDL_GetKeyboardState(NULL));
 }
 
 void Game::restartGame()

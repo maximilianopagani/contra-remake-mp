@@ -13,60 +13,73 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-class Player {
-public:
-	Player(GameView* view);
-	virtual ~Player();
+class Player
+{
+	public:
 
-	// comunes al gameloop
-	void update();
-	void render();
-	void destroy();
+		Player(GameView* view);
+		virtual ~Player();
 
-	int getPosX(){ return pos_x; }
-	int getPosY(){ return pos_y; }
+		// comunes al gameloop
+		void update();
+		void render();
+		void destroy();
 
-	void spawn(int x, int y);
+		int getPosX(){ return pos_x; }
+		int getPosY(){ return pos_y; }
 
-	//ACCIONES
-	void jump();
-	void walkLeft();
-	void walkRight();
-	void pointUP();
-	void pointDown();
-	void bodyToGround();
-	void shoot();
+		void spawn(int x, int y);
 
-private:
-	int pos_x , pos_y , maxDistanceJump;
-	static const int MAX_ANIMATIONS = 9;
+		//ACCIONES
+		void jump();
+		void walkLeft();
+		void walkRight();
+		void pointUP();
+		void pointDown();
+		void bodyToGround();
+		void shoot();
 
-	enum PlayerState {
-		STATE_WALKINGRIGHT,
-		STATE_WALKINGlEFT,
-		STATE_STANDING,
-		STATE_JUMPINGUP,
-		STATE_JUMPINGDOWN,
-		STATE_POINTUP,
-		STATE_POINTFRONT,
-		STATE_POINTDOWN,
-		STATE_POINTBODYTOGROUND
-		};
-	PlayerState state;
+		void handleKeys(const Uint8* _currentKeyStates);
 
-	// manejo de disparo
-	enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND,AIM_BACK};
-	AimPosition aimingAt;
-	Uint32 lastShotTime;
-	Uint32 shotCooldown;
+		void aimDown();
+		void aimUp();
+		void aimLeft();
+		void aimRight();
+		void aimFront();
 
-	// Manejo de balas
-	std::list<Bullet*> bullets;
-	std::list<Bullet*>::iterator bulletsIterator;
+	private:
 
-	GameView* gameView;
-	Sprite* animations[MAX_ANIMATIONS];
-	Sprite* bulletSprite;
+		int pos_x, pos_y, maxDistanceJump;
+		static const int MAX_ANIMATIONS = 9;
+
+		enum PlayerState {
+			STATE_WALKINGRIGHT,
+			STATE_WALKINGlEFT,
+			STATE_STANDING,
+			STATE_JUMPINGUP,
+			STATE_JUMPINGDOWN,
+			STATE_POINTUP,
+			STATE_POINTFRONT,
+			STATE_POINTDOWN,
+			STATE_POINTBODYTOGROUND
+			};
+		PlayerState state;
+
+		// manejo de disparo
+		enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND,AIM_BACK};
+		AimPosition aimingAt;
+		Uint32 lastShotTime;
+		Uint32 shotCooldown;
+
+		// Manejo de balas
+		std::list<Bullet*> bullets;
+		std::list<Bullet*>::iterator bulletsIterator;
+
+		GameView* gameView;
+		Sprite* animations[MAX_ANIMATIONS];
+		Sprite* bulletSprite;
+
+		const Uint8* currentKeyStates = NULL; // NO liberar/delete, es un puntero a un array interno de SDL
 };
 
 #endif /* PLAYER_H_ */

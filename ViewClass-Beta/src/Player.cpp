@@ -52,6 +52,19 @@ void Player::render()
 	}
 }
 
+void Player::handleKeys(const Uint8* _currentKeyStates)
+{
+	currentKeyStates = _currentKeyStates;
+
+	if(currentKeyStates[SDL_SCANCODE_RIGHT]) { this->walkRight(); }
+	else if(currentKeyStates[SDL_SCANCODE_LEFT]) { this->walkLeft(); }
+	else if(currentKeyStates[SDL_SCANCODE_Z]) { this->shoot(); }
+	else if(currentKeyStates[SDL_SCANCODE_UP]) { this->pointUP(); }
+	else if(currentKeyStates[SDL_SCANCODE_DOWN]) { this->pointDown(); }
+	else if(currentKeyStates[SDL_SCANCODE_SPACE]) { this->jump(); }
+	else if(currentKeyStates[SDL_SCANCODE_LCTRL]) { this->bodyToGround(); }
+}
+
 void Player::update(){
 //ESTA MEDIO MAL PERO PARA PROBAR AHORA LO PONGO
 	switch(state) {
@@ -194,3 +207,44 @@ void Player::destroy()
 	bulletSprite->destroy();
 	bulletSprite = NULL;
 }
+
+/*
+void Player::aimDown()
+{
+	aimingDirection[1] = 1;
+}
+
+void Player::aimUp()
+{
+	aimingDirection[1] = -1;
+}
+
+void Player::aimFront()
+{
+	aimingDirection[1] = 0;
+}
+
+void Player::aimLeft()
+{
+	aimingDirection[0] = -1;
+}
+
+void Player::aimRight()
+{
+	aimingDirection[0] = 1;
+}
+
+void Player::shoot()
+{
+	Uint32 currentShotTime = gameView->getTicks();
+	int distanceToTravel = 200;
+
+
+	if((currentShotTime - lastShotTime) > shotCooldown)
+	{
+		printf("%d", aimingDirection[1]);
+		bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+50, pos_y+25, (aimingDirection[1] != 0) ? (aimingDirection[0] * 7) : (aimingDirection[0] * 10), aimingDirection[1] * 7, distanceToTravel));
+		lastShotTime = currentShotTime;
+	}
+}
+*/
