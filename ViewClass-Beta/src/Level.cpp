@@ -18,6 +18,7 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
+			parallax = new Parallax(gameView, "imagenes/ContraLevel1Mountains.png", "imagenes/ContraLevel1Night.png", _level);
 			sprite = new Sprite(gameView, "imagenes/ContraLevel1BackgroundRezised8312x600.png", 800, 600, 800, 600);
 
 			playerSpawnX = 200;
@@ -29,6 +30,7 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_VERTICAL;
 
+			parallax = new Parallax(gameView, "imagenes/ContraLevel1Mountains.png", "imagenes/ContraLevel1Night.png", _level);
 			sprite = new Sprite(gameView, "imagenes/ContraLevel3BackgroundRezised800x6797.png", 800, 600, 800, 600);
 
 			playerSpawnX = 200;
@@ -40,6 +42,7 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
+			parallax = new Parallax(gameView, "imagenes/ContraLevel1Mountains.png", "imagenes/ContraLevel1Night.png", _level);
 			sprite = new Sprite(gameView, "imagenes/ContraLevel5BackgroundRezised12760x600.png", 800, 600, 800, 600);
 
 			playerSpawnX = 200;
@@ -70,6 +73,7 @@ Level::~Level()
 
 void Level::render()
 {
+	parallax->render();
 	sprite->render(0, 0, false); // No me sirve aplicar un camera offset para el mapa, no tiene sentido, siempre va dibujarse en el 0,0 de la ventana
 }
 
@@ -77,6 +81,7 @@ void Level::destroy()
 {
 	// LOGGER_INFO("Nivel destruido.");
 	sprite->destroy();
+	parallax->~Parallax();
 }
 
 void Level::moveForward(int playerPosX, int playerPosY)
@@ -105,4 +110,5 @@ void Level::moveForward(int playerPosX, int playerPosY)
 			}
 		}
 	}
+	parallax->updatePlayerPos(playerPosX, playerPosY);
 }

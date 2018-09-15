@@ -10,8 +10,7 @@
 
 #include "GameView.h"
 #include "Sprite.h"
-
-enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};
+#include "Parallax.hpp"
 
 class Level
 {
@@ -37,6 +36,7 @@ class Level
 
 		GameView* gameView;
 		Sprite* sprite;
+		Parallax* parallax;
 
 		int playerSpawnX, playerSpawnY, border;
 
