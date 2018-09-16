@@ -29,6 +29,6 @@ Platform::~Platform() {}
 
 void Platform::render()
 {
-	sprite->render(posX, posY, false); // No me sirve aplicar un camera offset para el mapa, no tiene sentido, siempre va dibujarse en el 0,0 de la ventana
+	sprite->render(posX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
 }
 

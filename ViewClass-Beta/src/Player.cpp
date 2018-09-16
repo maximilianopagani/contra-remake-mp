@@ -49,7 +49,7 @@ Player::~Player()
 
 void Player::render()
 {
-	animations[state]->render(pos_x, pos_y);
+	animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
 
     // Renderizado de balas
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)

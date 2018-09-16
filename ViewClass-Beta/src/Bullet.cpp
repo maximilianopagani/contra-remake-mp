@@ -38,5 +38,5 @@ bool Bullet::outOfLimits()
 
 void Bullet::render()
 {
-	sprite->render(pos_x, pos_y);
+	sprite->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
 }

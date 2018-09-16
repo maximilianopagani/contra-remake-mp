@@ -29,12 +29,12 @@ Sprite::~Sprite()
 	this->destroy();
 }
 
-void Sprite::render(int x, int y, bool applyOffset)
+void Sprite::render(int x, int y)
 {
-	if(!applyOffset || !gameView->outOfWindow(x, y)) // Si es el mapa (viene con applyOffset false) o si es otro objecto dentro de la ventana
-	{
-		gameView->draw(texture, &src, x, y, destinationWidth, destinationHeight, applyOffset);
-	}
+//	if(!gameView->outOfWindow(x, y)) // Si es el mapa (viene con applyOffset false) o si es otro objecto dentro de la ventana
+//	{
+		gameView->draw(texture, &src, x, y, destinationWidth, destinationHeight);
+//	}
 }
 
 void Sprite::update()

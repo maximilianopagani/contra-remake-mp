@@ -99,20 +99,10 @@ void GameView::clear()
 	SDL_RenderClear(renderer);
 }
 
-// TODO por que applyOffset???
-void GameView::draw(SDL_Texture* texture, SDL_Rect* src, int posX, int posY, int width, int height, bool applyOffset)
+void GameView::draw(SDL_Texture* texture, SDL_Rect* src, int posXinCamera, int posYinCamera, int width, int height)
 {
-	if(applyOffset)
-	{
-		rectToDraw.x = posX - camera_x_position;
-		rectToDraw.y = posY - camera_y_position;
-	}
-	else
-	{
-		rectToDraw.x = posX;
-		rectToDraw.y = posY;
-	}
-
+	rectToDraw.x = posXinCamera;
+	rectToDraw.y = posYinCamera;
 	rectToDraw.w = width;
 	rectToDraw.h = height;
 

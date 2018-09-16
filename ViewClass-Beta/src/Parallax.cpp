@@ -84,26 +84,26 @@ void Parallax::render() {
 	//FONDO 2
     screenPosX = bgScrollingOffsetX2;
     screenPosY = bgScrollingOffsetY2;
-	bgSprite2->render(screenPosX, screenPosY, false);
+	bgSprite2->render(screenPosX, screenPosY);
 	if (level == LEVEL1 || level == LEVEL3) {
 		screenPosX += screenWidth;
 	}
 	else {
 		screenPosY += screenHeight;
 	}
-    bgSprite2->render(screenPosX, screenPosY, false);
+    bgSprite2->render(screenPosX, screenPosY);
 
 	//FONDO 1
     screenPosX = bgScrollingOffsetX1;
     screenPosY = bgScrollingOffsetY1;
-    bgSprite1->render(screenPosX, screenPosY, false);
+    bgSprite1->render(screenPosX, screenPosY);
 	if (level == LEVEL1 || level == LEVEL3) {
 		screenPosX += screenWidth;
 	}
 	else {
 		screenPosY += screenHeight;
 	}
-    bgSprite1->render(screenPosX, screenPosY, false);
+    bgSprite1->render(screenPosX, screenPosY);
 }
 
 void Parallax::updatePlayerPos(int _playerPosX, int _playerPosY) {

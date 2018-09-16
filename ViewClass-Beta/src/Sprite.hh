@@ -23,7 +23,7 @@ class Sprite
 		Sprite(GameView* view, std::string imagen, int _source_rect_width, int _source_rect_height, int _dest_rect_width, int _dest_rect_height);
 		virtual ~Sprite();
 
-		void render(int x , int y, bool applyOffset = true);
+		void render(int x , int y);
 		void update();
 		void destroy();
 

@@ -62,7 +62,7 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 		sprite->setSourceRectXY(0, sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
 	}
 
-	gameView->setCameraPosXY(sprite->getSourceRectX(), sprite->getSourceRectY()); // Ubicar la camara en la posicion donde arranca ese nivel
+	gameView->setCameraPosition(sprite->getSourceRectX(), sprite->getSourceRectY()); // Ubicar la camara en la posicion donde arranca ese nivel
 }
 
 Level::~Level()
@@ -73,7 +73,7 @@ Level::~Level()
 void Level::render()
 {
 	parallax->render();
-	sprite->render(0, 0, false); // No me sirve aplicar un camera offset para el mapa, no tiene sentido, siempre va dibujarse en el 0,0 de la ventana
+	sprite->render(0, 0); // No me sirve aplicar un camera offset para el mapa, no tiene sentido, siempre va dibujarse en el 0,0 de la ventana
 }
 
 void Level::destroy()
