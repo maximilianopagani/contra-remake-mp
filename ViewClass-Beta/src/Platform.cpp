@@ -7,6 +7,7 @@
 
 #include "Platform.hh"
 
+
 Platform::Platform(GameView* _gameView, GroundType type, int pos_x, int pos_y, int pixels)
 {
 	gameView = _gameView;
@@ -16,25 +17,25 @@ Platform::Platform(GameView* _gameView, GroundType type, int pos_x, int pos_y, i
 
 	std::string path = ""; //TODO poner default
 
-	switch(type)
+	switch(this->type)
 	{
-		case GroundType::GRASS:
+		case GRASS:
 		{
 			path = "imagenes/plataformas/blocks.png";
 			break;
 		}
-		case GroundType::ROCK:
+		case ROCK:
 		{
 			//TODO
 			path = "";
 			break;
 		}
-		case GroundType::WOOD:
+		case WOOD:
 		{
 			path = "imagenes/plataformas/wood log sprite sheet.png";
 			break;
 		}
-		case GroundType::ICE:
+		case ICE:
 		{
 			//TODO
 			path = "";
@@ -51,7 +52,7 @@ Platform::Platform(GameView* _gameView, GroundType type, int pos_x, int pos_y, i
 
 	for(int j=1; j<=top; j++)
 	{
-		parts.push_back(new Sprite(gameView, path.c_str(), width, height, width, height));
+		parts.push_back(Sprite(gameView, path.c_str(), width, height, width, height));
 	}
 }
 
@@ -62,8 +63,8 @@ void Platform::render()
 	int posicionX = posX;
 	for(partsIterator = parts.begin(); partsIterator != parts.end();)
 	{
-		(*partsIterator)->render(posicionX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
-		posicionX = posicionX + (*partsIterator)->getDestinationWidth(); //eclipse me marca esta linea como error, pero compila y anda, ni idea que onda
+		(*partsIterator).render(posicionX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
+		posicionX = posicionX + ((Sprite)(*partsIterator)).getDestinationWidth(); //eclipse me marca esta linea como error, pero compila y anda, ni idea que onda
 		++partsIterator;
 	}
 }

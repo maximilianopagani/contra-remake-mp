@@ -25,8 +25,8 @@ private:
 	GameView* gameView;
 	GroundType type; // probablemente no necesario
 
-	std::list<Sprite*> parts;
-	std::list<Sprite*>::iterator partsIterator;
+	std::list<Sprite> parts;
+	std::list<Sprite>::iterator partsIterator;
 //	Sprite* sprite;
 
 	int posX, posY;
