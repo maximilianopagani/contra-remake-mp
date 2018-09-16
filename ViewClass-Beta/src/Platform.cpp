@@ -14,7 +14,7 @@ Platform::Platform(GameView* _gameView, GroundType type, int pos_x, int pos_y, i
 	posY = pos_y;
 	this->type = type;
 
-	std::string path = ""; //poner default
+	std::string path = ""; //TODO poner default
 
 	switch(type)
 	{
@@ -59,15 +59,12 @@ Platform::~Platform() {}
 
 void Platform::render()
 {
-
 	int posicionX = posX;
 	for(partsIterator = parts.begin(); partsIterator != parts.end();)
 	{
 		(*partsIterator)->render(posicionX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
-		posicionX = posicionX + (*partsIterator)->getDestinationWidth();
+		posicionX = posicionX + (*partsIterator)->getDestinationWidth(); //eclipse me marca esta linea como error, pero compila y anda, ni idea que onda
 		++partsIterator;
 	}
-
-//	sprite->render(posX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
 }
 
