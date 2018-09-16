@@ -1,5 +1,6 @@
 
 #include "Game.hh"
+#include "Platform.hh"
 
 Game::Game(GameView* _gameView)
 {

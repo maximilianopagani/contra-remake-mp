@@ -38,6 +38,8 @@ class Sprite
 
 		int getTextureWidth() { return textureWidth; }
 		int getTextureHeight() { return textureHeight; }
+		int getDestinationWidth() { return destinationWidth; }
+		int getDestinationHeight() { return destinationHeight; }
 
 	private:
 

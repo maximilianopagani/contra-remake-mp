@@ -14,9 +14,9 @@
 class Platform {
 
 public:
-	enum GroundType {GRASS, WOOD, ROCK};
+	enum GroundType {GRASS, WOOD, ROCK, ICE};
 
-	Platform(GameView* _gameView, GroundType type, int pos_x, int pos_y);
+	Platform(GameView* _gameView, GroundType type, int pos_x, int pos_y, int pixels);
 	virtual ~Platform();
 
 	void render();
@@ -24,7 +24,11 @@ public:
 private:
 	GameView* gameView;
 	GroundType type; // probablemente no necesario
-	Sprite* sprite;
+
+	std::list<Sprite*> parts;
+	std::list<Sprite*>::iterator partsIterator;
+//	Sprite* sprite;
+
 	int posX, posY;
 };
 

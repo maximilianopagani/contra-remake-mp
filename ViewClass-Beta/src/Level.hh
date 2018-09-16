@@ -10,6 +10,7 @@
 
 #include "GameView.hh"
 #include "Parallax.hh"
+#include "Platform.hh"
 #include "Sprite.hh"
 
 class Level
@@ -43,8 +44,8 @@ class Level
 		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
 		ScrollingType scrolling;
 
-		//std::list<Platform*> platforms;
-		//std::list<Platform*>::iterator platformsIterator;
+		std::list<Platform*> platforms;
+		std::list<Platform*>::iterator platformsIterator;
 
 		//std::list<Enemy*> enemies;
 		//std::list<Enemy*>::iterator enemiesIterator;

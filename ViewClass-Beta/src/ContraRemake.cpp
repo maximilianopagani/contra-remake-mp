@@ -6,7 +6,7 @@ Game* synergy;
 int main(int argc, char* args[])
 {
 
-	LOGGER_INIT_FILELESS(Logger::DEBUG);
+	LOGGER_INIT_FILELESS(Logger::ERROR);
 
 	GameView* view = new GameView();
 

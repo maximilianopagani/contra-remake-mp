@@ -20,6 +20,11 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 			parallax = new Parallax(gameView, "imagenes/ContraLevel1Mountains.png", "imagenes/ContraLevel1Night.png", _level);
 			sprite = new Sprite(gameView, "imagenes/ContraLevel1BackgroundRezised8312x600.png", 800, 600, 800, 600);
 
+			//se crean las plataformas, ej:
+//			platforms.push_back(new Platform(gameView, Platform::WOOD, 150, 150, 33));
+//			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 150, 97));
+//			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 200, 96));
+
 			playerSpawnX = 200;
 			playerSpawnY = 225;
 
@@ -73,7 +78,13 @@ Level::~Level()
 void Level::render()
 {
 	parallax->render();
-	sprite->render(0, 0); // No me sirve aplicar un camera offset para el mapa, no tiene sentido, siempre va dibujarse en el 0,0 de la ventana
+	sprite->render(0, 0);
+    // Renderizado de plataformas
+	for(platformsIterator = platforms.begin(); platformsIterator != platforms.end();)
+	{
+		(*platformsIterator)->render();
+		++platformsIterator;
+	}
 }
 
 void Level::destroy()

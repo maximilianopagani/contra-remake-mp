@@ -114,9 +114,14 @@ void GameView::show()
 	SDL_RenderPresent(renderer);
 }
 
-void GameView::queryTexture(SDL_Texture* texture, int* width, int* height)
+void GameView::queryTexture(SDL_Texture* texture, int* widthResponse, int* heightResponse)
 {
-	SDL_QueryTexture(texture, NULL, NULL, width, height);
+	SDL_QueryTexture(texture, NULL, NULL, widthResponse, heightResponse);
+}
+
+void GameView::queryTexture(std::string path, int* widthResponse, int* heightResponse)
+{
+	queryTexture(textureGenerator(path), widthResponse, heightResponse);
 }
 
 void GameView::delay(int milisecs)
