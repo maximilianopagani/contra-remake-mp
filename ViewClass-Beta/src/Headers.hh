@@ -1,5 +1,5 @@
-#ifndef HEADERS_H
-#define HEADERS_H
+#ifndef HEADERS_HH_
+#define HEADERS_HH_
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -8,14 +8,14 @@
 #include <iostream>
 #include <list>
 
-#include "Game.h"
-#include "Level.h"
+#include "Game.hh"
+#include "Level.hh"
 #include "Logger.hh"
 
 
 using namespace std;
 
-#endif /* SRC_HEADERS_H_ */
+#endif /* SRC_HEADERS_HH_ */
 
 /*
  *

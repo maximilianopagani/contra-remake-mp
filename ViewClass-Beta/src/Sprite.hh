@@ -8,12 +8,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <list>
-#include "GameView.h"
+
+#include "GameView.hh"
 
 using namespace std;
 
-#ifndef SPRITE_H_
-#define SPRITE_H_
+#ifndef SPRITE_HH_
+#define SPRITE_HH_
 
 class Sprite
 {
@@ -25,6 +26,8 @@ class Sprite
 		void render(int x , int y, bool applyOffset = true);
 		void update();
 		void destroy();
+
+		bool collideWith(Sprite* other);
 
 		int getSourceRectX() { return src.x; }
 		int getSourceRectY() { return src.y; }
@@ -46,4 +49,4 @@ class Sprite
 		SDL_Rect src;
 };
 
-#endif /* SPRITE_H_ */
+#endif /* SPRITE_HH_ */

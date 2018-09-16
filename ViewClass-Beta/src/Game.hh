@@ -4,12 +4,12 @@
  *  Created on: 02/09/2018
  *      Author: gio
  */
-#ifndef GAME_H
-#define GAME_H
+#ifndef GAME_HH_
+#define GAME_HH_
 
-#include "Player.h"
-#include "Level.h"
-#include "Headers.h"
+#include "Headers.hh"
+#include "Level.hh"
+#include "Player.hh"
 
 class Game
 {
@@ -41,4 +41,4 @@ class Game
         Level* level;
 };
 
-#endif /* SRC_GAME_H_ */
+#endif /* SRC_GAME_HH_ */

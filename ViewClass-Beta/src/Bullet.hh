@@ -5,12 +5,12 @@
  *      Author: maximiliano
  */
 
-#ifndef SRC_BULLET_H_
-#define SRC_BULLET_H_
+#ifndef SRC_BULLET_HH_
+#define SRC_BULLET_HH_
 
 
-#include "GameView.h"
-#include "Sprite.h"
+#include "GameView.hh"
+#include "Sprite.hh"
 
 class Bullet
 {
@@ -33,4 +33,4 @@ class Bullet
 		int max_travel_distance, traveled_distance; // Gestion de la vida de la bala segun su distancia viajada
 };
 
-#endif /* SRC_BULLET_H_ */
+#endif /* SRC_BULLET_HH_ */

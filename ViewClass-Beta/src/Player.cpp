@@ -5,7 +5,7 @@
  *      Author: giova
  */
 
-#include "Player.h"
+#include "Player.hh"
 
 Player::Player(GameView* _view)
 {
@@ -17,7 +17,7 @@ Player::Player(GameView* _view)
 	state = STATE_STANDING;
 
 	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png",128, 128, 64, 64);
-	animations[STATE_WALKINGlEFT] = new Sprite(gameView,"image/walkingLeft.png",128, 128,64, 64);
+	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png",128, 128,64, 64);
 	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",512, 384,64, 64);
 	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumpUp.png",512, 384, 64, 64);
 	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumpDown.png",512, 384,64, 64);
@@ -132,7 +132,7 @@ void Player::jump(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN
 			&& state != STATE_JUMPINGUP_BACK && state != STATE_JUMPINGDOWN_BACK)
 	{
-		if(state==STATE_WALKINGlEFT){
+		if(state==STATE_WALKINGLEFT){
 			state=STATE_JUMPINGUP_BACK;
 		}
 		else state = STATE_JUMPINGUP;
@@ -150,25 +150,25 @@ void Player::walkLeft(){
 		else if(state == STATE_POINTUP) {
 			aimingAt = AIM_UP;
 			pos_x -= 5 ;
-			state = STATE_WALKINGlEFT;
+			state = STATE_WALKINGLEFT;
 			animations[state]->update();
 		}
 		else if(state == STATE_POINTUP_BACK) {
 			aimingAt = AIM_UP_BACK;
 			pos_x -= 5 ;
-			state = STATE_WALKINGlEFT;
+			state = STATE_WALKINGLEFT;
 			animations[state]->update();
 		}
 		else if(state == STATE_POINTDOWN){
 			aimingAt = AIM_DOWN;
 			pos_x -= 5 ;
-			state = STATE_WALKINGlEFT;
+			state = STATE_WALKINGLEFT;
 			animations[state]->update();
 		}
 		else if(state == STATE_POINTDOWN_BACK){
 			aimingAt = AIM_DOWN_BACK;
 			pos_x -= 5 ;
-			state = STATE_WALKINGlEFT;
+			state = STATE_WALKINGLEFT;
 			animations[state]->update();
 		}
 		else if(state == STATE_POINTBODYTOGROUND_BACK){
@@ -178,7 +178,7 @@ void Player::walkLeft(){
 		else {
 			pos_x -= 5 ;
 			aimingAt = AIM_BACK;
-			state = STATE_WALKINGlEFT;
+			state = STATE_WALKINGLEFT;
 			animations[state]->update();
 		}
 	}else if(state == STATE_JUMPINGUP || state == STATE_JUMPINGDOWN){
@@ -222,7 +222,7 @@ void Player::pointUP(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN
 			&& state != STATE_JUMPINGUP_BACK && state != STATE_JUMPINGDOWN_BACK){
 
-		if(state==STATE_WALKINGlEFT){
+		if(state==STATE_WALKINGLEFT){
 			state=STATE_POINTUP_BACK;
 			aimingAt = AIM_UP_BACK;
 		}
@@ -241,7 +241,7 @@ void Player::pointDown(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN
 			&& state != STATE_JUMPINGUP_BACK && state != STATE_JUMPINGDOWN_BACK){
 
-		if(state==STATE_WALKINGlEFT){
+		if(state==STATE_WALKINGLEFT){
 			state=STATE_POINTDOWN_BACK;
 			aimingAt = AIM_DOWN_BACK;
 		}
@@ -260,7 +260,7 @@ void Player::bodyToGround(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN
 			&& state != STATE_JUMPINGUP_BACK && state != STATE_JUMPINGDOWN_BACK){
 
-		if(state==STATE_WALKINGlEFT){
+		if(state==STATE_WALKINGLEFT){
 			state = STATE_POINTBODYTOGROUND_BACK;
 			aimingAt = AIM_BODYTOGROUND_BACK;
 		}

@@ -6,12 +6,12 @@
  */
 
 //#include "Headers.h"
-#include "Sprite.h"
-#include "GameView.h"
-#include "Bullet.h"
+#include "Bullet.hh"
+#include "GameView.hh"
+#include "Sprite.hh"
 
-#ifndef PLAYER_H_
-#define PLAYER_H_
+#ifndef PLAYER_HH_
+#define PLAYER_HH_
 
 class Player
 {
@@ -48,7 +48,7 @@ class Player
 
 		enum PlayerState {
 			STATE_WALKINGRIGHT,
-			STATE_WALKINGlEFT,
+			STATE_WALKINGLEFT,
 			STATE_STANDING,
 			STATE_JUMPINGUP,
 			STATE_JUMPINGDOWN,
@@ -82,4 +82,4 @@ class Player
 		const Uint8* currentKeyStates = NULL; // NO liberar/delete, es un puntero a un array interno de SDL
 };
 
-#endif /* PLAYER_H_ */
+#endif /* PLAYER_HH_ */

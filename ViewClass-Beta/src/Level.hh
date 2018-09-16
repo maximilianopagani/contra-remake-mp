@@ -5,12 +5,12 @@
  *      Author: maximiliano
  */
 
-#ifndef SRC_LEVEL_H_
-#define SRC_LEVEL_H_
+#ifndef SRC_LEVEL_HH_
+#define SRC_LEVEL_HH_
 
-#include "GameView.h"
-#include "Sprite.h"
-#include "Parallax.hpp"
+#include "GameView.hh"
+#include "Parallax.hh"
+#include "Sprite.hh"
 
 class Level
 {
@@ -53,4 +53,4 @@ class Level
 
 };
 
-#endif /* SRC_LEVEL_H_ */
+#endif /* SRC_LEVEL_HH_ */

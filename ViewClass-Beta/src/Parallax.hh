@@ -8,8 +8,8 @@
 #ifndef SRC_PARALLAX_HPP_
 #define SRC_PARALLAX_HPP_
 
-#include "GameView.h"
-#include "Sprite.h"
+#include "GameView.hh"
+#include "Sprite.hh"
 
 enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};
 

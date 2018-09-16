@@ -5,8 +5,9 @@
  *      Author: Giova
  */
 
-#include "GameView.h"
-#include "Headers.h"
+#include "GameView.hh"
+
+#include "Headers.hh"
 
 GameView::GameView()
 {
@@ -98,6 +99,7 @@ void GameView::clear()
 	SDL_RenderClear(renderer);
 }
 
+// TODO por que applyOffset???
 void GameView::draw(SDL_Texture* texture, SDL_Rect* src, int posX, int posY, int width, int height, bool applyOffset)
 {
 	if(applyOffset)

@@ -5,7 +5,7 @@
  *      Author: maximiliano
  */
 
-#include "Bullet.h"
+#include "Bullet.hh"
 
 Bullet::Bullet(GameView* _gameView, Sprite* _sprite, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel)
 {

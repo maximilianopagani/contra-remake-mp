@@ -1,19 +1,21 @@
-src/GameView.o: ../src/GameView.cpp ../src/GameView.h ../src/Headers.h \
- ../src/Game.h ../src/Player.h ../src/Sprite.h ../src/Bullet.h \
- ../src/Level.h ../src/Logger.hh
+src/GameView.o: ../src/GameView.cpp ../src/GameView.hh ../src/Headers.hh \
+ ../src/Game.hh ../src/Level.hh ../src/Parallax.hh ../src/Sprite.hh \
+ ../src/Player.hh ../src/Bullet.hh ../src/Logger.hh
 
-../src/GameView.h:
+../src/GameView.hh:
 
-../src/Headers.h:
+../src/Headers.hh:
 
-../src/Game.h:
+../src/Game.hh:
 
-../src/Player.h:
+../src/Level.hh:
 
-../src/Sprite.h:
+../src/Parallax.hh:
 
-../src/Bullet.h:
+../src/Sprite.hh:
 
-../src/Level.h:
+../src/Player.hh:
+
+../src/Bullet.hh:
 
 ../src/Logger.hh:

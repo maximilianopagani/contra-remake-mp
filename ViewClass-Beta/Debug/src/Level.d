@@ -1,8 +1,10 @@
-src/Level.o: ../src/Level.cpp ../src/Level.h ../src/GameView.h \
- ../src/Sprite.h
+src/Level.o: ../src/Level.cpp ../src/Level.hh ../src/GameView.hh \
+ ../src/Parallax.hh ../src/Sprite.hh
 
-../src/Level.h:
+../src/Level.hh:
 
-../src/GameView.h:
+../src/GameView.hh:
 
-../src/Sprite.h:
+../src/Parallax.hh:
+
+../src/Sprite.hh:

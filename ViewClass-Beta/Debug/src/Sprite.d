@@ -1,5 +1,5 @@
-src/Sprite.o: ../src/Sprite.cpp ../src/Sprite.h ../src/GameView.h
+src/Sprite.o: ../src/Sprite.cpp ../src/Sprite.hh ../src/GameView.hh
 
-../src/Sprite.h:
+../src/Sprite.hh:
 
-../src/GameView.h:
+../src/GameView.hh:

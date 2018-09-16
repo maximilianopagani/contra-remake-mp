@@ -1,19 +1,21 @@
-src/ContraRemake.o: ../src/ContraRemake.cpp ../src/Headers.h \
- ../src/Game.h ../src/Player.h ../src/Sprite.h ../src/GameView.h \
- ../src/Bullet.h ../src/Level.h ../src/Logger.hh
+src/ContraRemake.o: ../src/ContraRemake.cpp ../src/GameView.hh \
+ ../src/Headers.hh ../src/Game.hh ../src/Level.hh ../src/Parallax.hh \
+ ../src/Sprite.hh ../src/Player.hh ../src/Bullet.hh ../src/Logger.hh
 
-../src/Headers.h:
+../src/GameView.hh:
 
-../src/Game.h:
+../src/Headers.hh:
 
-../src/Player.h:
+../src/Game.hh:
 
-../src/Sprite.h:
+../src/Level.hh:
 
-../src/GameView.h:
+../src/Parallax.hh:
 
-../src/Bullet.h:
+../src/Sprite.hh:
 
-../src/Level.h:
+../src/Player.hh:
+
+../src/Bullet.hh:
 
 ../src/Logger.hh:

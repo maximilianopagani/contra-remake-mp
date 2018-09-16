@@ -1,5 +1,5 @@
-#include "Headers.h"
-#include "GameView.h"
+#include "GameView.hh"
+#include "Headers.hh"
 
 Game* synergy;
 

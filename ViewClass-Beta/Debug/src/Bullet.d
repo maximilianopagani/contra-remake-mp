@@ -1,8 +1,8 @@
-src/Bullet.o: ../src/Bullet.cpp ../src/Bullet.h ../src/GameView.h \
- ../src/Sprite.h
+src/Bullet.o: ../src/Bullet.cpp ../src/Bullet.hh ../src/GameView.hh \
+ ../src/Sprite.hh
 
-../src/Bullet.h:
+../src/Bullet.hh:
 
-../src/GameView.h:
+../src/GameView.hh:
 
-../src/Sprite.h:
+../src/Sprite.hh:

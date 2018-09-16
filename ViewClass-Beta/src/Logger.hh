@@ -3,6 +3,9 @@
 // Author      : pola17
 //============================================================================
 
+#ifndef SRC_LOGGER_HH_
+#define SRC_LOGGER_HH_
+
 #include <fstream>
 #include <string>
 
@@ -39,3 +42,4 @@ private:
     static const string LEVEL_NAMES[];
     static void logs(const string& level, const string& message);
 };
+#endif /* SRC_LOGGER_HH_ */

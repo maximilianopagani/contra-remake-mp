@@ -1,10 +1,10 @@
-src/Player.o: ../src/Player.cpp ../src/Player.h ../src/Sprite.h \
- ../src/GameView.h ../src/Bullet.h
+src/Player.o: ../src/Player.cpp ../src/Player.hh ../src/Bullet.hh \
+ ../src/GameView.hh ../src/Sprite.hh
 
-../src/Player.h:
+../src/Player.hh:
 
-../src/Sprite.h:
+../src/Bullet.hh:
 
-../src/GameView.h:
+../src/GameView.hh:
 
-../src/Bullet.h:
+../src/Sprite.hh:

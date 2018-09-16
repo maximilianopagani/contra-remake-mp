@@ -5,8 +5,7 @@
  *      Author: maximiliano
  */
 
-#include "Level.h"
-#include "Sprite.h"
+#include "Level.hh"
 
 Level::Level(GameView* _gameView, LevelNumber _level)
 {

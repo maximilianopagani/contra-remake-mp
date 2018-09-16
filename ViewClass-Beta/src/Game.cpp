@@ -1,5 +1,5 @@
-#include "Game.h"
 
+#include "Game.hh"
 
 Game::Game(GameView* _gameView)
 {

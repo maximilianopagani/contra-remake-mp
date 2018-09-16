@@ -5,7 +5,8 @@
  *      Author: nacho
  */
 
-#include "Parallax.hpp"
+#include "Parallax.hh"
+
 #include <iostream>
 
 Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, LevelNumber _level) {
