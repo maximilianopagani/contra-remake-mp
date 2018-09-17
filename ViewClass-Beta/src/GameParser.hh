@@ -2,7 +2,7 @@
 #define GAMEPARSER_HH_
 
 #include <string>
-#include "tinyxml.h"
+#include "data/tinyxml/tinyxml.h"
 #include "data/tinyxml/tinystr.h"
 #include <cstring>
 #include <cstdio>

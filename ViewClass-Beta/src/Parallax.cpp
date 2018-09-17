@@ -7,8 +7,6 @@
 
 #include "Parallax.hh"
 
-#include <iostream>
-
 Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, LevelNumber _level) {
 
     view = _view;
@@ -19,8 +17,8 @@ Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, Le
 	screenPosX = 0;
 	screenPosY = 0;
 
-	bgSprite1 = new Sprite(view, bgPath1, 1920, 1080, screenWidth, screenHeight);
-    bgSprite2 = new Sprite(view, bgPath2, 1920, 1080, screenWidth, screenHeight);
+	bgSprite1 = new Sprite(view, bgPath1, 1920, 1080, screenWidth + 200, screenHeight + 200);
+    bgSprite2 = new Sprite(view, bgPath2, 1920, 1080, screenWidth + 200, screenHeight + 200);
 
 	bgScrollingOffsetX1 = 0;
 	bgScrollingOffsetY1 = 0;
@@ -51,11 +49,11 @@ void Parallax::render() {
 		bgScrollingOffsetY1 = -playerPosY * 0.2;
 
 		//Chequeo que el offset esté siempre entre los límites de 0 y screenWidth
-		if( bgScrollingOffsetX2 < -screenWidth) {
+		if( bgScrollingOffsetX2 < -screenWidth * velocidadBG2) {
 			bgScrollingOffsetX2 += screenWidth;
 		}
-		if( bgScrollingOffsetX1 < -screenWidth) {
-			bgScrollingOffsetX1 += screenWidth;
+		if( bgScrollingOffsetX1 < -screenWidth * velocidadBG1) {
+			bgScrollingOffsetX1 += screenWidth * velocidadBG2;
 		}
 	}
 	else {
@@ -86,10 +84,10 @@ void Parallax::render() {
     screenPosY = bgScrollingOffsetY2;
 	bgSprite2->render(screenPosX, screenPosY);
 	if (level == LEVEL1 || level == LEVEL3) {
-		screenPosX += screenWidth;
+		screenPosX += screenWidth * velocidadBG2;
 	}
 	else {
-		screenPosY += screenHeight;
+		screenPosY += screenHeight * velocidadBG2;
 	}
     bgSprite2->render(screenPosX, screenPosY);
 
@@ -98,10 +96,10 @@ void Parallax::render() {
     screenPosY = bgScrollingOffsetY1;
     bgSprite1->render(screenPosX, screenPosY);
 	if (level == LEVEL1 || level == LEVEL3) {
-		screenPosX += screenWidth;
+		screenPosX += screenWidth * velocidadBG1;
 	}
 	else {
-		screenPosY += screenHeight;
+		screenPosY += screenHeight * velocidadBG1;
 	}
     bgSprite1->render(screenPosX, screenPosY);
 }
