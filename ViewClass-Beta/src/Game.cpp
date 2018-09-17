@@ -1,6 +1,7 @@
 
 #include "Game.hh"
 #include "Platform.hh"
+#include "GameParser.hh"
 
 Game::Game(GameView* _gameView)
 {
@@ -16,9 +17,23 @@ Game::~Game()
 	this->destroy();
 }
 
+void loadDataParserModel(GameParser *gameParser){
+	// PROBANDO ...
+	cout << "El nivel de loggueo almacenado en el parser es: ";
+	cout << gameParser->getLevel() << endl;
+}
+
 void Game::init()
 {
 	enEjecucion = true;
+
+    // ES A MANERA DE PRUEBA INICIAL
+	GameParser* gameParser = new GameParser();
+	if (gameParser->loadConfiguration()) {
+		loadDataParserModel(gameParser);
+	}
+	if (gameParser) {delete gameParser;}
+	// FINAL DE PRUEBA INICIAL
 
     currentLevel = LEVEL1;
     level = new Level(gameView, LEVEL1);

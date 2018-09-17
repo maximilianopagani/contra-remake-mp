@@ -9,6 +9,8 @@
 #include <fstream>
 #include <string>
 
+#include "Utils.hh"
+
 // MACROS -- USE MACROS
 //------------------------------------------------------------
 //#define LOGGER_INIT(LEVEL, FILE) Logger::init(LEVEL, FILE);
@@ -16,7 +18,7 @@
 #define LOGGER_INIT_FILELESS(LEVEL) Logger::init(LEVEL, "");
 #define LOGGER_ERROR(MSG) Logger::logs(Logger::ERROR,MSG);
 #define LOGGER_INFO(MSG) Logger::logs(Logger::INFO,MSG);
-#define LOGGER_DEBUG(MSG) Logger::logs(Logger::Level::DEBUG,MSG);
+#define LOGGER_DEBUG(MSG) Logger::logs(Logger::DEBUG,MSG);
 #define LOGGER_KILL() Logger::kill();
 //------------------------------------------------------------
 

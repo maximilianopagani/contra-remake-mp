@@ -1,0 +1,22 @@
+<configuration>
+	<debug>
+		<level>INFO</level>
+	</debug>
+	<escenarios>
+		<nivel1>
+			<fondo1>defaultFile11.bmp</fondo1>
+			<fondo2>defaultFile12.bmp</fondo2>
+			<fondo3>defaultFile13.bmp</fondo3>
+		</nivel1>
+		<nivel2>
+			<fondo1>defaultFile21.bmp</fondo1>
+			<fondo2>defaultFile22.bmp</fondo2>
+			<fondo3>defaultFile23.bmp</fondo3>
+		</nivel2>
+		<nivel3>
+			<fondo1>defaultFile31.bmp</fondo1>
+			<fondo2>defaultFile32.bmp</fondo2>
+			<fondo3>defaultFile33.bmp</fondo3>
+		</nivel3>
+	</escenarios>
+</configuration>

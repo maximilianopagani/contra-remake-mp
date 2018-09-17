@@ -1,0 +1,22 @@
+<configuration>
+	<debug>
+		<level>DEBUG</level>
+	</debug>
+	<escenarios>
+		<nivel1>
+			<fondo1>file11.bmp</fondo1>
+			<fondo2>file12.bmp</fondo2>
+			<fondo3>file13.bmp</fondo3>
+		</nivel1>
+		<nivel2>
+			<fondo1>file21.bmp</fondo1>
+			<fondo2>file22.bmp</fondo2>
+			<fondo3>file23.bmp</fondo3>
+		</nivel2>
+		<nivel3>
+			<fondo1>file31.bmp</fondo1>
+			<fondo2>file32.bmp</fondo2>
+			<fondo3>file33.bmp</fondo3>
+		</nivel3>
+	</escenarios>
+</configuration>
