@@ -105,6 +105,10 @@ void Level::moveForward(int playerPosX, int playerPosY)
 				sprite->setSourceRectX(sprite->getSourceRectX() + (playerPosX - border));
 				border = playerPosX;
 				gameView->setCameraPosX(sprite->getSourceRectX()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
+				parallax->updatePlayerPos(playerPosX, playerPosY, true);
+			}
+			else {
+				parallax->updatePlayerPos(playerPosX, playerPosY, false);
 			}
 		}
 	}
@@ -117,8 +121,11 @@ void Level::moveForward(int playerPosX, int playerPosY)
 				sprite->setSourceRectY(sprite->getSourceRectY() - (border - playerPosY));
 				border = playerPosY;
 				gameView->setCameraPosY(sprite->getSourceRectY()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
+				parallax->updatePlayerPos(playerPosX, playerPosY, true);
+			}
+			else {
+				parallax->updatePlayerPos(playerPosX, playerPosY, false);
 			}
 		}
 	}
-	parallax->updatePlayerPos(playerPosX, playerPosY);
 }

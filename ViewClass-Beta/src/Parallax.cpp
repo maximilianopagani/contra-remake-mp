@@ -6,6 +6,7 @@
  */
 
 #include "Parallax.hh"
+#include <iostream>
 
 Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, LevelNumber _level) {
 
@@ -17,8 +18,8 @@ Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, Le
 	screenPosX = 0;
 	screenPosY = 0;
 
-	bgSprite1 = new Sprite(view, bgPath1, 1920, 1080, screenWidth + 200, screenHeight + 200);
-    bgSprite2 = new Sprite(view, bgPath2, 1920, 1080, screenWidth + 200, screenHeight + 200);
+	bgSprite1 = new Sprite(view, bgPath1, 1920, 1080, screenWidth, screenHeight);
+    bgSprite2 = new Sprite(view, bgPath2, 1920, 1080, screenWidth, screenHeight);
 
 	bgScrollingOffsetX1 = 0;
 	bgScrollingOffsetY1 = 0;
@@ -27,9 +28,69 @@ Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, Le
 
 	playerPosX = 0;
 	playerPosY = 0;
+	playerAtBorder = false;
 }
 
 void Parallax::render() {
+
+	//PARALLAX SIGUIENDO A LA CÁMARA (SÓLO CUANDO SCROLLEA EN EL BORDE)
+	if (playerAtBorder) {
+		if (level == LEVEL1 || level == LEVEL3) {
+			bgScrollingOffsetX2 -= 4;
+			bgScrollingOffsetX1 -= 8;
+		}
+		else {
+			bgScrollingOffsetY2 += 4;
+			bgScrollingOffsetY1 += 8;
+		}
+	}
+
+	//Chequeo que el offset esté siempre entre los límites de 0 y screenWidth
+	if (level == LEVEL1 || level == LEVEL3) {
+		if( bgScrollingOffsetX2 < -screenWidth) {
+			bgScrollingOffsetX2 += screenWidth;
+		}
+		if( bgScrollingOffsetX1 < -screenWidth) {
+			bgScrollingOffsetX1 += screenWidth;
+		}
+	}
+	else {
+		if( bgScrollingOffsetY2 > screenHeight) {
+			bgScrollingOffsetY2 -= screenHeight;
+		}
+		if( bgScrollingOffsetY1 > screenHeight) {
+			bgScrollingOffsetY1 -= screenHeight;
+		}
+	}
+
+	//Renderizo dos iteraciones de los fondos
+	//FONDO 2
+	screenPosX = bgScrollingOffsetX2;
+	screenPosY = bgScrollingOffsetY2;
+	bgSprite2->render(screenPosX, screenPosY);
+	if (level == LEVEL1 || level == LEVEL3) {
+		screenPosX += screenWidth;
+	}
+	else {
+		screenPosY -= screenHeight;
+	}
+	bgSprite2->render(screenPosX, screenPosY);
+
+	//FONDO 1
+	screenPosX = bgScrollingOffsetX1;
+	screenPosY = bgScrollingOffsetY1;
+	bgSprite1->render(screenPosX, screenPosY);
+	if (level == LEVEL1 || level == LEVEL3) {
+		screenPosX += screenWidth;
+	}
+	else {
+		screenPosY -= screenHeight;
+	}
+	bgSprite1->render(screenPosX, screenPosY);
+
+
+	//PARALLAX SIGUIENDO AL PERSONAJE
+	/*
 
 	const float velocidadBG1 = 1.25;
 	const float velocidadBG2 = 1;
@@ -102,11 +163,15 @@ void Parallax::render() {
 		screenPosY += screenHeight * velocidadBG1;
 	}
     bgSprite1->render(screenPosX, screenPosY);
+
+    */
 }
 
-void Parallax::updatePlayerPos(int _playerPosX, int _playerPosY) {
+void Parallax::updatePlayerPos(int _playerPosX, int _playerPosY, bool _playerAtBorder) {
 	playerPosX = _playerPosX;
 	playerPosY = _playerPosY;
+	playerAtBorder = _playerAtBorder;
+
 }
 
 Parallax::~Parallax() {

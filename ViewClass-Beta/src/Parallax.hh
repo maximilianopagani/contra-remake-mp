@@ -18,7 +18,7 @@ class Parallax {
 		Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, LevelNumber _level);
         virtual ~Parallax();
 		void render();
-		void updatePlayerPos(int _playerPosX, int _playerPosY);
+		void updatePlayerPos(int _playerPosX, int _playerPosY, bool _playerAtBorder);
 
 	private:
         GameView* view = NULL;
@@ -29,6 +29,7 @@ class Parallax {
         int screenPosX, screenPosY;
 		int bgScrollingOffsetX1, bgScrollingOffsetY1, bgScrollingOffsetX2, bgScrollingOffsetY2;
 		int playerPosX, playerPosY;
+		bool playerAtBorder;
 };
 
 #endif /* SRC_PARALLAX_HPP_ */
