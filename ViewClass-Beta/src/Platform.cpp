@@ -60,10 +60,12 @@ Platform::~Platform() {}
 void Platform::render()
 {
 	int posicionX = posX;
+	Sprite* sprite;
 	for(partsIterator = parts.begin(); partsIterator != parts.end();)
 	{
-		(*partsIterator)->render(posicionX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
-		posicionX = posicionX + (*partsIterator)->getDestinationWidth(); //eclipse me marca esta linea como error, pero compila y anda, ni idea que onda
+		sprite = *partsIterator;
+		sprite->render(posicionX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
+		posicionX = posicionX + sprite->getDestinationWidth(); //eclipse me marca esta linea como error, pero compila y anda, ni idea que onda
 		++partsIterator;
 	}
 }
