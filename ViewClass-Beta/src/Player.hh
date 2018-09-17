@@ -35,6 +35,8 @@ class Player
 		void walkLeft();
 		void walkRight();
 		void pointUP();
+		void pointFront();
+		void pointBack();
 		void pointDown();
 		void bodyToGround();
 		void shoot();
@@ -58,12 +60,17 @@ class Player
 			STATE_POINTBODYTOGROUND,
 			STATE_JUMPINGUP_BACK,
 			STATE_JUMPINGDOWN_BACK,
-
 			STATE_POINTUP_BACK,
 			STATE_POINTDOWN_BACK,
 			STATE_POINTBODYTOGROUND_BACK,
 			};
 		PlayerState state;
+
+		enum PlayerDirection {
+			DIRECTION_FRONT,
+			DIRECTION_BACK
+		};
+		PlayerDirection direction;
 
 		// manejo de disparo
 		enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND,AIM_BACK,AIM_UP_BACK,AIM_DOWN_BACK,AIM_BODYTOGROUND_BACK};
