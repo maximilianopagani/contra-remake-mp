@@ -27,7 +27,6 @@ private:
 
 	std::list<Sprite*> parts;
 	std::list<Sprite*>::iterator partsIterator;
-//	Sprite* sprite;
 
 	int posX, posY;
 };

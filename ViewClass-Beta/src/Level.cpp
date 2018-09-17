@@ -21,9 +21,9 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 			sprite = new Sprite(gameView, "imagenes/ContraLevel1BackgroundRezised8312x600.png", 800, 600, 800, 600);
 
 			//se crean las plataformas, ej:
-//			platforms.push_back(new Platform(gameView, Platform::WOOD, 150, 150, 33));
-//			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 150, 97));
-//			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 200, 96));
+			platforms.push_back(new Platform(gameView, Platform::WOOD, 150, 150, 33));
+			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 150, 97));
+			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 200, 96));
 
 			playerSpawnX = 200;
 			playerSpawnY = 225;
