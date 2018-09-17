@@ -10,12 +10,13 @@
 #include "Headers.hh"
 #include "Level.hh"
 #include "Player.hh"
+#include "GameParser.hh"
 
 class Game
 {
     public:
 
-        Game(GameView* gameView);
+        Game(GameParser* gameParser, GameView* gameView);
         virtual ~Game();
 
         void init();
@@ -36,6 +37,7 @@ class Game
 
         int currentLevel;
 
+        GameParser* gameParser;
         GameView* gameView;
         Player* player;
         Level* level;

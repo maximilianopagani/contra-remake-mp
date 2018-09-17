@@ -1,11 +1,11 @@
 
 #include "Game.hh"
 #include "Platform.hh"
-#include "GameParser.hh"
 
-Game::Game(GameView* _gameView)
+Game::Game(GameParser* _gameParser, GameView* _gameView)
 {
 	enEjecucion = false;
+	gameParser = _gameParser;
 	gameView = _gameView;
 	level = NULL;
 	player = NULL;
@@ -17,26 +17,20 @@ Game::~Game()
 	this->destroy();
 }
 
-void loadDataParserModel(GameParser *gameParser){
-	// PROBANDO ...
-	cout << "El nivel de loggueo almacenado en el parser es: ";
-	cout << gameParser->getLevel() << endl;
-}
-
 void Game::init()
 {
 	enEjecucion = true;
 
     // ES A MANERA DE PRUEBA INICIAL
-	GameParser* gameParser = new GameParser();
-	if (gameParser->loadConfiguration()) {
-		loadDataParserModel(gameParser);
-	}
-	if (gameParser) {delete gameParser;}
+	//GameParser* gameParser = new GameParser();
+	//if (gameParser->loadConfiguration()) {
+	//	loadDataParserModel(gameParser);
+	//}
+	//if (gameParser) {delete gameParser;}
 	// FINAL DE PRUEBA INICIAL
 
     currentLevel = LEVEL1;
-    level = new Level(gameView, LEVEL1);
+    level = new Level(gameParser, gameView, LEVEL1);
 
     //gameView->setLimitXY(level->getLevelWidth(), level->getLevelHeight());
 
@@ -80,14 +74,14 @@ void Game::nextLevel()
 		case LEVEL1:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL2;
-			level = new Level(gameView, LEVEL2);
+			level = new Level(gameParser, gameView, LEVEL2);
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 
 		case LEVEL2:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL3;
-			level = new Level(gameView, LEVEL3);
+			level = new Level(gameParser, gameView, LEVEL3);
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 

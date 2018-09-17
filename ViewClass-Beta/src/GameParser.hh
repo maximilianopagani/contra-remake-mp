@@ -33,6 +33,7 @@ private:
 	TiXmlDocument* tiXmlDefaultFileConfig;
 public:
 	GameParser();
+	void loadDataParserModel();
 	bool evaluateTagDebug();
 	bool evaluateTagNivel1();
 	bool evaluateTagNivel2();

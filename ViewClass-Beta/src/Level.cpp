@@ -7,7 +7,7 @@
 
 #include "Level.hh"
 
-Level::Level(GameView* _gameView, LevelNumber _level)
+Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 {
 	this->gameView = _gameView;
 
@@ -17,8 +17,8 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			parallax = new Parallax(gameView, "imagenes/ContraLevel1Mountains.png", "imagenes/ContraLevel1Night.png", _level);
-			sprite = new Sprite(gameView, "imagenes/ContraLevel1BackgroundRezised8312x600.png", 800, 600, 800, 600);
+			parallax = new Parallax(gameView, gameParser->getFondo2Nivel1(), gameParser->getFondo3Nivel1(), _level);
+			sprite = new Sprite(gameView, gameParser->getFondo1Nivel1(), 800, 600, 800, 600);
 
 			//se crean las plataformas, ej:
 			platforms.push_back(new Platform(gameView, Platform::WOOD, 150, 150, 33));
@@ -34,8 +34,8 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_VERTICAL;
 
-			parallax = new Parallax(gameView, "imagenes/ContraLevel1Mountains.png", "imagenes/ContraLevel1Night.png", _level);
-			sprite = new Sprite(gameView, "imagenes/ContraLevel3BackgroundRezised800x6797.png", 800, 600, 800, 600);
+			parallax = new Parallax(gameView, gameParser->getFondo2Nivel2(), gameParser->getFondo3Nivel2(), _level);
+			sprite = new Sprite(gameView, gameParser->getFondo1Nivel2(), 800, 600, 800, 600);
 
 			playerSpawnX = 200;
 			playerSpawnY = 6600;
@@ -46,8 +46,8 @@ Level::Level(GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			parallax = new Parallax(gameView, "imagenes/ContraLevel1Mountains.png", "imagenes/ContraLevel1Night.png", _level);
-			sprite = new Sprite(gameView, "imagenes/ContraLevel5BackgroundRezised12760x600.png", 800, 600, 800, 600);
+			parallax = new Parallax(gameView, gameParser->getFondo2Nivel3(), gameParser->getFondo3Nivel3(), _level);
+			sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
 
 			playerSpawnX = 200;
 			playerSpawnY = 225;

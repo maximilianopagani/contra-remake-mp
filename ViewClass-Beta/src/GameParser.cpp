@@ -17,8 +17,14 @@ GameParser::GameParser() {
 	this->fondo3Nivel3 = "";
 }
 
+void GameParser::loadDataParserModel(){
+	// PROBANDO ...
+	cout << "El nivel de loggueo almacenado en el parser es: ";
+	cout << getLevel() << endl;
+}
+
 bool GameParser::evaluateTagDebug(){
-	bool sucess = true;
+	bool success = true;
 	string strLevel;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
@@ -41,7 +47,7 @@ bool GameParser::evaluateTagDebug(){
 			LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("TAG_LEVEL esta vacio");
 			LOGGER_KILL();
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->level = strLevel;
@@ -49,17 +55,17 @@ bool GameParser::evaluateTagDebug(){
 			LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("TAG_LEVEL es desconocido");
 			LOGGER_KILL();
-			sucess = false;
+			success = false;
 		}
 
 	} else {
 		LOGGER_INIT(Logger::ERROR);
 		LOGGER_ERROR("TAG_LEVEL no existe o tiene valores invalidos");
 		LOGGER_KILL();
-		sucess = false;
+		success = false;
 	}
 
-	if (sucess) {
+	if (success) {
 		if (!(this->level.compare("ERROR"))){
 			LOGGER_INIT(Logger::ERROR);
 			if (this->fileConfigLoaded == true) {
@@ -94,11 +100,11 @@ bool GameParser::evaluateTagDebug(){
 		}
 	}
 
-	return sucess;
+	return success;
 }
 
 bool GameParser::evaluateTagNivel1(){
-	bool sucess = true;
+	bool success = true;
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
@@ -118,13 +124,13 @@ bool GameParser::evaluateTagNivel1(){
 		strFondo1.append(tagNivel1Node->FirstChildElement(TAG_FONDO1)->GetText());
 	    if (!strFondo1.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO1 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo1Nivel1 = strFondo1;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO1 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
     //TAG_FONDO2
@@ -134,13 +140,13 @@ bool GameParser::evaluateTagNivel1(){
 		strFondo2.append(tagNivel1Node->FirstChildElement(TAG_FONDO2)->GetText());
 	    if (!strFondo2.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO2 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo2Nivel1 = strFondo2;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO2 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
     //TAG_FONDO3
@@ -150,20 +156,20 @@ bool GameParser::evaluateTagNivel1(){
 		strFondo3.append(tagNivel1Node->FirstChildElement(TAG_FONDO3)->GetText());
 	    if (!strFondo3.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO3 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo3Nivel1 = strFondo3;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO3 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
-	return sucess;
+	return success;
 }
 
 bool GameParser::evaluateTagNivel2(){
-	bool sucess = true;
+	bool success = true;
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
@@ -183,13 +189,13 @@ bool GameParser::evaluateTagNivel2(){
 		strFondo1.append(tagNivel2Node->FirstChildElement(TAG_FONDO1)->GetText());
 	    if (!strFondo1.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO1 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo1Nivel2 = strFondo1;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO1 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
     //TAG_FONDO2
@@ -199,13 +205,13 @@ bool GameParser::evaluateTagNivel2(){
 		strFondo2.append(tagNivel2Node->FirstChildElement(TAG_FONDO2)->GetText());
 	    if (!strFondo2.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO2 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo2Nivel2 = strFondo2;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO2 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
     //TAG_FONDO3
@@ -215,20 +221,20 @@ bool GameParser::evaluateTagNivel2(){
 		strFondo3.append(tagNivel2Node->FirstChildElement(TAG_FONDO3)->GetText());
 	    if (!strFondo3.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO3 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo3Nivel2 = strFondo3;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO3 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
-	return sucess;
+	return success;
 }
 
 bool GameParser::evaluateTagNivel3(){
-	bool sucess = true;
+	bool success = true;
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
@@ -248,13 +254,13 @@ bool GameParser::evaluateTagNivel3(){
 		strFondo1.append(tagNivel3Node->FirstChildElement(TAG_FONDO1)->GetText());
 	    if (!strFondo1.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO1 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo1Nivel3 = strFondo1;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO1 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
     //TAG_FONDO2
@@ -264,14 +270,14 @@ bool GameParser::evaluateTagNivel3(){
 		strFondo2.append(tagNivel3Node->FirstChildElement(TAG_FONDO2)->GetText());
 	    if (!strFondo2.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO2 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo2Nivel3 = strFondo2;
         //cout << this->fondo2Nivel3 << endl;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO2 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
     //TAG_FONDO3
@@ -281,46 +287,46 @@ bool GameParser::evaluateTagNivel3(){
 		strFondo3.append(tagNivel3Node->FirstChildElement(TAG_FONDO3)->GetText());
 	    if (!strFondo3.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO3 esta vacio");
-	    	sucess = false;
+	    	success = false;
 	    }
 
         this->fondo3Nivel3 = strFondo3;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO3 no existe o tiene valores invalidos");
-		sucess = false;
+		success = false;
 	}
 
-	return sucess;
+	return success;
 }
 
 bool GameParser::evaluateDataXML (){
-	bool sucess = true;
+	bool success = true;
 
-	sucess = this->evaluateTagDebug();
-	if (sucess) {
+	success = this->evaluateTagDebug();
+	if (success) {
 		LOGGER_DEBUG("TAG_DEBUG, evaluacion aprobada");
 	}
 
-	sucess = this->evaluateTagNivel1();
-	if (sucess) {
+	success = this->evaluateTagNivel1();
+	if (success) {
 		LOGGER_DEBUG("TAG_NIVEL1, evaluacion aprobada");
 	}
 
-	sucess = this->evaluateTagNivel2();
-	if (sucess) {
+	success = this->evaluateTagNivel2();
+	if (success) {
 		LOGGER_DEBUG("TAG_NIVEL2, evaluacion aprobada");
 	}
 
-	sucess = this->evaluateTagNivel3();
-	if (sucess) {
+	success = this->evaluateTagNivel3();
+	if (success) {
 		LOGGER_DEBUG("TAG_NIVEL3, evaluacion aprobada");
 	}
 
-	return sucess;
+	return success;
 }
 
 bool GameParser::loadConfiguration() {
-	bool sucess = true;
+	bool success = true;
 
 	this->tiXmlFileConfig = new TiXmlDocument (Constants::FILE_CONFIGURATION);
 	if (this->tiXmlFileConfig->LoadFile()) {
@@ -344,10 +350,10 @@ bool GameParser::loadConfiguration() {
 				delete this->tiXmlFileConfig;
 				this->defaultfileConfigLoaded = false;
 			}
-			sucess = false;
+			success = false;
 		}
 	}
-	return sucess;
+	return success;
 }
 
 GameParser::~GameParser() {

@@ -8,6 +8,12 @@ int main(int argc, char* args[])
 
 	LOGGER_INIT_FILELESS(Logger::ERROR);
 
+	GameParser* parser = new GameParser();
+
+	if (parser->loadConfiguration()) {
+		parser->loadDataParserModel();
+	}
+
 	GameView* view = new GameView();
 
 	if(!view->init())
@@ -23,7 +29,7 @@ int main(int argc, char* args[])
 		Uint32 timeAtIterationStart;
 		int iterationTime;
 
-		synergy = new Game(view);
+		synergy = new Game(parser, view);
 
 		synergy->init();
 

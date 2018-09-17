@@ -8,6 +8,7 @@
 #ifndef SRC_LEVEL_HH_
 #define SRC_LEVEL_HH_
 
+#include "GameParser.hh"
 #include "GameView.hh"
 #include "Parallax.hh"
 #include "Platform.hh"
@@ -17,7 +18,7 @@ class Level
 {
 	public:
 
-		Level(GameView* gameView, LevelNumber _level);
+		Level(GameParser* gameParser, GameView* gameView, LevelNumber _level);
 
 		void render();
 		void destroy();
