@@ -6,7 +6,7 @@
  */
 
 #include "Parallax.hh"
-#include <iostream>
+#include "Logger.hh"
 
 Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, LevelNumber _level) {
 
@@ -18,8 +18,10 @@ Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, Le
 	screenPosX = 0;
 	screenPosY = 0;
 
+	LOGGER_INFO("Parallax: Inicio creación de sprites");
 	bgSprite1 = new Sprite(view, bgPath1, 1920, 1080, screenWidth, screenHeight);
     bgSprite2 = new Sprite(view, bgPath2, 1920, 1080, screenWidth, screenHeight);
+    LOGGER_INFO("Parallax: Finalizo creación de sprites");
 
 	bgScrollingOffsetX1 = 0;
 	bgScrollingOffsetY1 = 0;
@@ -35,6 +37,7 @@ void Parallax::render() {
 
 	//PARALLAX SIGUIENDO A LA CÁMARA (SÓLO CUANDO SCROLLEA EN EL BORDE)
 	if (playerAtBorder) {
+		LOGGER_DEBUG("Parallax: Calculo scrolling offset");
 		if (level == LEVEL1 || level == LEVEL3) {
 			bgScrollingOffsetX2 -= 4;
 			bgScrollingOffsetX1 -= 8;
@@ -47,6 +50,7 @@ void Parallax::render() {
 
 	//Chequeo que el offset esté siempre entre los límites de 0 y screenWidth
 	if (level == LEVEL1 || level == LEVEL3) {
+		LOGGER_DEBUG("Parallax: Verifico que los offsets esté dentro de los límites de la pantalla");
 		if( bgScrollingOffsetX2 < -screenWidth) {
 			bgScrollingOffsetX2 += screenWidth;
 		}
@@ -67,6 +71,7 @@ void Parallax::render() {
 	//FONDO 2
 	screenPosX = bgScrollingOffsetX2;
 	screenPosY = bgScrollingOffsetY2;
+	LOGGER_DEBUG("Parallax: Renderizo primera iteración de FONDO 2");
 	bgSprite2->render(screenPosX, screenPosY);
 	if (level == LEVEL1 || level == LEVEL3) {
 		screenPosX += screenWidth;
@@ -74,11 +79,13 @@ void Parallax::render() {
 	else {
 		screenPosY -= screenHeight;
 	}
+	LOGGER_DEBUG("Parallax: Renderizo segunda iteración de FONDO 2");
 	bgSprite2->render(screenPosX, screenPosY);
 
 	//FONDO 1
 	screenPosX = bgScrollingOffsetX1;
 	screenPosY = bgScrollingOffsetY1;
+	LOGGER_DEBUG("Parallax: Renderizo primera iteración de FONDO 1");
 	bgSprite1->render(screenPosX, screenPosY);
 	if (level == LEVEL1 || level == LEVEL3) {
 		screenPosX += screenWidth;
@@ -86,6 +93,7 @@ void Parallax::render() {
 	else {
 		screenPosY -= screenHeight;
 	}
+	LOGGER_DEBUG("Parallax: Renderizo segunda iteración de FONDO 1");
 	bgSprite1->render(screenPosX, screenPosY);
 
 
@@ -168,13 +176,15 @@ void Parallax::render() {
 }
 
 void Parallax::updatePlayerPos(int _playerPosX, int _playerPosY, bool _playerAtBorder) {
+	LOGGER_DEBUG("Parallax: Actualizo posición del jugador y verifico si está en el margen para Parallax");
 	playerPosX = _playerPosX;
 	playerPosY = _playerPosY;
 	playerAtBorder = _playerAtBorder;
-
 }
 
 Parallax::~Parallax() {
+	LOGGER_INFO("Parallax: Inicio destrucción de sprites");
 	bgSprite1->destroy();
 	bgSprite2->destroy();
+	LOGGER_INFO("Parallax: Finalizó destrucción de sprites");
 }
