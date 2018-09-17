@@ -4,19 +4,31 @@
 	</debug>
 	<escenarios>
 		<nivel1>
-			<fondo1>file11.bmp</fondo1>
-			<fondo2>file12.bmp</fondo2>
-			<fondo3>file13.bmp</fondo3>
+			<fondo1>imagenes/ContraLevel1BackgroundRezised8312x600.png</fondo1>
+			<fondo2>imagenes/ContraLevel1Mountains.png</fondo2>
+			<fondo3>imagenes/ContraLevel1Night.png</fondo3>
+			<plataforma>
+				<tipo>piedra</tipo>
+				<xi>500</xi>
+				<xf>850</xf>
+				<y>350</y>
+			</plataforma>
+			<plataforma>
+				<tipo>hielo</tipo>
+				<xi>4000</xi>
+				<xf>4500</xf>
+				<y>420</y>
+			</plataforma>
 		</nivel1>
 		<nivel2>
-			<fondo1>file21.bmp</fondo1>
-			<fondo2>file22.bmp</fondo2>
-			<fondo3>file23.bmp</fondo3>
+			<fondo1>imagenes/ContraLevel3BackgroundRezised800x6797.png</fondo1>
+			<fondo2>imagenes/ContraLevel1Mountains.png</fondo2>
+			<fondo3>imagenes/ContraLevel1Night.png</fondo3>
 		</nivel2>
 		<nivel3>
-			<fondo1>file31.bmp</fondo1>
-			<fondo2>file32.bmp</fondo2>
-			<fondo3>file33.bmp</fondo3>
+			<fondo1>imagenes/ContraLevel5BackgroundRezised12760x600.png</fondo1>
+			<fondo2>imagenes/ContraLevel1Mountains.png</fondo2>
+			<fondo3>imagenes/ContraLevel1Night.png</fondo3>
 		</nivel3>
 	</escenarios>
 </configuration>
