@@ -35,10 +35,10 @@ class Player
 		void walkLeft();
 		void walkRight();
 		void pointUP();
-		void pointFront();
-		void pointBack();
+		void pointDefault();
 		void pointDown();
 		void bodyToGround();
+		void normalState();
 		void shoot();
 
 		void handleKeys(const Uint8* _currentKeyStates);
@@ -58,8 +58,6 @@ class Player
 			STATE_POINTFRONT,
 			STATE_POINTDOWN,
 			STATE_POINTBODYTOGROUND,
-			STATE_JUMPINGUP_BACK,
-			STATE_JUMPINGDOWN_BACK,
 			STATE_POINTUP_BACK,
 			STATE_POINTDOWN_BACK,
 			STATE_POINTBODYTOGROUND_BACK,

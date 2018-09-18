@@ -26,8 +26,6 @@ Player::Player(GameView* _view)
 	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png",512, 384,64, 64);
 	animations[STATE_POINTDOWN] = new Sprite(gameView,"image/pointDown.png",512, 384, 64, 64);
 	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,"image/bodyToGround.png",512, 384,64, 64);
-	animations[STATE_JUMPINGUP_BACK] = new Sprite(gameView,"image/jumpUpBack.png",128, 128, 64, 64);
-	animations[STATE_JUMPINGDOWN_BACK] = new Sprite(gameView,"image/jumpDownBack.png",128, 128,64, 64);
 	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,"image/pointDownBack.png",128, 128, 64, 64);
 	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,"image/bodyToGroundBack.png",128, 128,64, 64);
 	animations[STATE_POINTUP_BACK] = new Sprite(gameView,"image/pointUpBack.png",128, 128, 64, 64);
@@ -76,7 +74,7 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 
 			else if(currentKeyStates[SDL_SCANCODE_LCTRL] ) 	this->bodyToGround();
 
-			else if(!currentKeyStates[SDL_SCANCODE_DOWN]|| !currentKeyStates[SDL_SCANCODE_DOWN] ) this->pointFront();
+			else if(!currentKeyStates[SDL_SCANCODE_DOWN]|| !currentKeyStates[SDL_SCANCODE_UP] ) this->pointDefault();
 
 			this->shoot();
 		}
@@ -96,7 +94,7 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 
 			else if(currentKeyStates[SDL_SCANCODE_LCTRL] ) 	this->bodyToGround();
 
-			else if(!currentKeyStates[SDL_SCANCODE_DOWN]|| !currentKeyStates[SDL_SCANCODE_DOWN] ) this->pointBack();
+			else if(!currentKeyStates[SDL_SCANCODE_DOWN]|| !currentKeyStates[SDL_SCANCODE_UP] ) this->pointDefault();
 
 			this->shoot();
 		}
@@ -113,9 +111,8 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 
 			else if(currentKeyStates[SDL_SCANCODE_DOWN])	this->pointDown();
 
-			else if(!currentKeyStates[SDL_SCANCODE_DOWN]|| !currentKeyStates[SDL_SCANCODE_DOWN] ) {
-				if(direction == DIRECTION_BACK) this->pointBack();
-				else this->pointFront();
+			else if(!currentKeyStates[SDL_SCANCODE_DOWN]|| !currentKeyStates[SDL_SCANCODE_UP] ) {
+				this->pointDefault();
 			}
 		}
 		this->jump();
@@ -123,9 +120,22 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	/*disparo a tierra*/
 	else if(currentKeyStates[SDL_SCANCODE_Z]) {
 		this->shoot();
-		if(currentKeyStates[SDL_SCANCODE_LCTRL])  this->bodyToGround();
+
+		if(currentKeyStates[SDL_SCANCODE_UP]&& !currentKeyStates[SDL_SCANCODE_LCTRL])	this->pointUP();
+
+		else if(currentKeyStates[SDL_SCANCODE_DOWN]&& !currentKeyStates[SDL_SCANCODE_LCTRL])	this->pointDown();
+
+		else if(currentKeyStates[SDL_SCANCODE_LCTRL] ) 	this->bodyToGround();
+
+		else if(!currentKeyStates[SDL_SCANCODE_LCTRL] ) this->pointDefault();
+
+		else if(!currentKeyStates[SDL_SCANCODE_DOWN]|| !currentKeyStates[SDL_SCANCODE_UP] ) this->pointDefault();
+
+		else if(!currentKeyStates[SDL_SCANCODE_RIGHT] || !currentKeyStates[SDL_SCANCODE_LEFT]) {this->normalState();}
 	}
+
 	/*direccion de disparo con el personaje parado*/
+	else if(!currentKeyStates[SDL_SCANCODE_RIGHT]|| !currentKeyStates[SDL_SCANCODE_LEFT]|| currentKeyStates[SDL_SCANCODE_Z]) {this->normalState();}
 	else if(currentKeyStates[SDL_SCANCODE_UP]) { this->pointUP(); }
 	else if(currentKeyStates[SDL_SCANCODE_DOWN]) { this->pointDown(); }
 	else if(currentKeyStates[SDL_SCANCODE_LCTRL]) { this->bodyToGround(); }
@@ -194,37 +204,50 @@ void Player::walkRight(){
 void Player::pointUP(){
 	if(direction == DIRECTION_BACK){
 		aimingAt = AIM_UP_BACK;
-		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
+		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN
+						&&state != STATE_WALKINGLEFT&& state!= STATE_WALKINGRIGHT){
 			state=STATE_POINTUP_BACK;
 		}
 	}else {
-		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
+		aimingAt = AIM_UP;
+		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN
+						&&state != STATE_WALKINGLEFT&& state!= STATE_WALKINGRIGHT){
 			state=STATE_POINTUP;
 		}
-		aimingAt = AIM_UP;
 	}
 }
 
 void Player::pointDown(){
 	if(direction == DIRECTION_BACK) {
 		aimingAt = AIM_DOWN_BACK;
-		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
+		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN
+				&&state != STATE_WALKINGLEFT&& state!= STATE_WALKINGRIGHT){
 			state=STATE_POINTDOWN_BACK;
 		}
 	}else {
 		aimingAt = AIM_DOWN;
-		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
+		if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN
+				&&state != STATE_WALKINGLEFT&& state!= STATE_WALKINGRIGHT){
 			state=STATE_POINTDOWN;
 		}
 	}
 }
 
-void Player::pointBack(){
-	aimingAt = AIM_BACK;
-}
+void Player::pointDefault(){
 
-void Player::pointFront(){
-	aimingAt= AIM_FRONT;
+	if(state ==STATE_POINTBODYTOGROUND || state ==STATE_POINTBODYTOGROUND_BACK ){
+		if(direction == DIRECTION_BACK) {
+				aimingAt = AIM_BACK;
+				state = STATE_POINTFRONT;
+		}else {
+		aimingAt = AIM_FRONT;
+		state = STATE_POINTFRONT;
+		}
+	}else {
+		if(direction == DIRECTION_BACK) {
+			aimingAt = AIM_BACK;
+		}else aimingAt = AIM_FRONT;
+	}
 }
 
 void Player::bodyToGround(){
@@ -236,6 +259,11 @@ void Player::bodyToGround(){
 			aimingAt = AIM_BODYTOGROUND;
 			state = STATE_POINTBODYTOGROUND;
 		}
+	}
+}
+void Player::normalState(){
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
+		state= STATE_STANDING;
 	}
 }
 
