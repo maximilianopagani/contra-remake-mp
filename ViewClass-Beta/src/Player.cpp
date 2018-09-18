@@ -50,7 +50,10 @@ Player::~Player()
 
 void Player::render()
 {
-	animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
+	//if(!gameView->outOfWindow(pos_x, pos_y)) // EN este caso tampoco haria falta porque el player nunca se deberia mover afuera de la ventana. Se deberia limitar dentro del mov del player
+	//{
+		animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
+	//}
 
     // Renderizado de balas
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
@@ -247,7 +250,7 @@ void Player::normalState(){
 void Player::shoot()
 {
 	Uint32 currentShotTime = gameView->getTicks();
-	int distanceToTravel = 800;
+	int distanceToTravel = 400;
 
 	if((currentShotTime - lastShotTime) > shotCooldown)
 	{

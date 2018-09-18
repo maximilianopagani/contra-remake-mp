@@ -31,10 +31,7 @@ Sprite::~Sprite()
 
 void Sprite::render(int x, int y)
 {
-//	if(!gameView->outOfWindow(x, y)) // Si es el mapa (viene con applyOffset false) o si es otro objecto dentro de la ventana
-//	{
-		gameView->draw(texture, &src, x, y, destinationWidth, destinationHeight);
-//	}
+	gameView->draw(texture, &src, x, y, destinationWidth, destinationHeight);
 }
 
 void Sprite::update()

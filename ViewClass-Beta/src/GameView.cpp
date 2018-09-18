@@ -88,7 +88,7 @@ bool GameView::init()
 bool GameView::outOfWindow(int x, int y)
 {
 	// Esto chequea para la posicion absoluta pasada por parametro, si luego del ajuste del offset queda dentro o fuera de la ventana
-	if((x - camera_x_position) > (windowWidth - 20) || (x - camera_x_position) < 10 || (y - camera_y_position) < 20 || (y - camera_y_position) > (windowHeight - 20))
+	if((x - camera_x_position) > (windowWidth - 20) || (x - camera_x_position) < 10 || (y - camera_y_position) < 10 || (y - camera_y_position) > (windowHeight - 10))
 		return true;
 	else
 		return false;
@@ -101,6 +101,8 @@ void GameView::clear()
 
 void GameView::draw(SDL_Texture* texture, SDL_Rect* src, int posXinCamera, int posYinCamera, int width, int height)
 {
+	SDL_Rect rectToDraw;
+
 	rectToDraw.x = posXinCamera;
 	rectToDraw.y = posYinCamera;
 	rectToDraw.w = width;
@@ -137,7 +139,7 @@ SDL_Texture* GameView::textureGenerator(std::string path)
 	if(surface == NULL)
 	{
 		LOGGER_ERROR("Imposible cargar " + path + " - SDL_Image_Error: " + IMG_GetError());
-		//ACA PONER UNA IMAGEN POR DEFECTO CUANDO NOS QUITAN UNA IMAGEN PARA LAS PRUEBAS
+		//ACA PONER UNA IMAGEN POR DEFECTO CUANDO NOS QUITAN UNA IMAGEN PARA LAS PRUEBAS. ESto se deberia hacer al momento de cargar la sprite. SI la carga desde el file falla, cargar desde el default
 	}
 	else
 	{

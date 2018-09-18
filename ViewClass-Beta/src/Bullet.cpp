@@ -38,5 +38,8 @@ bool Bullet::outOfLimits()
 
 void Bullet::render()
 {
-	sprite->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
+	//if(!gameView->outOfWindow(pos_x, pos_y)) EN este caso de las balas no haria falta porque la bala al salir de la ventana se borra en outOfLimits()
+	//{
+		sprite->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
+	//}
 }
