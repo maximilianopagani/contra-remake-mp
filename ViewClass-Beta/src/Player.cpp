@@ -135,7 +135,6 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	}
 
 	/*direccion de disparo con el personaje parado*/
-	else if(!currentKeyStates[SDL_SCANCODE_RIGHT]|| !currentKeyStates[SDL_SCANCODE_LEFT]|| currentKeyStates[SDL_SCANCODE_Z]) {this->normalState();}
 	else if(currentKeyStates[SDL_SCANCODE_UP]) { this->pointUP(); }
 	else if(currentKeyStates[SDL_SCANCODE_DOWN]) { this->pointDown(); }
 	else if(currentKeyStates[SDL_SCANCODE_LCTRL]) { this->bodyToGround(); }
