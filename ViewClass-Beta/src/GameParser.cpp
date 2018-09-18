@@ -17,14 +17,23 @@ GameParser::GameParser() {
 	this->fondo3Nivel3 = "";
 }
 
-void GameParser::loadDataParserModel(){
+void GameParser::testDataParserModel(){
 	// PROBANDO ...
 	cout << "El nivel de loggueo almacenado en el parser es: ";
 	cout << getLevel() << endl;
+	std::list<PlataformaParser>::iterator it;
+	std::list<PlataformaParser> lista;
+
+	lista = this->getPlataformas();
+    for (it=lista.begin(); it != lista.end();it++){
+        int dato = (*it).getId();
+    	cout << "El id de la plataforma es: ";
+    	cout << dato << endl;
+    }
 }
 
 bool GameParser::evaluateTagDebug(){
-	bool success = true;
+	bool sucess = true;
 	string strLevel;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
@@ -47,7 +56,7 @@ bool GameParser::evaluateTagDebug(){
 			LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("TAG_LEVEL esta vacio");
 			LOGGER_KILL();
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->level = strLevel;
@@ -55,17 +64,17 @@ bool GameParser::evaluateTagDebug(){
 			LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("TAG_LEVEL es desconocido");
 			LOGGER_KILL();
-			success = false;
+			sucess = false;
 		}
 
 	} else {
 		LOGGER_INIT(Logger::ERROR);
 		LOGGER_ERROR("TAG_LEVEL no existe o tiene valores invalidos");
 		LOGGER_KILL();
-		success = false;
+		sucess = false;
 	}
 
-	if (success) {
+	if (sucess) {
 		if (!(this->level.compare("ERROR"))){
 			LOGGER_INIT(Logger::ERROR);
 			if (this->fileConfigLoaded == true) {
@@ -100,11 +109,11 @@ bool GameParser::evaluateTagDebug(){
 		}
 	}
 
-	return success;
+	return sucess;
 }
 
 bool GameParser::evaluateTagNivel1(){
-	bool success = true;
+	bool sucess = true;
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
@@ -124,13 +133,13 @@ bool GameParser::evaluateTagNivel1(){
 		strFondo1.append(tagNivel1Node->FirstChildElement(TAG_FONDO1)->GetText());
 	    if (!strFondo1.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO1 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo1Nivel1 = strFondo1;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO1 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
     //TAG_FONDO2
@@ -140,13 +149,13 @@ bool GameParser::evaluateTagNivel1(){
 		strFondo2.append(tagNivel1Node->FirstChildElement(TAG_FONDO2)->GetText());
 	    if (!strFondo2.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO2 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo2Nivel1 = strFondo2;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO2 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
     //TAG_FONDO3
@@ -156,20 +165,20 @@ bool GameParser::evaluateTagNivel1(){
 		strFondo3.append(tagNivel1Node->FirstChildElement(TAG_FONDO3)->GetText());
 	    if (!strFondo3.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO3 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo3Nivel1 = strFondo3;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO3 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
-	return success;
+	return sucess;
 }
 
 bool GameParser::evaluateTagNivel2(){
-	bool success = true;
+	bool sucess = true;
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
@@ -189,13 +198,13 @@ bool GameParser::evaluateTagNivel2(){
 		strFondo1.append(tagNivel2Node->FirstChildElement(TAG_FONDO1)->GetText());
 	    if (!strFondo1.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO1 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo1Nivel2 = strFondo1;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO1 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
     //TAG_FONDO2
@@ -205,13 +214,13 @@ bool GameParser::evaluateTagNivel2(){
 		strFondo2.append(tagNivel2Node->FirstChildElement(TAG_FONDO2)->GetText());
 	    if (!strFondo2.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO2 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo2Nivel2 = strFondo2;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO2 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
     //TAG_FONDO3
@@ -221,20 +230,20 @@ bool GameParser::evaluateTagNivel2(){
 		strFondo3.append(tagNivel2Node->FirstChildElement(TAG_FONDO3)->GetText());
 	    if (!strFondo3.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO3 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo3Nivel2 = strFondo3;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO3 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
-	return success;
+	return sucess;
 }
 
 bool GameParser::evaluateTagNivel3(){
-	bool success = true;
+	bool sucess = true;
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
@@ -254,13 +263,13 @@ bool GameParser::evaluateTagNivel3(){
 		strFondo1.append(tagNivel3Node->FirstChildElement(TAG_FONDO1)->GetText());
 	    if (!strFondo1.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO1 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo1Nivel3 = strFondo1;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO1 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
     //TAG_FONDO2
@@ -270,14 +279,14 @@ bool GameParser::evaluateTagNivel3(){
 		strFondo2.append(tagNivel3Node->FirstChildElement(TAG_FONDO2)->GetText());
 	    if (!strFondo2.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO2 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo2Nivel3 = strFondo2;
         //cout << this->fondo2Nivel3 << endl;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO2 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
     //TAG_FONDO3
@@ -287,46 +296,171 @@ bool GameParser::evaluateTagNivel3(){
 		strFondo3.append(tagNivel3Node->FirstChildElement(TAG_FONDO3)->GetText());
 	    if (!strFondo3.compare(VALUE_EMPTY)) {
 	    	LOGGER_DEBUG("TAG_FONDO3 esta vacio");
-	    	success = false;
+	    	sucess = false;
 	    }
 
         this->fondo3Nivel3 = strFondo3;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO3 no existe o tiene valores invalidos");
-		success = false;
+		sucess = false;
 	}
 
-	return success;
+	return sucess;
+}
+
+
+bool GameParser::evaluateTagPlataformas(){
+	bool sucess = true;
+	TiXmlNode* tagIDNode = NULL;
+	TiXmlNode* tagTipoNode = NULL;
+	TiXmlNode* tagXInicialNode = NULL;
+	TiXmlNode* tagXFinalNode = NULL;
+	TiXmlNode* tagXAlturaNode = NULL;
+	string strID = ZERO;
+	string strTipo = VALUE_EMPTY;
+	string strXInicial = ZERO;
+	string strXFinal = ZERO;
+	string strAltura = ZERO;
+
+	PlataformaParser plataformaParser;
+
+	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
+	TiXmlElement* tagPlataformaElement = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToElement();
+
+    int cant=1;
+	for (tagPlataformaElement; tagPlataformaElement; tagPlataformaElement = tagPlataformaElement->NextSiblingElement()) {
+		cout << "La plataforma a evaluar es la nro: ";
+		cout << cant << endl;
+		sucess = true;
+
+		//TAG_ID
+		tagIDNode = tagPlataformaElement->FirstChildElement(TAG_ID);
+		if ((tagIDNode)&&(tagPlataformaElement->FirstChildElement(TAG_ID)->GetText())) {
+			strID.clear();
+			strID.append(tagPlataformaElement->FirstChildElement(TAG_ID)->GetText());
+		    if (!strID.compare(ZERO)) {
+		    	LOGGER_DEBUG("TAG_ID es cero");
+		    	sucess = false;
+		    }
+	        plataformaParser.setId(atoi(strID.c_str()));
+		} else {
+			LOGGER_DEBUG("TAG_ID no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+		//TAG_TIPO
+		tagTipoNode = tagPlataformaElement->FirstChildElement(TAG_TIPO);
+		if ((tagTipoNode)&&(tagPlataformaElement->FirstChildElement(TAG_TIPO)->GetText())) {
+			strTipo.clear();
+			strTipo.append(tagPlataformaElement->FirstChildElement(TAG_TIPO)->GetText());
+		    if (!strTipo.compare(VALUE_EMPTY)) {
+		    	LOGGER_DEBUG("TAG_TIPO esta vacio");
+		    	sucess = false;
+		    }
+		    plataformaParser.setTipo(strTipo);
+		} else {
+			LOGGER_DEBUG("TAG_TIPO no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+	    //TAG_XINICIAL
+		tagXInicialNode = tagPlataformaElement->FirstChildElement(TAG_XINICIAL);
+		if ((tagXInicialNode)&&(tagPlataformaElement->FirstChildElement(TAG_XINICIAL)->GetText())) {
+			strXInicial.clear();
+			strXInicial.append(tagPlataformaElement->FirstChildElement(TAG_XINICIAL)->GetText());
+		    if (!strXInicial.compare(ZERO)) {
+		    	LOGGER_DEBUG("TAG_XINICIAL es cero");
+		    	sucess = false;
+		    }
+	        plataformaParser.setXInicial(atoi(strXInicial.c_str()));
+		} else {
+			LOGGER_DEBUG("TAG_XINICIAL no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+	    //TAG_XFINAL
+		tagXFinalNode = tagPlataformaElement->FirstChildElement(TAG_XFINAL);
+		if ((tagXFinalNode)&&(tagPlataformaElement->FirstChildElement(TAG_XFINAL)->GetText())) {
+			strXFinal.clear();
+			strXFinal.append(tagPlataformaElement->FirstChildElement(TAG_XFINAL)->GetText());
+		    if (!strXFinal.compare(ZERO)) {
+		    	LOGGER_DEBUG("TAG_XFINAL es cero");
+		    	sucess = false;
+		    }
+
+	        plataformaParser.setXFinal(atoi(strXFinal.c_str()));
+		} else {
+			LOGGER_DEBUG("TAG_XFINAL no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+	    //TAG_ALTURA
+		tagXAlturaNode = tagPlataformaElement->FirstChildElement(TAG_ALTURA);
+		if ((tagXAlturaNode)&&(tagPlataformaElement->FirstChildElement(TAG_ALTURA)->GetText())) {
+			strAltura.clear();
+			strAltura.append(tagPlataformaElement->FirstChildElement(TAG_ALTURA)->GetText());
+		    if (!strAltura.compare(ZERO)) {
+		    	LOGGER_DEBUG("TAG_ALTURA es cero");
+		    	sucess = false;
+		    }
+		    plataformaParser.setAltura(atoi(strAltura.c_str()));
+		} else {
+			LOGGER_DEBUG("TAG_ALTURA no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+		if (sucess) {
+			this->plataformas.push_back(plataformaParser);
+	    	cout << "El tipo de la plataforma es: ";
+	    	cout << plataformaParser.getTipo() << endl;
+			cant++;
+		}
+	}
+
+	return sucess;
 }
 
 bool GameParser::evaluateDataXML (){
-	bool success = true;
+	bool sucess = true;
 
-	success = this->evaluateTagDebug();
-	if (success) {
+	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
+
+	sucess = this->evaluateTagDebug();
+	if (sucess) {
 		LOGGER_DEBUG("TAG_DEBUG, evaluacion aprobada");
 	}
 
-	success = this->evaluateTagNivel1();
-	if (success) {
+	sucess = this->evaluateTagNivel1();
+	if (sucess) {
 		LOGGER_DEBUG("TAG_NIVEL1, evaluacion aprobada");
 	}
 
-	success = this->evaluateTagNivel2();
-	if (success) {
+	TiXmlNode* tagPlataforma = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToNode();
+	if (tagPlataforma) {
+		sucess = this->evaluateTagPlataformas();
+		if (sucess) {
+			LOGGER_DEBUG("TAG_PLATAFORMAS, evaluacion aprobada");
+		}
+	} else {
+		LOGGER_DEBUG("TAG_PLATAFORMAS no existe");
+    	return false;
+	}
+
+	sucess = this->evaluateTagNivel2();
+	if (sucess) {
 		LOGGER_DEBUG("TAG_NIVEL2, evaluacion aprobada");
 	}
 
-	success = this->evaluateTagNivel3();
-	if (success) {
+	sucess = this->evaluateTagNivel3();
+	if (sucess) {
 		LOGGER_DEBUG("TAG_NIVEL3, evaluacion aprobada");
 	}
 
-	return success;
+	return sucess;
 }
 
 bool GameParser::loadConfiguration() {
-	bool success = true;
+	bool sucess = true;
 
 	this->tiXmlFileConfig = new TiXmlDocument (Constants::FILE_CONFIGURATION);
 	if (this->tiXmlFileConfig->LoadFile()) {
@@ -350,10 +484,10 @@ bool GameParser::loadConfiguration() {
 				delete this->tiXmlFileConfig;
 				this->defaultfileConfigLoaded = false;
 			}
-			success = false;
+			sucess = false;
 		}
 	}
-	return success;
+	return sucess;
 }
 
 GameParser::~GameParser() {
@@ -406,4 +540,8 @@ const string& GameParser::getFondo3Nivel3() const {
 
 const string& GameParser::getLevel() const {
 	return level;
+}
+
+const std::list<PlataformaParser>& GameParser::getPlataformas() const {
+	return plataformas;
 }

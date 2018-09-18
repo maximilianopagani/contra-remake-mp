@@ -1,22 +1,52 @@
 <configuration>
 	<debug>
-		<level>INFO</level>
+		<level>DEBUG</level>
 	</debug>
 	<escenarios>
 		<nivel1>
-			<fondo1>defaultFile11.bmp</fondo1>
-			<fondo2>defaultFile12.bmp</fondo2>
-			<fondo3>defaultFile13.bmp</fondo3>
+			<fondo1>imagenes/fondos/set1/ARBOL1 8000x600.png</fondo1>
+			<fondo2>imagenes/fondos/set1/ARBOL2+ARBUSTOS+COLINASFRONT 7950x600.png</fondo2>
+			<fondo3>imagenes/fondos/set1/CIELO+COLINASBACK+NUBES+SOL 4608x600.png</fondo3>
+			<plataformas>
+				<plataforma>
+					<id>1</id>
+					<tipo>piedra</tipo>
+					<xinicial>500</xinicial>
+					<xfinal>850</xfinal>
+					<altura>350</altura>
+				</plataforma>
+				<plataforma>
+					<id>2</id>				
+					<tipo>hielo</tipo>
+					<xinicial>4000</xinicial>
+					<xfinal>4500</xfinal>
+					<altura>420</altura>
+				</plataforma>
+				<plataforma>
+					<id>3</id>				
+					<tipo>piedra</tipo>
+					<xinicial>1500</xinicial>
+					<xfinal>2000</xfinal>
+					<altura>350</altura>
+				</plataforma>
+				<plataforma>
+					<id>4</id>				
+					<tipo>hielo</tipo>
+					<xinicial>3000</xinicial>
+					<xfinal>3500</xfinal>
+					<altura>420</altura>
+				</plataforma>
+			</plataformas>
 		</nivel1>
 		<nivel2>
-			<fondo1>defaultFile21.bmp</fondo1>
-			<fondo2>defaultFile22.bmp</fondo2>
-			<fondo3>defaultFile23.bmp</fondo3>
+			<fondo1>imagenes/fondos/ContraLevel3BackgroundRezised800x6797.png</fondo1>
+			<fondo2>imagenes/fondos/ContraLevel1Mountains.png</fondo2>
+			<fondo3>imagenes/fondos/ContraLevel1Night.png</fondo3>
 		</nivel2>
 		<nivel3>
-			<fondo1>defaultFile31.bmp</fondo1>
-			<fondo2>defaultFile32.bmp</fondo2>
-			<fondo3>defaultFile33.bmp</fondo3>
+			<fondo1>imagenes/fondos/set2/ARBOLES+ARBUSTOS 8000x600.png</fondo1>
+			<fondo2>imagenes/fondos/set2/COLINAS 7200x600.png</fondo2>
+			<fondo3>imagenes/fondos/set2/CIELO+NUBES+SOL 4800x600.png</fondo3>
 		</nivel3>
 	</escenarios>
 </configuration>

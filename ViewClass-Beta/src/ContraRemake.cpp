@@ -11,7 +11,7 @@ int main(int argc, char* args[])
 	GameParser* parser = new GameParser();
 
 	if (parser->loadConfiguration()) {
-		parser->loadDataParserModel();
+		parser->testDataParserModel();
 	}
 
 	GameView* view = new GameView();

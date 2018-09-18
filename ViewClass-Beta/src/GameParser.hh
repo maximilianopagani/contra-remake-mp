@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include "Constants.hh"
 #include "Logger.hh"
+#include "PlataformaParser.hh"
+#include <list>
 
 using namespace std;
 
@@ -26,6 +28,8 @@ private:
 	string fondo2Nivel3;
 	string fondo3Nivel3;
 
+	std::list<PlataformaParser> plataformas;
+
 	//Others attributes
 	bool fileConfigLoaded;
 	bool defaultfileConfigLoaded;
@@ -33,14 +37,17 @@ private:
 	TiXmlDocument* tiXmlDefaultFileConfig;
 public:
 	GameParser();
-	void loadDataParserModel();
 	bool evaluateTagDebug();
 	bool evaluateTagNivel1();
+	bool evaluateTagPlataformas();
+	bool evaluateTagPlataforma1Nivel1();
+	bool evaluateTagPlataforma2Nivel1();
 	bool evaluateTagNivel2();
 	bool evaluateTagNivel3();
 	bool evaluateTagConfiguration();
 	bool evaluateDataXML();
 	bool loadConfiguration();
+	void testDataParserModel();
 
 	const string& getFondo1Nivel1() const;
 	const string& getFondo1Nivel2() const;
@@ -52,6 +59,7 @@ public:
 	const string& getFondo3Nivel2() const;
 	const string& getFondo3Nivel3() const;
 	const string& getLevel() const;
+	const std::list<PlataformaParser>& getPlataformas() const;
 
 	virtual ~GameParser();
 };
