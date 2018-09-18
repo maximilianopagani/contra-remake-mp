@@ -34,9 +34,9 @@ class Player
 		void jump();
 		void walkLeft();
 		void walkRight();
-		void pointUP();
-		void pointDefault();
-		void pointDown();
+		void pointUP(bool cond);
+		void pointDefault(bool cond);
+		void pointDown(bool cond);
 		void bodyToGround();
 		void normalState();
 		void shoot();
