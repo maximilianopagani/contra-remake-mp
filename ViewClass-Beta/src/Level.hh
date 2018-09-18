@@ -10,9 +10,11 @@
 
 #include "GameParser.hh"
 #include "GameView.hh"
-#include "Parallax.hh"
+//#include "Parallax.hh"
 #include "Platform.hh"
 #include "Sprite.hh"
+
+enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};
 
 class Level
 {
@@ -37,8 +39,13 @@ class Level
 	private:
 
 		GameView* gameView;
-		Sprite* sprite;
-		Parallax* parallax;
+
+		Sprite* background1Sprite;
+		Sprite* background2Sprite;
+		Sprite* background3Sprite;
+
+		//Sprite* sprite;
+		//Parallax* parallax;
 
 		int playerSpawnX, playerSpawnY, border;
 

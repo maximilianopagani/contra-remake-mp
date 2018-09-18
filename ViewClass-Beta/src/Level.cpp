@@ -17,8 +17,12 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			parallax = new Parallax(gameView, gameParser->getFondo2Nivel1(), gameParser->getFondo3Nivel1(), _level);
-			sprite = new Sprite(gameView, gameParser->getFondo1Nivel1(), 800, 600, 800, 600);
+			//parallax = new Parallax(gameView, gameParser->getFondo2Nivel1(), gameParser->getFondo3Nivel1(), _level);
+			//sprite = new Sprite(gameView, gameParser->getFondo1Nivel1(), 800, 600, 800, 600);
+
+			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel1(), 800, 600, 800, 600);
+			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel1(), 800, 600, 800, 600);
+			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel1(), 800, 600, 800, 600);
 
 			//se crean las plataformas, ej:
 			platforms.push_back(new Platform(gameView, Platform::WOOD, 150, 150, 33));
@@ -34,8 +38,12 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_VERTICAL;
 
-			parallax = new Parallax(gameView, gameParser->getFondo2Nivel2(), gameParser->getFondo3Nivel2(), _level);
-			sprite = new Sprite(gameView, gameParser->getFondo1Nivel2(), 800, 600, 800, 600);
+			//parallax = new Parallax(gameView, gameParser->getFondo2Nivel2(), gameParser->getFondo3Nivel2(), _level);
+			//sprite = new Sprite(gameView, gameParser->getFondo1Nivel2(), 800, 600, 800, 600);
+
+			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel2(), 800, 600, 800, 600);
+			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel2(), 800, 600, 800, 600);
+			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel2(), 800, 600, 800, 600);
 
 			playerSpawnX = 200;
 			playerSpawnY = 6600;
@@ -46,8 +54,12 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			parallax = new Parallax(gameView, gameParser->getFondo2Nivel3(), gameParser->getFondo3Nivel3(), _level);
-			sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
+			//parallax = new Parallax(gameView, gameParser->getFondo2Nivel3(), gameParser->getFondo3Nivel3(), _level);
+			//sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
+
+			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
+			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel3(), 800, 600, 800, 600);
+			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel3(), 800, 600, 800, 600);
 
 			playerSpawnX = 200;
 			playerSpawnY = 225;
@@ -59,15 +71,15 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
 		border = gameView->getWindowWidth() * 0.6; // Margen al 60% del ancho
-		sprite->setSourceRectXY(0, 0);
+		background1Sprite->setSourceRectXY(0, 0);
 	}
 	else
 	{
-		border = sprite->getTextureHeight() - gameView->getWindowHeight() * 0.6; // Margen al 60% de la altura
-		sprite->setSourceRectXY(0, sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+		border = background1Sprite->getTextureHeight() - gameView->getWindowHeight() * 0.6; // Margen al 60% de la altura
+		background1Sprite->setSourceRectXY(0, background1Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
 	}
 
-	gameView->setCameraPosition(sprite->getSourceRectX(), sprite->getSourceRectY()); // Ubicar la camara en la posicion donde arranca ese nivel
+	gameView->setCameraPosition(background1Sprite->getSourceRectX(), background1Sprite->getSourceRectY()); // Ubicar la camara en la posicion donde arranca ese nivel
 }
 
 Level::~Level()
@@ -77,8 +89,13 @@ Level::~Level()
 
 void Level::render()
 {
-	parallax->render();
-	sprite->render(0, 0);
+	//parallax->render();
+	//sprite->render(0, 0);
+
+	background3Sprite->render(0, 0);
+	background2Sprite->render(0, 0);
+	background1Sprite->render(0, 0);
+
     // Renderizado de plataformas
 	for(platformsIterator = platforms.begin(); platformsIterator != platforms.end();)
 	{
@@ -90,41 +107,53 @@ void Level::render()
 void Level::destroy()
 {
 	// LOGGER_INFO("Nivel destruido.");
-	sprite->destroy();
-	parallax->~Parallax();
+	//sprite->destroy();
+	//parallax->~Parallax();
+
+	background3Sprite->destroy();
+	background2Sprite->destroy();
+	background1Sprite->destroy();
 }
 
 void Level::moveForward(int playerPosX, int playerPosY)
 {
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
-		if((sprite->getSourceRectX() + gameView->getWindowWidth()) < sprite->getTextureWidth())
+		if((background1Sprite->getSourceRectX() + gameView->getWindowWidth()) < background1Sprite->getTextureWidth())
 		{
 			if(playerPosX >= border)
 			{
-				sprite->setSourceRectX(sprite->getSourceRectX() + (playerPosX - border));
+				background1Sprite->setSourceRectX(background1Sprite->getSourceRectX() + (playerPosX - border));
+				background2Sprite->setSourceRectX(background2Sprite->getSourceRectX() + (playerPosX - border) * 0.7);
+				background3Sprite->setSourceRectX(background3Sprite->getSourceRectX() + (playerPosX - border) * 0.3);
+
 				border = playerPosX;
-				gameView->setCameraPosX(sprite->getSourceRectX()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
-				parallax->updatePlayerPos(playerPosX, playerPosY, true);
+				gameView->setCameraPosX(background1Sprite->getSourceRectX()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
+
+				//parallax->updatePlayerPos(playerPosX, playerPosY, true);
 			}
 			else {
-				parallax->updatePlayerPos(playerPosX, playerPosY, false);
+				//parallax->updatePlayerPos(playerPosX, playerPosY, false);
 			}
 		}
 	}
 	else // Vertical
 	{
-		if(sprite->getSourceRectY() > 0)
+		if(background1Sprite->getSourceRectY() > 0)
 		{
 			if(playerPosY <= border)
 			{
-				sprite->setSourceRectY(sprite->getSourceRectY() - (border - playerPosY));
+				background1Sprite->setSourceRectY(background1Sprite->getSourceRectY() - (border - playerPosY));
+				background2Sprite->setSourceRectY(background2Sprite->getSourceRectY() - (border - playerPosY) * 0.7);
+				background3Sprite->setSourceRectY(background3Sprite->getSourceRectY() - (border - playerPosY) * 0.3);
+
 				border = playerPosY;
-				gameView->setCameraPosY(sprite->getSourceRectY()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
-				parallax->updatePlayerPos(playerPosX, playerPosY, true);
+				gameView->setCameraPosY(background1Sprite->getSourceRectY()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
+
+				//parallax->updatePlayerPos(playerPosX, playerPosY, true);
 			}
 			else {
-				parallax->updatePlayerPos(playerPosX, playerPosY, false);
+				//parallax->updatePlayerPos(playerPosX, playerPosY, false);
 			}
 		}
 	}
