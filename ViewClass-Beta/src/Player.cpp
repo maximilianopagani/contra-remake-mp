@@ -20,10 +20,13 @@ Player::Player(GameView* _view)
 	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png",128, 128, 64, 64);
 	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png",128, 128,64, 64);
 	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",512, 384,64, 64);
-	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumpUp.png",512, 384, 64, 64);
-	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumpDown.png",512, 384,64, 64);
+
+	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",128, 128, 64, 64);
+	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",128, 128,64, 64);
+
 	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png",512, 384,64, 64);
-	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png",512, 384,64, 64);
+	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png",128, 128,64, 64);
+	animations[STATE_POINTBACK] = new Sprite(gameView,"image/pointBack.png",128, 128,64, 64);
 	animations[STATE_POINTDOWN] = new Sprite(gameView,"image/pointDown.png",512, 384, 64, 64);
 	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,"image/bodyToGround.png",512, 384,64, 64);
 	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,"image/pointDownBack.png",128, 128, 64, 64);
@@ -133,6 +136,7 @@ void Player::update(){
 		case STATE_JUMPINGUP:
 				pos_y-=5;
 				maxDistanceJump-=5;
+				animations[state]->update();
 				if(maxDistanceJump == 0) {
 					state = STATE_JUMPINGDOWN;
 				}
@@ -140,6 +144,7 @@ void Player::update(){
 		case STATE_JUMPINGDOWN:
 				pos_y += 5;
 				maxDistanceJump += 5;
+				animations[state]->update();
 				if(maxDistanceJump == 150)  state = STATE_STANDING;
 				break;
 
@@ -216,7 +221,7 @@ void Player::pointDefault(bool cond){
 
 	if(cond){
 		if(direction == DIRECTION_BACK){
-			state=STATE_POINTFRONT;//ACA PONER ATRAS
+			state=STATE_POINTBACK;
 		}else state=STATE_POINTFRONT;
 	}
 }
