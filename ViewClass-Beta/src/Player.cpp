@@ -11,7 +11,7 @@ Player::Player(GameView* _view)
 {
 	gameView = _view;
 	pos_x = 200;
-	pos_y = 225;
+	pos_y = 425;
 	maxDistanceJump=150;
 
 	state = STATE_STANDING;
