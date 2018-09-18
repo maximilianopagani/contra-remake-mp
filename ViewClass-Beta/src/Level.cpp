@@ -30,7 +30,7 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 200, 96));
 
 			playerSpawnX = 200;
-			playerSpawnY = 225;
+			playerSpawnY = 400;
 
 			break;
 		}
@@ -46,7 +46,7 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel2(), 800, 600, 800, 600);
 
 			playerSpawnX = 200;
-			playerSpawnY = 6600;
+			playerSpawnY = 3850;
 
 			break;
 		}
@@ -62,7 +62,7 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel3(), 800, 600, 800, 600);
 
 			playerSpawnX = 200;
-			playerSpawnY = 225;
+			playerSpawnY = 400;
 
 			break;
 		}
@@ -77,6 +77,8 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 	{
 		border = background1Sprite->getTextureHeight() - gameView->getWindowHeight() * 0.6; // Margen al 60% de la altura
 		background1Sprite->setSourceRectXY(0, background1Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+		background2Sprite->setSourceRectXY(0, background2Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+		background3Sprite->setSourceRectXY(0, background3Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
 	}
 
 	gameView->setCameraPosition(background1Sprite->getSourceRectX(), background1Sprite->getSourceRectY()); // Ubicar la camara en la posicion donde arranca ese nivel
@@ -144,8 +146,8 @@ void Level::moveForward(int playerPosX, int playerPosY)
 			if(playerPosY <= border)
 			{
 				background1Sprite->setSourceRectY(background1Sprite->getSourceRectY() - (border - playerPosY));
-				background2Sprite->setSourceRectY(background2Sprite->getSourceRectY() - (border - playerPosY) * 0.7);
-				background3Sprite->setSourceRectY(background3Sprite->getSourceRectY() - (border - playerPosY) * 0.3);
+				background2Sprite->setSourceRectY(background2Sprite->getSourceRectY() - (border - playerPosY) * 0.3);
+				background3Sprite->setSourceRectY(background3Sprite->getSourceRectY() - (border - playerPosY) * 0.2);
 
 				border = playerPosY;
 				gameView->setCameraPosY(background1Sprite->getSourceRectY()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas

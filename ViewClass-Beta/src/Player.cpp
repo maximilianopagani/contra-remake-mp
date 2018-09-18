@@ -131,6 +131,9 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	if(currentKeyStates[SDL_SCANCODE_LCTRL]){
 			this->bodyToGround();
 	}
+	if(currentKeyStates[SDL_SCANCODE_A]){
+			pos_y-=5;
+	}
 }
 
 void Player::update(){
