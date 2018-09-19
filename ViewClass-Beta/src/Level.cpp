@@ -25,9 +25,14 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel1(), 800, 600, 800, 600);
 
 			//se crean las plataformas, ej:
-			platforms.push_back(new Platform(gameView, Platform::WOOD, 150, 150, 33));
-			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 150, 97));
-			platforms.push_back(new Platform(gameView, Platform::GRASS, 300, 200, 96));
+			platformParser = gameParser->getPlataformas();
+			for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++){
+				string platformType = (*platformParserIterator).getTipo();
+				int platformXInitial = (*platformParserIterator).getXInicial();
+				int platformXFinal = (*platformParserIterator).getXFinal();
+				int platformHeight = (*platformParserIterator).getAltura();
+				platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformHeight, platformXFinal - platformXInitial));
+			}
 
 			playerSpawnX = 200;
 			playerSpawnY = 400;

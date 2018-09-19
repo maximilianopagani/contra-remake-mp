@@ -8,7 +8,7 @@
 #include "Platform.hh"
 
 
-Platform::Platform(GameView* _gameView, GroundType _type, int pos_x, int pos_y, int pixels)
+Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int pixels)
 {
 	gameView = _gameView;
 	posX = pos_x;
@@ -17,6 +17,19 @@ Platform::Platform(GameView* _gameView, GroundType _type, int pos_x, int pos_y, 
 
 	std::string path = ""; //TODO poner default
 
+	if (type == "GRASS") {
+		path = "imagenes/plataformas/blocks.png";
+	}
+	else if (type == "ROCK") {
+		path = "";
+	}
+	else if (type == "WOOD") {
+		path = "imagenes/plataformas/wood log sprite sheet.png";
+	}
+	else {
+		path = "";
+	}
+	/*
 	switch(type)
 	{
 		case GRASS:
@@ -42,6 +55,7 @@ Platform::Platform(GameView* _gameView, GroundType _type, int pos_x, int pos_y, 
 			break;
 		}
 	}
+	*/
 
 	int width, height;
 	// se obtienen las dimensiones
