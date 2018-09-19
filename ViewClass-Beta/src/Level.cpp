@@ -30,8 +30,8 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 				string platformType = (*platformParserIterator).getTipo();
 				int platformXInitial = (*platformParserIterator).getXInicial();
 				int platformXFinal = (*platformParserIterator).getXFinal();
-				int platformHeight = (*platformParserIterator).getAltura();
-				platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformHeight, platformXFinal - platformXInitial));
+				int platformY = (*platformParserIterator).getAltura();
+				platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
 			}
 
 			playerSpawnX = 200;
