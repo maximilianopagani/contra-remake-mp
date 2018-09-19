@@ -1,6 +1,6 @@
 <configuration>
 	<debug>
-		<level>DEBUG</level>
+		<level>INFO</level>
 	</debug>
 	<escenarios>
 		<nivel1>
@@ -10,31 +10,31 @@
 			<plataformas>
 				<plataforma>
 					<id>1</id>
-					<tipo>piedra</tipo>
-					<xinicial>500</xinicial>
-					<xfinal>850</xfinal>
-					<altura>350</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>150</xinicial>
+					<xfinal>183</xfinal>
+					<altura>150</altura>
 				</plataforma>
 				<plataforma>
 					<id>2</id>				
-					<tipo>hielo</tipo>
-					<xinicial>4000</xinicial>
-					<xfinal>4500</xfinal>
-					<altura>420</altura>
+					<tipo>GRASS</tipo>
+					<xinicial>300</xinicial>
+					<xfinal>397</xfinal>
+					<altura>150</altura>
 				</plataforma>
 				<plataforma>
 					<id>3</id>				
-					<tipo>piedra</tipo>
-					<xinicial>1500</xinicial>
-					<xfinal>2000</xfinal>
-					<altura>350</altura>
+					<tipo>GRASS</tipo>
+					<xinicial>300</xinicial>
+					<xfinal>396</xfinal>
+					<altura>200</altura>
 				</plataforma>
 				<plataforma>
 					<id>4</id>				
-					<tipo>hielo</tipo>
-					<xinicial>3000</xinicial>
-					<xfinal>3500</xfinal>
-					<altura>420</altura>
+					<tipo>GRASS</tipo>
+					<xinicial>4000</xinicial>
+					<xfinal>4200</xfinal>
+					<altura>100</altura>
 				</plataforma>
 			</plataformas>
 		</nivel1>

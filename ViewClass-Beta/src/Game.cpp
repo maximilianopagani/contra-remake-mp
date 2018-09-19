@@ -122,9 +122,7 @@ void Game::render()
 void Game::destroy()
 {
 	player->destroy();
-
 	level->destroy();
-
 	gameView->destroy();
 
 	LOGGER_INFO("El juego se ha cerrado correctamente.");

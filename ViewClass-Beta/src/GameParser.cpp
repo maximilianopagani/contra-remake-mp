@@ -41,6 +41,7 @@ bool GameParser::evaluateTagDebug(){
 	TiXmlNode* tagDebugNode = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_DEBUG).ToNode();
 
 	if (!(tagDebugNode)){
+		LOGGER_INIT_FILELESS(Logger::ERROR);
 		LOGGER_INIT(Logger::ERROR);
 		LOGGER_ERROR("TAG_DEBUG no existe");
 		LOGGER_KILL();
@@ -53,7 +54,8 @@ bool GameParser::evaluateTagDebug(){
 		strLevel.clear();
 		strLevel.append(tagDebugNode->FirstChildElement(TAG_LEVEL)->GetText());
 	    if (!strLevel.compare(VALUE_EMPTY)) {
-			LOGGER_INIT(Logger::ERROR);
+	    	LOGGER_INIT_FILELESS(Logger::ERROR);
+			//LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("TAG_LEVEL esta vacio");
 			LOGGER_KILL();
 	    	sucess = false;
@@ -61,13 +63,15 @@ bool GameParser::evaluateTagDebug(){
 
         this->level = strLevel;
         if (!((this->level.compare("ERROR"))||(this->level.compare("DEBUG"))||(this->level.compare("INFO")))) {
-			LOGGER_INIT(Logger::ERROR);
+        	LOGGER_INIT_FILELESS(Logger::ERROR);
+			//LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("TAG_LEVEL es desconocido");
 			LOGGER_KILL();
 			sucess = false;
 		}
 
 	} else {
+		LOGGER_INIT_FILELESS(Logger::ERROR);
 		LOGGER_INIT(Logger::ERROR);
 		LOGGER_ERROR("TAG_LEVEL no existe o tiene valores invalidos");
 		LOGGER_KILL();
@@ -76,6 +80,7 @@ bool GameParser::evaluateTagDebug(){
 
 	if (sucess) {
 		if (!(this->level.compare("ERROR"))){
+			LOGGER_INIT_FILELESS(Logger::ERROR);
 			LOGGER_INIT(Logger::ERROR);
 			if (this->fileConfigLoaded == true) {
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
@@ -87,6 +92,7 @@ bool GameParser::evaluateTagDebug(){
 		}
 
 		if (!(this->level.compare("DEBUG"))){
+			LOGGER_INIT_FILELESS(Logger::DEBUG);
 			LOGGER_INIT(Logger::DEBUG);
 			if (this->fileConfigLoaded == true) {
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
@@ -98,6 +104,7 @@ bool GameParser::evaluateTagDebug(){
 		}
 
 		if (!(this->level.compare("INFO"))){
+			LOGGER_INIT_FILELESS(Logger::INFO);
 			LOGGER_INIT(Logger::INFO);
 			if (this->fileConfigLoaded == true) {
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
@@ -473,6 +480,7 @@ bool GameParser::loadConfiguration() {
 			this->defaultfileConfigLoaded = true;
 			evaluateDataXML();
 		} else {
+			LOGGER_INIT_FILELESS(Logger::ERROR);
 			LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("No hay archivos de configuracion");
 			LOGGER_KILL();

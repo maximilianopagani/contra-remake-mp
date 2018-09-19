@@ -6,8 +6,6 @@ Game* synergy;
 int main(int argc, char* args[])
 {
 
-	LOGGER_INIT_FILELESS(Logger::ERROR);
-
 	GameParser* parser = new GameParser();
 
 	if (parser->loadConfiguration()) {
@@ -15,7 +13,6 @@ int main(int argc, char* args[])
 	}
 
 	GameView* view = new GameView();
-
 	if(!view->init())
 	{
 		LOGGER_ERROR("Error al inicializar GameView. Se aborta ejecución.");
@@ -52,7 +49,6 @@ int main(int argc, char* args[])
 				view->delay(frameDelay - iterationTime);
 			}
 		}
-
 		synergy->destroy();
 	}
 

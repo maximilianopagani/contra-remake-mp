@@ -331,10 +331,9 @@ void Player::spawn(int x, int y){
 
 void Player::destroy()
 {
-	for(int i = 0 ; i < MAX_ANIMATIONS ; i ++){
-		animations[i]->destroy();
+	for(int i = 0 ; i < MAX_ANIMATIONS ; i++){
+		if (animations[i]) {animations[i]->destroy();}
 	}
-
 	bulletSprite->destroy();
 	bulletSprite = NULL;
 }

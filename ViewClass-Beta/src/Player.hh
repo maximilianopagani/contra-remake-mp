@@ -9,6 +9,7 @@
 #include "Bullet.hh"
 #include "GameView.hh"
 #include "Sprite.hh"
+#include "Logger.hh"
 
 #ifndef PLAYER_HH_
 #define PLAYER_HH_
