@@ -18,12 +18,16 @@ Player::Player(GameView* _view)
 	direction = DIRECTION_FRONT;
 
 	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png",128, 128, 64, 64);
-	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png",128, 128,64, 64);
-	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",128, 128,64, 64);
+	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,"image/WalkingRightPointingUp.png",128, 128, 64, 64);
+	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,"image/WalkingRightPointingDown.png",128, 128, 64, 64);
 
+	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png",128, 128,64, 64);
+	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,"image/WalkingLeftPointingUp.png",128, 128,64, 64);
+	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,"image/WalkingLeftPointingDown.png",128, 128,64, 64);
+
+	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",128, 128,64, 64);
 	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",128, 128, 64, 64);
 	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",128, 128,64, 64);
-
 	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png",128, 128,64, 64);
 	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png",128, 128,64, 64);
 	animations[STATE_POINTBACK] = new Sprite(gameView,"image/pointBack.png",128, 128,64, 64);
@@ -181,8 +185,19 @@ void Player::walkLeft(){
 	direction = DIRECTION_BACK;
 	pos_x-=5;
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
-		state = STATE_WALKINGLEFT;
-		animations[state]->update();
+
+		if(aimingAt==AIM_UP_BACK){
+			state = STATE_WALKINGLEFTPOINTUP;
+			animations[state]->update();
+		}
+		else if(aimingAt==AIM_DOWN_BACK){
+			state = STATE_WALKINGLEFTPOINTDOWN;
+			animations[state]->update();
+		}
+		else {
+			state = STATE_WALKINGLEFT;
+				animations[state]->update();
+		}
 	}
 }
 
@@ -190,8 +205,18 @@ void Player::walkRight(){
 	direction = DIRECTION_FRONT;
 	pos_x+=5;
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
-		state = STATE_WALKINGRIGHT;
-		animations[state]->update();
+		if(aimingAt==AIM_UP){
+			state = STATE_WALKINGRIGHTPOINTUP;
+			animations[state]->update();
+		}
+		else if(aimingAt==AIM_DOWN){
+			state = STATE_WALKINGRIGHTPOITNDOWN;
+			animations[state]->update();
+		}
+		else {
+			state = STATE_WALKINGRIGHT;
+			animations[state]->update();
+		}
 	}
 }
 
