@@ -11,6 +11,7 @@
 #include "Level.hh"
 #include "Player.hh"
 #include "GameParser.hh"
+#include "CollisionHelper.hh"
 
 class Game
 {

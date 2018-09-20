@@ -31,6 +31,7 @@ class Level
 
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
+		list<Platform*>* getPlataformList(){ return &platforms; }
 
 		void restart();
 

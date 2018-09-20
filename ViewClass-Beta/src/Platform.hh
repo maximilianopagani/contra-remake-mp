@@ -20,6 +20,9 @@ public:
 	virtual ~Platform();
 
 	void render();
+	list<Sprite*>* getListSpriteParts(){return &parts;}
+	int getPosX(){return posX;}
+	int getPosY(){return posY;}
 
 private:
 	GameView* gameView;

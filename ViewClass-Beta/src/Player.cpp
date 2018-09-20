@@ -10,9 +10,10 @@
 Player::Player(GameView* _view)
 {
 	gameView = _view;
-	pos_x = 200;
+	pos_x = 150;
 	pos_y = 425;
 	maxDistanceJump=150;
+	falling = true ;
 
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
@@ -145,6 +146,9 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 }
 
 void Player::update(){
+
+	if(falling) fallingDown();
+
 	//Salto
 	switch(state) {
 		case STATE_JUMPINGUP:
@@ -179,6 +183,8 @@ void Player::update(){
 	        ++bulletsIterator;
 	    }
 	}
+
+	if(pos_y > 600) pos_y = 0 ;
 }
 
 void Player::jump(){

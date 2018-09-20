@@ -40,3 +40,28 @@ bool CollisionHelper::collides(Sprite* aSprite, Sprite* otherSprite)
     //If none of the sides from A are outside B
     return true;
 }
+
+bool CollisionHelper:: CharacterCollision(Player* player , Platform* plataform){
+
+	//En posicion (0,0) el personaje tiene centro en (32,32)
+	//Sumo 32 a las posiciones para actualizar el centro si es imagen de 64x64
+	float playerCenter_x = player->getPosX() + 64 ;
+	float playerCenter_y = player->getPosY() + 64;
+	//Para hacerlo mas generico cada objeto deberia darme su Ancho y alto y asi
+	//Reemplazar la constante de 32
+	float enemyCenter_x = plataform->getPosX() + 48 ;
+	float enemyCenter_y = plataform->getPosY() + 16 ;
+	float distance;
+
+	//Calculo la distancia
+	distance=sqrt(pow(playerCenter_x-
+			enemyCenter_x,2)+pow(playerCenter_y -enemyCenter_y,2));
+
+	//std::cout<<"valor de la distancia :"<<distance<<std::endl;
+
+	//Distancia minima entre objetos deliveradamente 32
+	if (distance < 16 ) return true ;
+
+	return false;
+
+}

@@ -28,6 +28,7 @@ class Player
 
 		int getPosX(){ return pos_x; }
 		int getPosY(){ return pos_y; }
+		Sprite* getSprite(){return animations[state];}
 
 		void spawn(int x, int y);
 
@@ -41,12 +42,16 @@ class Player
 		void bodyToGround();
 		void normalState();
 		void shoot();
+		void fallingDown(){pos_y += 5;}
+		void fixPosY(){falling = false ; }
+		void startFalling(){falling = true ;}
 
 		void handleKeys(const Uint8* _currentKeyStates);
 
 	private:
 
 		int pos_x, pos_y, maxDistanceJump;
+		bool falling ;
 		static const int MAX_ANIMATIONS = 18;
 
 		enum PlayerState {
