@@ -6,10 +6,24 @@ Game* synergy;
 int main(int argc, char* args[])
 {
 
+	// se inicia el logger por consola para el parser
+	LOGGER_INIT_FILELESS(Logger::ERROR);
 	GameParser* parser = new GameParser();
-
 	if (parser->loadConfiguration()) {
 		parser->testDataParserModel();
+	}
+	// se mata al primer logger
+	LOGGER_KILL();
+
+	// a partir del archivo de configuracion se crea el logger deseado
+	if (parser->getLevel() == "DEBUG") {
+		LOGGER_INIT(Logger::DEBUG);
+	}
+	else if (parser->getLevel() == "INFO") {
+		LOGGER_INIT(Logger::INFO);
+	}
+	else {
+		LOGGER_INIT(Logger::ERROR);
 	}
 
 	GameView* view = new GameView();
@@ -50,6 +64,7 @@ int main(int argc, char* args[])
 			}
 		}
 		synergy->destroy();
+		LOGGER_KILL();
 	}
 
 	return 0;

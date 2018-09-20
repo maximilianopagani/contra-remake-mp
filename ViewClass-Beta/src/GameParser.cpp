@@ -18,17 +18,14 @@ GameParser::GameParser() {
 }
 
 void GameParser::testDataParserModel(){
-	// PROBANDO ...
-	cout << "El nivel de loggueo almacenado en el parser es: ";
-	cout << getLevel() << endl;
+	LOGGER_DEBUG("El nivel de loggueo almacenado en el parser es: " + getLevel());
 	std::list<PlataformaParser>::iterator it;
 	std::list<PlataformaParser> lista;
 
 	lista = this->getPlataformas();
     for (it=lista.begin(); it != lista.end();it++){
         int dato = (*it).getId();
-    	cout << "El id de la plataforma es: ";
-    	cout << dato << endl;
+		LOGGER_DEBUG("El id de la plataforma es: " + dato);
     }
 }
 
@@ -41,10 +38,7 @@ bool GameParser::evaluateTagDebug(){
 	TiXmlNode* tagDebugNode = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_DEBUG).ToNode();
 
 	if (!(tagDebugNode)){
-		LOGGER_INIT_FILELESS(Logger::ERROR);
-		LOGGER_INIT(Logger::ERROR);
 		LOGGER_ERROR("TAG_DEBUG no existe");
-		LOGGER_KILL();
 	    return false;
 	}
 
@@ -54,34 +48,23 @@ bool GameParser::evaluateTagDebug(){
 		strLevel.clear();
 		strLevel.append(tagDebugNode->FirstChildElement(TAG_LEVEL)->GetText());
 	    if (!strLevel.compare(VALUE_EMPTY)) {
-	    	LOGGER_INIT_FILELESS(Logger::ERROR);
-			//LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("TAG_LEVEL esta vacio");
-			LOGGER_KILL();
 	    	sucess = false;
 	    }
 
         this->level = strLevel;
         if (!((this->level.compare("ERROR"))||(this->level.compare("DEBUG"))||(this->level.compare("INFO")))) {
-        	LOGGER_INIT_FILELESS(Logger::ERROR);
-			//LOGGER_INIT(Logger::ERROR);
 			LOGGER_ERROR("TAG_LEVEL es desconocido");
-			LOGGER_KILL();
 			sucess = false;
 		}
 
 	} else {
-		LOGGER_INIT_FILELESS(Logger::ERROR);
-		LOGGER_INIT(Logger::ERROR);
 		LOGGER_ERROR("TAG_LEVEL no existe o tiene valores invalidos");
-		LOGGER_KILL();
 		sucess = false;
 	}
 
 	if (sucess) {
 		if (!(this->level.compare("ERROR"))){
-			LOGGER_INIT_FILELESS(Logger::ERROR);
-			LOGGER_INIT(Logger::ERROR);
 			if (this->fileConfigLoaded == true) {
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
 			} else {
@@ -92,8 +75,6 @@ bool GameParser::evaluateTagDebug(){
 		}
 
 		if (!(this->level.compare("DEBUG"))){
-			LOGGER_INIT_FILELESS(Logger::DEBUG);
-			LOGGER_INIT(Logger::DEBUG);
 			if (this->fileConfigLoaded == true) {
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
 			} else {
@@ -104,8 +85,6 @@ bool GameParser::evaluateTagDebug(){
 		}
 
 		if (!(this->level.compare("INFO"))){
-			LOGGER_INIT_FILELESS(Logger::INFO);
-			LOGGER_INIT(Logger::INFO);
 			if (this->fileConfigLoaded == true) {
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
 			} else {
@@ -288,9 +267,7 @@ bool GameParser::evaluateTagNivel3(){
 	    	LOGGER_DEBUG("TAG_FONDO2 esta vacio");
 	    	sucess = false;
 	    }
-
         this->fondo2Nivel3 = strFondo2;
-        //cout << this->fondo2Nivel3 << endl;
 	} else {
 		LOGGER_DEBUG("TAG_FONDO2 no existe o tiene valores invalidos");
 		sucess = false;
@@ -336,8 +313,7 @@ bool GameParser::evaluateTagPlataformas(){
 
     int cant=1;
 	for (tagPlataformaElement; tagPlataformaElement; tagPlataformaElement = tagPlataformaElement->NextSiblingElement()) {
-		cout << "La plataforma a evaluar es la nro: ";
-		cout << cant << endl;
+		LOGGER_DEBUG("La plataforma a evaluar es la nro: " + cant);
 		sucess = true;
 
 		//TAG_ID
@@ -418,8 +394,7 @@ bool GameParser::evaluateTagPlataformas(){
 
 		if (sucess) {
 			this->plataformas.push_back(plataformaParser);
-	    	cout << "El tipo de la plataforma es: ";
-	    	cout << plataformaParser.getTipo() << endl;
+			LOGGER_DEBUG("El tipo de la plataforma es: " + plataformaParser.getTipo());
 			cant++;
 		}
 	}
@@ -480,10 +455,7 @@ bool GameParser::loadConfiguration() {
 			this->defaultfileConfigLoaded = true;
 			evaluateDataXML();
 		} else {
-			LOGGER_INIT_FILELESS(Logger::ERROR);
-			LOGGER_INIT(Logger::ERROR);
-			LOGGER_ERROR("No hay archivos de configuracion");
-			LOGGER_KILL();
+			LOGGER_ERROR("No hay archivo de configuracion");
 			if (this->tiXmlFileConfig) {
 				delete this->tiXmlFileConfig;
 				this->fileConfigLoaded = false;

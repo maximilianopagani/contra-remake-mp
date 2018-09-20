@@ -33,6 +33,7 @@ void Logger::init(Level aLevel, const string& logFile)
 
 void Logger::kill()
 {
+	logs("KILL","-------------------------------| END |-------------------------------");
     instance.active = false;
 	instance.level = OFF;
     if(instance.fileStream.is_open())
