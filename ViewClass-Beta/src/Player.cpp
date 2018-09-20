@@ -135,6 +135,10 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	if(currentKeyStates[SDL_SCANCODE_LCTRL]){
 			this->bodyToGround();
 	}
+	//Bug
+	if(currentKeyStates[SDL_SCANCODE_LEFT]&&currentKeyStates[SDL_SCANCODE_RIGHT]){
+		if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP) state=STATE_STANDING;
+	}
 	if(currentKeyStates[SDL_SCANCODE_A]){
 			pos_y-=5;
 	}
