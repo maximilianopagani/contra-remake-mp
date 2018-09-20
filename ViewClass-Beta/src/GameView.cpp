@@ -88,7 +88,7 @@ bool GameView::init()
 bool GameView::outOfWindow(int x, int y)
 {
 	// Esto chequea para la posicion absoluta pasada por parametro, si luego del ajuste del offset queda dentro o fuera de la ventana
-	if((x - camera_x_position) > (windowWidth - 20) || (x - camera_x_position) < 10 || (y - camera_y_position) < 10 || (y - camera_y_position) > (windowHeight - 10))
+	if(outOfWindowLeftBorder(x) || outOfWindowRightBorder(x) || outOfWindowLowerBorder(y) || outOfWindowHigherBorder(y))
 		return true;
 	else
 		return false;

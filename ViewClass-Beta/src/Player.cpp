@@ -183,7 +183,9 @@ void Player::jump(){
 
 void Player::walkLeft(){
 	direction = DIRECTION_BACK;
-	pos_x-=5;
+	if (!gameView->outOfWindowLeftBorder(pos_x - 5)) {
+		pos_x-=5;
+	}
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
 
 		if(aimingAt==AIM_UP_BACK){
@@ -203,7 +205,9 @@ void Player::walkLeft(){
 
 void Player::walkRight(){
 	direction = DIRECTION_FRONT;
-	pos_x+=5;
+	if (!gameView->outOfWindowRightBorder(pos_x + 5)) {
+		pos_x+=5;
+	}
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
 		if(aimingAt==AIM_UP){
 			state = STATE_WALKINGRIGHTPOINTUP;
@@ -268,6 +272,7 @@ void Player::bodyToGround(){
 		}
 	}
 }
+
 void Player::normalState(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
 		state= STATE_STANDING;
