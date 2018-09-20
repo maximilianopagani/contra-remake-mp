@@ -27,8 +27,6 @@ class Sprite
 		void update();
 		void destroy();
 
-		bool collideWith(Sprite* other);
-
 		int getSourceRectX() { return src.x; }
 		int getSourceRectY() { return src.y; }
 

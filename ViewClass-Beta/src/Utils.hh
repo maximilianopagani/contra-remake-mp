@@ -3,6 +3,9 @@
 // Author      : pola17
 //============================================================================
 
+#ifndef UTILS_HH_
+#define UTILS_HH_
+
 #include <iostream>
 #include <string>
 #include <stdio.h>
@@ -16,3 +19,5 @@ public:
     static const string getTimestamp();
     static const string getDate();
 };
+
+#endif /* UTILS_HH_ */
