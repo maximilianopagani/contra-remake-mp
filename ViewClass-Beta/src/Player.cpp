@@ -21,11 +21,9 @@ Player::Player(GameView* _view)
 	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png",128, 128, 64, 64);
 	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,"image/WalkingRightPointingUp.png",128, 128, 64, 64);
 	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,"image/WalkingRightPointingDown.png",128, 128, 64, 64);
-
 	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png",128, 128,64, 64);
 	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,"image/WalkingLeftPointingUp.png",128, 128,64, 64);
 	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,"image/WalkingLeftPointingDown.png",128, 128,64, 64);
-
 	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",128, 128,64, 64);
 	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",128, 128, 64, 64);
 	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",128, 128,64, 64);
@@ -147,26 +145,21 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 
 void Player::update(){
 
-	if(falling) fallingDown();
+	if(falling) pos_y += 5;
 
 	//Salto
 	switch(state) {
 		case STATE_JUMPINGUP:
-				pos_y-=5;
+				pos_y-=10;
 				maxDistanceJump-=5;
 				animations[state]->update();
-				if(maxDistanceJump == 0) {
-					state = STATE_JUMPINGDOWN;
-				}
+				if(maxDistanceJump == 0) state = STATE_JUMPINGDOWN;
 				break;
 		case STATE_JUMPINGDOWN:
-				pos_y += 5;
 				maxDistanceJump += 5;
 				animations[state]->update();
-				if(maxDistanceJump == 150)  state = STATE_STANDING;
-				break;
-
-		default:
+				if(!falling) state = STATE_STANDING;
+				if(maxDistanceJump > 150) maxDistanceJump=150;
 				break;
 	}
 	// Actualizacion de posicion de balas
@@ -183,8 +176,10 @@ void Player::update(){
 	        ++bulletsIterator;
 	    }
 	}
-
+	//ACA CAMBIARLO PARA QUE REAPARESCA AL PRINCIPIO DEL JUEGO JUNTO CON EL FONDO
+	//----------------------------------
 	if(pos_y > 600) pos_y = 0 ;
+	//-----------------------------------
 }
 
 void Player::jump(){
@@ -288,7 +283,6 @@ void Player::normalState(){
 		state= STATE_STANDING;
 	}
 }
-
 
 void Player::shoot()
 {

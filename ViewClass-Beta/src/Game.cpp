@@ -112,11 +112,11 @@ void Game::update()
 	list<Platform*>::iterator platformsIterator;
 	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
 		if( CollisionHelper::stands(player, *platformsIterator) ){
-			player->fixPosY();
+			player->fallingDownStop();
 			break;
 		}
 		else {
-			player->startFalling();
+			player->fallingDown();
 		}
 	}
 }

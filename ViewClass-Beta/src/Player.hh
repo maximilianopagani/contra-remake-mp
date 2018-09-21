@@ -49,9 +49,8 @@ class Player : public ICollisional
 		void bodyToGround();
 		void normalState();
 		void shoot();
-		void fallingDown(){pos_y += 5;}
-		void fixPosY(){falling = false ;}
-		void startFalling(){falling = true ;}
+		void fallingDownStop(){falling = false ;}
+		void fallingDown(){falling = true ;}
 
 		void handleKeys(const Uint8* _currentKeyStates);
 
