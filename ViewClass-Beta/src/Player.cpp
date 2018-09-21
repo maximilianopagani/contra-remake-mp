@@ -163,7 +163,6 @@ void Player::update(){
 					state = STATE_STANDING;
 					maxDistanceJump=150;
 				}
-				if(maxDistanceJump > 150) maxDistanceJump=150;
 				break;
 	}
 	// Actualizacion de posicion de balas
