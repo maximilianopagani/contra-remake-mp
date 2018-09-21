@@ -146,6 +146,7 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 void Player::update(){
 
 	if(falling) pos_y += 5;
+	std::cout<<maxDistanceJump<<std::endl;
 
 	//Salto
 	switch(state) {
@@ -158,7 +159,10 @@ void Player::update(){
 		case STATE_JUMPINGDOWN:
 				maxDistanceJump += 5;
 				animations[state]->update();
-				if(!falling) state = STATE_STANDING;
+				if(!falling) {
+					state = STATE_STANDING;
+					maxDistanceJump=150;
+				}
 				if(maxDistanceJump > 150) maxDistanceJump=150;
 				break;
 	}
