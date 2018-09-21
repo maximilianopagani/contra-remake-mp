@@ -6,20 +6,28 @@
  */
 
 //#include "Headers.h"
-#include "Bullet.hh"
-#include "GameView.hh"
-#include "Sprite.hh"
-#include "Logger.hh"
 
 #ifndef PLAYER_HH_
 #define PLAYER_HH_
 
-class Player
+#include "Bullet.hh"
+#include "GameView.hh"
+#include "Sprite.hh"
+#include "Logger.hh"
+#include "ICollisional.hh"
+
+class Player : public ICollisional
 {
 	public:
 
 		Player(GameView* view);
 		virtual ~Player();
+
+		//Collisional
+		int getLeftLimit();
+		int getRightLimit();
+		int getTopLimit();
+		int getBottomLimit();
 
 		// comunes al gameloop
 		void update();
@@ -28,7 +36,6 @@ class Player
 
 		int getPosX(){ return pos_x; }
 		int getPosY(){ return pos_y; }
-		Sprite* getSprite(){return animations[state];}
 
 		void spawn(int x, int y);
 
@@ -43,7 +50,7 @@ class Player
 		void normalState();
 		void shoot();
 		void fallingDown(){pos_y += 5;}
-		void fixPosY(){falling = false ; }
+		void fixPosY(){falling = false ;}
 		void startFalling(){falling = true ;}
 
 		void handleKeys(const Uint8* _currentKeyStates);

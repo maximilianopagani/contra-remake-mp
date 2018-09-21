@@ -108,21 +108,17 @@ void Game::update()
 	level->moveForward(player->getPosX(), player->getPosY());
 
 	//colision jugador y plataforma
-
 	list<Platform*>* platforms = level->getPlataformList();
 	list<Platform*>::iterator platformsIterator;
-	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end();){
-			if( CollisionHelper::CharacterCollision(player, *platformsIterator) ){
-				player->fixPosY();
-				break;
-			}
-			else {
-				player->startFalling();
-			}
-		++platformsIterator;
+	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
+		if( CollisionHelper::stands(player, *platformsIterator) ){
+			player->fixPosY();
+			break;
+		}
+		else {
+			player->startFalling();
+		}
 	}
-
-
 }
 
 void Game::render()

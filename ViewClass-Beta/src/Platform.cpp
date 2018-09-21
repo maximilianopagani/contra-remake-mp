@@ -17,18 +17,14 @@ Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int 
 
 	std::string path = ""; //TODO poner default
 
-	if (type == "GRASS") {
+	if (type == "GRASS")
 		path = "imagenes/plataformas/blocks.png";
-	}
-	else if (type == "ROCK") {
+	else if (type == "ROCK")
 		path = "";
-	}
-	else if (type == "WOOD") {
+	else if (type == "WOOD")
 		path = "imagenes/plataformas/wood log sprite sheet.png";
-	}
-	else {
+	else
 		path = "";
-	}
 	/*
 	switch(type)
 	{
@@ -75,11 +71,34 @@ Platform::~Platform() {}
 void Platform::render()
 {
 	int posicionX = posX;
-	for(partsIterator = parts.begin(); partsIterator != parts.end();)
+	for(partsIterator = parts.begin(); partsIterator != parts.end(); ++partsIterator)
 	{
 		(*partsIterator)->render(posicionX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
 		posicionX = posicionX + ((Sprite*)(*partsIterator))->getDestinationWidth();
-		++partsIterator;
 	}
 }
 
+int Platform::getLeftLimit()
+{
+	return posX;
+}
+
+int Platform::getRightLimit()
+{
+	int w = 0;
+	for(partsIterator = parts.begin(); partsIterator != parts.end(); ++partsIterator)
+	{
+		w = w + ((Sprite*)(*partsIterator))->getDestinationWidth();
+	}
+	return w + getLeftLimit();
+}
+
+int Platform::getTopLimit()
+{
+	return posY;
+}
+
+int Platform::getBottomLimit()
+{
+	return getTopLimit() + 5;
+}

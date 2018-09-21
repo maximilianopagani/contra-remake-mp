@@ -11,9 +11,9 @@
 				<plataforma>
 					<id>1</id>
 					<tipo>WOOD</tipo>
-					<xinicial>150</xinicial>
-					<xfinal>183</xfinal>
-					<altura>150</altura>
+					<xinicial>100</xinicial>
+					<xfinal>250</xfinal>
+					<altura>500</altura>
 				</plataforma>
 				<plataforma>
 					<id>2</id>				
@@ -22,20 +22,20 @@
 					<xfinal>397</xfinal>
 					<altura>150</altura>
 				</plataforma>
-				<plataforma>
-					<id>3</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>300</xinicial>
-					<xfinal>396</xfinal>
-					<altura>200</altura>
-				</plataforma>
-				<plataforma>
-					<id>4</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>4000</xinicial>
-					<xfinal>4200</xfinal>
-					<altura>100</altura>
-				</plataforma>
+<!-- 				<plataforma> -->
+<!-- 					<id>3</id>				 -->
+<!-- 					<tipo>GRASS</tipo> -->
+<!-- 					<xinicial>300</xinicial> -->
+<!-- 					<xfinal>396</xfinal> -->
+<!-- 					<altura>200</altura> -->
+<!-- 				</plataforma> -->
+<!-- 				<plataforma> -->
+<!-- 					<id>4</id>				 -->
+<!-- 					<tipo>GRASS</tipo> -->
+<!-- 					<xinicial>4000</xinicial> -->
+<!-- 					<xfinal>4200</xfinal> -->
+<!-- 					<altura>100</altura> -->
+<!-- 				</plataforma> -->
 			</plataformas>
 		</nivel1>
 		<nivel2>

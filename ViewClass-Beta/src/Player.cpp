@@ -352,3 +352,23 @@ void Player::destroy()
 	bulletSprite->destroy();
 	bulletSprite = NULL;
 }
+
+int Player::getLeftLimit()
+{
+	return getPosX() + 15;
+}
+
+int Player::getRightLimit()
+{
+	return getPosX() + animations[state]->getDestinationWidth() - 15;
+}
+
+int Player::getTopLimit()
+{
+	return getPosY();
+}
+
+int Player::getBottomLimit()
+{
+	return getTopLimit() + animations[state]->getDestinationHeight();
+}

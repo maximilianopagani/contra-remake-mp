@@ -10,8 +10,10 @@
 
 #include "GameView.hh"
 #include "Sprite.hh"
+#include "ICollisional.hh"
 
-class Platform {
+class Platform : public ICollisional
+{
 
 public:
 	//enum GroundType {GRASS, WOOD, ROCK, ICE};
@@ -23,6 +25,13 @@ public:
 	list<Sprite*>* getListSpriteParts(){return &parts;}
 	int getPosX(){return posX;}
 	int getPosY(){return posY;}
+
+	//Collisional
+	int getLeftLimit();
+	int getRightLimit();
+	int getTopLimit();
+	int getBottomLimit();
+
 
 private:
 	GameView* gameView;
