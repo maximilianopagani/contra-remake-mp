@@ -146,8 +146,6 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 void Player::update(){
 
 	if(falling) pos_y += 5;
-	std::cout<<maxDistanceJump<<std::endl;
-
 	//Salto
 	switch(state) {
 		case STATE_JUMPINGUP:
