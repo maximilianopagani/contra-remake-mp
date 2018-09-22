@@ -152,7 +152,7 @@ void Player::update(){
 	//Salto
 	switch(state) {
 		case STATE_JUMPINGUP:
-				pos_y-=5;
+				pos_y-=10;
 				maxDistanceJump-=5;
 				animations[state]->update();
 				if(maxDistanceJump == 0) {
