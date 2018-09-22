@@ -123,7 +123,9 @@ void Game::update()
 	//resetea la posicion de todo despues de caer
 	if(player->getPosY() > 600) {
 		player->resetPos();
-		level->restart();
+		level->destroy();
+		currentLevel = LEVEL1;
+		level = new Level(gameParser, gameView, LEVEL1);
 	}
 }
 
