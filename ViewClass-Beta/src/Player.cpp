@@ -11,7 +11,7 @@ Player::Player(GameView* _view)
 {
 	gameView = _view;
 	pos_x = 150;
-	pos_y = 425;
+	pos_y = 300;
 	maxDistanceJump=150;
 	falling = true ;
 
@@ -177,10 +177,10 @@ void Player::update(){
 	        ++bulletsIterator;
 	    }
 	}
-	//ACA CAMBIARLO PARA QUE REAPARESCA AL PRINCIPIO DEL JUEGO JUNTO CON EL FONDO
-	//----------------------------------
-	if(pos_y > 600) pos_y = 0 ;
-	//-----------------------------------
+}
+void Player::resetPos(){
+	pos_x = 150;
+	pos_y = 300;
 }
 
 void Player::jump(){

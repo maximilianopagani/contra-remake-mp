@@ -51,6 +51,7 @@ class Player : public ICollisional
 		void shoot();
 		void fallingDownStop(){falling = false ;}
 		void fallingDown(){falling = true ;}
+		void resetPos();
 
 		void handleKeys(const Uint8* _currentKeyStates);
 

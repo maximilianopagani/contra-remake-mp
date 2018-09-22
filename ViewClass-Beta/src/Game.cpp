@@ -119,6 +119,12 @@ void Game::update()
 			player->fallingDown();
 		}
 	}
+
+	//resetea la posicion de todo despues de caer
+	if(player->getPosY() > 600) {
+		player->resetPos();
+		level->restart();
+	}
 }
 
 void Game::render()

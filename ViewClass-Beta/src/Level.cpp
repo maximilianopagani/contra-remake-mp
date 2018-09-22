@@ -165,3 +165,8 @@ void Level::moveForward(int playerPosX, int playerPosY)
 		}
 	}
 }
+
+void Level::restart(){
+	//FALTA IMPLEMENTAR PARA QUE REINICIE LOS 3 FONDOS DESPUES DEL SCROLEO
+
+}
