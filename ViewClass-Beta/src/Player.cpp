@@ -11,32 +11,30 @@ Player::Player(GameView* _view)
 {
 	gameView = _view;
 	pos_x = 150;
-	pos_y = 425;
+	pos_y = 300;
 	maxDistanceJump=150;
 	falling = true ;
 
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
 
-	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png",128, 128, 64, 64);
-	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,"image/WalkingRightPointingUp.png",128, 128, 64, 64);
-	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,"image/WalkingRightPointingDown.png",128, 128, 64, 64);
-
-	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png",128, 128,64, 64);
-	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,"image/WalkingLeftPointingUp.png",128, 128,64, 64);
-	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,"image/WalkingLeftPointingDown.png",128, 128,64, 64);
-
-	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",128, 128,64, 64);
-	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",128, 128, 64, 64);
-	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",128, 128,64, 64);
-	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png",128, 128,64, 64);
-	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png",128, 128,64, 64);
-	animations[STATE_POINTBACK] = new Sprite(gameView,"image/pointBack.png",128, 128,64, 64);
-	animations[STATE_POINTDOWN] = new Sprite(gameView,"image/pointDown.png",128, 128, 64, 64);
-	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,"image/bodyToGround.png",128, 128,64, 64);
-	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,"image/pointDownBack.png",128, 128, 64, 64);
-	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,"image/bodyToGroundBack.png",128, 128,64, 64);
-	animations[STATE_POINTUP_BACK] = new Sprite(gameView,"image/pointUpBack.png",128, 128, 64, 64);
+	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png",25, 38,48,48);
+	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,"image/walkingRightPointingUp.png",19, 38,48,48);
+	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,"image/walkingRightPointingDown.png",21, 38,48,48);
+	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png",25,38,48,48);
+	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,"image/walkingLeftPointingUp.png",19, 38,48,48);
+	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,"image/walkingLeftPointingDown.png",21.3, 38,48,48);
+	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",18, 37,48,48);
+	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",20, 38,48,48);
+	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",20, 38,48,48);
+	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png",18, 36,48,48);
+	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png",25, 36,48,48);
+	animations[STATE_POINTBACK] = new Sprite(gameView,"image/pointBack.png",25, 36,48,48);
+	animations[STATE_POINTDOWN] = new Sprite(gameView,"image/pointDown.png",22, 37,48,48);
+	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,"image/bodyToGround.png",32, 38,48,48);
+	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,"image/pointDownBack.png",22, 37,48,48);
+	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,"image/bodyToGroundBack.png",32, 38,48,48);
+	animations[STATE_POINTUP_BACK] = new Sprite(gameView,"image/pointUpBack.png",18, 36,48,48);
 
 
 	aimingAt = AIM_FRONT;
@@ -147,26 +145,22 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 
 void Player::update(){
 
-	if(falling) fallingDown();
-
+	if(falling) pos_y += 5;
 	//Salto
 	switch(state) {
 		case STATE_JUMPINGUP:
 				pos_y-=10;
 				maxDistanceJump-=5;
 				animations[state]->update();
-				if(maxDistanceJump == 0) {
-					state = STATE_JUMPINGDOWN;
-				}
+				if(maxDistanceJump == 0) state = STATE_JUMPINGDOWN;
 				break;
 		case STATE_JUMPINGDOWN:
-				pos_y += 5;
 				maxDistanceJump += 5;
 				animations[state]->update();
-				if(maxDistanceJump == 150)  state = STATE_STANDING;
-				break;
-
-		default:
+				if(!falling) {
+					state = STATE_STANDING;
+					maxDistanceJump=150;
+				}
 				break;
 	}
 	// Actualizacion de posicion de balas
@@ -183,8 +177,10 @@ void Player::update(){
 	        ++bulletsIterator;
 	    }
 	}
-
-	if(pos_y > 600) pos_y = 0 ;
+}
+void Player::resetPos(){
+	pos_x = 150;
+	pos_y = 300;
 }
 
 void Player::jump(){
@@ -289,7 +285,6 @@ void Player::normalState(){
 	}
 }
 
-
 void Player::shoot()
 {
 	Uint32 currentShotTime = gameView->getTicks();
@@ -299,23 +294,23 @@ void Player::shoot()
 	{
 		switch(aimingAt){
 			case AIM_FRONT:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+50, pos_y+20, 10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+30, pos_y+12, 10, 0, distanceToTravel));
 				break;
 
 			case AIM_BACK:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x-7, pos_y+20, -10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+5, pos_y+12, -10, 0, distanceToTravel));
 				break;
 
 			case AIM_UP:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+50, pos_y, 7, -7, distanceToTravel));
+				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+35, pos_y+5, 7, -7, distanceToTravel));
 				break;
 
 			case AIM_DOWN:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+50, pos_y+25, 7, 7, distanceToTravel));
+				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+34, pos_y+15, 7, 7, distanceToTravel));
 				break;
 
 			case AIM_BODYTOGROUND:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+60, pos_y+50, 10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+35, pos_y+33, 10, 0, distanceToTravel));
 				break;
 
 			case AIM_DOWN_BACK:
@@ -326,7 +321,7 @@ void Player::shoot()
 				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x, pos_y, -7, -7, distanceToTravel));
 				break;
 			case AIM_BODYTOGROUND_BACK:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x, pos_y+50, -10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+5, pos_y+33, -10, 0, distanceToTravel));
 				break;
 		}
 

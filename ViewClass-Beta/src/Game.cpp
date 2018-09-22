@@ -112,12 +112,20 @@ void Game::update()
 	list<Platform*>::iterator platformsIterator;
 	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
 		if( CollisionHelper::stands(player, *platformsIterator) ){
-			player->fixPosY();
+			player->fallingDownStop();
 			break;
 		}
 		else {
-			player->startFalling();
+			player->fallingDown();
 		}
+	}
+
+	//resetea la posicion de todo despues de caer
+	if(player->getPosY() > 600) {
+		player->resetPos();
+		level->destroy();
+		currentLevel = LEVEL1;
+		level = new Level(gameParser, gameView, LEVEL1);
 	}
 }
 

@@ -11,16 +11,16 @@
 				<plataforma>
 					<id>1</id>
 					<tipo>WOOD</tipo>
-					<xinicial>100</xinicial>
-					<xfinal>250</xfinal>
-					<altura>500</altura>
+					<xinicial>400</xinicial>
+					<xfinal>800</xfinal>
+					<altura>300</altura>
 				</plataforma>
 				<plataforma>
 					<id>2</id>				
 					<tipo>GRASS</tipo>
-					<xinicial>300</xinicial>
+					<xinicial>1</xinicial>
 					<xfinal>397</xfinal>
-					<altura>150</altura>
+					<altura>400</altura>
 				</plataforma>
 <!-- 				<plataforma> -->
 <!-- 					<id>3</id>				 -->
