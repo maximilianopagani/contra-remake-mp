@@ -25,8 +25,8 @@ Player::Player(GameView* _view)
 	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,"image/walkingLeftPointingUp.png",19, 38,64, 64);
 	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,"image/walkingLeftPointingDown.png",21.3, 38,64, 64);
 	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",128, 128,64, 64);
-	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",20.25, 24, 64, 64);
-	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",20.25, 24,64, 64);
+	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",20, 38, 64, 64);
+	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",20, 38,64, 64);
 	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png",128, 128,64, 64);
 	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png",128, 128,64, 64);
 	animations[STATE_POINTBACK] = new Sprite(gameView,"image/pointBack.png",128, 128,64, 64);
