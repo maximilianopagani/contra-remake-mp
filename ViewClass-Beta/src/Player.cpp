@@ -25,6 +25,7 @@ Player::Player(GameView* _view)
 	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,"image/walkingLeftPointingUp.png",19, 38,48,48);
 	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,"image/walkingLeftPointingDown.png",21.3, 38,48,48);
 	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",16, 38,48,48);
+	animations[STATE_STANDING_BACK] = new Sprite(gameView,"image/standingBack.png",16, 38,48,48);
 	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",20, 38,48,48);
 	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",20, 38,48,48);
 	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png",18, 36,48,48);
@@ -134,7 +135,11 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	}
 	//caer de plataforma solo si se tocan ambas teclas a la vez
 	if(currentKeyStates[SDL_SCANCODE_SPACE] && currentKeyStates[SDL_SCANCODE_LCTRL]){
-		state = STATE_STANDING;
+		if (direction == DIRECTION_BACK)
+			state = STATE_STANDING_BACK;
+		else
+			state = STATE_STANDING;
+
 		pos_y += 1;
 	}
 	//Salto
