@@ -82,7 +82,9 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	}
 	if(currentKeyStates[SDL_SCANCODE_RIGHT]) {
 		if(!currentKeyStates[SDL_SCANCODE_LCTRL])  this->walkRight();
-		this->pointDefault(false);
+		if(currentKeyStates[SDL_SCANCODE_UP] && !currentKeyStates[SDL_SCANCODE_DOWN])  this->pointUP(false);
+		else if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])  this->pointDown(false);
+		else this->pointDefault(false);
 	}
 	//caminar izquierda
 	if(currentKeyStates[SDL_SCANCODE_LEFT]&&currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_UP]) {
@@ -96,34 +98,38 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	}
 	if(currentKeyStates[SDL_SCANCODE_LEFT]) {
 		if(!currentKeyStates[SDL_SCANCODE_LCTRL])  this->walkLeft();
-		this->pointDefault(false);
+		if(currentKeyStates[SDL_SCANCODE_UP] && !currentKeyStates[SDL_SCANCODE_DOWN])  this->pointUP(false);
+		else if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])  this->pointDown(false);
+		else this->pointDefault(false);
 	}
 	//disparo parado
 	if(currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_UP]){
 		if(!currentKeyStates[SDL_SCANCODE_RIGHT]&&!currentKeyStates[SDL_SCANCODE_LEFT]
-			&&!currentKeyStates[SDL_SCANCODE_LCTRL]){
-			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP){
+			&&!currentKeyStates[SDL_SCANCODE_LCTRL])
+		{
+			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP)
 				this->pointUP(true);
-			}else this->pointUP(false);
+			else this->pointUP(false);
 		}
 	}
 	if(currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_DOWN]){
 		if(!currentKeyStates[SDL_SCANCODE_RIGHT]&&!currentKeyStates[SDL_SCANCODE_LEFT]
-			&&!currentKeyStates[SDL_SCANCODE_LCTRL]){
-			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP){
+			&&!currentKeyStates[SDL_SCANCODE_LCTRL])
+		{
+			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP)
 				this->pointDown(true);
-			}else this->pointDown(false);
+			else this->pointDown(false);
 		}
 	}
 	//disparos en salto
 	if(currentKeyStates[SDL_SCANCODE_Z]){
 		this->shoot();
 		if(!currentKeyStates[SDL_SCANCODE_UP]&&!currentKeyStates[SDL_SCANCODE_DOWN]
-			 &&!currentKeyStates[SDL_SCANCODE_LEFT]&&!currentKeyStates[SDL_SCANCODE_RIGHT]){
-
-			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP){
+			 &&!currentKeyStates[SDL_SCANCODE_LEFT]&&!currentKeyStates[SDL_SCANCODE_RIGHT])
+		{
+			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP)
 				this->pointDefault(true);
-			}else this->pointDefault(false);
+			else this->pointDefault(false);
 		}
 	}
 	//caer de plataforma solo si se tocan ambas teclas a la vez
@@ -140,10 +146,21 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 			this->bodyToGround();
 	}
 	//Bug
-	if(currentKeyStates[SDL_SCANCODE_LEFT]&&currentKeyStates[SDL_SCANCODE_RIGHT]){
-		if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP) state=STATE_STANDING;
+	if(currentKeyStates[SDL_SCANCODE_LEFT] && currentKeyStates[SDL_SCANCODE_RIGHT] &&
+			state != STATE_POINTBODYTOGROUND && state != STATE_POINTBODYTOGROUND_BACK)
+	{
+		if(state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP){
+			state = STATE_STANDING;
+			if (currentKeyStates[SDL_SCANCODE_Z])
+			{
+				aimingAt = AIM_FRONT;
+				state = STATE_POINTFRONT;
+				this->shoot();
+			}
+		}
 	}
-	// para sbir en level 2 todo quitar
+	// para subir en level 2
+	// TODO quitar
 	if(currentKeyStates[SDL_SCANCODE_A]){
 			pos_y-=5;
 	}
@@ -236,40 +253,39 @@ void Player::walkRight(){
 	}
 }
 
-void Player::pointUP(bool cond ){
-	if(direction == DIRECTION_BACK){
+void Player::pointUP(bool cond){
+	if(direction == DIRECTION_BACK)
 		aimingAt = AIM_UP_BACK;
-	}else aimingAt = AIM_UP;
+	else aimingAt = AIM_UP;
 
 	if(cond){
-		if(direction == DIRECTION_BACK){
+		if(direction == DIRECTION_BACK)
 			state=STATE_POINTUP_BACK;
-
-		}else state=STATE_POINTUP;
+		else state=STATE_POINTUP;
 	}
 }
 
 void Player::pointDown(bool cond){
-	if(direction == DIRECTION_BACK){
+	if(direction == DIRECTION_BACK)
 			aimingAt = AIM_DOWN_BACK;
-	}else aimingAt = AIM_DOWN;
+	else aimingAt = AIM_DOWN;
 
 	if(cond){
-		if(direction == DIRECTION_BACK){
-			state=STATE_POINTDOWN_BACK;
-		}else state=STATE_POINTDOWN;
+		if(direction == DIRECTION_BACK)
+			state = STATE_POINTDOWN_BACK;
+		else state = STATE_POINTDOWN;
 	}
 }
 
 void Player::pointDefault(bool cond){
-	if(direction == DIRECTION_BACK) {
+	if(direction == DIRECTION_BACK)
 			aimingAt = AIM_BACK;
-	}else aimingAt = AIM_FRONT;
+	else aimingAt = AIM_FRONT;
 
 	if(cond){
-		if(direction == DIRECTION_BACK){
-			state=STATE_POINTBACK;
-		}else state=STATE_POINTFRONT;
+		if(direction == DIRECTION_BACK)
+			state = STATE_POINTBACK;
+		else state = STATE_POINTFRONT;
 	}
 }
 
