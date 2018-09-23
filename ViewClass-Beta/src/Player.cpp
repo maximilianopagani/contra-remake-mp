@@ -126,18 +126,24 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 			}else this->pointDefault(false);
 		}
 	}
-	//Salto
-	if(currentKeyStates[SDL_SCANCODE_SPACE]){
-		this->jump();
+	//caer de plataforma solo si se tocan ambas teclas a la vez
+	if(currentKeyStates[SDL_SCANCODE_SPACE] && currentKeyStates[SDL_SCANCODE_LCTRL]){
+		state = STATE_STANDING;
+		pos_y += 1;
 	}
-	//disparo bajo
-	if(currentKeyStates[SDL_SCANCODE_LCTRL]){
+	//Salto
+	else if(currentKeyStates[SDL_SCANCODE_SPACE]){
+			this->jump();
+	}
+	//cuerpo a tirra
+	else if(currentKeyStates[SDL_SCANCODE_LCTRL]){
 			this->bodyToGround();
 	}
 	//Bug
 	if(currentKeyStates[SDL_SCANCODE_LEFT]&&currentKeyStates[SDL_SCANCODE_RIGHT]){
 		if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP) state=STATE_STANDING;
 	}
+	// para sbir en level 2 todo quitar
 	if(currentKeyStates[SDL_SCANCODE_A]){
 			pos_y-=5;
 	}
@@ -184,7 +190,7 @@ void Player::resetPos(){
 }
 
 void Player::jump(){
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) state = STATE_JUMPINGUP;
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN && !falling) state = STATE_JUMPINGUP;
 }
 
 void Player::walkLeft(){
@@ -268,11 +274,11 @@ void Player::pointDefault(bool cond){
 }
 
 void Player::bodyToGround(){
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN && !falling){
 		if(direction == DIRECTION_BACK) {
 			aimingAt = AIM_BODYTOGROUND_BACK;
 			state = STATE_POINTBODYTOGROUND_BACK;
-		}else {
+		} else {
 			aimingAt = AIM_BODYTOGROUND;
 			state = STATE_POINTBODYTOGROUND;
 		}

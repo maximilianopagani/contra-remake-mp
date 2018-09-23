@@ -120,7 +120,7 @@ void Game::update()
 		}
 	}
 
-	//resetea la posicion de todo despues de caer
+	//resetea la posicion de all despues de caer
 	if(player->getPosY() > 600) {
 		player->resetPos();
 		level->destroy();

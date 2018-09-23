@@ -58,7 +58,7 @@ class Player : public ICollisional
 	private:
 
 		int pos_x, pos_y, maxDistanceJump;
-		bool falling ;
+		bool falling;
 		static const int MAX_ANIMATIONS = 18;
 
 		enum PlayerState {
