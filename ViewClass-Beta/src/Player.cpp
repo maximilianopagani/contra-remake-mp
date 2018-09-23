@@ -71,104 +71,78 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 {
 	currentKeyStates = _currentKeyStates;
 
-	//Caminar derecho
-	if(currentKeyStates[SDL_SCANCODE_RIGHT]&&currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_UP]) {
-		if(!currentKeyStates[SDL_SCANCODE_LCTRL]) this->pointUP(false);
+	// bug de ambas direcciones
+	if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT])
+	{
+		if(state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
+			this->pointDefault(true);
 	}
-	if(currentKeyStates[SDL_SCANCODE_RIGHT]&&currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_DOWN]) {
-		if(!currentKeyStates[SDL_SCANCODE_LCTRL]) this->pointDown(false);
+	// caminar derecha
+	else if(currentKeyStates[SDL_SCANCODE_RIGHT])
+	{
+		this->walkRight();
+		if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
+			this->pointDown(false);
 	}
-	if(currentKeyStates[SDL_SCANCODE_RIGHT]&&currentKeyStates[SDL_SCANCODE_Z]) {
-		this->shoot();
+	// caminar izq
+	else if(currentKeyStates[SDL_SCANCODE_LEFT])
+	{
+		this->walkLeft();
+		if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
+			this->pointDown(false);
 	}
-	if(currentKeyStates[SDL_SCANCODE_RIGHT]) {
-		if(!currentKeyStates[SDL_SCANCODE_LCTRL])  this->walkRight();
-		if(currentKeyStates[SDL_SCANCODE_UP] && !currentKeyStates[SDL_SCANCODE_DOWN])  this->pointUP(false);
-		else if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])  this->pointDown(false);
-		else this->pointDefault(false);
-	}
-	//caminar izquierda
-	if(currentKeyStates[SDL_SCANCODE_LEFT]&&currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_UP]) {
-		if(!currentKeyStates[SDL_SCANCODE_LCTRL]) this->pointUP(false);
-	}
-	if(currentKeyStates[SDL_SCANCODE_LEFT]&&currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_DOWN]) {
-		if(!currentKeyStates[SDL_SCANCODE_LCTRL]) this->pointDown(false);
-	}
-	if(currentKeyStates[SDL_SCANCODE_LEFT]&&currentKeyStates[SDL_SCANCODE_Z]) {
-		this->shoot();
-	}
-	if(currentKeyStates[SDL_SCANCODE_LEFT]) {
-		if(!currentKeyStates[SDL_SCANCODE_LCTRL])  this->walkLeft();
-		if(currentKeyStates[SDL_SCANCODE_UP] && !currentKeyStates[SDL_SCANCODE_DOWN])  this->pointUP(false);
-		else if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])  this->pointDown(false);
-		else this->pointDefault(false);
-	}
-	//disparo parado
-	if(currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_UP]){
-		if(!currentKeyStates[SDL_SCANCODE_RIGHT]&&!currentKeyStates[SDL_SCANCODE_LEFT]
-			&&!currentKeyStates[SDL_SCANCODE_LCTRL])
-		{
-			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP)
-				this->pointUP(true);
-			else this->pointUP(false);
-		}
-	}
-	if(currentKeyStates[SDL_SCANCODE_Z]&&currentKeyStates[SDL_SCANCODE_DOWN]){
-		if(!currentKeyStates[SDL_SCANCODE_RIGHT]&&!currentKeyStates[SDL_SCANCODE_LEFT]
-			&&!currentKeyStates[SDL_SCANCODE_LCTRL])
-		{
-			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP)
-				this->pointDown(true);
-			else this->pointDown(false);
-		}
-	}
-	//disparos en salto
-	if(currentKeyStates[SDL_SCANCODE_Z]){
-		this->shoot();
-		if(!currentKeyStates[SDL_SCANCODE_UP]&&!currentKeyStates[SDL_SCANCODE_DOWN]
-			 &&!currentKeyStates[SDL_SCANCODE_LEFT]&&!currentKeyStates[SDL_SCANCODE_RIGHT])
-		{
-			if(state != STATE_JUMPINGDOWN && state !=STATE_JUMPINGUP)
-				this->pointDefault(true);
-			else this->pointDefault(false);
-		}
-	}
-	//caer de plataforma solo si se tocan ambas teclas a la vez
-	if(currentKeyStates[SDL_SCANCODE_SPACE] && currentKeyStates[SDL_SCANCODE_LCTRL]){
-		if (direction == DIRECTION_BACK)
-			state = STATE_STANDING_BACK;
+	else if(currentKeyStates[SDL_SCANCODE_DOWN])
+	{
+		//caer de plataforma solo si se tocan ambas teclas a la vez
+		if(currentKeyStates[SDL_SCANCODE_SPACE] && !currentKeyStates[SDL_SCANCODE_LCTRL] && !currentKeyStates[SDL_SCANCODE_UP])
+			this->goDown();
+		//cuerpo a tierra
 		else
-			state = STATE_STANDING;
-
-		pos_y += 1;
-	}
-	//Salto
-	else if(currentKeyStates[SDL_SCANCODE_SPACE]){
-			this->jump();
-	}
-	//cuerpo a tirra
-	else if(currentKeyStates[SDL_SCANCODE_LCTRL]){
 			this->bodyToGround();
 	}
-	//Bug
-	if(currentKeyStates[SDL_SCANCODE_LEFT] && currentKeyStates[SDL_SCANCODE_RIGHT] &&
-			state != STATE_POINTBODYTOGROUND && state != STATE_POINTBODYTOGROUND_BACK)
+	// cuando no es niguno vuelve a estado de reposo
+	else if(state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
 	{
-		if(state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP){
-			state = STATE_STANDING;
-			if (currentKeyStates[SDL_SCANCODE_Z])
-			{
-				aimingAt = AIM_FRONT;
-				state = STATE_POINTFRONT;
-				this->shoot();
-			}
-		}
+		this->pointDefault(true);
 	}
+
+	//Salto
+	if(currentKeyStates[SDL_SCANCODE_SPACE])
+	{
+			this->jump();
+	}
+
+	// apunta arriba
+	if(currentKeyStates[SDL_SCANCODE_UP])
+	{
+		if(currentKeyStates[SDL_SCANCODE_DOWN]) // TODO ver por que no funciona
+			this->pointDefault(false);
+		else if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT]) // para bug de ambas direcciones
+			this->pointUP(true);
+		else if(currentKeyStates[SDL_SCANCODE_RIGHT] || currentKeyStates[SDL_SCANCODE_LEFT] || state == STATE_JUMPINGDOWN || state == STATE_JUMPINGUP)
+			this->pointUP(false);
+		else
+			this->pointUP(true);
+	}
+	else if(!currentKeyStates[SDL_SCANCODE_DOWN])
+	{
+		this->pointDefault(false);
+	}
+
+	// dispara, es independiente a lo demas
+	if(currentKeyStates[SDL_SCANCODE_LCTRL])
+	{
+		LOGGER_DEBUG("El jugador dispara");
+		this->shoot();
+	}
+
 	// para subir en level 2
 	// TODO quitar
-	if(currentKeyStates[SDL_SCANCODE_A]){
+	if(currentKeyStates[SDL_SCANCODE_A])
+	{
 			pos_y-=5;
 	}
+
 }
 
 void Player::update(){
@@ -217,6 +191,17 @@ void Player::resetPos(){
 
 void Player::jump(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN && !falling) state = STATE_JUMPINGUP;
+}
+
+void Player::goDown(){
+	if(!falling)
+	{
+		if (direction == DIRECTION_BACK)
+			state = STATE_STANDING_BACK;
+		else
+			state = STATE_STANDING;
+		falling = true;
+	}
 }
 
 void Player::walkLeft(){

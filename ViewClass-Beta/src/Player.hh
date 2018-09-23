@@ -41,6 +41,7 @@ class Player : public ICollisional
 
 		//ACCIONES
 		void jump();
+		void goDown();
 		void walkLeft();
 		void walkRight();
 		void pointUP(bool cond);
