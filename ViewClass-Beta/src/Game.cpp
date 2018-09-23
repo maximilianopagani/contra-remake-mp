@@ -142,6 +142,7 @@ void Game::render()
 
 void Game::destroy()
 {
+	LOGGER_DEBUG("Se comienza la destruccion del juego.");
 	player->destroy();
 	level->destroy();
 	gameView->destroy();
