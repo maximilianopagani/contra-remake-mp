@@ -185,6 +185,8 @@ void Player::update(){
 					maxDistanceJump=150;
 				}
 				break;
+		default:
+				break;
 	}
 	// Actualizacion de posicion de balas
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
