@@ -139,7 +139,13 @@ SDL_Texture* GameView::textureGenerator(std::string path)
 	if(surface == NULL)
 	{
 		LOGGER_ERROR("Imposible cargar " + path + " - SDL_Image_Error: " + IMG_GetError());
-		//ACA PONER UNA IMAGEN POR DEFECTO CUANDO NOS QUITAN UNA IMAGEN PARA LAS PRUEBAS. ESto se deberia hacer al momento de cargar la sprite. SI la carga desde el file falla, cargar desde el default
+		
+		surface = IMG_Load("image/ImageNotFound.png");
+		texture = SDL_CreateTextureFromSurface(renderer, surface);
+	
+		SDL_FreeSurface(surface);
+
+		return texture;
 	}
 	else
 	{
