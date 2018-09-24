@@ -29,6 +29,8 @@ private:
 	string fondo3Nivel3;
 
 	std::list<PlataformParser> plataformas;
+	std::list<PlataformParser> plataforms2;
+	std::list<PlataformParser> plataforms3;
 
 	//Others attributes
 	bool fileConfigLoaded;
@@ -39,7 +41,7 @@ public:
 	GameParser();
 	bool evaluateTagDebug();
 	bool evaluateTagNivel1();
-	bool evaluateTagPlataformas();
+	bool evaluateTagPlataformas(const char * tagNivel);
 	bool evaluateTagPlataforma1Nivel1();
 	bool evaluateTagPlataforma2Nivel1();
 	bool evaluateTagNivel2();
@@ -62,6 +64,8 @@ public:
 	const std::list<PlataformParser>& getPlataformas() const;
 
 	virtual ~GameParser();
+	const std::list<PlataformParser>& getPlataforms2() const;
+	const std::list<PlataformParser>& getPlataforms3() const;
 };
 
 #endif /* GAMEPARSER_HH_ */

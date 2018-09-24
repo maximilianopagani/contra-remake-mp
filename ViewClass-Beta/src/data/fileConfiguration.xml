@@ -22,31 +22,84 @@
 					<xfinal>397</xfinal>
 					<altura>400</altura>
 				</plataforma>
-<!-- 				<plataforma> -->
-<!-- 					<id>3</id>				 -->
-<!-- 					<tipo>GRASS</tipo> -->
-<!-- 					<xinicial>300</xinicial> -->
-<!-- 					<xfinal>396</xfinal> -->
-<!-- 					<altura>200</altura> -->
-<!-- 				</plataforma> -->
-<!-- 				<plataforma> -->
-<!-- 					<id>4</id>				 -->
-<!-- 					<tipo>GRASS</tipo> -->
-<!-- 					<xinicial>4000</xinicial> -->
-<!-- 					<xfinal>4200</xfinal> -->
-<!-- 					<altura>100</altura> -->
-<!-- 				</plataforma> -->
 			</plataformas>
 		</nivel1>
 		<nivel2>
 			<fondo1>imagenes/fondos/set2/MARCO + ISLA 800x4000.png</fondo1>
 			<fondo2>imagenes/fondos/set2/CASCADA+NUBES 800x3000.png</fondo2>
 			<fondo3>imagenes/fondos/set2/FONDO FINAL 800x1300.png</fondo3>
+			<plataformas>
+				<plataforma>
+					<id>2001</id>
+					<tipo>WOOD</tipo>
+					<xinicial>400</xinicial>
+					<xfinal>800</xfinal>
+					<altura>300</altura>
+				</plataforma>
+				<plataforma>
+					<id>2002</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>1</xinicial>
+					<xfinal>397</xfinal>
+					<altura>400</altura>
+				</plataforma>
+				<plataforma>
+					<id>2003</id>				
+					<tipo>WATER</tipo>
+					<xinicial>1</xinicial>
+					<xfinal>397</xfinal>
+					<altura>400</altura>
+				</plataforma>
+				<plataforma>
+					<id>2004</id>				
+					<tipo>STONE</tipo>
+					<xinicial>1</xinicial>
+					<xfinal>397</xfinal>
+					<altura>400</altura>
+				</plataforma>
+				<plataforma>
+					<id>2005</id>				
+					<tipo>GROUND</tipo>
+					<xinicial>1</xinicial>
+					<xfinal>397</xfinal>
+					<altura>400</altura>
+				</plataforma>
+			</plataformas>
 		</nivel2>
 		<nivel3>
 			<fondo1>imagenes/fondos/set3/ARBOLES+ARBUSTOS 8000x600.png</fondo1>
 			<fondo2>imagenes/fondos/set3/COLINAS 7200x600.png</fondo2>
 			<fondo3>imagenes/fondos/set3/CIELO+NUBES+SOL 4800x600.png</fondo3>
+			<plataformas>
+				<plataforma>
+					<id>3001</id>
+					<tipo>WOOD</tipo>
+					<xinicial>400</xinicial>
+					<xfinal>800</xfinal>
+					<altura>300</altura>
+				</plataforma>
+				<plataforma>
+					<id>3002</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>1</xinicial>
+					<xfinal>397</xfinal>
+					<altura>400</altura>
+				</plataforma>
+				<plataforma>
+					<id>3003</id>				
+					<tipo>ICE</tipo>
+					<xinicial>1</xinicial>
+					<xfinal>397</xfinal>
+					<altura>400</altura>
+				</plataforma>
+				<plataforma>
+					<id>3004</id>				
+					<tipo>STONE</tipo>
+					<xinicial>1</xinicial>
+					<xfinal>397</xfinal>
+					<altura>400</altura>
+				</plataforma>
+			</plataformas>
 		</nivel3>
 	</escenarios>
 </configuration>

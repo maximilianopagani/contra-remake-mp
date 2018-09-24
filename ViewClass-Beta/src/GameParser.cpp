@@ -19,14 +19,37 @@ GameParser::GameParser() {
 
 void GameParser::testDataParserModel(){
 	LOGGER_DEBUG("El nivel de loggueo almacenado en el parser es: " + getLevel());
-	std::list<PlataformParser>::iterator it;
-	std::list<PlataformParser> lista;
+	std::list<PlataformParser>::iterator it1;
+	std::list<PlataformParser> lista1;
 
-	lista = this->getPlataformas();
-    for (it=lista.begin(); it != lista.end();it++){
-        int dato = (*it).getId();
-		LOGGER_DEBUG("El id de la plataforma es: " + dato);
+	lista1 = this->getPlataformas();
+    for (it1=lista1.begin(); it1 != lista1.end();it1++){
+        int dato = (*it1).getId();
+		//LOGGER_DEBUG("El id de la plataforma es: " + dato);
+    	cout << "El id de la plataforma es: ";
+    	cout << dato << endl;
     }
+
+    std::list<PlataformParser>::iterator it2;
+    std::list<PlataformParser> lista2;
+	lista2 = this->getPlataforms2();
+    for (it2=lista2.begin(); it2 != lista2.end();it2++){
+        int dato = (*it2).getId();
+		//LOGGER_DEBUG("El id de la plataforma es: " + dato);
+    	cout << "El id de la plataforma del nivel 2 es: ";
+    	cout << dato << endl;
+    }
+
+    std::list<PlataformParser>::iterator it3;
+    std::list<PlataformParser> lista3;
+	lista3 = this->getPlataforms3();
+    for (it3=lista3.begin(); it3 != lista3.end();it3++){
+        int dato = (*it3).getId();
+		//LOGGER_DEBUG("El id de la plataforma es: " + dato);
+    	cout << "El id de la plataforma del nivel 3 es: ";
+    	cout << dato << endl;
+    }
+
 }
 
 bool GameParser::evaluateTagDebug(){
@@ -293,7 +316,7 @@ bool GameParser::evaluateTagNivel3(){
 }
 
 
-bool GameParser::evaluateTagPlataformas(){
+bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 	bool sucess = true;
 	TiXmlNode* tagIDNode = NULL;
 	TiXmlNode* tagTipoNode = NULL;
@@ -309,11 +332,14 @@ bool GameParser::evaluateTagPlataformas(){
 	PlataformParser plataformParser;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
-	TiXmlElement* tagPlataformElement = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToElement();
+	TiXmlElement* tagPlataformElement = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(tagNivel).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToElement();
 
     int cant=1;
 	for (tagPlataformElement; tagPlataformElement; tagPlataformElement = tagPlataformElement->NextSiblingElement()) {
-		LOGGER_DEBUG("La plataforma a evaluar es la nro: " + cant);
+		//LOGGER_DEBUG("La plataforma a evaluar es la nro: " + cant);
+    	cout << "El elemento de la plataforma a evaluar es la nro: ";
+    	cout << cant << endl;
+
 		sucess = true;
 
 		//TAG_ID
@@ -393,9 +419,22 @@ bool GameParser::evaluateTagPlataformas(){
 		}
 
 		if (sucess) {
-			this->plataformas.push_back(plataformParser);
-			LOGGER_DEBUG("El tipo de la plataforma es: " + plataformParser.getTipo());
-			cant++;
+			if (tagNivel==TAG_NIVEL1){
+				this->plataformas.push_back(plataformParser);
+				LOGGER_DEBUG("El tipo de la plataforma del nivel 1 es: " + plataformParser.getTipo());
+				cant++;
+			}
+			if (tagNivel==TAG_NIVEL2){
+				this->plataforms2.push_back(plataformParser);
+				LOGGER_DEBUG("El tipo de la plataforma del nivel 2 es: " + plataformParser.getTipo());
+				cant++;
+
+			}
+			if (tagNivel==TAG_NIVEL3){
+				this->plataforms3.push_back(plataformParser);
+				LOGGER_DEBUG("El tipo de la plataforma del nivel 3 es: " + plataformParser.getTipo());
+				cant++;
+			}
 		}
 	}
 
@@ -419,12 +458,12 @@ bool GameParser::evaluateDataXML (){
 
 	TiXmlNode* tagPlataforma = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToNode();
 	if (tagPlataforma) {
-		sucess = this->evaluateTagPlataformas();
+		sucess = this->evaluateTagPlataformas(TAG_NIVEL1);
 		if (sucess) {
-			LOGGER_DEBUG("TAG_PLATAFORMAS, evaluacion aprobada");
+			LOGGER_DEBUG("TAG_PLATAFORMAS del nivel 1, evaluacion aprobada");
 		}
 	} else {
-		LOGGER_DEBUG("TAG_PLATAFORMAS no existe");
+		LOGGER_DEBUG("TAG_PLATAFORMAS del nivel 1 no existe");
     	return false;
 	}
 
@@ -433,9 +472,31 @@ bool GameParser::evaluateDataXML (){
 		LOGGER_DEBUG("TAG_NIVEL2, evaluacion aprobada");
 	}
 
+	TiXmlNode* tagPlataforma2 = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL2).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToNode();
+	if (tagPlataforma2) {
+		sucess = this->evaluateTagPlataformas(TAG_NIVEL2);
+		if (sucess) {
+			LOGGER_DEBUG("TAG_PLATAFORMAS del nivel 2, evaluacion aprobada");
+		}
+	} else {
+		LOGGER_DEBUG("TAG_PLATAFORMAS del nivel 2 no existe");
+    	return false;
+	}
+
 	sucess = this->evaluateTagNivel3();
 	if (sucess) {
 		LOGGER_DEBUG("TAG_NIVEL3, evaluacion aprobada");
+	}
+
+	TiXmlNode* tagPlataforma3 = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL3).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToNode();
+	if (tagPlataforma3) {
+		sucess = this->evaluateTagPlataformas(TAG_NIVEL3);
+		if (sucess) {
+			LOGGER_DEBUG("TAG_PLATAFORMAS del nivel 3, evaluacion aprobada");
+		}
+	} else {
+		LOGGER_DEBUG("TAG_PLATAFORMAS  del nivel 3 no existe");
+    	return false;
 	}
 
 	return sucess;
@@ -520,6 +581,14 @@ const string& GameParser::getFondo3Nivel3() const {
 
 const string& GameParser::getLevel() const {
 	return level;
+}
+
+const std::list<PlataformParser>& GameParser::getPlataforms2() const {
+	return plataforms2;
+}
+
+const std::list<PlataformParser>& GameParser::getPlataforms3() const {
+	return plataforms3;
 }
 
 const std::list<PlataformParser>& GameParser::getPlataformas() const {

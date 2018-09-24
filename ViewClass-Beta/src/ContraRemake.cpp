@@ -7,7 +7,7 @@ int main(int argc, char* args[])
 {
 
 	// se inicia el logger por consola para el parser
-	LOGGER_INIT_FILELESS(Logger::ERROR);
+	LOGGER_INIT_FILELESS(Logger::DEBUG);
 	GameParser* parser = new GameParser();
 	if (parser->loadConfiguration()) {
 		parser->testDataParserModel();
