@@ -50,6 +50,15 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel2(), 800, 600, 800, 600);
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel2(), 800, 600, 800, 600);
 
+			platformParser = gameParser->getPlataforms2();
+			for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++){
+				string platformType = (*platformParserIterator).getTipo();
+				int platformXInitial = (*platformParserIterator).getXInicial();
+				int platformXFinal = (*platformParserIterator).getXFinal();
+				int platformY = (*platformParserIterator).getAltura();
+				platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
+			}
+
 			playerSpawnX = 200;
 			playerSpawnY = 3850;
 
@@ -65,6 +74,15 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel3(), 800, 600, 800, 600);
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel3(), 800, 600, 800, 600);
+
+			platformParser = gameParser->getPlataforms3();
+			for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++){
+				string platformType = (*platformParserIterator).getTipo();
+				int platformXInitial = (*platformParserIterator).getXInicial();
+				int platformXFinal = (*platformParserIterator).getXFinal();
+				int platformY = (*platformParserIterator).getAltura();
+				platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
+			}
 
 			playerSpawnX = 200;
 			playerSpawnY = 400;

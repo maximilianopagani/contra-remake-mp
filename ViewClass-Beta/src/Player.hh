@@ -52,7 +52,7 @@ class Player : public ICollisional
 		void shoot();
 		void fallingDownStop(){falling = false ;}
 		void fallingDown(){falling = true ;}
-		void resetPos();
+		void resetPos(int _pos_y);
 
 		void handleKeys(const Uint8* _currentKeyStates);
 		string toString();

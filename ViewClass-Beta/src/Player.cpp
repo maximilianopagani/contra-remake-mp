@@ -230,9 +230,9 @@ void Player::update(){
 	    }
 	}
 }
-void Player::resetPos(){
+void Player::resetPos(int _pos_y){
 	pos_x = 150;
-	pos_y = 300;
+	pos_y = _pos_y;
 	maxDistanceJump=150;
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
