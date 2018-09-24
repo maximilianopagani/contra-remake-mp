@@ -67,9 +67,53 @@ void Player::render()
 	}
 }
 
+string Player::toString()
+{
+	switch(state)
+	{
+		case STATE_WALKINGRIGHT:
+			return "STATE_WALKINGRIGHT";
+		case STATE_WALKINGRIGHTPOINTUP:
+			return "STATE_WALKINGRIGHTPOINTUP";
+		case STATE_WALKINGRIGHTPOITNDOWN:
+			return "STATE_WALKINGRIGHTPOITNDOWN";
+		case STATE_WALKINGLEFT:
+			return "STATE_WALKINGLEFT";
+		case STATE_WALKINGLEFTPOINTUP:
+			return "STATE_WALKINGLEFTPOINTUP";
+		case STATE_WALKINGLEFTPOINTDOWN:
+			return "STATE_WALKINGLEFTPOINTDOWN";
+		case STATE_STANDING:
+			return "STATE_STANDING";
+		case STATE_STANDING_BACK:
+			return "STATE_STANDING_BACK";
+		case STATE_JUMPINGUP:
+			return "STATE_JUMPINGUP";
+		case STATE_JUMPINGDOWN:
+			return "STATE_JUMPINGDOWN";
+		case STATE_POINTUP:
+			return "STATE_POINTUP";
+		case STATE_POINTFRONT:
+			return "STATE_POINTFRONT";
+		case STATE_POINTBACK:
+			return "STATE_POINTBACK";
+		case STATE_POINTDOWN:
+			return "STATE_POINTDOWN";
+		case STATE_POINTBODYTOGROUND:
+			return "STATE_POINTBODYTOGROUND";
+		case STATE_POINTUP_BACK:
+			return "STATE_POINTUP_BACK";
+		case STATE_POINTDOWN_BACK:
+			return "STATE_POINTDOWN_BACK";
+		case STATE_POINTBODYTOGROUND_BACK:
+			return "STATE_POINTBODYTOGROUND_BACK";
+	}
+	return "SIN ESTADO";
+}
+
 void Player::handleKeys(const Uint8* _currentKeyStates)
 {
-	LOGGER_DEBUG("Comienzo handle");
+	LOGGER_DEBUG("Comienzo handle en state : " + toString() );
 	currentKeyStates = _currentKeyStates;
 
 	// bug de ambas direcciones
@@ -127,11 +171,12 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 			this->pointDefault(false);
 			LOGGER_DEBUG("ARRIBA Y ABAJO");
 		}
-		else if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT]) // para bug de ambas direcciones
+		else if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT] && state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP) // para bug de ambas direcciones
 			this->pointUP(true);
 		else if(currentKeyStates[SDL_SCANCODE_RIGHT] || currentKeyStates[SDL_SCANCODE_LEFT] || state == STATE_JUMPINGDOWN || state == STATE_JUMPINGUP)
 			this->pointUP(false);
-		else
+		else if (state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
+//		else
 			this->pointUP(true);
 	}
 	else if(!currentKeyStates[SDL_SCANCODE_DOWN])
@@ -144,13 +189,6 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	{
 		LOGGER_DEBUG("El jugador dispara");
 		this->shoot();
-	}
-
-	// para subir en level 2
-	// TODO quitar
-	if(currentKeyStates[SDL_SCANCODE_A])
-	{
-			pos_y-=5;
 	}
 
 }

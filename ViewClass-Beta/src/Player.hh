@@ -55,6 +55,7 @@ class Player : public ICollisional
 		void resetPos();
 
 		void handleKeys(const Uint8* _currentKeyStates);
+		string toString();
 
 	private:
 
