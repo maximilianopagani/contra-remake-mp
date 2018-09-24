@@ -19,8 +19,8 @@ GameParser::GameParser() {
 
 void GameParser::testDataParserModel(){
 	LOGGER_DEBUG("El nivel de loggueo almacenado en el parser es: " + getLevel());
-	std::list<PlataformaParser>::iterator it;
-	std::list<PlataformaParser> lista;
+	std::list<PlataformParser>::iterator it;
+	std::list<PlataformParser> lista;
 
 	lista = this->getPlataformas();
     for (it=lista.begin(); it != lista.end();it++){
@@ -306,95 +306,95 @@ bool GameParser::evaluateTagPlataformas(){
 	string strXFinal = ZERO;
 	string strAltura = ZERO;
 
-	PlataformaParser plataformaParser;
+	PlataformParser plataformParser;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
-	TiXmlElement* tagPlataformaElement = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToElement();
+	TiXmlElement* tagPlataformElement = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToElement();
 
     int cant=1;
-	for (tagPlataformaElement; tagPlataformaElement; tagPlataformaElement = tagPlataformaElement->NextSiblingElement()) {
+	for (tagPlataformElement; tagPlataformElement; tagPlataformElement = tagPlataformElement->NextSiblingElement()) {
 		LOGGER_DEBUG("La plataforma a evaluar es la nro: " + cant);
 		sucess = true;
 
 		//TAG_ID
-		tagIDNode = tagPlataformaElement->FirstChildElement(TAG_ID);
-		if ((tagIDNode)&&(tagPlataformaElement->FirstChildElement(TAG_ID)->GetText())) {
+		tagIDNode = tagPlataformElement->FirstChildElement(TAG_ID);
+		if ((tagIDNode)&&(tagPlataformElement->FirstChildElement(TAG_ID)->GetText())) {
 			strID.clear();
-			strID.append(tagPlataformaElement->FirstChildElement(TAG_ID)->GetText());
+			strID.append(tagPlataformElement->FirstChildElement(TAG_ID)->GetText());
 		    if (!strID.compare(ZERO)) {
 		    	LOGGER_DEBUG("TAG_ID es cero");
 		    	sucess = false;
 		    }
-	        plataformaParser.setId(atoi(strID.c_str()));
+	        plataformParser.setId(atoi(strID.c_str()));
 		} else {
 			LOGGER_DEBUG("TAG_ID no existe o tiene valores invalidos");
 			sucess = false;
 		}
 
 		//TAG_TIPO
-		tagTipoNode = tagPlataformaElement->FirstChildElement(TAG_TIPO);
-		if ((tagTipoNode)&&(tagPlataformaElement->FirstChildElement(TAG_TIPO)->GetText())) {
+		tagTipoNode = tagPlataformElement->FirstChildElement(TAG_TIPO);
+		if ((tagTipoNode)&&(tagPlataformElement->FirstChildElement(TAG_TIPO)->GetText())) {
 			strTipo.clear();
-			strTipo.append(tagPlataformaElement->FirstChildElement(TAG_TIPO)->GetText());
+			strTipo.append(tagPlataformElement->FirstChildElement(TAG_TIPO)->GetText());
 		    if (!strTipo.compare(VALUE_EMPTY)) {
 		    	LOGGER_DEBUG("TAG_TIPO esta vacio");
 		    	sucess = false;
 		    }
-		    plataformaParser.setTipo(strTipo);
+		    plataformParser.setTipo(strTipo);
 		} else {
 			LOGGER_DEBUG("TAG_TIPO no existe o tiene valores invalidos");
 			sucess = false;
 		}
 
 	    //TAG_XINICIAL
-		tagXInicialNode = tagPlataformaElement->FirstChildElement(TAG_XINICIAL);
-		if ((tagXInicialNode)&&(tagPlataformaElement->FirstChildElement(TAG_XINICIAL)->GetText())) {
+		tagXInicialNode = tagPlataformElement->FirstChildElement(TAG_XINICIAL);
+		if ((tagXInicialNode)&&(tagPlataformElement->FirstChildElement(TAG_XINICIAL)->GetText())) {
 			strXInicial.clear();
-			strXInicial.append(tagPlataformaElement->FirstChildElement(TAG_XINICIAL)->GetText());
+			strXInicial.append(tagPlataformElement->FirstChildElement(TAG_XINICIAL)->GetText());
 		    if (!strXInicial.compare(ZERO)) {
 		    	LOGGER_DEBUG("TAG_XINICIAL es cero");
 		    	sucess = false;
 		    }
-	        plataformaParser.setXInicial(atoi(strXInicial.c_str()));
+	        plataformParser.setXInicial(atoi(strXInicial.c_str()));
 		} else {
 			LOGGER_DEBUG("TAG_XINICIAL no existe o tiene valores invalidos");
 			sucess = false;
 		}
 
 	    //TAG_XFINAL
-		tagXFinalNode = tagPlataformaElement->FirstChildElement(TAG_XFINAL);
-		if ((tagXFinalNode)&&(tagPlataformaElement->FirstChildElement(TAG_XFINAL)->GetText())) {
+		tagXFinalNode = tagPlataformElement->FirstChildElement(TAG_XFINAL);
+		if ((tagXFinalNode)&&(tagPlataformElement->FirstChildElement(TAG_XFINAL)->GetText())) {
 			strXFinal.clear();
-			strXFinal.append(tagPlataformaElement->FirstChildElement(TAG_XFINAL)->GetText());
+			strXFinal.append(tagPlataformElement->FirstChildElement(TAG_XFINAL)->GetText());
 		    if (!strXFinal.compare(ZERO)) {
 		    	LOGGER_DEBUG("TAG_XFINAL es cero");
 		    	sucess = false;
 		    }
 
-	        plataformaParser.setXFinal(atoi(strXFinal.c_str()));
+	        plataformParser.setXFinal(atoi(strXFinal.c_str()));
 		} else {
 			LOGGER_DEBUG("TAG_XFINAL no existe o tiene valores invalidos");
 			sucess = false;
 		}
 
 	    //TAG_ALTURA
-		tagXAlturaNode = tagPlataformaElement->FirstChildElement(TAG_ALTURA);
-		if ((tagXAlturaNode)&&(tagPlataformaElement->FirstChildElement(TAG_ALTURA)->GetText())) {
+		tagXAlturaNode = tagPlataformElement->FirstChildElement(TAG_ALTURA);
+		if ((tagXAlturaNode)&&(tagPlataformElement->FirstChildElement(TAG_ALTURA)->GetText())) {
 			strAltura.clear();
-			strAltura.append(tagPlataformaElement->FirstChildElement(TAG_ALTURA)->GetText());
+			strAltura.append(tagPlataformElement->FirstChildElement(TAG_ALTURA)->GetText());
 		    if (!strAltura.compare(ZERO)) {
 		    	LOGGER_DEBUG("TAG_ALTURA es cero");
 		    	sucess = false;
 		    }
-		    plataformaParser.setAltura(atoi(strAltura.c_str()));
+		    plataformParser.setAltura(atoi(strAltura.c_str()));
 		} else {
 			LOGGER_DEBUG("TAG_ALTURA no existe o tiene valores invalidos");
 			sucess = false;
 		}
 
 		if (sucess) {
-			this->plataformas.push_back(plataformaParser);
-			LOGGER_DEBUG("El tipo de la plataforma es: " + plataformaParser.getTipo());
+			this->plataformas.push_back(plataformParser);
+			LOGGER_DEBUG("El tipo de la plataforma es: " + plataformParser.getTipo());
 			cant++;
 		}
 	}
@@ -522,6 +522,6 @@ const string& GameParser::getLevel() const {
 	return level;
 }
 
-const std::list<PlataformaParser>& GameParser::getPlataformas() const {
+const std::list<PlataformParser>& GameParser::getPlataformas() const {
 	return plataformas;
 }

@@ -9,8 +9,8 @@
 #include <stdlib.h>
 #include "Constants.hh"
 #include "Logger.hh"
-#include "PlataformaParser.hh"
 #include <list>
+#include "PlataformParser.hh"
 
 using namespace std;
 
@@ -28,7 +28,7 @@ private:
 	string fondo2Nivel3;
 	string fondo3Nivel3;
 
-	std::list<PlataformaParser> plataformas;
+	std::list<PlataformParser> plataformas;
 
 	//Others attributes
 	bool fileConfigLoaded;
@@ -59,7 +59,7 @@ public:
 	const string& getFondo3Nivel2() const;
 	const string& getFondo3Nivel3() const;
 	const string& getLevel() const;
-	const std::list<PlataformaParser>& getPlataformas() const;
+	const std::list<PlataformParser>& getPlataformas() const;
 
 	virtual ~GameParser();
 };

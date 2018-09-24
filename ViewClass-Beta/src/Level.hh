@@ -53,8 +53,8 @@ class Level
 		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
 		ScrollingType scrolling;
 
-		std::list<PlataformaParser> platformParser;
-		std::list<PlataformaParser>::iterator platformParserIterator;
+		std::list<PlataformParser> platformParser;
+		std::list<PlataformParser>::iterator platformParserIterator;
 		std::list<Platform*> platforms;
 		std::list<Platform*>::iterator platformsIterator;
 

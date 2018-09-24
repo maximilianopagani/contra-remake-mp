@@ -5,15 +5,15 @@
  *      Author: gmc
  */
 
-#ifndef PLATAFORMAPARSER_HH_
-#define PLATAFORMAPARSER_HH_
+#ifndef PLATAFORMPARSER_HH_
+#define PLATAFORMPARSER_HH_
 
 #include <string>
 #include "Constants.hh"
 
 using namespace std;
 
-class PlataformaParser {
+class PlataformParser {
 private:
 	int id;
 	string tipo;
@@ -22,8 +22,8 @@ private:
 	int altura;
 
 public:
-	PlataformaParser();
-	virtual ~PlataformaParser();
+	PlataformParser();
+	virtual ~PlataformParser();
 	int getAltura() const;
 	void setAltura(int altura);
 	int getId() const;
@@ -36,4 +36,4 @@ public:
 	void setXInicial(int xInicial);
 };
 
-#endif /* PLATAFORMAPARSER_HH_ */
+#endif /* PLATAFORMPARSER_HH_ */
