@@ -396,6 +396,7 @@ void Player::shoot()
 void Player::spawn(int x, int y){
 	pos_x = x;
 	pos_y = y;
+	maxDistanceJump=150;
 	state = STATE_STANDING;
 	aimingAt = AIM_FRONT;
 	lastShotTime = 0;
