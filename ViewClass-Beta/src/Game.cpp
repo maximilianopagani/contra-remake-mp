@@ -69,6 +69,7 @@ void Game::restartGame()
 
 void Game::nextLevel()
 {
+	LOGGER_INFO("Se inicia nuevo nivel : " + currentLevel);
 	switch(currentLevel)
 	{
 		case LEVEL1:

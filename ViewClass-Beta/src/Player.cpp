@@ -69,17 +69,20 @@ void Player::render()
 
 void Player::handleKeys(const Uint8* _currentKeyStates)
 {
+	LOGGER_DEBUG("Comienzo handle");
 	currentKeyStates = _currentKeyStates;
 
 	// bug de ambas direcciones
 	if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT])
 	{
+		LOGGER_DEBUG("IZQ Y DER");
 		if(state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
 			this->pointDefault(true);
 	}
 	// caminar derecha
 	else if(currentKeyStates[SDL_SCANCODE_RIGHT])
 	{
+		LOGGER_DEBUG("DER");
 		this->walkRight();
 		if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
 			this->pointDown(false);
@@ -87,36 +90,43 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	// caminar izq
 	else if(currentKeyStates[SDL_SCANCODE_LEFT])
 	{
+		LOGGER_DEBUG("IZQ");
 		this->walkLeft();
 		if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
 			this->pointDown(false);
 	}
-	else if(currentKeyStates[SDL_SCANCODE_DOWN])
+	else if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
 	{
+		LOGGER_DEBUG("ABAJO Y NO ARRIBA");
 		//caer de plataforma solo si se tocan ambas teclas a la vez
-		if(currentKeyStates[SDL_SCANCODE_SPACE] && !currentKeyStates[SDL_SCANCODE_LCTRL] && !currentKeyStates[SDL_SCANCODE_UP])
+		if(currentKeyStates[SDL_SCANCODE_SPACE] && !currentKeyStates[SDL_SCANCODE_LCTRL])
 			this->goDown();
-		//cuerpo a tierra
+		//cuerpo a tierra -- bug arriba+abajo
 		else
 			this->bodyToGround();
 	}
 	// cuando no es niguno vuelve a estado de reposo
 	else if(state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
 	{
+		LOGGER_DEBUG("NADA");
 		this->pointDefault(true);
 	}
 
 	//Salto
 	if(currentKeyStates[SDL_SCANCODE_SPACE])
 	{
-			this->jump();
+		LOGGER_DEBUG("SALTO");
+		this->jump();
 	}
 
 	// apunta arriba
 	if(currentKeyStates[SDL_SCANCODE_UP])
 	{
 		if(currentKeyStates[SDL_SCANCODE_DOWN]) // TODO ver por que no funciona
+		{
 			this->pointDefault(false);
+			LOGGER_DEBUG("ARRIBA Y ABAJO");
+		}
 		else if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT]) // para bug de ambas direcciones
 			this->pointUP(true);
 		else if(currentKeyStates[SDL_SCANCODE_RIGHT] || currentKeyStates[SDL_SCANCODE_LEFT] || state == STATE_JUMPINGDOWN || state == STATE_JUMPINGUP)

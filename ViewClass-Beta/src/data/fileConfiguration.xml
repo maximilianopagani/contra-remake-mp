@@ -1,6 +1,6 @@
 <configuration>
 	<debug>
-		<level>DEBUG</level>
+		<level>INFO</level>
 	</debug>
 	<escenarios>
 		<nivel1>
