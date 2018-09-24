@@ -122,11 +122,28 @@ void Game::update()
 	}
 
 	//resetea la posicion de all despues de caer
-	if(player->getPosY() > 600) {
+	int maxPosY;
+	if (currentLevel == LEVEL2) {
+		maxPosY = 4000;
+	}
+	else {
+		maxPosY = 600;
+	}
+	if(player->getPosY() > maxPosY) {
 		player->resetPos();
 		level->destroy();
-		currentLevel = LEVEL1;
-		level = new Level(gameParser, gameView, LEVEL1);
+		switch(currentLevel) {
+			case LEVEL1:
+				level = new Level(gameParser, gameView, LEVEL1);
+				break;
+			case LEVEL2:
+				level = new Level(gameParser, gameView, LEVEL2);
+				break;
+			case LEVEL3:
+				level = new Level(gameParser, gameView, LEVEL3);
+				break;
+		}
+
 	}
 }
 
