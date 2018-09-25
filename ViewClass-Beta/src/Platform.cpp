@@ -20,38 +20,11 @@ Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int 
 	if (type == "GRASS")
 		path = "imagenes/plataformas/blocks.png";
 	else if (type == "ROCK")
-		path = "";
+		path = "imagenes/plataformas/rock.png";
 	else if (type == "WOOD")
 		path = "imagenes/plataformas/wood log sprite sheet.png";
 	else
-		path = "";
-	/*
-	switch(type)
-	{
-		case GRASS:
-		{
-			path = "imagenes/plataformas/blocks.png";
-			break;
-		}
-		case ROCK:
-		{
-			//TODO
-			path = "";
-			break;
-		}
-		case WOOD:
-		{
-			path = "imagenes/plataformas/wood log sprite sheet.png";
-			break;
-		}
-		case ICE:
-		{
-			//TODO
-			path = "";
-			break;
-		}
-	}
-	*/
+		path = "imagenes/plataformas/ice.png";
 
 	int width, height;
 	// se obtienen las dimensiones
