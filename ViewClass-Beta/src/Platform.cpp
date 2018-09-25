@@ -23,8 +23,10 @@ Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int 
 		path = "imagenes/plataformas/rock.png";
 	else if (type == "WOOD")
 		path = "imagenes/plataformas/wood log sprite sheet.png";
-	else
+	else if (type == "ICE")
 		path = "imagenes/plataformas/ice.png";
+	else if (type == "BOSS")
+		path = "imagenes/plataformas/BOSS3.png";
 
 	int width, height;
 	// se obtienen las dimensiones

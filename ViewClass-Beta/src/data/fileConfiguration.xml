@@ -586,8 +586,15 @@
 					<id>3018</id>
 					<tipo>WOOD</tipo>
 					<xinicial>7500</xinicial>
-					<xfinal>8000</xfinal>
+					<xfinal>7895</xfinal>
 					<altura>500</altura>
+				</plataforma>
+				<plataforma>
+					<id>3066</id>
+					<tipo>BOSS</tipo>
+					<xinicial>7663</xinicial>
+					<xfinal>8000</xfinal>
+					<altura>1</altura>
 				</plataforma>
 			</plataformas>
 		</nivel3>
