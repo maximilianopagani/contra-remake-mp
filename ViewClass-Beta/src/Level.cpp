@@ -37,6 +37,8 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			playerSpawnX = 200;
 			playerSpawnY = 400;
 
+			enemy = new Enemy(gameView, "imagenes/enemigos/contra_boss_level1.png", 7800, 200, 95, 111);
+
 			break;
 		}
 		case LEVEL2:
@@ -62,6 +64,8 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			playerSpawnX = 200;
 			playerSpawnY = 3850;
 
+			enemy = new Enemy(gameView, "imagenes/enemigos/contra_boss_level2.png", 150, 0, 253, 103);
+
 			break;
 		}
 		case LEVEL3:
@@ -86,6 +90,8 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 
 			playerSpawnX = 200;
 			playerSpawnY = 400;
+
+			enemy = new Enemy(gameView, "imagenes/enemigos/contra_boss_level3.png", 7800, 310, 127, 95);
 
 			break;
 		}
@@ -127,6 +133,8 @@ void Level::render()
 		(*platformsIterator)->render();
 		++platformsIterator;
 	}
+
+	enemy->render();
 }
 
 void Level::destroy()
@@ -138,6 +146,8 @@ void Level::destroy()
 	background3Sprite->destroy();
 	background2Sprite->destroy();
 	background1Sprite->destroy();
+
+	enemy->destroy();
 }
 
 void Level::moveForward(int playerPosX, int playerPosY)

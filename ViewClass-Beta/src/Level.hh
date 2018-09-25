@@ -13,6 +13,7 @@
 //#include "Parallax.hh"
 #include "Platform.hh"
 #include "Sprite.hh"
+#include "Enemy.hh"
 
 enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};
 
@@ -62,6 +63,7 @@ class Level
 		//std::list<Enemy*>::iterator enemiesIterator;
 
 		//TODO crear lista de plataformas y mostros
+        Enemy* enemy;
 
 };
 
