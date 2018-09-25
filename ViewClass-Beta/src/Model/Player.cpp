@@ -44,7 +44,7 @@ Player::Player(GameView* _view)
 	bulletSprite->setSourceRectXY(104, 8);
 
 	lastShotTime = 0;
-	shotCooldown = 100;
+	shotCooldown = 200;
 }
 
 Player::~Player()
@@ -351,7 +351,7 @@ void Player::normalState(){
 void Player::shoot()
 {
 	Uint32 currentShotTime = gameView->getTicks();
-	int distanceToTravel = 400;
+	int distanceToTravel = 450;
 
 	if((currentShotTime - lastShotTime) > shotCooldown)
 	{
@@ -365,7 +365,10 @@ void Player::shoot()
 				break;
 
 			case AIM_UP:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+35, pos_y+5, 7, -7, distanceToTravel));
+//				if (state == STATE_WALKINGRIGHTPOINTUP)
+//					bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+40, pos_y+5, 10, -5, distanceToTravel));
+//				else
+					bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+35, pos_y+5, 7, -7, distanceToTravel));
 				break;
 
 			case AIM_DOWN:
