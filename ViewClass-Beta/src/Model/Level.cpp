@@ -104,8 +104,12 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 	}
 	else
 	{
-		border = background1Sprite->getTextureHeight() - gameView->getWindowHeight() * 0.6; // Margen al 60% de la altura
-		background1Sprite->setSourceRectXY(0, background1Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+		// Si no encuentro el fondo 1 debo hardcodear parámetros
+		int bg1TextureHeight = background1Sprite->getTextureHeight();
+		if (bg1TextureHeight < 4000) bg1TextureHeight = 4000;
+
+		border = bg1TextureHeight - gameView->getWindowHeight() * 0.6; // Margen al 60% de la altura
+		background1Sprite->setSourceRectXY(0, bg1TextureHeight - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
 		background2Sprite->setSourceRectXY(0, background2Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
 		background3Sprite->setSourceRectXY(0, background3Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
 	}
@@ -154,7 +158,11 @@ void Level::moveForward(int playerPosX, int playerPosY)
 {
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
-		if((background1Sprite->getSourceRectX() + gameView->getWindowWidth()) < background1Sprite->getTextureWidth())
+		// Si no encuentro el fondo 1 debo hardcodear parámetros
+		int bg1TextureWidth = background1Sprite->getTextureWidth();
+		if (bg1TextureWidth < 8000) bg1TextureWidth = 8000;
+
+		if((background1Sprite->getSourceRectX() + gameView->getWindowWidth()) < bg1TextureWidth)
 		{
 			if(playerPosX >= border)
 			{
