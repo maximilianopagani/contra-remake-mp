@@ -9,6 +9,7 @@
 #define SRC_LEVEL_HH_
 
 #include "../Utils/GameParser.hh"
+#include "../Utils/PlataformParser.hh"
 #include "../Vista/GameView.hh"
 //#include "Parallax.hh"
 #include "Platform.hh"
