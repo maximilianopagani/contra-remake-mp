@@ -18,24 +18,24 @@ Player::Player(GameView* _view)
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
 
-	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png",25, 38,48,48);
-	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,"image/walkingRightPointingUp.png",19, 38,48,48);
-	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,"image/walkingRightPointingDown.png",21, 38,48,48);
-	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png",25,38,48,48);
-	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,"image/walkingLeftPointingUp.png",19, 38,48,48);
-	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,"image/walkingLeftPointingDown.png",21.3, 38,48,48);
-	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png",16, 38,48,48);
-	animations[STATE_STANDING_BACK] = new Sprite(gameView,"image/standingBack.png",16, 38,48,48);
-	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png",20, 38,48,48);
-	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png",20, 38,48,48);
-	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png",18, 36,48,48);
-	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png",25, 36,48,48);
-	animations[STATE_POINTBACK] = new Sprite(gameView,"image/pointBack.png",25, 36,48,48);
-	animations[STATE_POINTDOWN] = new Sprite(gameView,"image/pointDown.png",22, 37,48,48);
-	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,"image/bodyToGround.png",32, 38,48,48);
-	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,"image/pointDownBack.png",22, 37,48,48);
-	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,"image/bodyToGroundBack.png",32, 38,48,48);
-	animations[STATE_POINTUP_BACK] = new Sprite(gameView,"image/pointUpBack.png",18, 36,48,48);
+	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,"image/walkingRight.png", 25, 38, 58, 87);
+	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,"image/walkingRightPointingUp.png", 19, 38, 44, 87);
+	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,"image/walkingRightPointingDown.png", 21, 38, 48, 87);
+	animations[STATE_WALKINGLEFT] = new Sprite(gameView,"image/walkingLeft.png", 25, 38, 58, 87);
+	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,"image/walkingLeftPointingUp.png", 19, 38, 44, 87);
+	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,"image/walkingLeftPointingDown.png", 21, 38, 48, 87);
+	animations[STATE_STANDING] = new Sprite(gameView,"image/standing.png", 16, 38, 39, 87);
+	animations[STATE_STANDING_BACK] = new Sprite(gameView,"image/standingBack.png", 16, 38, 39, 87);
+	animations[STATE_JUMPINGUP] = new Sprite(gameView,"image/jumping.png", 20, 38, 46, 114);
+	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"image/jumping.png", 20, 38, 46, 87);
+	animations[STATE_POINTUP] = new Sprite(gameView,"image/pointUp.png", 18, 36, 41, 82);
+	animations[STATE_POINTFRONT] = new Sprite(gameView,"image/pointFront.png", 25, 36, 58, 82);
+	animations[STATE_POINTBACK] = new Sprite(gameView,"image/pointBack.png", 25, 36, 58, 82);
+	animations[STATE_POINTDOWN] = new Sprite(gameView,"image/pointDown.png", 22, 37, 51, 85);
+	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,"image/bodyToGround.png", 32, 38, 96, 87);
+	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,"image/pointDownBack.png", 22, 37, 51, 85);
+	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,"image/bodyToGroundBack.png", 32, 38, 74, 87);
+	animations[STATE_POINTUP_BACK] = new Sprite(gameView,"image/pointUpBack.png", 18, 36, 41, 82);
 
 
 	aimingAt = AIM_FRONT;
