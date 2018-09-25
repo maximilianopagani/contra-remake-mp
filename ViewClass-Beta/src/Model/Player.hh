@@ -11,10 +11,10 @@
 #define PLAYER_HH_
 
 #include "Bullet.hh"
-#include "GameView.hh"
-#include "Sprite.hh"
-#include "Logger.hh"
-#include "ICollisional.hh"
+#include "../Vista/GameView.hh"
+#include "../Vista/Sprite.hh"
+#include "../Utils/Logger.hh"
+#include "../Utils/ICollisional.hh"
 
 class Player : public ICollisional
 {

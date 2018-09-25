@@ -8,9 +8,9 @@
 #ifndef ENEMY_HH_
 #define ENEMY_HH_
 
-#include "GameView.hh"
-#include "Sprite.hh"
-#include "Logger.hh"
+#include "../Vista/GameView.hh"
+#include "../Vista/Sprite.hh"
+#include "../Utils/Logger.hh"
 
 class Enemy {
 

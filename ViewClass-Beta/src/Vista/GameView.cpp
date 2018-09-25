@@ -6,8 +6,10 @@
  */
 
 #include "GameView.hh"
-
-#include "Headers.hh"
+#include "../Utils/Utils.hh"
+#include "../Utils/Logger.hh"
+#include "../Utils/GameParser.hh"
+#include "../Utils/Headers.hh"
 
 GameView::GameView()
 {

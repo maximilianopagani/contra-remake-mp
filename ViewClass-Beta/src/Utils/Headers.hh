@@ -8,9 +8,9 @@
 #include <iostream>
 #include <list>
 
-#include "Game.hh"
-#include "Level.hh"
-#include "Logger.hh"
+/*#include "../Model/Game.hh"
+#include "../Model/Level.hh"
+#include "../Utils/Logger.hh"*/
 
 
 using namespace std;

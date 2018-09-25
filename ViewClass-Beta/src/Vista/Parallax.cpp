@@ -6,7 +6,8 @@
  */
 
 #include "Parallax.hh"
-#include "Logger.hh"
+#include "../Vista/Sprite.hh"
+#include "../Utils/Logger.hh"
 
 Parallax::Parallax(GameView* _view, std::string bgPath1, std::string bgPath2, LevelNumber _level) {
 

@@ -8,11 +8,12 @@
 #ifndef SRC_LEVEL_HH_
 #define SRC_LEVEL_HH_
 
-#include "GameParser.hh"
-#include "GameView.hh"
+#include "../Utils/GameParser.hh"
+#include "../Vista/GameView.hh"
 //#include "Parallax.hh"
 #include "Platform.hh"
-#include "Sprite.hh"
+#include "../Vista/Sprite.hh"
+#include "../Utils/Headers.hh"
 #include "Enemy.hh"
 
 enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};

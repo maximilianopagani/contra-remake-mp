@@ -9,8 +9,8 @@
 #define SRC_BULLET_HH_
 
 
-#include "GameView.hh"
-#include "Sprite.hh"
+#include "../Vista/GameView.hh"
+#include "../Vista/Sprite.hh"
 
 class Bullet
 {

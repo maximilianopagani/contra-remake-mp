@@ -1,5 +1,8 @@
-#include "GameView.hh"
-#include "Headers.hh"
+#include "../Vista/GameView.hh"
+#include "../Utils/Logger.hh"
+#include "../Utils/GameParser.hh"
+#include "../Utils/Utils.hh"
+#include "Game.hh"
 
 Game* synergy;
 

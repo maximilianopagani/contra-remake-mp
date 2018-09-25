@@ -8,9 +8,9 @@
 #ifndef PLATFORM_HH_
 #define PLATFORM_HH_
 
-#include "GameView.hh"
-#include "Sprite.hh"
-#include "ICollisional.hh"
+#include "../Vista/GameView.hh"
+#include "../Vista/Sprite.hh"
+#include "../Utils/ICollisional.hh"
 
 class Platform : public ICollisional
 {

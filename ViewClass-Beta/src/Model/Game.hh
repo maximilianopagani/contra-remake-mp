@@ -7,11 +7,11 @@
 #ifndef GAME_HH_
 #define GAME_HH_
 
-#include "Headers.hh"
+#include "../Vista/GameView.hh"
 #include "Level.hh"
 #include "Player.hh"
-#include "GameParser.hh"
-#include "CollisionHelper.hh"
+#include "../Utils/GameParser.hh"
+#include "../Utils/CollisionHelper.hh"
 
 class Game
 {
