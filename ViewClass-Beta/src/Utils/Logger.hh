@@ -16,6 +16,7 @@
 //#define LOGGER_INIT(LEVEL, FILE) Logger::init(LEVEL, FILE);
 #define LOGGER_INIT(LEVEL) Logger::init(LEVEL, "logs/" + Utils::getDate() + ".log");
 #define LOGGER_INIT_FILELESS(LEVEL) Logger::init(LEVEL, "");
+#define LOGGER_INIT_SETUP(LEVEL) Logger::init(LEVEL, "logs/setup_" + Utils::getDate() + ".log");
 #define LOGGER_ERROR(MSG) Logger::logs(Logger::ERROR,MSG);
 #define LOGGER_INFO(MSG) Logger::logs(Logger::INFO,MSG);
 #define LOGGER_DEBUG(MSG) Logger::logs(Logger::DEBUG,MSG);

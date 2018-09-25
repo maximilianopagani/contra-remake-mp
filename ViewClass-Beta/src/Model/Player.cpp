@@ -126,7 +126,7 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	// caminar derecha
 	else if(currentKeyStates[SDL_SCANCODE_RIGHT])
 	{
-		LOGGER_DEBUG("DER");
+		LOGGER_DEBUG("El jugador presiona DERECHA");
 		this->walkRight();
 		if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
 			this->pointDown(false);
@@ -134,14 +134,14 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	// caminar izq
 	else if(currentKeyStates[SDL_SCANCODE_LEFT])
 	{
-		LOGGER_DEBUG("IZQ");
+		LOGGER_DEBUG("El jugador presiona IZQUIERDA");
 		this->walkLeft();
 		if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
 			this->pointDown(false);
 	}
 	else if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
 	{
-		LOGGER_DEBUG("ABAJO Y NO ARRIBA");
+		LOGGER_DEBUG("El jugador presiona ABAJO y NO ARRIBA");
 		//caer de plataforma solo si se tocan ambas teclas a la vez
 		if(currentKeyStates[SDL_SCANCODE_SPACE] && !currentKeyStates[SDL_SCANCODE_LCTRL])
 			this->goDown();
@@ -152,31 +152,29 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	// cuando no es niguno vuelve a estado de reposo
 	else if(state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
 	{
-		LOGGER_DEBUG("NADA");
 		this->pointDefault(true);
 	}
 
 	//Salto
 	if(currentKeyStates[SDL_SCANCODE_SPACE])
 	{
-		LOGGER_DEBUG("SALTO");
+		LOGGER_DEBUG("El jugaodor SALTA");
 		this->jump();
 	}
 
 	// apunta arriba
 	if(currentKeyStates[SDL_SCANCODE_UP])
 	{
-		if(currentKeyStates[SDL_SCANCODE_DOWN]) // TODO ver por que no funciona
+		if(currentKeyStates[SDL_SCANCODE_DOWN])
 		{
 			this->pointDefault(false);
-			LOGGER_DEBUG("ARRIBA Y ABAJO");
+			LOGGER_DEBUG("El jugador presiona ARRIBA y ABAJO");
 		}
 		else if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT] && state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP) // para bug de ambas direcciones
 			this->pointUP(true);
 		else if(currentKeyStates[SDL_SCANCODE_RIGHT] || currentKeyStates[SDL_SCANCODE_LEFT] || state == STATE_JUMPINGDOWN || state == STATE_JUMPINGUP)
 			this->pointUP(false);
 		else if (state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
-//		else
 			this->pointUP(true);
 	}
 	else if(!currentKeyStates[SDL_SCANCODE_DOWN])
@@ -187,7 +185,7 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	// dispara, es independiente a lo demas
 	if(currentKeyStates[SDL_SCANCODE_LCTRL])
 	{
-		LOGGER_DEBUG("El jugador dispara");
+		LOGGER_DEBUG("El jugador DISPARA");
 		this->shoot();
 	}
 

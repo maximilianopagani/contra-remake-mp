@@ -10,7 +10,7 @@ int main(int argc, char* args[])
 {
 
 	// se inicia el logger por consola para el parser
-	LOGGER_INIT_FILELESS(Logger::DEBUG);
+	LOGGER_INIT_SETUP(Logger::DEBUG);
 	GameParser* parser = new GameParser();
 	if (parser->loadConfiguration()) {
 		parser->testDataParserModel();
@@ -25,8 +25,12 @@ int main(int argc, char* args[])
 	else if (parser->getLevel() == "INFO") {
 		LOGGER_INIT(Logger::INFO);
 	}
+	else if (parser->getLevel() == "ERROR") {
+		LOGGER_INIT(Logger::ERROR);
+	}
 	else {
 		LOGGER_INIT(Logger::ERROR);
+		LOGGER_ERROR("No se encontro el nivel de logeo, se definio ERROR");
 	}
 
 	GameView* view = new GameView();

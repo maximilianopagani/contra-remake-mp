@@ -25,9 +25,8 @@ void GameParser::testDataParserModel(){
 	lista1 = this->getPlataformas();
     for (it1=lista1.begin(); it1 != lista1.end();it1++){
         int dato = (*it1).getId();
-		//LOGGER_DEBUG("El id de la plataforma es: " + dato);
-    	cout << "El id de la plataforma es: ";
-    	cout << dato << endl;
+//		LOGGER_DEBUG("El id de la plataforma es: " + dato);
+		LOGGER_DEBUG("El id de la plataforma es: ");
     }
 
     std::list<PlataformParser>::iterator it2;
@@ -35,9 +34,8 @@ void GameParser::testDataParserModel(){
 	lista2 = this->getPlataforms2();
     for (it2=lista2.begin(); it2 != lista2.end();it2++){
         int dato = (*it2).getId();
-		//LOGGER_DEBUG("El id de la plataforma es: " + dato);
-    	cout << "El id de la plataforma del nivel 2 es: ";
-    	cout << dato << endl;
+//		LOGGER_DEBUG("El id de la plataforma es: " + dato);
+		LOGGER_DEBUG("El id de la plataforma es: ");
     }
 
     std::list<PlataformParser>::iterator it3;
@@ -45,9 +43,8 @@ void GameParser::testDataParserModel(){
 	lista3 = this->getPlataforms3();
     for (it3=lista3.begin(); it3 != lista3.end();it3++){
         int dato = (*it3).getId();
-		//LOGGER_DEBUG("El id de la plataforma es: " + dato);
-    	cout << "El id de la plataforma del nivel 3 es: ";
-    	cout << dato << endl;
+//		LOGGER_DEBUG("El id de la plataforma es: " + dato);
+		LOGGER_DEBUG("El id de la plataforma es: ");
     }
 
 }
@@ -336,9 +333,7 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 
     int cant=1;
 	for (tagPlataformElement; tagPlataformElement; tagPlataformElement = tagPlataformElement->NextSiblingElement()) {
-		//LOGGER_DEBUG("La plataforma a evaluar es la nro: " + cant);
-    	cout << "El elemento de la plataforma a evaluar es la nro: ";
-    	cout << cant << endl;
+		LOGGER_DEBUG("La plataforma a evaluar es la nro: " + cant);
 
 		sucess = true;
 
