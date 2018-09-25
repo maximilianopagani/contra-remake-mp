@@ -465,126 +465,126 @@
 			<plataformas>
 				<plataforma>
 					<id>3001</id>
-					<tipo>GRASS</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>1</xinicial>
 					<xfinal>300</xfinal>
 					<altura>500</altura>
 				</plataforma>
 				<plataforma>
 					<id>3002</id>
-					<tipo>GRASS</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>400</xinicial>
 					<xfinal>600</xfinal>
 					<altura>400</altura>
 				</plataforma>
 				<plataforma>
 					<id>3003</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>700</xinicial>
 					<xfinal>800</xfinal>
 					<altura>300</altura>
 				</plataforma>
 				<plataforma>
 					<id>3004</id>
-					<tipo>GRASS</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>900</xinicial>
 					<xfinal>1200</xfinal>
 					<altura>500</altura>
 				</plataforma>
 				<plataforma>
 					<id>3005</id>
-					<tipo>WOOD</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>1300</xinicial>
 					<xfinal>1800</xfinal>
 					<altura>400</altura>
 				</plataforma>
 				<plataforma>
 					<id>3006</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>1900</xinicial>
 					<xfinal>2500</xfinal>
 					<altura>300</altura>
 				</plataforma>
 				<plataforma>
 					<id>3007</id>
-					<tipo>GRASS</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>2600</xinicial>
 					<xfinal>3100</xfinal>
 					<altura>200</altura>
 				</plataforma>
 				<plataforma>
 					<id>3008</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>3200</xinicial>
 					<xfinal>3500</xfinal>
 					<altura>300</altura>
 				</plataforma>
 				<plataforma>
 					<id>3009</id>
-					<tipo>GRASS</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>3600</xinicial>
 					<xfinal>4000</xfinal>
 					<altura>500</altura>
 				</plataforma>
 				<plataforma>
 					<id>3010</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>4100</xinicial>
 					<xfinal>4600</xfinal>
 					<altura>400</altura>
 				</plataforma>
 				<plataforma>
 					<id>3011</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>4700</xinicial>
 					<xfinal>5000</xfinal>
 					<altura>300</altura>
 				</plataforma>
 				<plataforma>
 					<id>3012</id>
-					<tipo>GRASS</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>5100</xinicial>
 					<xfinal>5300</xfinal>
 					<altura>200</altura>
 				</plataforma>
 				<plataforma>
 					<id>3013</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>5400</xinicial>
 					<xfinal>5600</xfinal>
 					<altura>300</altura>
 				</plataforma>
 				<plataforma>
 					<id>3014</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>5700</xinicial>
 					<xfinal>6000</xfinal>
 					<altura>200</altura>
 				</plataforma>
 				<plataforma>
 					<id>3015</id>
-					<tipo>GRASS</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>6200</xinicial>
 					<xfinal>6500</xfinal>
 					<altura>300</altura>
 				</plataforma>
 				<plataforma>
 					<id>3016</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>6600</xinicial>
 					<xfinal>7000</xfinal>
 					<altura>200</altura>
 				</plataforma>
 				<plataforma>
 					<id>3017</id>
-					<tipo>GRASS</tipo>
+					<tipo>ROCK</tipo>
 					<xinicial>7100</xinicial>
 					<xfinal>7400</xfinal>
 					<altura>400</altura>
 				</plataforma>
 				<plataforma>
 					<id>3019</id>
-					<tipo>WOOD</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>7300</xinicial>
 					<xfinal>7895</xfinal>
 					<altura>497</altura>
