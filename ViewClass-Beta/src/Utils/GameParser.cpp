@@ -17,36 +17,6 @@ GameParser::GameParser() {
 	this->fondo3Nivel3 = "";
 }
 
-void GameParser::testDataParserModel(){
-	LOGGER_DEBUG("El nivel de loggueo almacenado en el parser es: " + getLevel());
-	std::list<PlataformParser>::iterator it1;
-	std::list<PlataformParser> lista1;
-
-	lista1 = this->getPlataformas();
-    for (it1=lista1.begin(); it1 != lista1.end();it1++){
-        int dato = (*it1).getId();
-        std::string s = std::to_string(dato);
-		LOGGER_DEBUG("El id de la plataforma es: " + std::to_string(dato));
-    }
-
-    std::list<PlataformParser>::iterator it2;
-    std::list<PlataformParser> lista2;
-	lista2 = this->getPlataforms2();
-    for (it2=lista2.begin(); it2 != lista2.end();it2++){
-        int dato = (*it2).getId();
-		LOGGER_DEBUG("El id de la plataforma es: " + std::to_string(dato));
-    }
-
-    std::list<PlataformParser>::iterator it3;
-    std::list<PlataformParser> lista3;
-	lista3 = this->getPlataforms3();
-    for (it3=lista3.begin(); it3 != lista3.end();it3++){
-        int dato = (*it3).getId();
-		LOGGER_DEBUG("El id de la plataforma es: " + std::to_string(dato));
-    }
-
-}
-
 bool GameParser::evaluateTagDebug(){
 	bool sucess = true;
 	string strLevel;
@@ -97,6 +67,7 @@ bool GameParser::evaluateTagDebug(){
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
 			} else {
 				if (this->defaultfileConfigLoaded == true) {
+					LOGGER_ERROR("No se ha cargado el archivo de configuracion");
 					LOGGER_INFO("Se ha cargado el archivo default de configuracion")
 				}
 			}
@@ -107,6 +78,7 @@ bool GameParser::evaluateTagDebug(){
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
 			} else {
 				if (this->defaultfileConfigLoaded == true) {
+					LOGGER_ERROR("No se ha cargado el archivo de configuracion");
 					LOGGER_INFO("Se ha cargado el archivo default de configuracion")
 				}
 			}
@@ -329,10 +301,7 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
 	TiXmlElement* tagPlataformElement = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(tagNivel).FirstChild(TAG_PLATAFORMAS).FirstChild(TAG_PLATAFORMA).ToElement();
 
-    int cant=1;
 	for (tagPlataformElement; tagPlataformElement; tagPlataformElement = tagPlataformElement->NextSiblingElement()) {
-		LOGGER_DEBUG("La plataforma a evaluar es la nro: " + std::to_string(cant));
-
 		sucess = true;
 
 		//TAG_ID
@@ -414,19 +383,12 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		if (sucess) {
 			if (tagNivel==TAG_NIVEL1){
 				this->plataformas.push_back(plataformParser);
-				LOGGER_DEBUG("El tipo de la plataforma del nivel 1 es: " + plataformParser.getTipo());
-				cant++;
 			}
 			if (tagNivel==TAG_NIVEL2){
 				this->plataforms2.push_back(plataformParser);
-				LOGGER_DEBUG("El tipo de la plataforma del nivel 2 es: " + plataformParser.getTipo());
-				cant++;
-
 			}
 			if (tagNivel==TAG_NIVEL3){
 				this->plataforms3.push_back(plataformParser);
-				LOGGER_DEBUG("El tipo de la plataforma del nivel 3 es: " + plataformParser.getTipo());
-				cant++;
 			}
 		}
 	}
@@ -509,7 +471,7 @@ bool GameParser::loadConfiguration() {
 			this->defaultfileConfigLoaded = true;
 			evaluateDataXML();
 		} else {
-			LOGGER_ERROR("No hay archivo de configuracion");
+			LOGGER_ERROR("No hay archivos de configuracion");
 			if (this->tiXmlFileConfig) {
 				delete this->tiXmlFileConfig;
 				this->fileConfigLoaded = false;

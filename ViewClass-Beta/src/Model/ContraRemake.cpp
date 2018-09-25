@@ -13,7 +13,7 @@ int main(int argc, char* args[])
 	LOGGER_INIT_SETUP(Logger::DEBUG);
 	GameParser* parser = new GameParser();
 	if (parser->loadConfiguration()) {
-		parser->testDataParserModel();
+		LOGGER_INFO("Carga aceptada del archivo de configuracion");
 	}
 	// se mata al primer logger
 	LOGGER_KILL();
