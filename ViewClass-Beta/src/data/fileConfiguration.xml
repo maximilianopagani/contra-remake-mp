@@ -583,11 +583,11 @@
 					<altura>400</altura>
 				</plataforma>
 				<plataforma>
-					<id>3018</id>
+					<id>3019</id>
 					<tipo>WOOD</tipo>
-					<xinicial>7500</xinicial>
+					<xinicial>7300</xinicial>
 					<xfinal>7895</xfinal>
-					<altura>500</altura>
+					<altura>497</altura>
 				</plataforma>
 				<plataforma>
 					<id>3066</id>
