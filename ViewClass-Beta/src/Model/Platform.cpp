@@ -18,13 +18,13 @@ Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int 
 	std::string path = ""; //TODO poner default
 
 	if (type == "GRASS")
-		path = "imagenes/plataformas/blocks.png";
+		path = "imagenes/plataformas/grass1_48x48.png";
 	else if (type == "ROCK")
-		path = "imagenes/plataformas/rock.png";
+		path = "imagenes/plataformas/rock1_48x48.png";
 	else if (type == "WOOD")
-		path = "imagenes/plataformas/wood log sprite sheet.png";
+		path = "imagenes/plataformas/wood2_48x48.png";
 	else if (type == "ICE")
-		path = "imagenes/plataformas/ice.png";
+		path = "imagenes/plataformas/ice1_48x48.png";
 	else if (type == "BOSS")
 		path = "imagenes/plataformas/BOSS3.png";
 
@@ -75,5 +75,5 @@ int Platform::getTopLimit()
 
 int Platform::getBottomLimit()
 {
-	return getTopLimit() + 7;
+	return getTopLimit() + 10;
 }
