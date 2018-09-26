@@ -124,7 +124,7 @@ void Game::update()
 	//resetea la posicion de all despues de caer
 	int posY;
 	if (currentLevel == LEVEL2) {
-		posY = 3850;
+		posY = 3800;
 	}
 	else {
 		posY = 300;

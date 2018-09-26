@@ -62,7 +62,7 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			}
 
 			playerSpawnX = 200;
-			playerSpawnY = 3850;
+			playerSpawnY = 3800;
 
 			enemy = new Enemy(gameView, "imagenes/enemigos/contra_boss_level2.png", 150, 0, 253, 103);
 
