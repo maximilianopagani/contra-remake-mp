@@ -292,10 +292,14 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 	TiXmlNode* tagXFinalNode = NULL;
 	TiXmlNode* tagXAlturaNode = NULL;
 	string strID = ZERO;
+	int id;
 	string strTipo = VALUE_EMPTY;
 	string strXInicial = ZERO;
+	int xinicial;
 	string strXFinal = ZERO;
+	int xfinal;
 	string strAltura = ZERO;
+	int altura;
 
 	PlataformParser plataformParser;
 
@@ -304,6 +308,10 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 
 	for (tagPlataformElement; tagPlataformElement; tagPlataformElement = tagPlataformElement->NextSiblingElement()) {
 		sucess = true;
+		id = -1;
+		xinicial = -1;
+		xfinal = -1;
+		altura = -1;
 
 		//TAG_ID
 		tagIDNode = tagPlataformElement->FirstChildElement(TAG_ID);
@@ -314,7 +322,13 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		    	LOGGER_DEBUG("TAG_ID es cero");
 		    	sucess = false;
 		    }
-	        plataformParser.setId(atoi(strID.c_str()));
+		    id = atoi(strID.c_str());
+		    if ((id>0)&&(id<=100000)) {
+		    	plataformParser.setId(id);
+			}else {
+				LOGGER_DEBUG("ID DESCONOCIDO: " + strID + ", para esta plataforma");
+				sucess = false;
+			}
 		} else {
 			LOGGER_DEBUG("TAG_ID no existe o tiene valores invalidos");
 			sucess = false;
@@ -329,7 +343,13 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		    	LOGGER_DEBUG("TAG_TIPO esta vacio");
 		    	sucess = false;
 		    }
-		    plataformParser.setTipo(strTipo);
+		    if ((strTipo == "GRASS")||(strTipo == "ICE")||(strTipo == "ROCK")||(strTipo == "WOOD")) {
+		    	plataformParser.setTipo(strTipo);
+			}else {
+				LOGGER_DEBUG("TIPO DESCONOCIDO: " + strTipo + ", su id de plataforma es: " + strID);
+				sucess = false;
+			}
+		    //plataformParser.setTipo(strTipo);
 		} else {
 			LOGGER_DEBUG("TAG_TIPO no existe o tiene valores invalidos");
 			sucess = false;
@@ -344,7 +364,13 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		    	LOGGER_DEBUG("TAG_XINICIAL es cero");
 		    	sucess = false;
 		    }
-	        plataformParser.setXInicial(atoi(strXInicial.c_str()));
+		    xinicial = atoi(strXInicial.c_str());
+		    if ((xinicial>0)&&(xinicial<=100000)) {
+		    	plataformParser.setXInicial(xinicial);
+			}else {
+				LOGGER_DEBUG("XINICIAL DESCONOCIDO: " + strXInicial + ", su id de plataforma es: " + strID);
+				sucess = false;
+			}
 		} else {
 			LOGGER_DEBUG("TAG_XINICIAL no existe o tiene valores invalidos");
 			sucess = false;
@@ -359,8 +385,18 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		    	LOGGER_DEBUG("TAG_XFINAL es cero");
 		    	sucess = false;
 		    }
-
-	        plataformParser.setXFinal(atoi(strXFinal.c_str()));
+		    xfinal = atoi(strXFinal.c_str());
+		    if ((xfinal>0)&&(xfinal<=100000)) {
+		    	if (xfinal>xinicial) {
+		    		plataformParser.setXFinal(xfinal);
+				}else{
+					LOGGER_DEBUG("XFINAL NO ES MAYOR QUE XINICIAL: " + strXFinal + ", su id de plataforma es: " + strID);
+					sucess = false;
+				}
+			}else {
+				LOGGER_DEBUG("XFINAL DESCONOCIDO: " + strXFinal + ", su id de plataforma es: " + strID);
+				sucess = false;
+			}
 		} else {
 			LOGGER_DEBUG("TAG_XFINAL no existe o tiene valores invalidos");
 			sucess = false;
@@ -375,6 +411,13 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		    	LOGGER_DEBUG("TAG_ALTURA es cero");
 		    	sucess = false;
 		    }
+		    altura = atoi(strAltura.c_str());
+		    if ((altura>0)&&(altura<=100000)) {
+		    	plataformParser.setAltura(altura);
+			}else {
+				LOGGER_DEBUG("ALTURA DESCONOCIDA: " + strAltura + ", su id de plataforma es: " + strID);
+				sucess = false;
+			}
 		    plataformParser.setAltura(atoi(strAltura.c_str()));
 		} else {
 			LOGGER_DEBUG("TAG_ALTURA no existe o tiene valores invalidos");
@@ -509,7 +552,7 @@ GameParser::~GameParser() {
 		this->fileConfigLoaded = false;
 	}
 	if (this->tiXmlDefaultFileConfig) {
-		delete this->tiXmlFileConfig;
+		delete this->tiXmlDefaultFileConfig;
 		this->defaultfileConfigLoaded = false;
 	}
 }

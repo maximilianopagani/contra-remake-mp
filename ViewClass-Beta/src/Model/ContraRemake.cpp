@@ -9,7 +9,7 @@ Game* synergy;
 int main(int argc, char* args[])
 {
 	// se inicia el logger por consola para el parser
-	LOGGER_INIT_SETUP(Logger::INFO);
+	LOGGER_INIT_SETUP(Logger::DEBUG);
 	GameParser* parser = new GameParser();
 
 	if (parser->loadConfiguration()) {
