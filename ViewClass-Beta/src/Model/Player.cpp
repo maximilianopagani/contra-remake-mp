@@ -54,10 +54,23 @@ Player::~Player()
 
 void Player::render()
 {
-	//if(!gameView->outOfWindow(pos_x, pos_y)) // EN este caso tampoco haria falta porque el player nunca se deberia mover afuera de la ventana. Se deberia limitar dentro del mov del player
-	//{
+	//lOGICA para que camine lento
+	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN
+		|| state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN){
+
+		timeAtIterationStart++;
+
+		if(timeAtIterationStart > 3){
+			animations[state]->update();
+			animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
+			timeAtIterationStart =0;
+		}else {
+			animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
+		}
+	}
+	else {
 		animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
-	//}
+	}
 
     // Renderizado de balas
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
@@ -260,15 +273,12 @@ void Player::walkLeft(){
 
 		if(aimingAt==AIM_UP_BACK){
 			state = STATE_WALKINGLEFTPOINTUP;
-			animations[state]->update();
 		}
 		else if(aimingAt==AIM_DOWN_BACK){
 			state = STATE_WALKINGLEFTPOINTDOWN;
-			animations[state]->update();
 		}
 		else {
 			state = STATE_WALKINGLEFT;
-				animations[state]->update();
 		}
 	}
 }
@@ -281,15 +291,12 @@ void Player::walkRight(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
 		if(aimingAt==AIM_UP){
 			state = STATE_WALKINGRIGHTPOINTUP;
-			animations[state]->update();
 		}
 		else if(aimingAt==AIM_DOWN){
 			state = STATE_WALKINGRIGHTPOITNDOWN;
-			animations[state]->update();
 		}
 		else {
 			state = STATE_WALKINGRIGHT;
-			animations[state]->update();
 		}
 	}
 }
