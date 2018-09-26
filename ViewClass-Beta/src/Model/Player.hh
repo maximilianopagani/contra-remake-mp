@@ -59,6 +59,8 @@ class Player : public ICollisional
 
 	private:
 
+		Uint32 timeAtIterationStart=0;
+
 		int pos_x, pos_y, maxDistanceJump;
 		bool falling;
 		static const int MAX_ANIMATIONS = 18;

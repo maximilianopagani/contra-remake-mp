@@ -62,11 +62,11 @@ void Player::render()
 
 		if(timeAtIterationStart > 3){
 			animations[state]->update();
-			animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
 			timeAtIterationStart =0;
-		}else {
-			animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
 		}
+
+		animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
+
 	}
 	else {
 		animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
