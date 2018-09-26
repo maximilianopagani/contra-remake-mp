@@ -492,7 +492,7 @@ bool GameParser::loadConfiguration() {
 				this->fileConfigLoaded = false;
 			}
 			if (this->tiXmlDefaultFileConfig) {
-				delete this->tiXmlFileConfig;
+				delete this->tiXmlDefaultFileConfig;
 				this->defaultfileConfigLoaded = false;
 			}
 			sucess = false;
