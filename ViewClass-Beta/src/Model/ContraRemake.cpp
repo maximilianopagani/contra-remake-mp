@@ -8,15 +8,22 @@ Game* synergy;
 
 int main(int argc, char* args[])
 {
+	bool sucess = false;
 
 	// se inicia el logger por consola para el parser
 	LOGGER_INIT_SETUP(Logger::INFO);
 	GameParser* parser = new GameParser();
-	if (parser->loadConfiguration()) {
+
+	sucess = parser->loadConfiguration();
+	if (sucess) {
 		LOGGER_INFO("Carga de configuracion aceptada");
 	} else {
 		// se mata al primer logger
 		LOGGER_KILL();
+
+		if (parser)
+			delete parser;
+
 		return 1;
 	}
 

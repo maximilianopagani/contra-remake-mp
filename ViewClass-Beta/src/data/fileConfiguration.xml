@@ -1,6 +1,6 @@
 <configuration>
 	<debug>
-		<level>ERROR</level>
+		<level>DEBUG</level>
 	</debug>
 	<escenarios>
 		<nivel1>
