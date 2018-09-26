@@ -360,11 +360,11 @@ void Player::shoot()
 	{
 		switch(aimingAt){
 			case AIM_FRONT:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+47, pos_y+24, 10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+47, pos_y+25, 10, 0, distanceToTravel));
 				break;
 
 			case AIM_BACK:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x-1, pos_y+24, -10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x-1, pos_y+25, -10, 0, distanceToTravel));
 				break;
 
 			case AIM_UP:
