@@ -75,5 +75,5 @@ int Platform::getTopLimit()
 
 int Platform::getBottomLimit()
 {
-	return getTopLimit() + 5;
+	return getTopLimit() + 7;
 }
