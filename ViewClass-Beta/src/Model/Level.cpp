@@ -72,9 +72,6 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			//parallax = new Parallax(gameView, gameParser->getFondo2Nivel3(), gameParser->getFondo3Nivel3(), _level);
-			//sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
-
 			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel3(), 800, 600, 800, 600);
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel3(), 800, 600, 800, 600);
@@ -124,9 +121,6 @@ Level::~Level()
 
 void Level::render()
 {
-	//parallax->render();
-	//sprite->render(0, 0);
-
 	background3Sprite->render(0, 0);
 	background2Sprite->render(0, 0);
 	background1Sprite->render(0, 0);
@@ -143,10 +137,6 @@ void Level::render()
 
 void Level::destroy()
 {
-	// LOGGER_INFO("Nivel destruido.");
-	//sprite->destroy();
-	//parallax->~Parallax();
-
 	background3Sprite->destroy();
 	background2Sprite->destroy();
 	background1Sprite->destroy();
@@ -172,11 +162,6 @@ void Level::moveForward(int playerPosX, int playerPosY)
 
 				border = playerPosX;
 				gameView->setCameraPosX(background1Sprite->getSourceRectX()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
-
-				//parallax->updatePlayerPos(playerPosX, playerPosY, true);
-			}
-			else {
-				//parallax->updatePlayerPos(playerPosX, playerPosY, false);
 			}
 		}
 	}
@@ -192,17 +177,12 @@ void Level::moveForward(int playerPosX, int playerPosY)
 
 				border = playerPosY;
 				gameView->setCameraPosY(background1Sprite->getSourceRectY()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
-
-				//parallax->updatePlayerPos(playerPosX, playerPosY, true);
-			}
-			else {
-				//parallax->updatePlayerPos(playerPosX, playerPosY, false);
 			}
 		}
 	}
 }
 
-void Level::restart(){
+void Level::restart()
+{
 	//FALTA IMPLEMENTAR PARA QUE REINICIE LOS 3 FONDOS DESPUES DEL SCROLEO
-
 }
