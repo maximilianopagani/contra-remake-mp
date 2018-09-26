@@ -64,13 +64,9 @@ void Player::render()
 			animations[state]->update();
 			timeAtIterationStart =0;
 		}
-
-		animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
-
 	}
-	else {
-		animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
-	}
+
+	animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
 
     // Renderizado de balas
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
