@@ -9,9 +9,8 @@
 #define SRC_LEVEL_HH_
 
 #include "../Utils/GameParser.hh"
-#include "../Utils/PlataformParser.hh"
+#include "../Utils/PlatformParser.hh"
 #include "../Vista/GameView.hh"
-//#include "Parallax.hh"
 #include "Platform.hh"
 #include "../Vista/Sprite.hh"
 #include "../Utils/Headers.hh"
@@ -29,9 +28,6 @@ class Level
 		void destroy();
 		void moveForward(int playerPosX, int playerPosY);
 
-		//int getLevelWidth() { return sprite->getTextureWidth(); }
-		//int getLevelHeight() { return sprite->getTextureHeight(); }
-
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
 		list<Platform*>* getPlataformList(){ return &platforms; }
@@ -48,9 +44,6 @@ class Level
 		Sprite* background2Sprite;
 		Sprite* background3Sprite;
 
-		//Sprite* sprite;
-		//Parallax* parallax;
-
 		int playerSpawnX, playerSpawnY, border;
 
 		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
@@ -61,10 +54,6 @@ class Level
 		std::list<Platform*> platforms;
 		std::list<Platform*>::iterator platformsIterator;
 
-		//std::list<Enemy*> enemies;
-		//std::list<Enemy*>::iterator enemiesIterator;
-
-		//TODO crear lista de plataformas y mostros
         Enemy* enemy;
 
 };

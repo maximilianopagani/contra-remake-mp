@@ -57,6 +57,7 @@ bool GameParser::evaluateTagDebug(){
 				LOGGER_INFO("Se ha cargado el archivo de configuracion");
 			} else {
 				if (this->defaultfileConfigLoaded == true) {
+					LOGGER_ERROR("No se ha cargado el archivo de configuracion");
 					LOGGER_INFO("Se ha cargado el archivo default de configuracion")
 				}
 			}
@@ -492,7 +493,7 @@ bool GameParser::loadConfiguration() {
 				this->fileConfigLoaded = false;
 			}
 			if (this->tiXmlDefaultFileConfig) {
-				delete this->tiXmlFileConfig;
+				delete this->tiXmlDefaultFileConfig;
 				this->defaultfileConfigLoaded = false;
 			}
 			sucess = false;

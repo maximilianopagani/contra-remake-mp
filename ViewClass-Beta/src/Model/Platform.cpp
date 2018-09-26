@@ -15,22 +15,27 @@ Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int 
 	posY = pos_y;
 	type = _type;
 
-	std::string path = ""; //TODO poner default
+	std::string path = "";
 
 	if (type == "GRASS")
-		path = "imagenes/plataformas/grass1_48x48.png";
+		path = ".images/platforms/grass1_48x48.png";
 	else if (type == "ROCK")
-		path = "imagenes/plataformas/rock1_48x48.png";
+		path = ".images/platforms/rock1_48x48.png";
 	else if (type == "WOOD")
-		path = "imagenes/plataformas/wood2_48x48.png";
+		path = ".images/platforms/wood2_48x48.png";
 	else if (type == "ICE")
-		path = "imagenes/plataformas/ice1_48x48.png";
-	else if (type == "BOSS")
-		path = "imagenes/plataformas/BOSS3.png";
+		path = ".images/platforms/ice1_48x48.png";
 
 	int width, height;
-	// se obtienen las dimensiones
-	gameView->queryTexture(path.c_str(),&width,&height);
+
+	if (path == "")
+	{
+		width = 48;
+		height = 48;
+	} else {
+		// se obtienen las dimensiones
+		gameView->queryTexture(path.c_str(),&width,&height);
+	}
 
 	int top = pixels/width;
 	if (top * width < pixels) ++top;

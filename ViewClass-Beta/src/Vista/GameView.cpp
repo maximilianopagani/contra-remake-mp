@@ -142,7 +142,7 @@ SDL_Texture* GameView::textureGenerator(std::string path)
 	{
 		LOGGER_ERROR("Imposible cargar " + path + " - SDL_Image_Error: " + IMG_GetError());
 		
-		surface = IMG_Load("image/ImageNotFound.png");
+		surface = IMG_Load(".images/ImageNotFound.png");
 		texture = SDL_CreateTextureFromSurface(renderer, surface);
 	
 		SDL_FreeSurface(surface);

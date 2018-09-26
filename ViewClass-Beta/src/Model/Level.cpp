@@ -17,9 +17,6 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			//parallax = new Parallax(gameView, gameParser->getFondo2Nivel1(), gameParser->getFondo3Nivel1(), _level);
-			//sprite = new Sprite(gameView, gameParser->getFondo1Nivel1(), 800, 600, 800, 600);
-
 			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel1(), 800, 600, 800, 600);
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel1(), 800, 600, 800, 600);
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel1(), 800, 600, 800, 600);
@@ -37,16 +34,13 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			playerSpawnX = 200;
 			playerSpawnY = 400;
 
-			enemy = new Enemy(gameView, "imagenes/enemigos/contra_boss_level1.png", 7800, 200, 95, 111);
+			enemy = new Enemy(gameView, ".images/enemies/contra_boss_level1.png", 7800, 200, 95, 111);
 
 			break;
 		}
 		case LEVEL2:
 		{
 			scrolling = SCROLLING_VERTICAL;
-
-			//parallax = new Parallax(gameView, gameParser->getFondo2Nivel2(), gameParser->getFondo3Nivel2(), _level);
-			//sprite = new Sprite(gameView, gameParser->getFondo1Nivel2(), 800, 600, 800, 600);
 
 			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel2(), 800, 600, 800, 600);
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel2(), 800, 600, 800, 600);
@@ -64,7 +58,7 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			playerSpawnX = 200;
 			playerSpawnY = 3800;
 
-			enemy = new Enemy(gameView, "imagenes/enemigos/contra_boss_level2.png", 150, 0, 253, 103);
+			enemy = new Enemy(gameView, ".images/enemies/contra_boss_level2.png", 150, 0, 253, 103);
 
 			break;
 		}
@@ -88,7 +82,7 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			playerSpawnX = 200;
 			playerSpawnY = 400;
 
-			enemy = new Enemy(gameView, "imagenes/enemigos/contra_boss_level3.png", 7800, 310, 127, 95);
+			enemy = new Enemy(gameView, ".images/enemies/contra_boss_level3.png", 7800, 310, 127, 95);
 
 			break;
 		}

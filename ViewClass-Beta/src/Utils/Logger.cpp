@@ -9,9 +9,9 @@
 // --------------------------------------
 const string Logger::LEVEL_NAMES[] =
 {
-    "DEBUG",
-    "INFO",
-    "ERROR",
+    "DEB",
+    "INF",
+    "ERR",
 	"OFF"
 };
 
@@ -28,12 +28,12 @@ void Logger::init(Level aLevel, const string& logFile)
     if (logFile != "")
         instance.fileStream.open(logFile.c_str(), std::ofstream::app);
 
-    logs("INIT","----------------------------|MODE : " + LEVEL_NAMES[aLevel] + "|----------------------------");
+    logs("INI","----------------------------|MODE : " + LEVEL_NAMES[aLevel] + "|----------------------------");
 }
 
 void Logger::kill()
 {
-	logs("KILL","-------------------------------| END |-------------------------------");
+	logs("KLL","-------------------------------| END |-------------------------------");
     instance.active = false;
 	instance.level = OFF;
     if(instance.fileStream.is_open())

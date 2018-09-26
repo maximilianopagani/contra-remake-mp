@@ -112,7 +112,7 @@ void Game::update()
 	list<Platform*>* platforms = level->getPlataformList();
 	list<Platform*>::iterator platformsIterator;
 	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
-		if( CollisionHelper::stands(player, *platformsIterator) ){
+		if(CollisionHelper::stands(player, *platformsIterator)){
 			player->fallingDownStop();
 			break;
 		}

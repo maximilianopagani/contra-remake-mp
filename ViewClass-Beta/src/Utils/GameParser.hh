@@ -11,7 +11,8 @@
 #include "Constants.hh"
 #include "Logger.hh"
 #include <list>
-#include "PlataformParser.hh"
+
+#include "PlatformParser.hh"
 
 using namespace std;
 

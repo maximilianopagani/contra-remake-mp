@@ -10,11 +10,16 @@ int main(int argc, char* args[])
 {
 
 	// se inicia el logger por consola para el parser
-	LOGGER_INIT_SETUP(Logger::DEBUG);
+	LOGGER_INIT_SETUP(Logger::INFO);
 	GameParser* parser = new GameParser();
 	if (parser->loadConfiguration()) {
 		LOGGER_INFO("Carga de configuracion aceptada");
+	} else {
+		// se mata al primer logger
+		LOGGER_KILL();
+		return 1;
 	}
+
 	// se mata al primer logger
 	LOGGER_KILL();
 
