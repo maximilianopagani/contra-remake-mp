@@ -383,12 +383,27 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		if (sucess) {
 			if (tagNivel==TAG_NIVEL1){
 				this->plataformas.push_back(plataformParser);
+				LOGGER_DEBUG("Se ha cargado exitosamente la plataforma cuyo ID es: " + strID);
+				LOGGER_DEBUG("Esta plataforma es de tipo: " + strTipo);
+				LOGGER_DEBUG("Esta plataforma tiene xinicial: " + strXInicial);
+				LOGGER_DEBUG("Esta plataforma tiene xfinal: " + strXFinal);
+				LOGGER_DEBUG("Esta plataforma tiene altura: " + strAltura);
 			}
 			if (tagNivel==TAG_NIVEL2){
 				this->plataforms2.push_back(plataformParser);
+				LOGGER_DEBUG("Se ha cargado exitosamente la plataforma cuyo ID es: " + strID);
+				LOGGER_DEBUG("Esta plataforma es de tipo: " + strTipo);
+				LOGGER_DEBUG("Esta plataforma tiene xinicial: " + strXInicial);
+				LOGGER_DEBUG("Esta plataforma tiene xfinal: " + strXFinal);
+				LOGGER_DEBUG("Esta plataforma tiene altura: " + strAltura);
 			}
 			if (tagNivel==TAG_NIVEL3){
 				this->plataforms3.push_back(plataformParser);
+				LOGGER_DEBUG("Se ha cargado exitosamente la plataforma cuyo ID es: " + strID);
+				LOGGER_DEBUG("Esta plataforma es de tipo: " + strTipo);
+				LOGGER_DEBUG("Esta plataforma tiene xinicial: " + strXInicial);
+				LOGGER_DEBUG("Esta plataforma tiene xfinal: " + strXFinal);
+				LOGGER_DEBUG("Esta plataforma tiene altura: " + strAltura);
 			}
 		}
 	}
