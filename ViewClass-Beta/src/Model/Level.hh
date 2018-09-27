@@ -23,6 +23,7 @@ class Level
 	public:
 
 		Level(GameParser* gameParser, GameView* gameView, LevelNumber _level);
+		virtual ~Level();
 
 		void render();
 		void destroy();
@@ -33,8 +34,6 @@ class Level
 		list<Platform*>* getPlataformList(){ return &platforms; }
 
 		void restart();
-
-		virtual ~Level();
 
 	private:
 

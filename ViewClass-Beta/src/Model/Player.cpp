@@ -12,7 +12,7 @@ Player::Player(GameView* _view)
 	gameView = _view;
 	pos_x = 150;
 	pos_y = 300;
-	maxDistanceJump=140;
+	maxDistanceJump=150;
 	falling = true;
 
 	state = STATE_STANDING;
@@ -236,13 +236,6 @@ void Player::update(){
 	    }
 	}
 }
-void Player::resetPos(int _pos_y){
-	pos_x = 150;
-	pos_y = _pos_y;
-	maxDistanceJump=150;
-	state = STATE_STANDING;
-	direction = DIRECTION_FRONT;
-}
 
 void Player::jump(){
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN && !falling) state = STATE_JUMPINGUP;
@@ -401,19 +394,23 @@ void Player::shoot()
 	}
 }
 
-void Player::spawn(int x, int y){
+void Player::spawn(int x, int y)
+{
 	pos_x = x;
 	pos_y = y;
 	state = STATE_STANDING;
 	aimingAt = AIM_FRONT;
+	direction = DIRECTION_FRONT;
+	maxDistanceJump = 150;
+	falling = true;
 	lastShotTime = 0;
-	shotCooldown = 200;
 	bullets.clear();
 }
 
 void Player::destroy()
 {
-	for(int i = 0 ; i < MAX_ANIMATIONS ; i++){
+	for(int i = 0 ; i < MAX_ANIMATIONS ; i++)
+	{
 		if (animations[i]) {animations[i]->destroy();}
 	}
 	bulletSprite->destroy();

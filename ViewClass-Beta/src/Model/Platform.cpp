@@ -26,35 +26,41 @@ Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int 
 	else if (type == "ICE")
 		path = ".images/platforms/ice1_48x48.png";
 
-	int width, height;
+	int height;
 
 	if (path == "")
 	{
-		width = 48;
+		tileWidth = 48;
 		height = 48;
-	} else {
-		// se obtienen las dimensiones
-		gameView->queryTexture(path.c_str(),&width,&height);
 	}
-
-	int top = pixels/width;
-	if (top * width < pixels) ++top;
-
-	for(int j=1; j<=top; j++)
+	else
 	{
-		parts.push_back(new Sprite(gameView, path.c_str(), width, height, width, height));
+		gameView->queryTexture(path.c_str(), &tileWidth, &height);
 	}
+
+	tileAmount = pixels/tileWidth;
+	if (tileAmount * tileWidth < pixels)
+		++tileAmount;
+
+	tileSprite = new Sprite(gameView, path.c_str(), tileWidth, height, tileWidth, height);
+	// primero crear sprite, luego hacerle un query mediante sprite para saber sus dimensiones y luego ajustar el rectangulo source y destination? asi evitamos cargar la textura desde un path
 }
 
-Platform::~Platform() {}
+Platform::~Platform()
+{
+	this->destroy();
+}
+
+void Platform::destroy()
+{
+	tileSprite->destroy();
+}
 
 void Platform::render()
 {
-	int posicionX = posX;
-	for(partsIterator = parts.begin(); partsIterator != parts.end(); ++partsIterator)
+	for(int i = 0; i < tileAmount; i++)
 	{
-		(*partsIterator)->render(posicionX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
-		posicionX = posicionX + ((Sprite*)(*partsIterator))->getDestinationWidth();
+		tileSprite->render(posX + i * tileWidth - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
 	}
 }
 
@@ -65,12 +71,7 @@ int Platform::getLeftLimit()
 
 int Platform::getRightLimit()
 {
-	int w = 0;
-	for(partsIterator = parts.begin(); partsIterator != parts.end(); ++partsIterator)
-	{
-		w = w + ((Sprite*)(*partsIterator))->getDestinationWidth();
-	}
-	return w + getLeftLimit();
+	return (posX + tileAmount * tileWidth);
 }
 
 int Platform::getTopLimit()
@@ -80,5 +81,5 @@ int Platform::getTopLimit()
 
 int Platform::getBottomLimit()
 {
-	return getTopLimit() + 10;
+	return (posY + 10);
 }

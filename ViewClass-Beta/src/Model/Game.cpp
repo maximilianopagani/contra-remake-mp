@@ -70,6 +70,7 @@ void Game::restartGame()
 void Game::nextLevel()
 {
 	LOGGER_INFO("Se inicia nuevo nivel : " + currentLevel);
+
 	switch(currentLevel)
 	{
 		case LEVEL1:
@@ -86,7 +87,7 @@ void Game::nextLevel()
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 
-		case LEVEL3: // NO borrar el nivel 3, porque el ciclo sigue, y quedan varias cosas que tiene que ejecutar todavia con el puntero a Level
+		case LEVEL3: // No borrar el nivel 3, porque el ciclo sigue, y quedan varias cosas que tiene que ejecutar todavia con el puntero a Level
 			endGame();
 	}
 }
@@ -111,39 +112,25 @@ void Game::update()
 	//colision jugador y plataforma
 	list<Platform*>* platforms = level->getPlataformList();
 	list<Platform*>::iterator platformsIterator;
-	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
-		if(CollisionHelper::stands(player, *platformsIterator)){
+
+	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator)
+	{
+		if(CollisionHelper::stands(player, *platformsIterator))
+		{
 			player->fallingDownStop();
 			break;
 		}
-		else {
+		else
+		{
 			player->fallingDown();
 		}
 	}
 
-	//resetea la posicion de all despues de caer
-	int posY;
-	if (currentLevel == LEVEL2) {
-		posY = 3800;
-	}
-	else {
-		posY = 300;
-	}
-	if(player->getPosY() > (gameView->getCameraPosY() + gameView->getWindowHeight() - 10)) {
-		player->resetPos(posY);
-		level->destroy();
-		switch(currentLevel) {
-			case LEVEL1:
-				level = new Level(gameParser, gameView, LEVEL1);
-				break;
-			case LEVEL2:
-				level = new Level(gameParser, gameView, LEVEL2);
-				break;
-			case LEVEL3:
-				level = new Level(gameParser, gameView, LEVEL3);
-				break;
-		}
-
+	// Si el jugador se cae de la ventana / muere
+	if(gameView->outOfWindowLowerBorder(player->getPosY()))
+	{
+		player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
+		level->restart();
 	}
 }
 
@@ -161,6 +148,7 @@ void Game::render()
 void Game::destroy()
 {
 	LOGGER_DEBUG("Se comienza la destruccion del juego.");
+
 	player->destroy();
 	level->destroy();
 	gameView->destroy();

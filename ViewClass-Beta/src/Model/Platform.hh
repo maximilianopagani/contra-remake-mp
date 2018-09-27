@@ -14,33 +14,34 @@
 
 class Platform : public ICollisional
 {
+	public:
 
-public:
-	//enum GroundType {GRASS, WOOD, ROCK, ICE};
+		//enum GroundType {GRASS, WOOD, ROCK, ICE};
 
-	Platform(GameView* _gameView, string type, int pos_x, int pos_y, int pixels);
-	virtual ~Platform();
+		Platform(GameView* _gameView, string type, int pos_x, int pos_y, int pixels);
+		virtual ~Platform();
 
-	void render();
-	list<Sprite*>* getListSpriteParts(){return &parts;}
-	int getPosX(){return posX;}
-	int getPosY(){return posY;}
+		void render();
+		int getPosX() { return posX; }
+		int getPosY() { return posY; }
+		void destroy();
 
-	//Collisional
-	int getLeftLimit();
-	int getRightLimit();
-	int getTopLimit();
-	int getBottomLimit();
+		//Collisional
+		int getLeftLimit();
+		int getRightLimit();
+		int getTopLimit();
+		int getBottomLimit();
 
+	private:
 
-private:
-	GameView* gameView;
-	string type; // probablemente no necesario
+		GameView* gameView;
+		string type; // probablemente no necesario
 
-	std::list<Sprite*> parts;
-	std::list<Sprite*>::iterator partsIterator;
+		int tileAmount, tileWidth; // Se podria hacer todo con un solo atributo, platformWidth, pero para el metodo render habria que hacer la query de la textura para obtener
+		//su ancho, y loopear con el for hasta i<platformWidth/ancho ó hasta i<plataformWidth;i=i+ancho
+		Sprite* tileSprite;
 
-	int posX, posY;
+		int posX, posY;
 };
 
 #endif /* PLATFORM_HH_ */

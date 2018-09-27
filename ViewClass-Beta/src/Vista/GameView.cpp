@@ -19,6 +19,7 @@ GameView::GameView()
 	windowWidth = 800;
 	camera_x_position = 0;
 	camera_y_position = 0;
+	invalidTexture = NULL;
 }
 
 GameView::~GameView()
@@ -84,6 +85,12 @@ bool GameView::init()
 		}
 	}
 
+	invalidTexture = textureGenerator(".images/ImageNotFound.png");
+	if(invalidTexture == NULL)
+	{
+		LOGGER_ERROR("Imposible cargar imágen invalida para usar ante eventuales fallas en el generador de textura");
+		// return false; ??? ANULAR EJECUCION DEL JUEGO??
+	}
 	return true;
 }
 
@@ -123,7 +130,7 @@ void GameView::queryTexture(SDL_Texture* texture, int* widthResponse, int* heigh
 	SDL_QueryTexture(texture, NULL, NULL, widthResponse, heightResponse);
 }
 
-void GameView::queryTexture(std::string path, int* widthResponse, int* heightResponse)
+void GameView::queryTexture(std::string path, int* widthResponse, int* heightResponse) /// ? una hora debugeando pq me hacia doble log de generacion de textura de plataformas jaja y es esto, que onda? leer comentario en platform constructor
 {
 	queryTexture(textureGenerator(path), widthResponse, heightResponse);
 }
@@ -138,33 +145,30 @@ SDL_Texture* GameView::textureGenerator(std::string path)
 	SDL_Texture* texture = NULL;
 	SDL_Surface* surface = IMG_Load(path.c_str());
 
+	LOGGER_INFO("Cargando imágen... " + path);
+
 	if(surface == NULL)
 	{
-		LOGGER_ERROR("Imposible cargar " + path + " - SDL_Image_Error: " + IMG_GetError());
-		
-		surface = IMG_Load(".images/ImageNotFound.png");
-		texture = SDL_CreateTextureFromSurface(renderer, surface);
-	
-		SDL_FreeSurface(surface);
-
-		return texture;
+		LOGGER_ERROR("Imposible cargar " + path + " - SDL_Image_Error: " + IMG_GetError() + " - ACCION: Se carga textura invalida en su lugar.");
+		return invalidTexture;
 	}
 	else
 	{
-		LOGGER_INFO("Imagen " + path + " cargada con éxito.");
+		LOGGER_INFO("Imagen " + path + " cargada con éxito. Creando textura a partir de ésta...");
 
 		texture = SDL_CreateTextureFromSurface(renderer, surface);
 
+		SDL_FreeSurface(surface);
+
 		if(texture == NULL)
 		{
-			LOGGER_ERROR("Imposible crear textura de " + path + " - SDL_Error: " + SDL_GetError());
+			LOGGER_ERROR("Imposible crear textura de " + path + " - SDL_Error: " + SDL_GetError() + " - ACCION: Se carga textura invalida en su lugar.");
+			return invalidTexture;
 		}
 		else
 		{
 			LOGGER_INFO("Textura de imagen " + path + " creada con éxito.");
 		}
-
-		SDL_FreeSurface(surface);
 	}
 
 	return texture;

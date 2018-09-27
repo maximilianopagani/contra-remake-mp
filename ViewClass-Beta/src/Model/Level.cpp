@@ -21,18 +21,11 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel1(), 800, 600, 800, 600);
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel1(), 800, 600, 800, 600);
 
-			//se crean las plataformas, ej:
+			// Cargo plataformas del XML
 			platformParser = gameParser->getPlataformas();
-			for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++){
-				string platformType = (*platformParserIterator).getTipo();
-				int platformXInitial = (*platformParserIterator).getXInicial();
-				int platformXFinal = (*platformParserIterator).getXFinal();
-				int platformY = (*platformParserIterator).getAltura();
-				platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
-			}
 
-			playerSpawnX = 200;
-			playerSpawnY = 400;
+			playerSpawnX = 150;
+			playerSpawnY = 300;
 
 			enemy = new Enemy(gameView, ".images/enemies/contra_boss_level1.png", 7800, 200, 95, 111);
 
@@ -46,16 +39,10 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel2(), 800, 600, 800, 600);
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel2(), 800, 600, 800, 600);
 
+			// Cargo plataformas del XML
 			platformParser = gameParser->getPlataforms2();
-			for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++){
-				string platformType = (*platformParserIterator).getTipo();
-				int platformXInitial = (*platformParserIterator).getXInicial();
-				int platformXFinal = (*platformParserIterator).getXFinal();
-				int platformY = (*platformParserIterator).getAltura();
-				platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
-			}
 
-			playerSpawnX = 200;
+			playerSpawnX = 150;
 			playerSpawnY = 3800;
 
 			enemy = new Enemy(gameView, ".images/enemies/contra_boss_level2.png", 150, 0, 253, 103);
@@ -70,16 +57,10 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel3(), 800, 600, 800, 600);
 			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel3(), 800, 600, 800, 600);
 
+			// Cargo plataformas del XML
 			platformParser = gameParser->getPlataforms3();
-			for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++){
-				string platformType = (*platformParserIterator).getTipo();
-				int platformXInitial = (*platformParserIterator).getXInicial();
-				int platformXFinal = (*platformParserIterator).getXFinal();
-				int platformY = (*platformParserIterator).getAltura();
-				platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
-			}
 
-			playerSpawnX = 200;
+			playerSpawnX = 150;
 			playerSpawnY = 400;
 
 			enemy = new Enemy(gameView, ".images/enemies/contra_boss_level3.png", 7800, 310, 127, 95);
@@ -88,10 +69,21 @@ Level::Level(GameParser* gameParser, GameView* _gameView, LevelNumber _level)
 		}
 	}
 
+	// Creo las plataformas desde lo cargado por el parser
+	for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++){
+		string platformType = (*platformParserIterator).getTipo();
+		int platformXInitial = (*platformParserIterator).getXInicial();
+		int platformXFinal = (*platformParserIterator).getXFinal();
+		int platformY = (*platformParserIterator).getAltura();
+		platforms.push_back(new Platform(gameView, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
+	}
+
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
 		border = gameView->getWindowWidth() * 0.6; // Margen al 60% del ancho
 		background1Sprite->setSourceRectXY(0, 0);
+		background2Sprite->setSourceRectXY(0, 0);
+		background3Sprite->setSourceRectXY(0, 0);
 	}
 	else
 	{
@@ -176,7 +168,28 @@ void Level::moveForward(int playerPosX, int playerPosY)
 	}
 }
 
+// Esto solo mueve los fondos y la camara a la posicion inicial del nivel. No borra enemigos ni plataformas ni los crea devuelta.
+// Para eso usar destroy y construir nuevamente el mismo nivel o crear un metodo restartComplete, que reinicie los enemigos y aparezcan nuevamente.
 void Level::restart()
 {
-	//FALTA IMPLEMENTAR PARA QUE REINICIE LOS 3 FONDOS DESPUES DEL SCROLEO
+	if(scrolling == SCROLLING_HORIZONTAL)
+	{
+		border = gameView->getWindowWidth() * 0.6; // Margen al 60% del ancho
+		background1Sprite->setSourceRectXY(0, 0);
+		background2Sprite->setSourceRectXY(0, 0);
+		background3Sprite->setSourceRectXY(0, 0);
+	}
+	else
+	{
+		// Si no encuentro el fondo 1 debo hardcodear parámetros
+		int bg1TextureHeight = background1Sprite->getTextureHeight();
+		if (bg1TextureHeight < 4000) bg1TextureHeight = 4000;
+
+		border = bg1TextureHeight - gameView->getWindowHeight() * 0.6; // Margen al 60% de la altura
+		background1Sprite->setSourceRectXY(0, bg1TextureHeight - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+		background2Sprite->setSourceRectXY(0, background2Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+		background3Sprite->setSourceRectXY(0, background3Sprite->getTextureHeight() - gameView->getWindowHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+	}
+
+	gameView->setCameraPosition(background1Sprite->getSourceRectX(), background1Sprite->getSourceRectY()); // Ubicar la camara en la posicion donde arranca ese nivel
 }
