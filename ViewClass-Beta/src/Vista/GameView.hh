@@ -30,7 +30,6 @@ class GameView
 
 		void destroy();
 		void queryTexture(SDL_Texture* texture, int* widthResponse, int* heightResponse);
-		void queryTexture(std::string path, int* widthResponse, int* heightResponse);
 
 		Uint32 getTicks() { return SDL_GetTicks(); }
 

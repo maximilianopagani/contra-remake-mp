@@ -26,6 +26,8 @@ Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int 
 	else if (type == "ICE")
 		path = ".images/platforms/ice1_48x48.png";
 
+	tileSprite = new Sprite(gameView, path.c_str(), 0, 0, 0, 0); // Como a esta altura no conozco las dimensiones de la textura, lo hacemos con 0 0 0 0
+
 	int height;
 
 	if (path == "")
@@ -35,15 +37,16 @@ Platform::Platform(GameView* _gameView, string _type, int pos_x, int pos_y, int 
 	}
 	else
 	{
-		gameView->queryTexture(path.c_str(), &tileWidth, &height);
+		tileWidth = tileSprite->getTextureWidth(); // Una vez cargada la sprite obtengo sus dimensiones
+		height = tileSprite->getTextureHeight();
 	}
 
 	tileAmount = pixels/tileWidth;
 	if (tileAmount * tileWidth < pixels)
 		++tileAmount;
 
-	tileSprite = new Sprite(gameView, path.c_str(), tileWidth, height, tileWidth, height);
-	// primero crear sprite, luego hacerle un query mediante sprite para saber sus dimensiones y luego ajustar el rectangulo source y destination? asi evitamos cargar la textura desde un path
+	tileSprite->setSourceRectWidthHeight(tileWidth, height); // Con su ancho y alto le digo al sprite ancho y alto de origen y destino
+	tileSprite->setDestinationWidthHeight(tileWidth, height);
 }
 
 Platform::~Platform()
