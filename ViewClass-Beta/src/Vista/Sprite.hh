@@ -33,11 +33,14 @@ class Sprite
 		void setSourceRectX(int x) { src.x = x; }
 		void setSourceRectY(int y) { src.y = y; }
 		void setSourceRectXY(int x, int y) { src.x = x; src.y = y; }
+		void setSourceRectWidthHeight(int w, int h) { src.w = w; src.h = h;}
 
 		int getTextureWidth() { return textureWidth; }
 		int getTextureHeight() { return textureHeight; }
+
 		int getDestinationWidth() { return destinationWidth; }
 		int getDestinationHeight() { return destinationHeight; }
+		void setDestinationWidthHeight(int w, int h) { destinationWidth = w; destinationHeight = h; }
 
 	private:
 

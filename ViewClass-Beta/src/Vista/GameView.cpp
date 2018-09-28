@@ -130,11 +130,6 @@ void GameView::queryTexture(SDL_Texture* texture, int* widthResponse, int* heigh
 	SDL_QueryTexture(texture, NULL, NULL, widthResponse, heightResponse);
 }
 
-void GameView::queryTexture(std::string path, int* widthResponse, int* heightResponse) /// ? una hora debugeando pq me hacia doble log de generacion de textura de plataformas jaja y es esto, que onda? leer comentario en platform constructor
-{
-	queryTexture(textureGenerator(path), widthResponse, heightResponse);
-}
-
 void GameView::delay(int milisecs)
 {
 	SDL_Delay(milisecs);
