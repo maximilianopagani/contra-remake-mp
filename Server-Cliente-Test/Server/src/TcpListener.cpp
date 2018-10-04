@@ -52,7 +52,7 @@ void CTcpListener::Run()
 				bytesReceived = recv(client, buf, MAX_BUFFER_SIZE, 0);
 				if (bytesReceived > 0){
 
-					if (std::string(buf, 0, bytesReceived) == "Hola") this->Send(client,"Como estas");
+					 this->Send(client,"Como estas");
 
 				}
 				if(bytesReceived == 0){
