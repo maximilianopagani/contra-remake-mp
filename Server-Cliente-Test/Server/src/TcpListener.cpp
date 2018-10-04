@@ -48,12 +48,10 @@ void CTcpListener::Run()
 				//ZeroMemory(buf, MAX_BUFFER_SIZE);
 
 				bytesReceived = recv(client, buf, MAX_BUFFER_SIZE, 0);
-				if (bytesReceived > 0)
-				{
-					if (std::string(buf, 0, bytesReceived) == "Hola")
-					{
-						Send(client, "Como estas");
-					}
+				if (bytesReceived > 0){
+
+					Send(client, std::string(buf, 0, bytesReceived));
+
 				}
 				else {
 					std::cout<<"Cliente Desconectado"<<std::endl;
