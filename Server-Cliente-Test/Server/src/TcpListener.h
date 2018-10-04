@@ -1,61 +1,53 @@
+#pragma once
 
 #include <string>
 #include <iostream>
+void *memset(void *s, int c, size_t n);
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
 #include <unistd.h>
+#include <netinet/in.h>
 #include <arpa/inet.h>
-
-
-using namespace std;
 
 #define MAX_BUFFER_SIZE (49152)
 
-// Adelanto la declaracion de la clase
-class CTcpListener;
 
-// Devolucion de la llamada de datos
-typedef void(*MessageRecievedHandler)(CTcpListener* listener, int socketId, std::string msg);
-
-class CTcpListener{
+class CTcpListener
+{
 
 public:
 
 	// Constructor
-	CTcpListener(std::string ipAddress, int port, MessageRecievedHandler handler);
+	CTcpListener(std::string ipAddress, int port);
 
 	// Destructor
 	~CTcpListener();
 	
-	// Envia un mensaje a un cliente especifico
+	// Send a message to the specified client
 	void Send(int clientSocket, std::string msg);
 
-	// Initialize
+	// Initialize winsock
 	bool Init();
 
-	// Loop principal del programa
+	// The main processing loop
 	void Run();
 
-	// Clean
+	// Clean up after using the service
 	void Cleanup();
 
 private:
 
-	// Creo un socket
+	// Create a socket
 	int CreateSocket();
 
-	// Espero por una coneccion
+	// Wait for a connection
 	int WaitForConnection(int listening);
 
-	// Direccion del servidor
+	// Address of the server
 	std::string	m_ipAddress;
 
-	// Puerto del servidor(Por donde escucha)
+	// Listening port
 	int	m_port;
-
-	// Manejador del mensaje recibido
-	MessageRecievedHandler	MessageReceived;
 };

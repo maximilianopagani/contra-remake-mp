@@ -1,13 +1,9 @@
 #include "TcpListener.h"
 
-#include <string.h>
-void *memset(void *s, int c, size_t n);
+CTcpListener::CTcpListener(std::string ipAddress, int port)
+	: m_ipAddress(ipAddress), m_port(port)
+{
 
-
-CTcpListener::CTcpListener(std::string ipAddress, int port, MessageRecievedHandler handler){
-	this->m_ipAddress = ipAddress;
-	this->m_port = port;
-	this->MessageReceived = handler;
 }
 
 CTcpListener::~CTcpListener()
@@ -21,19 +17,20 @@ void CTcpListener::Send(int clientSocket, std::string msg)
 	send(clientSocket, msg.c_str(), msg.size() + 1, 0);
 }
 
-// Initialize
+// Initialize winsock
 bool CTcpListener::Init()
-{ return true;
+{
+	return true;
 }
 
-// Loop principial
+// The main processing loop
 void CTcpListener::Run()
 {
-	char buf[49152];
+	char buf[MAX_BUFFER_SIZE];
 
 	while (true)
 	{
-		// Creo el socket que escucha
+		// Create a listening socket
 		int listening = CreateSocket();
 		if (listening == -1)
 		{
@@ -46,36 +43,38 @@ void CTcpListener::Run()
 			close(listening);
 
 			int bytesReceived = 0;
-			do{
-				memset(buf,0, 49152);
+			do
+			{
+				//ZeroMemory(buf, MAX_BUFFER_SIZE);
 
 				bytesReceived = recv(client, buf, MAX_BUFFER_SIZE, 0);
-				if (bytesReceived > 0){
-
-					 this->Send(client,"Como estas");
-
+				if (bytesReceived > 0)
+				{
+					if (std::string(buf, 0, bytesReceived) == "Hola")
+					{
+						Send(client, "Como estas");
+					}
 				}
-				if(bytesReceived == 0){
-					cout << "Client disconnected " << endl;
-
+				else {
+					std::cout<<"Cliente Desconectado"<<std::endl;
 				}
-
 
 			} while (bytesReceived > 0);
 			
 			close(client);
 		}
+
 	}
-
-
 }
 
-void CTcpListener::Cleanup(){
-
+void CTcpListener::Cleanup()
+{
+	//WSACleanup();
 }
 
-int CTcpListener::CreateSocket(){
-
+// Create a socket
+int CTcpListener::CreateSocket()
+{
 	int listening = socket(AF_INET, SOCK_STREAM, 0);
 	if (listening != -1)
 	{
@@ -93,7 +92,8 @@ int CTcpListener::CreateSocket(){
 				return -1;
 			}
 		}
-		else{
+		else
+		{
 			return -1;
 		}
 	}
@@ -101,8 +101,9 @@ int CTcpListener::CreateSocket(){
 	return listening;
 }
 
-//Espera por una coneccion
-int CTcpListener::WaitForConnection(int listening){
+// Wait for a connection
+int CTcpListener::WaitForConnection(int listening)
+{
 	int client = accept(listening, NULL, NULL);
 	return client;
 }
