@@ -86,13 +86,17 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
+		BulletView* bulletView = new BulletView(view);
+		EnemyView* enemyView = new EnemyView(view);
+		LogicToViewTransporter* logicToViewTransporter = new LogicToViewTransporter(view, bulletView, enemyView);
+
 		//Manejo del framerate
 		const int FPS = 35;
 		const int frameDelay = 1000 / FPS ;
 		Uint32 timeAtIterationStart;
 		int iterationTime;
 
-		synergy = new Game(parser, view);
+		synergy = new Game(parser, view, logicToViewTransporter);
 
 		synergy->init();
 
@@ -116,6 +120,11 @@ int main(int argc, char* argv[])
 			}
 		}
 		synergy->destroy();
+
+		bulletView->destroy();
+		enemyView->destroy();
+		delete logicToViewTransporter;
+
 		LOGGER_KILL();
 	}
 

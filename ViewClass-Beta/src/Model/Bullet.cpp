@@ -7,10 +7,10 @@
 
 #include "Bullet.hh"
 
-Bullet::Bullet(GameView* _gameView, Sprite* _sprite, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel)
+Bullet::Bullet(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel)
 {
-	gameView = _gameView;
-	sprite = _sprite;
+	cameraLogic = _cameraLogic;
+	logicToViewTransporter = _logicToViewTransporter;
 	pos_x = _pos_x;
 	pos_y = _pos_y;
 	speed_x = _speed_x;
@@ -30,16 +30,13 @@ void Bullet::updatePos()
 
 bool Bullet::outOfLimits()
 {
-	if((max_travel_distance > 0 && traveled_distance > max_travel_distance) || gameView->outOfWindow(pos_x, pos_y))
+	if((max_travel_distance > 0 && traveled_distance > max_travel_distance) || cameraLogic->outOfCameraLimits(pos_x, pos_y))
 		return true;
 	else
 		return false;
 }
 
-void Bullet::render()
+void Bullet::sendToDraw()
 {
-	//if(!gameView->outOfWindow(pos_x, pos_y)) EN este caso de las balas no haria falta porque la bala al salir de la ventana se borra en outOfLimits()
-	//{
-		sprite->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
-	//}
+	logicToViewTransporter->sendToDraw(BULLETVIEW, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
 }

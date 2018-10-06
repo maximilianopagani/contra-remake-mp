@@ -7,31 +7,21 @@
 
 #include "Enemy.hh"
 
-Enemy::Enemy (GameView* _view, string spritePath, int _posX, int _posY, int width, int height) {
+Enemy::Enemy (CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string spritePath, int _posX, int _posY, int width, int height)
+{
+	cameraLogic = _cameraLogic;
+	logicToViewTransporter = _logicToViewTransporter;
 
-	gameView = _view;
 	posX = _posX;
 	posY = _posY;
 
-	animations[0] = new Sprite(gameView, spritePath, width, height, width * 2, height * 2);
+	logicToViewTransporter->sendToLoad(ENEMYVIEW, spritePath, 0, 0, width, height);
 }
 
-Enemy::~Enemy() {
-	this->destroy();
+Enemy::~Enemy() {}
+
+void Enemy::sendToDraw()
+{
+	logicToViewTransporter->sendToDraw(ENEMYVIEW, posX - cameraLogic->getCameraPosX(), posY - cameraLogic->getCameraPosY());
 }
 
-void Enemy::render() {
-	animations[0]->render(posX - gameView->getCameraPosX(), posY - gameView->getCameraPosY());
-}
-
-void Enemy::update() {
-
-}
-
-void Enemy::destroy() {
-	for (int i = 0; i < MAX_ANIMATIONS; i++) {
-		if (animations[i]) {
-			animations[i]->destroy();
-		}
-	}
-}

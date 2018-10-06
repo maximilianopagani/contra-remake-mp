@@ -12,12 +12,13 @@
 #include "Player.hh"
 #include "../Utils/GameParser.hh"
 #include "../Utils/CollisionHelper.hh"
+#include "LogicToViewTransporter.hh"
 
 class Game
 {
     public:
 
-        Game(GameParser* gameParser, GameView* gameView);
+        Game(GameParser* gameParser, GameView* gameView, LogicToViewTransporter* _logicToViewTransporter);
         virtual ~Game();
 
         void init();
@@ -42,6 +43,8 @@ class Game
         GameView* gameView;
         Player* player;
         Level* level;
+        LogicToViewTransporter* logicToViewTransporter;
+        CameraLogic* cameraLogic;
 };
 
 #endif /* SRC_GAME_HH_ */

@@ -15,10 +15,6 @@ GameView::GameView()
 {
 	window = NULL;
 	renderer = NULL;
-	windowHeight = 600;
-	windowWidth = 800;
-	camera_x_position = 0;
-	camera_y_position = 0;
 	invalidTexture = NULL;
 }
 
@@ -41,7 +37,7 @@ bool GameView::init()
 	{
 		LOGGER_INFO("SDL inicializado con éxito.");
 
-		window = SDL_CreateWindow("Contra Remake - Taller de Programación I", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowWidth, windowHeight, SDL_WINDOW_SHOWN);
+		window = SDL_CreateWindow("Contra Remake - Taller de Programación I", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
 
 		if(window == NULL)
 		{
@@ -92,15 +88,6 @@ bool GameView::init()
 		// return false; ??? ANULAR EJECUCION DEL JUEGO??
 	}
 	return true;
-}
-
-bool GameView::outOfWindow(int x, int y)
-{
-	// Esto chequea para la posicion absoluta pasada por parametro, si luego del ajuste del offset queda dentro o fuera de la ventana
-	if(outOfWindowLeftBorder(x) || outOfWindowRightBorder(x) || outOfWindowLowerBorder(y) || outOfWindowHigherBorder(y))
-		return true;
-	else
-		return false;
 }
 
 void GameView::clear()

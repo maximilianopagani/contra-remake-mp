@@ -7,9 +7,11 @@
 
 #include "Player.hh"
 
-Player::Player(GameView* _view)
+Player::Player(GameView* _view, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter)
 {
 	gameView = _view;
+	cameraLogic = _cameraLogic;
+	logicToViewTransporter = _logicToViewTransporter;
 	pos_x = 150;
 	pos_y = 300;
 	maxDistanceJump=150;
@@ -39,9 +41,6 @@ Player::Player(GameView* _view)
 
 	aimingAt = AIM_FRONT;
 
-	bulletSprite = new Sprite(gameView, ".images/CharacterSprites.png", 8, 8, 8, 8);
-	bulletSprite->setSourceRectXY(104, 8);
-
 	lastShotTime = 0;
 	shotCooldown = 175;
 }
@@ -65,12 +64,12 @@ void Player::render()
 		}
 	}
 
-	animations[state]->render(pos_x - gameView->getCameraPosX(), pos_y - gameView->getCameraPosY());
+	animations[state]->render(pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
 
     // Renderizado de balas
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
 	{
-		(*bulletsIterator)->render();
+		(*bulletsIterator)->sendToDraw();
 		++bulletsIterator;
 	}
 }
@@ -254,7 +253,7 @@ void Player::goDown(){
 
 void Player::walkLeft(){
 	direction = DIRECTION_BACK;
-	if (!gameView->outOfWindowLeftBorder(pos_x - 5)) {
+	if (!cameraLogic->outOfCameraLeftLimit(pos_x - 5)) {
 		pos_x-=5;
 	}
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
@@ -273,7 +272,7 @@ void Player::walkLeft(){
 
 void Player::walkRight(){
 	direction = DIRECTION_FRONT;
-	if (!gameView->outOfWindowRightBorder(pos_x + 5)) {
+	if (!cameraLogic->outOfCameraRightLimit(pos_x + 5)) {
 		pos_x+=5;
 	}
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
@@ -352,41 +351,41 @@ void Player::shoot()
 	{
 		switch(aimingAt){
 			case AIM_FRONT:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+47, pos_y+25, 10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+47, pos_y+25, 10, 0, distanceToTravel));
 				break;
 
 			case AIM_BACK:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x-1, pos_y+25, -10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x-1, pos_y+25, -10, 0, distanceToTravel));
 				break;
 
 			case AIM_UP:
 				if (state == STATE_WALKINGRIGHTPOINTUP)
-					bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+35, pos_y, 9, -5, distanceToTravel));
+					bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+35, pos_y, 9, -5, distanceToTravel));
 				else
-					bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+35, pos_y, 7, -7, distanceToTravel));
+					bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+35, pos_y, 7, -7, distanceToTravel));
 				break;
 
 			case AIM_UP_BACK:
 				if (state == STATE_WALKINGLEFTPOINTUP)
-					bullets.push_back(new Bullet(gameView, bulletSprite, pos_x, pos_y, -9, -5, distanceToTravel));
+					bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x, pos_y, -9, -5, distanceToTravel));
 				else
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x, pos_y, -7, -7, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x, pos_y, -7, -7, distanceToTravel));
 				break;
 
 			case AIM_DOWN:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+40, pos_y+46, 9, 5, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+40, pos_y+46, 9, 5, distanceToTravel));
 				break;
 
 			case AIM_DOWN_BACK:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x, pos_y+46, -9, 5, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x, pos_y+46, -9, 5, distanceToTravel));
 				break;
 
 			case AIM_BODYTOGROUND:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x+90, pos_y+64, 10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+90, pos_y+64, 10, 0, distanceToTravel));
 				break;
 
 			case AIM_BODYTOGROUND_BACK:
-				bullets.push_back(new Bullet(gameView, bulletSprite, pos_x, pos_y+64, -10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x, pos_y+64, -10, 0, distanceToTravel));
 				break;
 		}
 
@@ -413,8 +412,6 @@ void Player::destroy()
 	{
 		if (animations[i]) {animations[i]->destroy();}
 	}
-	bulletSprite->destroy();
-	bulletSprite = NULL;
 }
 
 int Player::getLeftLimit()

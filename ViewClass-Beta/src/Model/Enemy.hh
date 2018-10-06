@@ -8,32 +8,29 @@
 #ifndef ENEMY_HH_
 #define ENEMY_HH_
 
-#include "../Vista/GameView.hh"
-#include "../Vista/Sprite.hh"
+#include "CameraLogic.hh"
+#include "LogicToViewTransporter.hh"
+
 #include "../Utils/Logger.hh"
 
-class Enemy {
-
+class Enemy
+{
 	public:
 
-		Enemy(GameView* view, string spritePath, int posX, int posY, int width, int height);
+		Enemy(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string spritePath, int _posX, int _posY, int width, int height);
 		virtual ~Enemy();
 
-		//Gameloop
-		void update();
-		void render();
-		void destroy();
+		int getPosX() { return posX; }
+		int getPosY() { return posY; }
 
-		int getPosX() {return posX;}
-		int getPosY() {return posY;}
+		void sendToDraw();
 
 	private:
 
-		int posX, posY;
-		static const int MAX_ANIMATIONS = 1;
+		CameraLogic* cameraLogic;
+		LogicToViewTransporter* logicToViewTransporter;
 
-		GameView* gameView;
-		Sprite* animations[MAX_ANIMATIONS];
+		int posX, posY;
 };
 
 #endif /* ENEMY_HH_ */

@@ -2,7 +2,7 @@
 #include "Game.hh"
 #include "Platform.hh"
 
-Game::Game(GameParser* _gameParser, GameView* _gameView)
+Game::Game(GameParser* _gameParser, GameView* _gameView, LogicToViewTransporter* _logicToViewTransporter)
 {
 	enEjecucion = false;
 	gameParser = _gameParser;
@@ -10,6 +10,8 @@ Game::Game(GameParser* _gameParser, GameView* _gameView)
 	level = NULL;
 	player = NULL;
 	currentLevel = 0;
+	cameraLogic = new CameraLogic(0, 0, 800, 600);
+	logicToViewTransporter = _logicToViewTransporter;
 }
 
 Game::~Game()
@@ -30,11 +32,11 @@ void Game::init()
 	// FINAL DE PRUEBA INICIAL
 
     currentLevel = LEVEL1;
-    level = new Level(gameParser, gameView, LEVEL1);
+    level = new Level(gameParser, gameView, cameraLogic, logicToViewTransporter, LEVEL1);
 
     //gameView->setLimitXY(level->getLevelWidth(), level->getLevelHeight());
 
-    player = new Player(gameView);
+    player = new Player(gameView, cameraLogic, logicToViewTransporter);
 }
 
 void Game::handleEvents()
@@ -76,14 +78,14 @@ void Game::nextLevel()
 		case LEVEL1:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL2;
-			level = new Level(gameParser, gameView, LEVEL2);
+			level = new Level(gameParser, gameView, cameraLogic, logicToViewTransporter, LEVEL2);
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 
 		case LEVEL2:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL3;
-			level = new Level(gameParser, gameView, LEVEL3);
+			level = new Level(gameParser, gameView, cameraLogic, logicToViewTransporter, LEVEL3);
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 
@@ -127,7 +129,7 @@ void Game::update()
 	}
 
 	// Si el jugador se cae de la ventana / muere
-	if(gameView->outOfWindowLowerBorder(player->getPosY()))
+	if(cameraLogic->outOfCameraLowerLimit(player->getPosY()))
 	{
 		player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 		level->restart();

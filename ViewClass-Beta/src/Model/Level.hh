@@ -15,6 +15,7 @@
 #include "../Vista/Sprite.hh"
 #include "../Utils/Headers.hh"
 #include "Enemy.hh"
+#include "CameraLogic.hh"
 
 enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};
 
@@ -22,7 +23,7 @@ class Level
 {
 	public:
 
-		Level(GameParser* gameParser, GameView* gameView, LevelNumber _level);
+		Level(GameParser* gameParser, GameView* gameView, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, LevelNumber _level);
 		virtual ~Level();
 
 		void render();
@@ -38,6 +39,8 @@ class Level
 	private:
 
 		GameView* gameView;
+		CameraLogic* cameraLogic;
+		LogicToViewTransporter* logicToViewTransporter;
 
 		Sprite* background1Sprite;
 		Sprite* background2Sprite;

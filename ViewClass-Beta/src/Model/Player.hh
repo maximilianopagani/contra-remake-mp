@@ -10,17 +10,18 @@
 #ifndef PLAYER_HH_
 #define PLAYER_HH_
 
-#include "Bullet.hh"
 #include "../Vista/GameView.hh"
 #include "../Vista/Sprite.hh"
 #include "../Utils/Logger.hh"
 #include "../Utils/ICollisional.hh"
+#include "Bullet.hh"
+#include "LogicToViewTransporter.hh"
 
 class Player : public ICollisional
 {
 	public:
 
-		Player(GameView* view);
+		Player(GameView* view, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter);
 		virtual ~Player();
 
 		//Collisional
@@ -103,8 +104,9 @@ class Player : public ICollisional
 		std::list<Bullet*>::iterator bulletsIterator;
 
 		GameView* gameView;
+		CameraLogic* cameraLogic;
+		LogicToViewTransporter* logicToViewTransporter;
 		Sprite* animations[MAX_ANIMATIONS];
-		Sprite* bulletSprite;
 
 		const Uint8* currentKeyStates = NULL; // NO liberar/delete, es un puntero a un array interno de SDL
 };

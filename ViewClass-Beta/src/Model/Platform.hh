@@ -11,6 +11,7 @@
 #include "../Vista/GameView.hh"
 #include "../Vista/Sprite.hh"
 #include "../Utils/ICollisional.hh"
+#include "CameraLogic.hh"
 
 class Platform : public ICollisional
 {
@@ -18,7 +19,7 @@ class Platform : public ICollisional
 
 		//enum GroundType {GRASS, WOOD, ROCK, ICE};
 
-		Platform(GameView* _gameView, string type, int pos_x, int pos_y, int pixels);
+		Platform(GameView* _gameView, CameraLogic* _cameraLogic, string type, int pos_x, int pos_y, int pixels);
 		virtual ~Platform();
 
 		void render();
@@ -35,6 +36,7 @@ class Platform : public ICollisional
 	private:
 
 		GameView* gameView;
+		CameraLogic* cameraLogic;
 		string type; // probablemente no necesario
 
 		int tileAmount, tileWidth; // Se podria hacer todo con un solo atributo, platformWidth, pero para el metodo render habria que hacer la query de la textura para obtener
