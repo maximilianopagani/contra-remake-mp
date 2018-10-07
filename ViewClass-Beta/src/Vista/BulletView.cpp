@@ -21,7 +21,8 @@ BulletView::~BulletView()
 
 void BulletView::render(int pos_x, int pos_y)
 {
-	sprite->render(pos_x, pos_y); // El ajuste de desfasaje lo haria el servidor que ya le manda las posiciones a dibujar respecto a la ventana o se debería hacer aca y que el servidor mande el offset a ajustar?
+	// El ajuste de desfasaje lo haria el servidor que ya le manda las posiciones a dibujar respecto a la ventana o se debería hacer aca y que el servidor mande el offset a ajustar?
+	sprite->render(pos_x, pos_y);
 }
 
 void BulletView::destroy()

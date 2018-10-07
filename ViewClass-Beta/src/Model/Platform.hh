@@ -12,6 +12,7 @@
 #include "../Vista/Sprite.hh"
 #include "../Utils/ICollisional.hh"
 #include "CameraLogic.hh"
+#include "LogicToViewTransporter.hh"
 
 class Platform : public ICollisional
 {
@@ -19,7 +20,7 @@ class Platform : public ICollisional
 
 		//enum GroundType {GRASS, WOOD, ROCK, ICE};
 
-		Platform(GameView* _gameView, CameraLogic* _cameraLogic, string type, int pos_x, int pos_y, int pixels);
+		Platform(GameView* _gameView, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string type, int pos_x, int pos_y, int pixels);
 		virtual ~Platform();
 
 		void render();
@@ -37,11 +38,13 @@ class Platform : public ICollisional
 
 		GameView* gameView;
 		CameraLogic* cameraLogic;
+		LogicToViewTransporter* logicToViewTransporter;
 		string type; // probablemente no necesario
+		string path;
 
-		int tileAmount, tileWidth; // Se podria hacer todo con un solo atributo, platformWidth, pero para el metodo render habria que hacer la query de la textura para obtener
+		int tileAmount, tileWidth, height; // Se podria hacer tod.o con un solo atributo, platformWidth, pero para el metodo render habria que hacer la query de la textura para obtener
 		//su ancho, y loopear con el for hasta i<platformWidth/ancho ó hasta i<plataformWidth;i=i+ancho
-		Sprite* tileSprite;
+//		Sprite* tileSprite;
 
 		int posX, posY;
 };

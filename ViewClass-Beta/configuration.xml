@@ -10,7 +10,7 @@
 			<plataformas>
 				<plataforma>
 					<id>1</id>				
-					<tipo>ICaE</tipo>
+					<tipo>ICE</tipo>
 					<xinicial>1</xinicial>
 					<xfinal>200</xfinal>
 					<altura>452</altura>

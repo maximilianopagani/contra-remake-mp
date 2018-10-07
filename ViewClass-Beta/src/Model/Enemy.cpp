@@ -15,7 +15,7 @@ Enemy::Enemy (CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTra
 	posX = _posX;
 	posY = _posY;
 
-	logicToViewTransporter->sendToLoad(ENEMYVIEW, spritePath, 0, 0, width, height);
+	logicToViewTransporter->sendToLoad(ENEMYVIEW, spritePath, width, height);
 }
 
 Enemy::~Enemy() {}

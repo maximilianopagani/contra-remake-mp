@@ -86,9 +86,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		BulletView* bulletView = new BulletView(view);
-		EnemyView* enemyView = new EnemyView(view);
-		LogicToViewTransporter* logicToViewTransporter = new LogicToViewTransporter(view, bulletView, enemyView);
+		LogicToViewTransporter* logicToViewTransporter = new LogicToViewTransporter(view);
 
 		//Manejo del framerate
 		const int FPS = 35;
@@ -121,8 +119,6 @@ int main(int argc, char* argv[])
 		}
 		synergy->destroy();
 
-		bulletView->destroy();
-		enemyView->destroy();
 		delete logicToViewTransporter;
 
 		LOGGER_KILL();

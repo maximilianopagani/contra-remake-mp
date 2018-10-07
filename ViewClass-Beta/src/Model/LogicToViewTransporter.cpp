@@ -7,14 +7,23 @@
 
 #include "LogicToViewTransporter.hh"
 
-LogicToViewTransporter::LogicToViewTransporter(GameView* _gameView, BulletView* _bulletView, EnemyView* _enemyView/*, PlatformView* _platformView, PlayerView* _playerView, LevelView* _levelView*/)
+LogicToViewTransporter::LogicToViewTransporter(GameView* _gameView)
+{
+	bulletView = new BulletView(_gameView);
+	enemyView = new EnemyView(_gameView);
+	platformView = new PlatformView(_gameView);
+	playerView = new PlayerView(_gameView);
+	levelView = new LevelView(_gameView);
+	gameView = _gameView;
+}
+LogicToViewTransporter::LogicToViewTransporter(GameView* _gameView, BulletView* _bulletView, EnemyView* _enemyView, PlatformView* _platformView, PlayerView* _playerView, LevelView* _levelView)
 {
 	gameView = _gameView;
 	bulletView = _bulletView;
 	enemyView = _enemyView;
-	//platformView = _platformView;
-	//playerView = _playerView;
-	//levelView = _levelView;
+	platformView = _platformView;
+	playerView = _playerView;
+	levelView = _levelView;
 }
 
 LogicToViewTransporter::~LogicToViewTransporter()
@@ -44,11 +53,12 @@ void LogicToViewTransporter::sendToDraw(TransportDestination destination, int po
 			break;
 
 		case PLATFORMVIEW:
+			platformView->render(pos_x, pos_y);
 			break;
 	}
 }
 
-void LogicToViewTransporter::sendToLoad(TransportDestination destination, string path, int x, int y, int w, int h)
+void LogicToViewTransporter::sendToLoad(TransportDestination destination, string path, int w, int h)
 {
 	switch(destination)
 	{
@@ -69,6 +79,7 @@ void LogicToViewTransporter::sendToLoad(TransportDestination destination, string
 			break;
 
 		case PLATFORMVIEW:
+			platformView->loadSprite(path, w, h);
 			break;
 	}
 }

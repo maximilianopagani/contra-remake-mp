@@ -14,7 +14,6 @@
 class BulletView
 {
 	public:
-
 		BulletView(GameView* _gameView);
 		virtual ~BulletView();
 
@@ -22,7 +21,6 @@ class BulletView
 		void destroy();
 
 	private:
-
 		GameView* gameView;
 		Sprite* sprite;
 };
