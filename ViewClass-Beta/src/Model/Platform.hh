@@ -35,12 +35,11 @@ class Platform : public ICollisional
 		int getBottomLimit();
 
 	private:
-
 		GameView* gameView;
 		CameraLogic* cameraLogic;
 		LogicToViewTransporter* logicToViewTransporter;
 		string type; // probablemente no necesario
-		string path;
+//		string path;
 
 		int tileAmount, tileWidth, height; // Se podria hacer tod.o con un solo atributo, platformWidth, pero para el metodo render habria que hacer la query de la textura para obtener
 		//su ancho, y loopear con el for hasta i<platformWidth/ancho ó hasta i<plataformWidth;i=i+ancho

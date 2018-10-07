@@ -23,7 +23,7 @@ class PlatformView
 
 	private:
 		GameView* gameView;
-		Sprite* sprite;
+		Sprite *ice, *wood, *rock, *grass, *error, *toRender;
 };
 
 #endif /* VISTA_PLATFORMVIEW_HH_ */
