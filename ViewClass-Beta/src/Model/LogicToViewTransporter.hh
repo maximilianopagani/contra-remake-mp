@@ -26,8 +26,11 @@ class LogicToViewTransporter
 		virtual ~LogicToViewTransporter();
 
 		void sendToLoad(TransportDestination destination, string type);
+		void sendToLoad(TransportDestination destination, string path, int background);
 		void sendToLoad(TransportDestination destination, string path, int w, int h);
+
 		void sendToDraw(TransportDestination destination, int pos_x, int pos_y);
+		void sendToDraw(TransportDestination destination, int pos_x, int pos_y, int id);
 
 	private:
 

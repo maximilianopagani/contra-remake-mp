@@ -5,15 +5,13 @@
  *      Author: maximiliano
  */
 
-#ifndef SRC_LEVEL_HH_
-#define SRC_LEVEL_HH_
+#ifndef MODEL_LEVEL_HH_
+#define MODEL_LEVEL_HH_
 
 #include "../Utils/GameParser.hh"
 #include "../Utils/PlatformParser.hh"
 #include "../Vista/GameView.hh"
 #include "Platform.hh"
-#include "../Vista/Sprite.hh"
-#include "../Utils/Headers.hh"
 #include "Enemy.hh"
 #include "CameraLogic.hh"
 
@@ -32,6 +30,7 @@ class Level
 
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
+
 		list<Platform*>* getPlataformList(){ return &platforms; }
 
 		void restart();
@@ -42,9 +41,13 @@ class Level
 		CameraLogic* cameraLogic;
 		LogicToViewTransporter* logicToViewTransporter;
 
-		Sprite* background1Sprite;
-		Sprite* background2Sprite;
-		Sprite* background3Sprite;
+		int background1PosX, background1PosY, background1Width, background1Height;
+		int background2PosX, background2PosY, background2Width, background2Height; // no seria necesario si todas las capas fuesen del mismo tamaño
+		int background3PosX, background3PosY, background3Width, background3Height;
+
+		//Sprite* background1Sprite;
+		//Sprite* background2Sprite;
+		//Sprite* background3Sprite;
 
 		int playerSpawnX, playerSpawnY, border;
 
@@ -60,4 +63,4 @@ class Level
 
 };
 
-#endif /* SRC_LEVEL_HH_ */
+#endif /* MODEL_LEVEL_HH_ */

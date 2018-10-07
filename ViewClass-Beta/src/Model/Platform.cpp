@@ -37,6 +37,7 @@ void Platform::render()
 {
 	logicToViewTransporter->sendToLoad(PLATFORMVIEW, type);
 	// TODO ver que se envian muchos mensajes para dibujar una sola plataforma
+	// mandarle al cliente solo las plataformas que va a ver: que outOfCameraRightLimit(xinicial) == false y outOfCameraLeftLimit(xinicial+tileamount*tilewidth) == false, y mandarle tipo, xinicial y tileamount nada mas
 	for(int i = 0; i < tileAmount; i++)
 		logicToViewTransporter->sendToDraw(PLATFORMVIEW, posX + i * tileWidth - cameraLogic->getCameraPosX(), posY - cameraLogic->getCameraPosY());
 }
