@@ -20,8 +20,6 @@ enum TransportDestination {BULLETVIEW, GAMEVIEW, LEVELVIEW, PLAYERVIEW, PLATFORM
 class LogicToViewTransporter
 {
 	public:
-
-		LogicToViewTransporter(GameView* _gameView, BulletView* _bulletView, EnemyView* _enemyView, PlatformView* _platformView, PlayerView* _playerView, LevelView* _levelView);
 		LogicToViewTransporter(GameView* _gameView);
 		virtual ~LogicToViewTransporter();
 
@@ -30,7 +28,6 @@ class LogicToViewTransporter
 		void sendToDraw(TransportDestination destination, int pos_x, int pos_y);
 
 	private:
-
 		BulletView* bulletView;
 		EnemyView* enemyView;
 		PlatformView* platformView;

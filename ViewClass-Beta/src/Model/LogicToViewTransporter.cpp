@@ -16,15 +16,6 @@ LogicToViewTransporter::LogicToViewTransporter(GameView* _gameView)
 	levelView = new LevelView(_gameView);
 	gameView = _gameView;
 }
-LogicToViewTransporter::LogicToViewTransporter(GameView* _gameView, BulletView* _bulletView, EnemyView* _enemyView, PlatformView* _platformView, PlayerView* _playerView, LevelView* _levelView)
-{
-	gameView = _gameView;
-	bulletView = _bulletView;
-	enemyView = _enemyView;
-	platformView = _platformView;
-	playerView = _playerView;
-	levelView = _levelView;
-}
 
 LogicToViewTransporter::~LogicToViewTransporter()
 {
