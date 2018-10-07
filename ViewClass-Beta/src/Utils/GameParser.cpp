@@ -343,15 +343,9 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		    	LOGGER_DEBUG("TAG_TIPO esta vacio");
 		    	sucess = false;
 		    }
-		    if ((strTipo == "GRASS")||(strTipo == "ICE")||(strTipo == "ROCK")||(strTipo == "WOOD")) {
-		    	plataformParser.setTipo(strTipo);
-			}else {
-				LOGGER_DEBUG("TIPO DESCONOCIDO: " + strTipo + ", su id de plataforma es: " + strID);
-				sucess = false;
-			}
-		    //plataformParser.setTipo(strTipo);
+			plataformParser.setTipo(strTipo);
 		} else {
-			LOGGER_DEBUG("TAG_TIPO no existe o tiene valores invalidos");
+			LOGGER_ERROR("TAG_TIPO no existe o tiene valores invalidos");
 			sucess = false;
 		}
 
@@ -368,11 +362,11 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 		    if ((xinicial>0)&&(xinicial<=100000)) {
 		    	plataformParser.setXInicial(xinicial);
 			}else {
-				LOGGER_DEBUG("XINICIAL DESCONOCIDO: " + strXInicial + ", su id de plataforma es: " + strID);
+				LOGGER_ERROR("XINICIAL DESCONOCIDO: " + strXInicial + ", su id de plataforma es: " + strID);
 				sucess = false;
 			}
 		} else {
-			LOGGER_DEBUG("TAG_XINICIAL no existe o tiene valores invalidos");
+			LOGGER_ERROR("TAG_XINICIAL no existe o tiene valores invalidos");
 			sucess = false;
 		}
 
