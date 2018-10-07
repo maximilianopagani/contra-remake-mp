@@ -24,7 +24,7 @@ PlatformView::~PlatformView()
 	this->destroy();
 }
 
-void PlatformView::loadSprite(string type, int width, int height)
+void PlatformView::loadSprite(string type)
 {
 //	this->destroy();
 	if (type == "GRASS")

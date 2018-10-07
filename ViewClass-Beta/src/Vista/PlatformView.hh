@@ -17,7 +17,7 @@ class PlatformView
 		PlatformView(GameView* _gameView);
 		virtual ~PlatformView();
 
-		void loadSprite(string spritePath, int width, int height);
+		void loadSprite(string type);
 		void render(int posX, int posY);
 		void destroy();
 

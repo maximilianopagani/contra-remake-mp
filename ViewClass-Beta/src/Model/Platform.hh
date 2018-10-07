@@ -17,7 +17,6 @@
 class Platform : public ICollisional
 {
 	public:
-
 		//enum GroundType {GRASS, WOOD, ROCK, ICE};
 
 		Platform(GameView* _gameView, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string type, int pos_x, int pos_y, int pixels);
@@ -38,14 +37,8 @@ class Platform : public ICollisional
 		GameView* gameView;
 		CameraLogic* cameraLogic;
 		LogicToViewTransporter* logicToViewTransporter;
-		string type; // probablemente no necesario
-//		string path;
-
-		int tileAmount, tileWidth, height; // Se podria hacer tod.o con un solo atributo, platformWidth, pero para el metodo render habria que hacer la query de la textura para obtener
-		//su ancho, y loopear con el for hasta i<platformWidth/ancho ó hasta i<plataformWidth;i=i+ancho
-//		Sprite* tileSprite;
-
-		int posX, posY;
+		string type;
+		int tileAmount, tileWidth, posX, posY;
 };
 
 #endif /* PLATFORM_HH_ */

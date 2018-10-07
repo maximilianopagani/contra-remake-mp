@@ -58,6 +58,11 @@ void LogicToViewTransporter::sendToDraw(TransportDestination destination, int po
 	}
 }
 
+void LogicToViewTransporter::sendToLoad(TransportDestination destination, string type)
+{
+	sendToLoad(destination, type, 0, 0);
+}
+
 void LogicToViewTransporter::sendToLoad(TransportDestination destination, string path, int w, int h)
 {
 	switch(destination)
@@ -79,7 +84,7 @@ void LogicToViewTransporter::sendToLoad(TransportDestination destination, string
 			break;
 
 		case PLATFORMVIEW:
-			platformView->loadSprite(path, w, h);
+			platformView->loadSprite(path);
 			break;
 	}
 }

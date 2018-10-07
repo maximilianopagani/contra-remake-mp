@@ -25,6 +25,7 @@ class LogicToViewTransporter
 		LogicToViewTransporter(GameView* _gameView);
 		virtual ~LogicToViewTransporter();
 
+		void sendToLoad(TransportDestination destination, string type);
 		void sendToLoad(TransportDestination destination, string path, int w, int h);
 		void sendToDraw(TransportDestination destination, int pos_x, int pos_y);
 
