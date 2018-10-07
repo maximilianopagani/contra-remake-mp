@@ -77,7 +77,7 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 		int platformXInitial = (*platformParserIterator).getXInicial();
 		int platformXFinal = (*platformParserIterator).getXFinal();
 		int platformY = (*platformParserIterator).getAltura();
-		platforms.push_back(new Platform(gameView, cameraLogic, logicToViewTransporter, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
+		platforms.push_back(new Platform(cameraLogic, logicToViewTransporter, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
 	}
 
 	if(scrolling == SCROLLING_HORIZONTAL)

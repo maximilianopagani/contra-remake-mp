@@ -8,9 +8,8 @@
 #include "Platform.hh"
 
 
-Platform::Platform(GameView* _gameView, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string _type, int pos_x, int pos_y, int pixels)
+Platform::Platform(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string _type, int pos_x, int pos_y, int pixels)
 {
-	gameView = _gameView;
 	cameraLogic = _cameraLogic;
 	logicToViewTransporter = _logicToViewTransporter;
 	posX = pos_x;
@@ -37,11 +36,9 @@ void Platform::destroy()
 void Platform::render()
 {
 	logicToViewTransporter->sendToLoad(PLATFORMVIEW, type);
-
+	// TODO ver que se envian muchos mensajes para dibujar una sola plataforma
 	for(int i = 0; i < tileAmount; i++)
-	{
 		logicToViewTransporter->sendToDraw(PLATFORMVIEW, posX + i * tileWidth - cameraLogic->getCameraPosX(), posY - cameraLogic->getCameraPosY());
-	}
 }
 
 int Platform::getLeftLimit()

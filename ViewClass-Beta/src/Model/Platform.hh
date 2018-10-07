@@ -8,8 +8,6 @@
 #ifndef PLATFORM_HH_
 #define PLATFORM_HH_
 
-#include "../Vista/GameView.hh"
-#include "../Vista/Sprite.hh"
 #include "../Utils/ICollisional.hh"
 #include "CameraLogic.hh"
 #include "LogicToViewTransporter.hh"
@@ -19,7 +17,7 @@ class Platform : public ICollisional
 	public:
 		//enum GroundType {GRASS, WOOD, ROCK, ICE};
 
-		Platform(GameView* _gameView, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string type, int pos_x, int pos_y, int pixels);
+		Platform(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string type, int pos_x, int pos_y, int pixels);
 		virtual ~Platform();
 
 		void render();
@@ -34,7 +32,6 @@ class Platform : public ICollisional
 		int getBottomLimit();
 
 	private:
-		GameView* gameView;
 		CameraLogic* cameraLogic;
 		LogicToViewTransporter* logicToViewTransporter;
 		string type;
