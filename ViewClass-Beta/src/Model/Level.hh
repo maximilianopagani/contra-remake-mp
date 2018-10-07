@@ -45,10 +45,6 @@ class Level
 		int background2PosX, background2PosY, background2Width, background2Height; // no seria necesario si todas las capas fuesen del mismo tamaño
 		int background3PosX, background3PosY, background3Width, background3Height;
 
-		//Sprite* background1Sprite;
-		//Sprite* background2Sprite;
-		//Sprite* background3Sprite;
-
 		int playerSpawnX, playerSpawnY, border;
 
 		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};

@@ -59,7 +59,7 @@ void LogicToViewTransporter::sendToDraw(TransportDestination destination, int po
 			break;
 
 		case PLATFORMVIEW:
-			platformView->render(pos_x, pos_y);
+			platformView->render(pos_x, pos_y, id);
 			break;
 	}
 }
