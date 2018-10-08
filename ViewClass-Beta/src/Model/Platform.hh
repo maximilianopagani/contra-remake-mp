@@ -35,7 +35,7 @@ class Platform : public ICollisional
 		CameraLogic* cameraLogic;
 		LogicToViewTransporter* logicToViewTransporter;
 		string type;
-		int tileAmount, tileWidth, posX, posY;
+		int tileAmount, tileWidth, tileHeight, posX, posY;
 };
 
 #endif /* PLATFORM_HH_ */

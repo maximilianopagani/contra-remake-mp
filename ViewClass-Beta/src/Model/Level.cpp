@@ -9,15 +9,23 @@
 
 Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, LevelNumber _level)
 {
-	this->gameView = _gameView;
+	gameView = _gameView;
 	cameraLogic = _cameraLogic;
 	logicToViewTransporter = _logicToViewTransporter;
+
+	Sprite* background1Sprite;
+	Sprite* background2Sprite;
+	Sprite* background3Sprite;
 
 	switch(_level)
 	{
 		case LEVEL1:
 		{
 			scrolling = SCROLLING_HORIZONTAL;
+
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo1Nivel1(), 1);
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel1(), 2);
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel1(), 3);
 
 			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel1(), 800, 600, 800, 600);
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel1(), 800, 600, 800, 600);
@@ -33,9 +41,14 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 
 			break;
 		}
+
 		case LEVEL2:
 		{
 			scrolling = SCROLLING_VERTICAL;
+
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo1Nivel2(), 1);
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel2(), 2);
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel2(), 3);
 
 			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel2(), 800, 600, 800, 600);
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel2(), 800, 600, 800, 600);
@@ -51,9 +64,14 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 
 			break;
 		}
+
 		case LEVEL3:
 		{
 			scrolling = SCROLLING_HORIZONTAL;
+
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo1Nivel3(), 1);
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel3(), 2);
+			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel3(), 3);
 
 			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
 			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel3(), 800, 600, 800, 600);
@@ -72,34 +90,68 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 	}
 
 	// Creo las plataformas desde lo cargado por el parser
-	for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++){
+	for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++)
+	{
 		string platformType = (*platformParserIterator).getTipo();
 		int platformXInitial = (*platformParserIterator).getXInicial();
 		int platformXFinal = (*platformParserIterator).getXFinal();
 		int platformY = (*platformParserIterator).getAltura();
+
 		platforms.push_back(new Platform(cameraLogic, logicToViewTransporter, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
 	}
 
+	background1Width = background1Sprite->getTextureWidth();
+	background1Height = background1Sprite->getTextureHeight();
+
+	background2Width = background2Sprite->getTextureWidth();
+	background2Height = background2Sprite->getTextureHeight();
+
+	background3Width = background3Sprite->getTextureWidth();
+	background3Height = background3Sprite->getTextureHeight();
+
+	background1Sprite->destroy();
+	background2Sprite->destroy();
+	background3Sprite->destroy();
+
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
+		// Si no encuentro el fondo 1 debo hardcodear parámetros
+		if (background1Width < 8000)
+		{
+			background1Width = 8000;
+		}
+
 		border = cameraLogic->getCameraWidth() * 0.6; // Margen al 60% del ancho
-		background1Sprite->setSourceRectXY(0, 0);
-		background2Sprite->setSourceRectXY(0, 0);
-		background3Sprite->setSourceRectXY(0, 0);
+
+		background1PosX = 0;
+		background1PosY = 0;
+
+		background2PosX = 0;
+		background2PosY = 0;
+
+		background3PosX = 0;
+		background3PosY = 0;
 	}
 	else
 	{
-		// Si no encuentro el fondo 1 debo hardcodear parámetros
-		int bg1TextureHeight = background1Sprite->getTextureHeight();
-		if (bg1TextureHeight < 4000) bg1TextureHeight = 4000;
+		if (background1Height < 4000)
+		{
+			background1Height = 4000;
+		}
 
-		border = bg1TextureHeight - cameraLogic->getCameraHeight() * 0.6; // Margen al 60% de la altura
-		background1Sprite->setSourceRectXY(0, bg1TextureHeight - cameraLogic->getCameraHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
-		background2Sprite->setSourceRectXY(0, background2Sprite->getTextureHeight() - cameraLogic->getCameraHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
-		background3Sprite->setSourceRectXY(0, background3Sprite->getTextureHeight() - cameraLogic->getCameraHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+		border = background1Height - cameraLogic->getCameraHeight() * 0.6; // Margen al 60% de la altura
+
+		background1PosX = 0;
+		background1PosY = background1Height - cameraLogic->getCameraHeight();
+
+		background2PosX = 0;
+		background2PosY = background2Height - cameraLogic->getCameraHeight();
+
+		background3PosX = 0;
+		background3PosY = background3Height - cameraLogic->getCameraHeight();
 	}
 
-	cameraLogic->setCameraPosition(background1Sprite->getSourceRectX(), background1Sprite->getSourceRectY()); // Ubicar la camara en la posicion donde arranca ese nivel
+	cameraLogic->setCameraPosition(background1PosX, background1PosY);
 }
 
 Level::~Level()
@@ -109,9 +161,9 @@ Level::~Level()
 
 void Level::render()
 {
-	background3Sprite->render(0, 0);
-	background2Sprite->render(0, 0);
-	background1Sprite->render(0, 0);
+	logicToViewTransporter->sendToDraw(LEVELVIEW, background3PosX, background3PosY, 3);
+	logicToViewTransporter->sendToDraw(LEVELVIEW, background2PosX, background2PosY, 2);
+	logicToViewTransporter->sendToDraw(LEVELVIEW, background1PosX, background1PosY, 1);
 
     // Renderizado de plataformas
 	for(platformsIterator = platforms.begin(); platformsIterator != platforms.end();)
@@ -125,10 +177,6 @@ void Level::render()
 
 void Level::destroy()
 {
-	background3Sprite->destroy();
-	background2Sprite->destroy();
-	background1Sprite->destroy();
-
 	delete enemy;
 }
 
@@ -136,35 +184,33 @@ void Level::moveForward(int playerPosX, int playerPosY)
 {
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
-		// Si no encuentro el fondo 1 debo hardcodear parámetros
-		int bg1TextureWidth = background1Sprite->getTextureWidth();
-		if (bg1TextureWidth < 8000) bg1TextureWidth = 8000;
-
-		if((background1Sprite->getSourceRectX() + cameraLogic->getCameraWidth()) < bg1TextureWidth)
+		if((background1PosX + cameraLogic->getCameraWidth()) < background1Width)
 		{
 			if(playerPosX >= border)
 			{
-				background1Sprite->setSourceRectX(background1Sprite->getSourceRectX() + (playerPosX - border));
-				background2Sprite->setSourceRectX(background2Sprite->getSourceRectX() + (playerPosX - border) * 0.7);
-				background3Sprite->setSourceRectX(background3Sprite->getSourceRectX() + (playerPosX - border) * 0.3);
+				background1PosX += (playerPosX - border);
+				background2PosX += (playerPosX - border) * 0.7;
+				background3PosX += (playerPosX - border) * 0.3;
 
 				border = playerPosX;
-				cameraLogic->setCameraPosX(background1Sprite->getSourceRectX()); // Muevo el offset de camara con el cual se va a renderizar todo lo demas
+
+				cameraLogic->setCameraPosX(background1PosX);
 			}
 		}
 	}
 	else // Vertical
 	{
-		if(background1Sprite->getSourceRectY() > 0)
+		if(background1PosY > 0)
 		{
 			if(playerPosY <= border)
 			{
-				background1Sprite->setSourceRectY(background1Sprite->getSourceRectY() - (border - playerPosY));
-				background2Sprite->setSourceRectY(background2Sprite->getSourceRectY() - (border - playerPosY) * 0.3);
-				background3Sprite->setSourceRectY(background3Sprite->getSourceRectY() - (border - playerPosY) * 0.2);
+				background1PosY -= (border - playerPosY);
+				background2PosY -= (border - playerPosY) * 0.3;
+				background3PosY -= (border - playerPosY) * 0.2;
 
 				border = playerPosY;
-				cameraLogic->setCameraPosY(background1Sprite->getSourceRectY()); // Muevo el offset de camara con el cual se va a renderizar todo lo demascameraLogic->getCameraHeight
+
+				cameraLogic->setCameraPosY(background1PosY);
 			}
 		}
 	}
@@ -177,21 +223,31 @@ void Level::restart()
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
 		border = cameraLogic->getCameraWidth() * 0.6; // Margen al 60% del ancho
-		background1Sprite->setSourceRectXY(0, 0);
-		background2Sprite->setSourceRectXY(0, 0);
-		background3Sprite->setSourceRectXY(0, 0);
+
+		background1PosX = 0;
+		background1PosY = 0;
+
+		background2PosX = 0;
+		background2PosY = 0;
+
+		background3PosX = 0;
+		background3PosY = 0;
+
+		cameraLogic->setCameraPosition(background1PosX, background1PosY);
 	}
 	else
 	{
-		// Si no encuentro el fondo 1 debo hardcodear parámetros
-		int bg1TextureHeight = background1Sprite->getTextureHeight();
-		if (bg1TextureHeight < 4000) bg1TextureHeight = 4000;
+		border = background1Height - cameraLogic->getCameraHeight() * 0.6; // Margen al 60% de la altura
 
-		border = bg1TextureHeight - cameraLogic->getCameraHeight() * 0.6; // Margen al 60% de la altura
-		background1Sprite->setSourceRectXY(0, bg1TextureHeight - cameraLogic->getCameraHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
-		background2Sprite->setSourceRectXY(0, background2Sprite->getTextureHeight() - cameraLogic->getCameraHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
-		background3Sprite->setSourceRectXY(0, background3Sprite->getTextureHeight() - cameraLogic->getCameraHeight()); // El nivel vertical arranca abajo, con la coordenada 'y' bien grande
+		background1PosX = 0;
+		background1PosY = background1Height - cameraLogic->getCameraHeight();
+
+		background2PosX = 0;
+		background2PosY = background2Height - cameraLogic->getCameraHeight();
+
+		background3PosX = 0;
+		background3PosY = background3Height - cameraLogic->getCameraHeight();
+
+		cameraLogic->setCameraPosition(background1PosX, background1PosY);
 	}
-
-	cameraLogic->setCameraPosition(background1Sprite->getSourceRectX(), background1Sprite->getSourceRectY()); // Ubicar la camara en la posicion donde arranca ese nivel
 }

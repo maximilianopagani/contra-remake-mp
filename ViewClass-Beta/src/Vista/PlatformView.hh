@@ -18,7 +18,7 @@ class PlatformView
 		virtual ~PlatformView();
 
 		void loadSprite(string type);
-		void render(int posX, int posY);
+		void render(int posX, int posY, int tileAmount);
 		void destroy();
 
 	private:

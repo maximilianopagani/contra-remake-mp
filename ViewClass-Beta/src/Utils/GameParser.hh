@@ -4,7 +4,6 @@
 #include <string>
 #include "../data/tinyxml/tinyxml.h"
 #include "../data/tinyxml/tinystr.h"
-#include "Headers.hh"
 #include <cstring>
 #include <cstdio>
 #include <stdlib.h>

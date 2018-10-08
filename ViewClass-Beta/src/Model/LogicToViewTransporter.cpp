@@ -19,7 +19,12 @@ LogicToViewTransporter::LogicToViewTransporter(GameView* _gameView)
 
 LogicToViewTransporter::~LogicToViewTransporter()
 {
-	// TODO Auto-generated destructor stub
+	bulletView->destroy();
+	enemyView->destroy();
+	platformView->destroy();
+	playerView->destroy();
+	levelView->destroy();
+	gameView = NULL;
 }
 
 void LogicToViewTransporter::sendToDraw(TransportDestination destination, PlayerState aState, int pos_x, int pos_y)
@@ -28,6 +33,11 @@ void LogicToViewTransporter::sendToDraw(TransportDestination destination, Player
 }
 
 void LogicToViewTransporter::sendToDraw(TransportDestination destination, int pos_x, int pos_y)
+{
+	sendToDraw(destination, pos_x, pos_y, 0);
+}
+
+void LogicToViewTransporter::sendToDraw(TransportDestination destination, int pos_x, int pos_y, int id)
 {
 	switch(destination)
 	{
@@ -43,6 +53,7 @@ void LogicToViewTransporter::sendToDraw(TransportDestination destination, int po
 			break;
 
 		case LEVELVIEW:
+			levelView->render(pos_x, pos_y, id);
 			break;
 
 		case PLAYERVIEW:
@@ -50,7 +61,7 @@ void LogicToViewTransporter::sendToDraw(TransportDestination destination, int po
 			break;
 
 		case PLATFORMVIEW:
-			platformView->render(pos_x, pos_y);
+			platformView->render(pos_x, pos_y, id);
 			break;
 	}
 }
@@ -58,6 +69,11 @@ void LogicToViewTransporter::sendToDraw(TransportDestination destination, int po
 void LogicToViewTransporter::sendToLoad(TransportDestination destination, string type)
 {
 	sendToLoad(destination, type, 0, 0);
+}
+
+void LogicToViewTransporter::sendToLoad(TransportDestination destination, string path, int background)
+{
+	sendToLoad(destination, path, background, 0);
 }
 
 void LogicToViewTransporter::sendToLoad(TransportDestination destination, string path, int w, int h)
@@ -75,6 +91,7 @@ void LogicToViewTransporter::sendToLoad(TransportDestination destination, string
 			break;
 
 		case LEVELVIEW:
+			levelView->loadSprite(path, w);
 			break;
 
 		case PLAYERVIEW:

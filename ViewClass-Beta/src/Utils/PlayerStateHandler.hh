@@ -5,7 +5,9 @@
 #ifndef PLAYERSTATE_HH_
 #define PLAYERSTATE_HH_
 
-#include "Headers.hh"
+#include <string>
+
+using namespace std;
 
 enum PlayerState {
 	STATE_WALKINGRIGHT,
@@ -31,11 +33,12 @@ enum PlayerState {
 class PlayerStateHandler
 {
 	public:
-//		static const int getMaxAnimations() { return MAX_ANIMATIONS; }
 		static string stateToString(PlayerState aState);
 		static PlayerState stringToState(string aState);
 		static int getDestinationWidth(PlayerState aState);
 		static int getDestinationHeight(PlayerState aState);
+
+		// es necesario que sea const y publico para poder seguir usando array
 		static const int MAX_ANIMATIONS = 18;
 
 	private:

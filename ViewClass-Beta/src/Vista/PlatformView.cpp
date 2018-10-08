@@ -39,10 +39,12 @@ void PlatformView::loadSprite(string type)
 		toRender = error;
 }
 
-void PlatformView::render(int pos_x, int pos_y)
+void PlatformView::render(int pos_x, int pos_y, int tileAmount)
 {
-	// El ajuste de desfasaje lo haria el servidor que ya le manda las posiciones a dibujar respecto a la ventana o se debería hacer aca y que el servidor mande el offset a ajustar?
-	toRender->render(pos_x, pos_y);
+	for(int i = 0; i < tileAmount; i++)
+	{
+		toRender->render(pos_x + i * 48, pos_y);
+	}
 }
 
 void PlatformView::destroy()

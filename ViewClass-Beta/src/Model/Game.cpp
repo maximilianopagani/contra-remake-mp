@@ -36,7 +36,7 @@ void Game::init()
 
     //gameView->setLimitXY(level->getLevelWidth(), level->getLevelHeight());
 
-    player = new Player(gameView, cameraLogic, logicToViewTransporter);
+    player = new Player(cameraLogic, logicToViewTransporter);
 }
 
 void Game::handleEvents()

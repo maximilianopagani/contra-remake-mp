@@ -7,9 +7,8 @@
 
 #include "Player.hh"
 
-Player::Player(GameView* _view, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter)
+Player::Player(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter)
 {
-//	gameView = _view;
 	cameraLogic = _cameraLogic;
 	logicToViewTransporter = _logicToViewTransporter;
 	pos_x = 150;
@@ -19,25 +18,6 @@ Player::Player(GameView* _view, CameraLogic* _cameraLogic, LogicToViewTransporte
 
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
-
-//	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,".images/player/walkingRight.png", 25, 38, 58, 87);
-//	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,".images/player/walkingRightPointingUp.png", 19, 38, 44, 87);
-//	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,".images/player/walkingRightPointingDown.png", 21, 38, 48, 87);
-//	animations[STATE_WALKINGLEFT] = new Sprite(gameView,".images/player/walkingLeft.png", 25, 38, 58, 87);
-//	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,".images/player/walkingLeftPointingUp.png", 19, 38, 44, 87);
-//	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,".images/player/walkingLeftPointingDown.png", 21, 38, 48, 87);
-//	animations[STATE_STANDING] = new Sprite(gameView,".images/player/standing.png", 16, 38, 39, 87);
-//	animations[STATE_STANDING_BACK] = new Sprite(gameView,".images/player/standingBack.png", 16, 38, 39, 87);
-//	animations[STATE_JUMPINGUP] = new Sprite(gameView,".images/player/jumping.png", 20, 38, 46, 114);
-//	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,".images/player/jumping.png", 20, 38, 46, 87);
-//	animations[STATE_POINTUP] = new Sprite(gameView,".images/player/pointUp.png", 18, 36, 41, 82);
-//	animations[STATE_POINTFRONT] = new Sprite(gameView,".images/player/pointFront.png", 25, 36, 58, 82);
-//	animations[STATE_POINTBACK] = new Sprite(gameView,".images/player/pointBack.png", 25, 36, 58, 82);
-//	animations[STATE_POINTDOWN] = new Sprite(gameView,".images/player/pointDown.png", 22, 37, 51, 85);
-//	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,".images/player/bodyToGround.png", 32, 38, 96, 87);
-//	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,".images/player/pointDownBack.png", 22, 37, 51, 85);
-//	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,".images/player/bodyToGroundBack.png", 32, 38, 74, 87);
-//	animations[STATE_POINTUP_BACK] = new Sprite(gameView,".images/player/pointUpBack.png", 18, 36, 41, 82);
 
 	aimingAt = AIM_FRONT;
 
@@ -59,13 +39,11 @@ void Player::render()
 		timeAtIterationStart++;
 
 		if(timeAtIterationStart > 3){
-//			animations[state]->update();
 			logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 			timeAtIterationStart =0;
 		}
 	}
 
-//	animations[state]->render(pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
 	logicToViewTransporter->sendToDraw(PLAYERVIEW, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
 
     // Renderizado de balas
@@ -164,13 +142,11 @@ void Player::update(){
 		case STATE_JUMPINGUP:
 				pos_y-=10;
 				maxDistanceJump-=5;
-//				animations[state]->update();
 				logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 				if(maxDistanceJump == 0) state = STATE_JUMPINGDOWN;
 				break;
 		case STATE_JUMPINGDOWN:
 				maxDistanceJump += 5;
-//				animations[state]->update();
 				logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 				if(!falling) {
 					state = STATE_STANDING;
@@ -304,7 +280,7 @@ void Player::normalState(){
 
 void Player::shoot()
 {
-//	Uint32 currentShotTime = gameView->getTicks();
+//	TODO sacar SDL_GetTicks() de aca
 	Uint32 currentShotTime = SDL_GetTicks();
 	int distanceToTravel = 425;
 
@@ -369,10 +345,6 @@ void Player::spawn(int x, int y)
 
 void Player::destroy()
 {
-//	for(int i = 0 ; i < PlayerStateHandler::getMaxAnimations() ; i++)
-//	{
-//		if (animations[i]) {animations[i]->destroy();}
-//	}
 }
 
 int Player::getLeftLimit()
