@@ -10,12 +10,14 @@
 #ifndef PLAYER_HH_
 #define PLAYER_HH_
 
-#include "../Vista/GameView.hh"
-#include "../Vista/Sprite.hh"
+//#include "../Vista/GameView.hh"
+//#include "../Vista/Sprite.hh"
 #include "../Utils/Logger.hh"
 #include "../Utils/ICollisional.hh"
+#include "../Utils/PlayerStateHandler.hh"
 #include "Bullet.hh"
 #include "LogicToViewTransporter.hh"
+#include <SDL2/SDL_timer.h>
 
 class Player : public ICollisional
 {
@@ -55,7 +57,7 @@ class Player : public ICollisional
 		void fallingDown(){falling = true ;}
 
 		void handleKeys(const Uint8* _currentKeyStates);
-		string toString();
+//		string stateToString();
 
 	private:
 
@@ -63,29 +65,30 @@ class Player : public ICollisional
 
 		int pos_x, pos_y, maxDistanceJump;
 		bool falling;
-		static const int MAX_ANIMATIONS = 18;
-
-		enum PlayerState {
-			STATE_WALKINGRIGHT,
-			STATE_WALKINGRIGHTPOINTUP,
-			STATE_WALKINGRIGHTPOITNDOWN,
-			STATE_WALKINGLEFT,
-			STATE_WALKINGLEFTPOINTUP,
-			STATE_WALKINGLEFTPOINTDOWN,
-			STATE_STANDING,
-			STATE_STANDING_BACK,
-			STATE_JUMPINGUP,
-			STATE_JUMPINGDOWN,
-			STATE_POINTUP,
-			STATE_POINTFRONT,
-			STATE_POINTBACK,
-			STATE_POINTDOWN,
-			STATE_POINTBODYTOGROUND,
-			STATE_POINTUP_BACK,
-			STATE_POINTDOWN_BACK,
-			STATE_POINTBODYTOGROUND_BACK,
-			};
+//		static const int MAX_ANIMATIONS = 18;
+//		enum PlayerState {
+//			STATE_WALKINGRIGHT,
+//			STATE_WALKINGRIGHTPOINTUP,
+//			STATE_WALKINGRIGHTPOITNDOWN,
+//			STATE_WALKINGLEFT,
+//			STATE_WALKINGLEFTPOINTUP,
+//			STATE_WALKINGLEFTPOINTDOWN,
+//			STATE_STANDING,
+//			STATE_STANDING_BACK,
+//			STATE_JUMPINGUP,
+//			STATE_JUMPINGDOWN,
+//			STATE_POINTUP,
+//			STATE_POINTFRONT,
+//			STATE_POINTBACK,
+//			STATE_POINTDOWN,
+//			STATE_POINTBODYTOGROUND,
+//			STATE_POINTUP_BACK,
+//			STATE_POINTDOWN_BACK,
+//			STATE_POINTBODYTOGROUND_BACK,
+//			};
 		PlayerState state;
+//		GameView* gameView;
+//		Sprite* animations[MAX_ANIMATIONS];
 
 		enum PlayerDirection {
 			DIRECTION_FRONT,
@@ -103,10 +106,8 @@ class Player : public ICollisional
 		std::list<Bullet*> bullets;
 		std::list<Bullet*>::iterator bulletsIterator;
 
-		GameView* gameView;
 		CameraLogic* cameraLogic;
 		LogicToViewTransporter* logicToViewTransporter;
-		Sprite* animations[MAX_ANIMATIONS];
 
 		const Uint8* currentKeyStates = NULL; // NO liberar/delete, es un puntero a un array interno de SDL
 };

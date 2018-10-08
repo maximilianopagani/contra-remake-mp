@@ -9,7 +9,7 @@
 
 Player::Player(GameView* _view, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter)
 {
-	gameView = _view;
+//	gameView = _view;
 	cameraLogic = _cameraLogic;
 	logicToViewTransporter = _logicToViewTransporter;
 	pos_x = 150;
@@ -20,24 +20,24 @@ Player::Player(GameView* _view, CameraLogic* _cameraLogic, LogicToViewTransporte
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
 
-	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,".images/player/walkingRight.png", 25, 38, 58, 87);
-	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,".images/player/walkingRightPointingUp.png", 19, 38, 44, 87);
-	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,".images/player/walkingRightPointingDown.png", 21, 38, 48, 87);
-	animations[STATE_WALKINGLEFT] = new Sprite(gameView,".images/player/walkingLeft.png", 25, 38, 58, 87);
-	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,".images/player/walkingLeftPointingUp.png", 19, 38, 44, 87);
-	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,".images/player/walkingLeftPointingDown.png", 21, 38, 48, 87);
-	animations[STATE_STANDING] = new Sprite(gameView,".images/player/standing.png", 16, 38, 39, 87);
-	animations[STATE_STANDING_BACK] = new Sprite(gameView,".images/player/standingBack.png", 16, 38, 39, 87);
-	animations[STATE_JUMPINGUP] = new Sprite(gameView,".images/player/jumping.png", 20, 38, 46, 114);
-	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,".images/player/jumping.png", 20, 38, 46, 87);
-	animations[STATE_POINTUP] = new Sprite(gameView,".images/player/pointUp.png", 18, 36, 41, 82);
-	animations[STATE_POINTFRONT] = new Sprite(gameView,".images/player/pointFront.png", 25, 36, 58, 82);
-	animations[STATE_POINTBACK] = new Sprite(gameView,".images/player/pointBack.png", 25, 36, 58, 82);
-	animations[STATE_POINTDOWN] = new Sprite(gameView,".images/player/pointDown.png", 22, 37, 51, 85);
-	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,".images/player/bodyToGround.png", 32, 38, 96, 87);
-	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,".images/player/pointDownBack.png", 22, 37, 51, 85);
-	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,".images/player/bodyToGroundBack.png", 32, 38, 74, 87);
-	animations[STATE_POINTUP_BACK] = new Sprite(gameView,".images/player/pointUpBack.png", 18, 36, 41, 82);
+//	animations[STATE_WALKINGRIGHT] = new Sprite(gameView,".images/player/walkingRight.png", 25, 38, 58, 87);
+//	animations[STATE_WALKINGRIGHTPOINTUP] = new Sprite(gameView,".images/player/walkingRightPointingUp.png", 19, 38, 44, 87);
+//	animations[STATE_WALKINGRIGHTPOITNDOWN] = new Sprite(gameView,".images/player/walkingRightPointingDown.png", 21, 38, 48, 87);
+//	animations[STATE_WALKINGLEFT] = new Sprite(gameView,".images/player/walkingLeft.png", 25, 38, 58, 87);
+//	animations[STATE_WALKINGLEFTPOINTUP] = new Sprite(gameView,".images/player/walkingLeftPointingUp.png", 19, 38, 44, 87);
+//	animations[STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView,".images/player/walkingLeftPointingDown.png", 21, 38, 48, 87);
+//	animations[STATE_STANDING] = new Sprite(gameView,".images/player/standing.png", 16, 38, 39, 87);
+//	animations[STATE_STANDING_BACK] = new Sprite(gameView,".images/player/standingBack.png", 16, 38, 39, 87);
+//	animations[STATE_JUMPINGUP] = new Sprite(gameView,".images/player/jumping.png", 20, 38, 46, 114);
+//	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,".images/player/jumping.png", 20, 38, 46, 87);
+//	animations[STATE_POINTUP] = new Sprite(gameView,".images/player/pointUp.png", 18, 36, 41, 82);
+//	animations[STATE_POINTFRONT] = new Sprite(gameView,".images/player/pointFront.png", 25, 36, 58, 82);
+//	animations[STATE_POINTBACK] = new Sprite(gameView,".images/player/pointBack.png", 25, 36, 58, 82);
+//	animations[STATE_POINTDOWN] = new Sprite(gameView,".images/player/pointDown.png", 22, 37, 51, 85);
+//	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,".images/player/bodyToGround.png", 32, 38, 96, 87);
+//	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,".images/player/pointDownBack.png", 22, 37, 51, 85);
+//	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,".images/player/bodyToGroundBack.png", 32, 38, 74, 87);
+//	animations[STATE_POINTUP_BACK] = new Sprite(gameView,".images/player/pointUpBack.png", 18, 36, 41, 82);
 
 	aimingAt = AIM_FRONT;
 
@@ -59,12 +59,14 @@ void Player::render()
 		timeAtIterationStart++;
 
 		if(timeAtIterationStart > 3){
-			animations[state]->update();
+//			animations[state]->update();
+			logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 			timeAtIterationStart =0;
 		}
 	}
 
-	animations[state]->render(pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
+//	animations[state]->render(pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
+	logicToViewTransporter->sendToDraw(PLAYERVIEW, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
 
     // Renderizado de balas
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
@@ -74,53 +76,9 @@ void Player::render()
 	}
 }
 
-string Player::toString()
-{
-	switch(state)
-	{
-		case STATE_WALKINGRIGHT:
-			return "STATE_WALKINGRIGHT";
-		case STATE_WALKINGRIGHTPOINTUP:
-			return "STATE_WALKINGRIGHTPOINTUP";
-		case STATE_WALKINGRIGHTPOITNDOWN:
-			return "STATE_WALKINGRIGHTPOITNDOWN";
-		case STATE_WALKINGLEFT:
-			return "STATE_WALKINGLEFT";
-		case STATE_WALKINGLEFTPOINTUP:
-			return "STATE_WALKINGLEFTPOINTUP";
-		case STATE_WALKINGLEFTPOINTDOWN:
-			return "STATE_WALKINGLEFTPOINTDOWN";
-		case STATE_STANDING:
-			return "STATE_STANDING";
-		case STATE_STANDING_BACK:
-			return "STATE_STANDING_BACK";
-		case STATE_JUMPINGUP:
-			return "STATE_JUMPINGUP";
-		case STATE_JUMPINGDOWN:
-			return "STATE_JUMPINGDOWN";
-		case STATE_POINTUP:
-			return "STATE_POINTUP";
-		case STATE_POINTFRONT:
-			return "STATE_POINTFRONT";
-		case STATE_POINTBACK:
-			return "STATE_POINTBACK";
-		case STATE_POINTDOWN:
-			return "STATE_POINTDOWN";
-		case STATE_POINTBODYTOGROUND:
-			return "STATE_POINTBODYTOGROUND";
-		case STATE_POINTUP_BACK:
-			return "STATE_POINTUP_BACK";
-		case STATE_POINTDOWN_BACK:
-			return "STATE_POINTDOWN_BACK";
-		case STATE_POINTBODYTOGROUND_BACK:
-			return "STATE_POINTBODYTOGROUND_BACK";
-	}
-	return "SIN ESTADO";
-}
-
 void Player::handleKeys(const Uint8* _currentKeyStates)
 {
-	LOGGER_DEBUG("Comienzo handle en state : " + toString() );
+	LOGGER_DEBUG("Comienzo handle en state : " + PlayerStateHandler::stateToString(state) );
 	currentKeyStates = _currentKeyStates;
 
 	// bug de ambas direcciones
@@ -165,7 +123,7 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	//Salto
 	if(currentKeyStates[SDL_SCANCODE_SPACE])
 	{
-		LOGGER_DEBUG("El jugaodor SALTA");
+		LOGGER_DEBUG("El jugador SALTA");
 		this->jump();
 	}
 
@@ -206,12 +164,14 @@ void Player::update(){
 		case STATE_JUMPINGUP:
 				pos_y-=10;
 				maxDistanceJump-=5;
-				animations[state]->update();
+//				animations[state]->update();
+				logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 				if(maxDistanceJump == 0) state = STATE_JUMPINGDOWN;
 				break;
 		case STATE_JUMPINGDOWN:
 				maxDistanceJump += 5;
-				animations[state]->update();
+//				animations[state]->update();
+				logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 				if(!falling) {
 					state = STATE_STANDING;
 					maxDistanceJump=150;
@@ -344,7 +304,8 @@ void Player::normalState(){
 
 void Player::shoot()
 {
-	Uint32 currentShotTime = gameView->getTicks();
+//	Uint32 currentShotTime = gameView->getTicks();
+	Uint32 currentShotTime = SDL_GetTicks();
 	int distanceToTravel = 425;
 
 	if((currentShotTime - lastShotTime) > shotCooldown)
@@ -408,10 +369,10 @@ void Player::spawn(int x, int y)
 
 void Player::destroy()
 {
-	for(int i = 0 ; i < MAX_ANIMATIONS ; i++)
-	{
-		if (animations[i]) {animations[i]->destroy();}
-	}
+//	for(int i = 0 ; i < PlayerStateHandler::getMaxAnimations() ; i++)
+//	{
+//		if (animations[i]) {animations[i]->destroy();}
+//	}
 }
 
 int Player::getLeftLimit()
@@ -421,7 +382,7 @@ int Player::getLeftLimit()
 
 int Player::getRightLimit()
 {
-	return getPosX() + animations[state]->getDestinationWidth() - 15;
+	return getPosX() + PlayerStateHandler::getDestinationWidth(state) - 15;
 }
 
 int Player::getTopLimit()
@@ -431,5 +392,5 @@ int Player::getTopLimit()
 
 int Player::getBottomLimit()
 {
-	return getTopLimit() + animations[state]->getDestinationHeight();
+	return getTopLimit() + PlayerStateHandler::getDestinationHeight(state);
 }

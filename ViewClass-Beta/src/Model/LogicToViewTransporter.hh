@@ -14,6 +14,7 @@
 #include "../Vista/PlayerView.hh"
 #include "../Vista/PlatformView.hh"
 #include "../Vista/LevelView.hh"
+#include "../Utils/PlayerStateHandler.hh"
 
 enum TransportDestination {BULLETVIEW, GAMEVIEW, LEVELVIEW, PLAYERVIEW, PLATFORMVIEW, ENEMYVIEW};
 
@@ -25,6 +26,7 @@ class LogicToViewTransporter
 
 		void sendToLoad(TransportDestination destination, string type);
 		void sendToLoad(TransportDestination destination, string path, int w, int h);
+		void sendToDraw(TransportDestination destination, PlayerState aState, int pos_x, int pos_y);
 		void sendToDraw(TransportDestination destination, int pos_x, int pos_y);
 
 	private:

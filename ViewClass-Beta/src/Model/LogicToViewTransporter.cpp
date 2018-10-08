@@ -22,6 +22,11 @@ LogicToViewTransporter::~LogicToViewTransporter()
 	// TODO Auto-generated destructor stub
 }
 
+void LogicToViewTransporter::sendToDraw(TransportDestination destination, PlayerState aState, int pos_x, int pos_y)
+{
+	playerView->render(aState, pos_x, pos_y);
+}
+
 void LogicToViewTransporter::sendToDraw(TransportDestination destination, int pos_x, int pos_y)
 {
 	switch(destination)
@@ -41,6 +46,7 @@ void LogicToViewTransporter::sendToDraw(TransportDestination destination, int po
 			break;
 
 		case PLAYERVIEW:
+//			playerView->render(pos_x, pos_y);
 			break;
 
 		case PLATFORMVIEW:
@@ -72,6 +78,7 @@ void LogicToViewTransporter::sendToLoad(TransportDestination destination, string
 			break;
 
 		case PLAYERVIEW:
+			playerView->update(PlayerStateHandler::stringToState(path));
 			break;
 
 		case PLATFORMVIEW:
