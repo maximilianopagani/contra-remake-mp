@@ -21,7 +21,7 @@ class Level
 {
 	public:
 
-		Level(GameParser* gameParser, GameView* gameView, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, LevelNumber _level);
+		Level(GameParser* gameParser, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, LevelNumber _level);
 		virtual ~Level();
 
 		void render();
@@ -37,7 +37,6 @@ class Level
 
 	private:
 
-		GameView* gameView;
 		CameraLogic* cameraLogic;
 		LogicToViewTransporter* logicToViewTransporter;
 

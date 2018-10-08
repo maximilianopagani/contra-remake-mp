@@ -32,7 +32,7 @@ void Game::init()
 	// FINAL DE PRUEBA INICIAL
 
     currentLevel = LEVEL1;
-    level = new Level(gameParser, gameView, cameraLogic, logicToViewTransporter, LEVEL1);
+    level = new Level(gameParser, cameraLogic, logicToViewTransporter, LEVEL1);
 
     //gameView->setLimitXY(level->getLevelWidth(), level->getLevelHeight());
 
@@ -78,14 +78,14 @@ void Game::nextLevel()
 		case LEVEL1:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL2;
-			level = new Level(gameParser, gameView, cameraLogic, logicToViewTransporter, LEVEL2);
+			level = new Level(gameParser, cameraLogic, logicToViewTransporter, LEVEL2);
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 
 		case LEVEL2:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL3;
-			level = new Level(gameParser, gameView, cameraLogic, logicToViewTransporter, LEVEL3);
+			level = new Level(gameParser, cameraLogic, logicToViewTransporter, LEVEL3);
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 

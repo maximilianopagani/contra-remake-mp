@@ -7,15 +7,10 @@
 
 #include "Level.hh"
 
-Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, LevelNumber _level)
+Level::Level(GameParser* gameParser, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, LevelNumber _level)
 {
-	gameView = _gameView;
 	cameraLogic = _cameraLogic;
 	logicToViewTransporter = _logicToViewTransporter;
-
-	Sprite* background1Sprite;
-	Sprite* background2Sprite;
-	Sprite* background3Sprite;
 
 	switch(_level)
 	{
@@ -27,9 +22,14 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel1(), 2);
 			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel1(), 3);
 
-			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel1(), 800, 600, 800, 600);
-			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel1(), 800, 600, 800, 600);
-			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel1(), 800, 600, 800, 600);
+			background1Width = 8000;
+			background1Height = 600;
+
+			background2Width = 7950;
+			background2Height = 600;
+
+			background3Width = 4608;
+			background3Height = 600;
 
 			// Cargo plataformas del XML
 			platformParser = gameParser->getPlataformas();
@@ -50,9 +50,14 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel2(), 2);
 			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel2(), 3);
 
-			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel2(), 800, 600, 800, 600);
-			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel2(), 800, 600, 800, 600);
-			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel2(), 800, 600, 800, 600);
+			background1Width = 800;
+			background1Height = 4000;
+
+			background2Width = 800;
+			background2Height = 3000;
+
+			background3Width = 800;
+			background3Height = 1300;
 
 			// Cargo plataformas del XML
 			platformParser = gameParser->getPlataforms2();
@@ -73,9 +78,14 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel3(), 2);
 			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel3(), 3);
 
-			background1Sprite = new Sprite(gameView, gameParser->getFondo1Nivel3(), 800, 600, 800, 600);
-			background2Sprite = new Sprite(gameView, gameParser->getFondo2Nivel3(), 800, 600, 800, 600);
-			background3Sprite = new Sprite(gameView, gameParser->getFondo3Nivel3(), 800, 600, 800, 600);
+			background1Width = 8000;
+			background1Height = 600;
+
+			background2Width = 7200;
+			background2Height = 600;
+
+			background3Width = 4800;
+			background3Height = 600;
 
 			// Cargo plataformas del XML
 			platformParser = gameParser->getPlataforms3();
@@ -100,27 +110,8 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 		platforms.push_back(new Platform(cameraLogic, logicToViewTransporter, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
 	}
 
-	background1Width = background1Sprite->getTextureWidth();
-	background1Height = background1Sprite->getTextureHeight();
-
-	background2Width = background2Sprite->getTextureWidth();
-	background2Height = background2Sprite->getTextureHeight();
-
-	background3Width = background3Sprite->getTextureWidth();
-	background3Height = background3Sprite->getTextureHeight();
-
-	background1Sprite->destroy();
-	background2Sprite->destroy();
-	background3Sprite->destroy();
-
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
-		// Si no encuentro el fondo 1 debo hardcodear parámetros
-		if (background1Width < 8000)
-		{
-			background1Width = 8000;
-		}
-
 		border = cameraLogic->getCameraWidth() * 0.6; // Margen al 60% del ancho
 
 		background1PosX = 0;
@@ -134,11 +125,6 @@ Level::Level(GameParser* gameParser, GameView* _gameView, CameraLogic* _cameraLo
 	}
 	else
 	{
-		if (background1Height < 4000)
-		{
-			background1Height = 4000;
-		}
-
 		border = background1Height - cameraLogic->getCameraHeight() * 0.6; // Margen al 60% de la altura
 
 		background1PosX = 0;
