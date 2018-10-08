@@ -10,7 +10,6 @@
 
 #include "../Utils/GameParser.hh"
 #include "../Utils/PlatformParser.hh"
-#include "../Vista/GameView.hh"
 #include "Platform.hh"
 #include "Enemy.hh"
 #include "CameraLogic.hh"
