@@ -2,7 +2,7 @@
 
 #include <string>
 #include <iostream>
-void *memset(void *s, int c, size_t n);
+//void *memset(void *s, int c, size_t n);
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -10,6 +10,9 @@ void *memset(void *s, int c, size_t n);
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include "../src/Utils/ServerParser.hh"
+#include "../src/Utils/Utils.hh"
+#include "../src/Utils/Logger.hh"
 
 #define MAX_BUFFER_SIZE (49152)
 

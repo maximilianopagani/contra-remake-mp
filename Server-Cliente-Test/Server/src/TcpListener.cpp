@@ -28,6 +28,22 @@ void CTcpListener::Run()
 {
 	char buf[MAX_BUFFER_SIZE];
 
+	ServerParser* serverParser = new ServerParser();
+
+	if (serverParser->loadConfiguration()) {
+		LOGGER_INFO("Carga de configuracion del servidor aceptada");
+		serverParser->testDataServerParser();
+	} else {
+		cout << "Carga de configuracion del servidor rechazada" << endl;
+		// se mata al primer logger
+		LOGGER_KILL();
+		if (serverParser)
+			delete serverParser;
+		//return 1;
+	}
+	// se mata al primer logger
+	LOGGER_KILL();
+
 	while (true)
 	{
 		// Create a listening socket
