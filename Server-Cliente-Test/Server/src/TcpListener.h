@@ -13,6 +13,7 @@
 #include "../src/Utils/ServerParser.hh"
 #include "../src/Utils/Utils.hh"
 #include "../src/Utils/Logger.hh"
+#include "../src/Model/ContraRemake.hh"
 
 #define MAX_BUFFER_SIZE (49152)
 
@@ -35,7 +36,7 @@ public:
 	bool Init();
 
 	// The main processing loop
-	void Run();
+	void Run(int argc, char* argv[]);
 
 	// Clean up after using the service
 	void Cleanup();

@@ -24,7 +24,7 @@ bool CTcpListener::Init()
 }
 
 // The main processing loop
-void CTcpListener::Run()
+void CTcpListener::Run(int argc, char* argv[])
 {
 	char buf[MAX_BUFFER_SIZE];
 
@@ -44,6 +44,9 @@ void CTcpListener::Run()
 	// se mata al primer logger
 	LOGGER_KILL();
 
+	int value = 0;
+	ContraRemake* contraRemake = new ContraRemake();
+
 	while (true)
 	{
 		// Create a listening socket
@@ -58,6 +61,11 @@ void CTcpListener::Run()
 		{
 			close(listening);
 
+			std::cout<<"ANTESSSSSSSSSS"<<std::endl;
+			value = contraRemake->init(argc,argv);
+			std::cout<<"DESPUESSSSSSSSSS"<<std::endl;
+
+
 			int bytesReceived = 0;
 			do
 			{
@@ -67,6 +75,9 @@ void CTcpListener::Run()
 				if (bytesReceived > 0){
 
 					Send(client, std::string(buf, 0, bytesReceived));
+//					std::cout<<"ANTESSSSSSSSSS"<<std::endl;
+//					value = contraRemake->init(argc,argv);
+//					std::cout<<"DESPUESSSSSSSSSS"<<std::endl;
 
 				}
 				else {
@@ -79,6 +90,7 @@ void CTcpListener::Run()
 		}
 
 	}
+	if (contraRemake) delete contraRemake;
 }
 
 void CTcpListener::Cleanup()

@@ -5,8 +5,7 @@
 
 using namespace std;
 
-
-int main()
+int main(int argc, char* argv[])
 {
 	cout<<"Server inicializado"<<endl;
 
@@ -14,7 +13,7 @@ int main()
 	
 	if (server.Init())
 	{
-		server.Run();
+		server.Run(argc,argv);
 	}
 
 	return 0;
