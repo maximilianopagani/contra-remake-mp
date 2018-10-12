@@ -8,8 +8,8 @@
 #ifndef MODEL_LEVEL_HH_
 #define MODEL_LEVEL_HH_
 
-#include "../../../Utils/GameParser.hh"
-#include "../../../Utils/PlatformParser.hh"
+//#include "../Utils/GameParser.hh"
+#include "../Utils/PlatformParser.hh"
 #include "Platform.hh"
 #include "Enemy.hh"
 #include "CameraLogic.hh"
@@ -20,7 +20,7 @@ class Level
 {
 	public:
 
-		Level(GameParser* gameParser, CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, LevelNumber _level);
+		Level( CameraLogic* _cameraLogic, LevelNumber _level);
 		virtual ~Level();
 
 		void render();
@@ -30,14 +30,14 @@ class Level
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
 
-		list<Platform*>* getPlataformList(){ return &platforms; }
+		//list<Platform*>* getPlataformList(){ return &platforms; }
 
 		void restart();
 
 	private:
 
 		CameraLogic* cameraLogic;
-		LogicToViewTransporter* logicToViewTransporter;
+		//LogicToViewTransporter* logicToViewTransporter;
 
 		int background1PosX, background1PosY, background1Width, background1Height;
 		int background2PosX, background2PosY, background2Width, background2Height; // no seria necesario si todas las capas fuesen del mismo tamaño
@@ -48,10 +48,10 @@ class Level
 		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
 		ScrollingType scrolling;
 
-		std::list<PlataformParser> platformParser;
+		/*std::list<PlataformParser> platformParser;
 		std::list<PlataformParser>::iterator platformParserIterator;
 		std::list<Platform*> platforms;
-		std::list<Platform*>::iterator platformsIterator;
+		std::list<Platform*>::iterator platformsIterator;*/
 
         Enemy* enemy;
 

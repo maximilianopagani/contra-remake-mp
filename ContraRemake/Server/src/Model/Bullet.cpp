@@ -7,10 +7,10 @@
 
 #include "Bullet.hh"
 
-Bullet::Bullet(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel)
+Bullet::Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel)
 {
 	cameraLogic = _cameraLogic;
-	logicToViewTransporter = _logicToViewTransporter;
+	//logicToViewTransporter = _logicToViewTransporter;
 	pos_x = _pos_x;
 	pos_y = _pos_y;
 	speed_x = _speed_x;
@@ -38,5 +38,5 @@ bool Bullet::outOfLimits()
 
 void Bullet::sendToDraw()
 {
-	logicToViewTransporter->sendToDraw(BULLETVIEW, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
+	//logicToViewTransporter->sendToDraw(BULLETVIEW, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
 }

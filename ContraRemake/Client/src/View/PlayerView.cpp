@@ -47,7 +47,7 @@ void PlayerView::update(PlayerState aState)
 	animations[aState]->update();
 }
 
-void PlayerView::render(PlayerState aState, int pos_x, int pos_y)
+void PlayerView::render(int aState, int pos_x, int pos_y)
 {
 	animations[aState]->render(pos_x, pos_y);
 }

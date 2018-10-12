@@ -6,9 +6,9 @@
  */
 
 #include "GameView.hh"
-#include "../../../Utils/Utils.hh"
-#include "../../../Utils/Logger.hh"
-#include "../../../Utils/GameParser.hh"
+//#include "Utils/Utils.hh"
+//#include "../Utils/Logger.hh"
+//#include "../Utils/GameParser.hh"
 
 GameView::GameView()
 {
@@ -29,24 +29,24 @@ bool GameView::init()
 	if(SDL_Init(SDL_INIT_TIMER|SDL_INIT_AUDIO|SDL_INIT_VIDEO|SDL_INIT_EVENTS) != 0)
 	{
 		error_desc = SDL_GetError();
-		LOGGER_ERROR("No se ha podido inicializar SDL - SDL_Error: " + error_desc);
+		//LOGGER_ERROR("No se ha podido inicializar SDL - SDL_Error: " + error_desc);
 		return false;
 	}
 	else
 	{
-		LOGGER_INFO("SDL inicializado con éxito.");
+		//LOGGER_INFO("SDL inicializado con éxito.");
 
 		window = SDL_CreateWindow("Contra Remake - Taller de Programación I", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
 
 		if(window == NULL)
 		{
 			error_desc = SDL_GetError();
-			LOGGER_ERROR("Imposible crear la ventana - SDL_Error: " + error_desc);
+			//LOGGER_ERROR("Imposible crear la ventana - SDL_Error: " + error_desc);
 			return false;
 		}
 		else
 		{
-			LOGGER_INFO("Ventana creada con éxito.");
+			//LOGGER_INFO("Ventana creada con éxito.");
 		}
 
 		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -54,12 +54,12 @@ bool GameView::init()
 		if(renderer == NULL)
 		{
 			error_desc = SDL_GetError();
-			LOGGER_ERROR("Imposible crear el rendererer - SDL_Error: " + error_desc);
+			//LOGGER_ERROR("Imposible crear el rendererer - SDL_Error: " + error_desc);
 			return false;
 		}
 		else
 		{
-			LOGGER_INFO("Renderer creado con éxito.");
+			//LOGGER_INFO("Renderer creado con éxito.");
 		}
 
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -71,19 +71,19 @@ bool GameView::init()
 		if(!(IMG_Init(imgFlags) & imgFlags))
 		{
 			error_desc = IMG_GetError();
-			LOGGER_ERROR("Imposible inicializar SDL_Image - SDL_Image_Error: " + error_desc);
+			//LOGGER_ERROR("Imposible inicializar SDL_Image - SDL_Image_Error: " + error_desc);
 			return false;
 		}
 		else
 		{
-			LOGGER_INFO("SDL_Image inicializado con éxito.");
+			//LOGGER_INFO("SDL_Image inicializado con éxito.");
 		}
 	}
 
 	invalidTexture = textureGenerator(".images/ImageNotFound.png");
 	if(invalidTexture == NULL)
 	{
-		LOGGER_ERROR("Imposible cargar imágen invalida para usar ante eventuales fallas en el generador de textura");
+		//LOGGER_ERROR("Imposible cargar imágen invalida para usar ante eventuales fallas en el generador de textura");
 		// return false; ??? ANULAR EJECUCION DEL JUEGO??
 	}
 	return true;
@@ -126,16 +126,16 @@ SDL_Texture* GameView::textureGenerator(std::string path)
 	SDL_Texture* texture = NULL;
 	SDL_Surface* surface = IMG_Load(path.c_str());
 
-	LOGGER_INFO("Cargando imágen... " + path);
+	//LOGGER_INFO("Cargando imágen... " + path);
 
 	if(surface == NULL)
 	{
-		LOGGER_ERROR("Imposible cargar " + path + " - SDL_Image_Error: " + IMG_GetError() + " - ACCION: Se carga textura invalida en su lugar.");
+		//LOGGER_ERROR("Imposible cargar " + path + " - SDL_Image_Error: " + IMG_GetError() + " - ACCION: Se carga textura invalida en su lugar.");
 		return invalidTexture;
 	}
 	else
 	{
-		LOGGER_INFO("Imagen " + path + " cargada con éxito. Creando textura a partir de ésta...");
+		//LOGGER_INFO("Imagen " + path + " cargada con éxito. Creando textura a partir de ésta...");
 
 		texture = SDL_CreateTextureFromSurface(renderer, surface);
 
@@ -143,12 +143,12 @@ SDL_Texture* GameView::textureGenerator(std::string path)
 
 		if(texture == NULL)
 		{
-			LOGGER_ERROR("Imposible crear textura de " + path + " - SDL_Error: " + SDL_GetError() + " - ACCION: Se carga textura invalida en su lugar.");
+			//LOGGER_ERROR("Imposible crear textura de " + path + " - SDL_Error: " + SDL_GetError() + " - ACCION: Se carga textura invalida en su lugar.");
 			return invalidTexture;
 		}
 		else
 		{
-			LOGGER_INFO("Textura de imagen " + path + " creada con éxito.");
+			//LOGGER_INFO("Textura de imagen " + path + " creada con éxito.");
 		}
 	}
 

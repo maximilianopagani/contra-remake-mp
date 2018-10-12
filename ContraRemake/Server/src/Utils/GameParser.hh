@@ -2,13 +2,13 @@
 #define GAMEPARSER_HH_
 
 #include <string>
-#include "data/tinyxml/tinyxml.h"
-#include "data/tinyxml/tinystr.h"
+#include "../../../Utils/data/tinyxml/tinyxml.h"
+#include "../../../Utils/data/tinyxml/tinystr.h"
 #include <cstring>
 #include <cstdio>
 #include <stdlib.h>
-#include "Constants.hh"
-#include "Logger.hh"
+#include "../../../Utils/Constants.hh"
+#include "../../../Utils/Logger.hh"
 #include <list>
 
 #include "PlatformParser.hh"

@@ -7,14 +7,16 @@
 
 #include "Player.hh"
 
-Player::Player(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter)
+Player::Player(CameraLogic* _cameraLogic,CTcpListener* _server)
 {
 	cameraLogic = _cameraLogic;
-	logicToViewTransporter = _logicToViewTransporter;
+	//logicToViewTransporter = _logicToViewTransporter;
 	pos_x = 150;
 	pos_y = 300;
 	maxDistanceJump=150;
 	falling = true;
+
+	server = _server;
 
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
@@ -30,33 +32,41 @@ Player::~Player()
 	this->destroy();
 }
 
-void Player::render()
-{
-	//logica para que camine lento
-	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN
+void Player::render(){
+	//----------------------------------------------------------------------
+	//Mandar Mensaje para dibujar cuando camina
+
+	/*if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN
 		|| state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN){
 
 		timeAtIterationStart++;
 
 		if(timeAtIterationStart > 3){
-			logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
+			//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 			timeAtIterationStart =0;
 		}
-	}
+	}*/
 
-	logicToViewTransporter->sendToDraw(PLAYERVIEW, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
+	//----------------------------------------------------------------------
+	//Mandar Mensaje para dibujar jugador
 
-    // Renderizado de balas
-	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
-	{
+
+
+	server->Send2("player,"+std::to_string(STATE_STANDING)+","+ std::to_string(pos_x)+","+std::to_string(pos_y));
+		//logicToViewTransporter->sendToDraw(PLAYERVIEW, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
+
+	//----------------------------------------------------------------------
+	//Mandar Mensaje para dibujar las balas
+
+	/*for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();){
 		(*bulletsIterator)->sendToDraw();
 		++bulletsIterator;
-	}
+	}*/
 }
 
 void Player::handleKeys(const Uint8* _currentKeyStates)
 {
-	LOGGER_DEBUG("Comienzo handle en state : " + PlayerStateHandler::stateToString(state) );
+	/*LOGGER_DEBUG("Comienzo handle en state : " + PlayerStateHandler::stateToString(state) );
 	currentKeyStates = _currentKeyStates;
 
 	// bug de ambas direcciones
@@ -131,23 +141,23 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 		LOGGER_DEBUG("El jugador DISPARA");
 		this->shoot();
 	}
-
+*/
 }
 
 void Player::update(){
 
-	if(falling) pos_y += 5;
+	//if(falling) pos_y += 5;
 	//Salto
 	switch(state) {
 		case STATE_JUMPINGUP:
 				pos_y-=10;
 				maxDistanceJump-=5;
-				logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
+				//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 				if(maxDistanceJump == 0) state = STATE_JUMPINGDOWN;
 				break;
 		case STATE_JUMPINGDOWN:
 				maxDistanceJump += 5;
-				logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
+				//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 				if(!falling) {
 					state = STATE_STANDING;
 					maxDistanceJump=150;
@@ -281,52 +291,52 @@ void Player::normalState(){
 void Player::shoot()
 {
 //	TODO sacar SDL_GetTicks() de aca
-	Uint32 currentShotTime = SDL_GetTicks();
+	//Uint32 currentShotTime = SDL_GetTicks();
 	int distanceToTravel = 425;
 
-	if((currentShotTime - lastShotTime) > shotCooldown)
-	{
+	//if((currentShotTime - lastShotTime) > shotCooldown)
+	//{
 		switch(aimingAt){
 			case AIM_FRONT:
-				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+47, pos_y+25, 10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, pos_x+47, pos_y+25, 10, 0, distanceToTravel));
 				break;
 
 			case AIM_BACK:
-				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x-1, pos_y+25, -10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -10, 0, distanceToTravel));
 				break;
 
 			case AIM_UP:
 				if (state == STATE_WALKINGRIGHTPOINTUP)
-					bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+35, pos_y, 9, -5, distanceToTravel));
+					bullets.push_back(new Bullet(cameraLogic, pos_x+35, pos_y, 9, -5, distanceToTravel));
 				else
-					bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+35, pos_y, 7, -7, distanceToTravel));
+					bullets.push_back(new Bullet(cameraLogic, pos_x+35, pos_y, 7, -7, distanceToTravel));
 				break;
 
 			case AIM_UP_BACK:
 				if (state == STATE_WALKINGLEFTPOINTUP)
-					bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x, pos_y, -9, -5, distanceToTravel));
+					bullets.push_back(new Bullet(cameraLogic, pos_x, pos_y, -9, -5, distanceToTravel));
 				else
-				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x, pos_y, -7, -7, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, pos_x, pos_y, -7, -7, distanceToTravel));
 				break;
 
 			case AIM_DOWN:
-				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+40, pos_y+46, 9, 5, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, pos_x+40, pos_y+46, 9, 5, distanceToTravel));
 				break;
 
 			case AIM_DOWN_BACK:
-				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x, pos_y+46, -9, 5, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, pos_x, pos_y+46, -9, 5, distanceToTravel));
 				break;
 
 			case AIM_BODYTOGROUND:
-				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x+90, pos_y+64, 10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, pos_x+90, pos_y+64, 10, 0, distanceToTravel));
 				break;
 
 			case AIM_BODYTOGROUND_BACK:
-				bullets.push_back(new Bullet(cameraLogic, logicToViewTransporter, pos_x, pos_y+64, -10, 0, distanceToTravel));
+				bullets.push_back(new Bullet(cameraLogic, pos_x, pos_y+64, -10, 0, distanceToTravel));
 				break;
-		}
+	//	}
 
-		lastShotTime = currentShotTime;
+		//lastShotTime = currentShotTime;
 	}
 }
 

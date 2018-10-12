@@ -10,7 +10,7 @@
 
 #include "GameView.hh"
 #include "Sprite.hh"
-#include "../Utils/PlayerStateHandler.hh"
+#include "../../../Utils/PlayerStateHandler.hh"
 
 class PlayerView
 {
@@ -20,7 +20,7 @@ class PlayerView
 
 		void loadSprite(string type);
 		void update(PlayerState aState);
-		void render(PlayerState aState, int posX, int posY);
+		void render(int aState, int posX, int posY);
 		void destroy();
 
 	private:

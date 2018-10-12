@@ -9,14 +9,14 @@
 #define ENEMY_HH_
 
 #include "CameraLogic.hh"
-#include "LogicToViewTransporter.hh"
+//#include "LogicToViewTransporter.hh"
 #include "../../../Utils/Logger.hh"
 
 class Enemy
 {
 	public:
 
-		Enemy(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string spritePath, int _posX, int _posY, int width, int height);
+		Enemy(CameraLogic* _cameraLogic, string spritePath, int _posX, int _posY, int width, int height);
 		virtual ~Enemy();
 
 		int getPosX() { return posX; }
@@ -27,7 +27,7 @@ class Enemy
 	private:
 
 		CameraLogic* cameraLogic;
-		LogicToViewTransporter* logicToViewTransporter;
+		//LogicToViewTransporter* logicToViewTransporter;
 
 		int posX, posY;
 };

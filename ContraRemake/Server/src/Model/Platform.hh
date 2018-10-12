@@ -10,14 +10,17 @@
 
 #include "../Utils/ICollisional.hh"
 #include "CameraLogic.hh"
-#include "LogicToViewTransporter.hh"
+#include <string>
+#include <strings.h>
+
+//#include "LogicToViewTransporter.hh"
 
 class Platform : public ICollisional
 {
 	public:
 		//enum GroundType {GRASS, WOOD, ROCK, ICE};
 
-		Platform(CameraLogic* _cameraLogic, LogicToViewTransporter* _logicToViewTransporter, string type, int pos_x, int pos_y, int pixels);
+		Platform(CameraLogic* _cameraLogic, std::string type, int pos_x, int pos_y, int pixels);
 		virtual ~Platform();
 
 		void render();
@@ -33,8 +36,8 @@ class Platform : public ICollisional
 
 	private:
 		CameraLogic* cameraLogic;
-		LogicToViewTransporter* logicToViewTransporter;
-		string type;
+		//LogicToViewTransporter* logicToViewTransporter;
+		std::string type;
 		int tileAmount, tileWidth, tileHeight, posX, posY;
 };
 

@@ -7,18 +7,19 @@
 #ifndef GAME_HH_
 #define GAME_HH_
 
-#include "../Vista/GameView.hh"
+//#include "../Vista/GameView.hh"
 #include "Level.hh"
 #include "Player.hh"
-#include "../../../Utils/GameParser.hh"
+//#include "../Utils/GameParser.hh"
 #include "../Utils/CollisionHelper.hh"
-#include "LogicToViewTransporter.hh"
+#include "TcpListener.h"
+//#include "LogicToViewTransporter.hh"
 
 class Game
 {
     public:
 
-        Game(GameParser* gameParser, GameView* gameView, LogicToViewTransporter* _logicToViewTransporter);
+        Game(CTcpListener* _server);
         virtual ~Game();
 
         void init();
@@ -39,12 +40,16 @@ class Game
 
         int currentLevel;
 
-        GameParser* gameParser;
-        GameView* gameView;
+       // GameParser* gameParser;
+        //GameView* gameView;
         Player* player;
         Level* level;
-        LogicToViewTransporter* logicToViewTransporter;
+       // LogicToViewTransporter* logicToViewTransporter;
         CameraLogic* cameraLogic;
+
+        //-----------------------------------------------
+        //Servidor para enviar y recibir mensajes
+        CTcpListener* server;
 };
 
 #endif /* SRC_GAME_HH_ */

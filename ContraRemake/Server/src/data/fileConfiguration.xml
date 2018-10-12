@@ -1,6 +1,6 @@
 <configuration>
 	<debug>
-		<level>ERROR</level>
+		<level>DEBUG</level>
 	</debug>
 	<escenarios>
 		<nivel1>
@@ -10,7 +10,7 @@
 			<plataformas>
 				<plataforma>
 					<id>1</id>				
-					<tipo>ICE</tipo>
+					<tipo>GRASS</tipo>
 					<xinicial>1</xinicial>
 					<xfinal>200</xfinal>
 					<altura>452</altura>
@@ -34,7 +34,7 @@
 					<tipo>WOOD</tipo>
 					<xinicial>800</xinicial>
 					<xfinal>1200</xfinal>
-					<altura>300</altura>
+					<altura>350</altura>
 				</plataforma>
 				<plataforma>
 					<id>11</id>				
@@ -334,21 +334,21 @@
 					<id>2020</id>
 					<tipo>GRASS</tipo>
 					<xinicial>450</xinicial>
-					<xfinal>600</xfinal>
+					<xfinal>700</xfinal>
 					<altura>2000</altura>
 				</plataforma>
 				<plataforma>
 					<id>2021</id>
 					<tipo>GRASS</tipo>
 					<xinicial>650</xinicial>
-					<xfinal>800</xfinal>
+					<xfinal>750</xfinal>
 					<altura>1900</altura>
 				</plataforma>
 				<plataforma>
 					<id>2022</id>
 					<tipo>GRASS</tipo>
 					<xinicial>300</xinicial>
-					<xfinal>500</xfinal>
+					<xfinal>800</xfinal>
 					<altura>1800</altura>
 				</plataforma>
 				<plataforma>
@@ -369,7 +369,7 @@
 					<id>2025</id>
 					<tipo>GRASS</tipo>
 					<xinicial>600</xinicial>
-					<xfinal>800</xfinal>
+					<xfinal>700</xfinal>
 					<altura>1500</altura>
 				</plataforma>
 				<plataforma>
@@ -383,7 +383,7 @@
 					<id>2027</id>
 					<tipo>GRASS</tipo>
 					<xinicial>100</xinicial>
-					<xfinal>200</xfinal>
+					<xfinal>500</xfinal>
 					<altura>1300</altura>
 				</plataforma>
 				<plataforma>

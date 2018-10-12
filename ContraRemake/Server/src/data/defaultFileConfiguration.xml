@@ -4,15 +4,29 @@
 	</debug>
 	<escenarios>
 		<nivel1>
-			<fondo1>images/background/set1/fondo1.png</fondo1>
-			<fondo2>images/background/set1/fondo2.png</fondo2>
-			<fondo3>images/background/set1/fondo3.png</fondo3>
+			<fondo1>.images/background/set1/fondo1.png</fondo1>
+			<fondo2>.images/background/set1/fondo2.png</fondo2>
+			<fondo3>.images/background/set1/fondo3.png</fondo3>
 			<plataformas>
 				<plataforma>
 					<id>1</id>				
-					<tipo>ICE</tipo>
+					<tipo>GRASS</tipo>
 					<xinicial>1</xinicial>
 					<xfinal>200</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>2</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>500</xinicial>
+					<xfinal>794</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>3</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>795</xinicial>
+					<xfinal>1191</xfinal>
 					<altura>452</altura>
 				</plataforma>
 				<plataforma>
@@ -23,11 +37,109 @@
 					<altura>350</altura>
 				</plataforma>
 				<plataforma>
-					<id>5</id>
+					<id>11</id>				
 					<tipo>GRASS</tipo>
-					<xinicial>400</xinicial>
-					<xfinal>7800</xfinal>
-					<altura>500</altura>
+					<xinicial>1192</xinicial>
+					<xfinal>1587</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>13</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>1588</xinicial>
+					<xfinal>1987</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>14</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>1988</xinicial>
+					<xfinal>2384</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>15</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>2385</xinicial>
+					<xfinal>2781</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>16</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>2782</xinicial>
+					<xfinal>3179</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>17</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>3180</xinicial>
+					<xfinal>3576</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>18</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>3577</xinicial>
+					<xfinal>3973</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>19</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>4001</xinicial>
+					<xfinal>4397</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>20</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>4398</xinicial>
+					<xfinal>4794</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>21</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>4795</xinicial>
+					<xfinal>5191</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>22</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>5192</xinicial>
+					<xfinal>5587</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>23</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>5192</xinicial>
+					<xfinal>5587</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>24</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>5192</xinicial>
+					<xfinal>5587</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>25</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>5588</xinicial>
+					<xfinal>5984</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>26</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>5985</xinicial>
+					<xfinal>6381</xfinal>
+					<altura>452</altura>
 				</plataforma>
 				<plataforma>
 					<id>27</id>
@@ -35,6 +147,34 @@
 					<xinicial>5800</xinicial>
 					<xfinal>6200</xfinal>
 					<altura>300</altura>
+				</plataforma>
+				<plataforma>
+					<id>31</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>6588</xinicial>
+					<xfinal>6987</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>32</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>6988</xinicial>
+					<xfinal>7384</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>33</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>7385</xinicial>
+					<xfinal>7781</xfinal>
+					<altura>452</altura>
+				</plataforma>
+				<plataforma>
+					<id>34</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>7782</xinicial>
+					<xfinal>8179</xfinal>
+					<altura>452</altura>
 				</plataforma>
 				<plataforma>
 					<id>35</id>
@@ -53,9 +193,9 @@
 			</plataformas>
 		</nivel1>
 		<nivel2>
-			<fondo1>images/background/set2/fondo1.png</fondo1>
-			<fondo2>images/background/set2/fondo2.png</fondo2>
-			<fondo3>images/background/set2/fondo3.png</fondo3>
+			<fondo1>.images/background/set2/fondo1.png</fondo1>
+			<fondo2>.images/background/set2/fondo2.png</fondo2>
+			<fondo3>.images/background/set2/fondo3.png</fondo3>
 			<plataformas>
 				<plataforma>
 					<id>2001</id>
@@ -180,7 +320,7 @@
 					<id>2018</id>
 					<tipo>GRASS</tipo>
 					<xinicial>300</xinicial>
-					<xfinal>550</xfinal>
+					<xfinal>850</xfinal>
 					<altura>2200</altura>
 				</plataforma>
 				<plataforma>
@@ -194,21 +334,21 @@
 					<id>2020</id>
 					<tipo>GRASS</tipo>
 					<xinicial>450</xinicial>
-					<xfinal>700</xfinal>
+					<xfinal>600</xfinal>
 					<altura>2000</altura>
 				</plataforma>
 				<plataforma>
 					<id>2021</id>
 					<tipo>GRASS</tipo>
 					<xinicial>650</xinicial>
-					<xfinal>750</xfinal>
+					<xfinal>800</xfinal>
 					<altura>1900</altura>
 				</plataforma>
 				<plataforma>
 					<id>2022</id>
 					<tipo>GRASS</tipo>
 					<xinicial>300</xinicial>
-					<xfinal>800</xfinal>
+					<xfinal>500</xfinal>
 					<altura>1800</altura>
 				</plataforma>
 				<plataforma>
@@ -229,7 +369,7 @@
 					<id>2025</id>
 					<tipo>GRASS</tipo>
 					<xinicial>600</xinicial>
-					<xfinal>700</xfinal>
+					<xfinal>800</xfinal>
 					<altura>1500</altura>
 				</plataforma>
 				<plataforma>
@@ -243,7 +383,7 @@
 					<id>2027</id>
 					<tipo>GRASS</tipo>
 					<xinicial>100</xinicial>
-					<xfinal>500</xfinal>
+					<xfinal>200</xfinal>
 					<altura>1300</altura>
 				</plataforma>
 				<plataforma>
@@ -319,9 +459,9 @@
 			</plataformas>
 		</nivel2>
 		<nivel3>
-			<fondo1>images/background/set3/fondo1.png</fondo1>
-			<fondo2>images/background/set3/fondo2.png</fondo2>
-			<fondo3>images/background/set3/fondo3.png</fondo3>
+			<fondo1>.images/background/set3/fondo1.png</fondo1>
+			<fondo2>.images/background/set3/fondo2.png</fondo2>
+			<fondo3>.images/background/set3/fondo3.png</fondo3>
 			<plataformas>
 				<plataforma>
 					<id>3001</id>
