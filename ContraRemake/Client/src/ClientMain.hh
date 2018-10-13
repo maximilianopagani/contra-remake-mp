@@ -5,9 +5,9 @@
  *      Author: nacho
  */
 
-#ifndef CLIENT_CLIENT_HH_
-#define CLIENT_CLIENT_HH_
+#ifndef CLIENT_CLIENTMAIN_HH_
+#define CLIENT_CLIENTMAIN_HH_
 
 int ClientMain();
 
-#endif /* CLIENT_CLIENT_HH_ */
+#endif /* CLIENT_CLIENTMAIN_HH_ */

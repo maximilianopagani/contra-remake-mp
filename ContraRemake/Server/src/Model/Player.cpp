@@ -7,16 +7,15 @@
 
 #include "Player.hh"
 
-Player::Player(CameraLogic* _cameraLogic,CTcpListener* _server)
+Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler)
 {
 	cameraLogic = _cameraLogic;
-	//logicToViewTransporter = _logicToViewTransporter;
+	serverMessageHandler = _serverMessageHandler;
+
 	pos_x = 150;
 	pos_y = 300;
 	maxDistanceJump=150;
 	falling = true;
-
-	server = _server;
 
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
@@ -52,7 +51,7 @@ void Player::render(){
 
 
 
-	server->Send2("player,"+std::to_string(STATE_STANDING)+","+ std::to_string(pos_x)+","+std::to_string(pos_y));
+	//server->Send2("player,"+std::to_string(STATE_STANDING)+","+ std::to_string(pos_x)+","+std::to_string(pos_y));
 		//logicToViewTransporter->sendToDraw(PLAYERVIEW, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
 
 	//----------------------------------------------------------------------

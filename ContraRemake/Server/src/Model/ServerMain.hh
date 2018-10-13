@@ -5,9 +5,9 @@
  *      Author: synergy
  */
 
-#ifndef MODEL_CONTRAREMAKE_HH_
-#define MODEL_CONTRAREMAKE_HH_
+#ifndef MODEL_SERVERMAIN_HH_
+#define MODEL_SERVERMAIN_HH_
 
 int ServerMain(int argc, char* argv[]);
 
-#endif /* MODEL_CONTRAREMAKE_HH_ */
+#endif /* MODEL_SERVERMAIN_HH_ */

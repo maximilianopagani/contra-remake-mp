@@ -1,11 +1,15 @@
 #include <iostream>
+
+#include "Client/src/ClientMain.hh"
 #include "Utils/Logger.hh"
-#include "Client/src/Client.hh"
-#include "Server/src/Model/ContraRemake.hh"
+#include "Server/src/Model/ServerMain.hh"
 
 using namespace std;
 
-void print_usage() {
+#define MODO "server"
+
+void print_usage()
+{
 	cout << "Uso: ./Contra -mode modo [-logger_mode modo]" << endl;
 	cout << endl;
 	cout << "Opciones:" << endl;
@@ -18,22 +22,47 @@ int main(int argc, char** argv)
 	Logger::Level logMode;
 	bool hasLogMode = true;
 	
-	if (argc == 1) print_usage();
-	else if (argc >= 3)
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	// HARCODEO PARA SELECCIONAR MODO DESDE EL CODIGO
+	if(std::string(MODO) == "client")
 	{
-		if (std::string(argv[1]) == "-mode")
+		ClientMain();
+		return 0;
+	}
+	else if(std::string(MODO) == "server")
+	{
+		ServerMain(argc, argv);
+		return 0;
+	}
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	if(argc == 1)
+	{
+		print_usage();
+	}
+	else if(argc >= 3)
+	{
+		if(std::string(argv[1]) == "-mode")
 		{
-			if (std::string(argv[2]) == "CLIENT" || std::string(argv[2]) == "client")
+			if(std::string(argv[2]) == "CLIENT" || std::string(argv[2]) == "client")
 			{
 				ClientMain();
 			}
-			else if (std::string(argv[2]) == "SERVER" || std::string(argv[2]) == "server" )
+			else if(std::string(argv[2]) == "SERVER" || std::string(argv[2]) == "server")
 			{
 				ServerMain(argc, argv);
 			}
-			else print_usage();
+			else
+			{
+				print_usage();
+			}
 		}
-		else print_usage();
+		else
+		{
+			print_usage();
+		}
 		/*
 		if (argc >= 4) {
 			if (std::string(argv[3]) != "-logger_mode") {

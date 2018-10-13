@@ -14,16 +14,15 @@
 #include "../Utils/ICollisional.hh"
 #include "../../../Utils/PlayerStateHandler.hh"
 #include "Bullet.hh"
-//#include "LogicToViewTransporter.hh"
 #include <list>
-#include <SDL2/SDL_timer.h>
-#include "TcpListener.h"
+
+#include "ServerMessageHandler.hh"
 
 class Player : public ICollisional
 {
 	public:
 
-		Player(CameraLogic* _cameraLogic , CTcpListener* _server);
+		Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler);
 		virtual ~Player();
 
 		//Collisional
@@ -73,8 +72,6 @@ class Player : public ICollisional
 		};
 		PlayerDirection direction;
 
-		CTcpListener* server;
-
 		// manejo de disparo
 		enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND,AIM_BACK,AIM_UP_BACK,AIM_DOWN_BACK,AIM_BODYTOGROUND_BACK};
 		AimPosition aimingAt;
@@ -86,7 +83,7 @@ class Player : public ICollisional
 		std::list<Bullet*>::iterator bulletsIterator;
 
 		CameraLogic* cameraLogic;
-	//	LogicToViewTransporter* logicToViewTransporter;
+		ServerMessageHandler* serverMessageHandler;
 
 		const Uint8* currentKeyStates = NULL; // NO liberar/delete, es un puntero a un array interno de SDL
 };

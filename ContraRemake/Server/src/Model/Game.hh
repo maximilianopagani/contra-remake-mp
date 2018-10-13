@@ -12,14 +12,12 @@
 #include "Player.hh"
 //#include "../Utils/GameParser.hh"
 #include "../Utils/CollisionHelper.hh"
-#include "TcpListener.h"
-//#include "LogicToViewTransporter.hh"
 
 class Game
 {
     public:
 
-        Game(CTcpListener* _server);
+		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler);
         virtual ~Game();
 
         void init();
@@ -44,12 +42,13 @@ class Game
         //GameView* gameView;
         Player* player;
         Level* level;
-       // LogicToViewTransporter* logicToViewTransporter;
+
         CameraLogic* cameraLogic;
+        ServerMessageHandler* serverMessageHandler;
 
         //-----------------------------------------------
         //Servidor para enviar y recibir mensajes
-        CTcpListener* server;
+        ServerHandler* server;
 };
 
 #endif /* SRC_GAME_HH_ */

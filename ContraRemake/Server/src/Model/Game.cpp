@@ -2,7 +2,8 @@
 #include "Game.hh"
 #include "Platform.hh"
 
-Game::Game(CTcpListener* _server){
+Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler)
+{
 	enEjecucion = false;
 //	gameParser = NULL;
 	//gameView = _gameView;
@@ -10,8 +11,7 @@ Game::Game(CTcpListener* _server){
 	player = NULL;
 	currentLevel = 0;
 	cameraLogic = new CameraLogic(0, 0, 800, 600);
-//	logicToViewTransporter = _logicToViewTransporter;
-
+	serverMessageHandler = _serverMessageHandler;
 	server = _server;
 }
 
@@ -42,7 +42,7 @@ void Game::init()
 
     //----------------------------------------------------------------------
     //En la creacion de jugador no envio nada a vista
-    player = new Player(cameraLogic,server);
+    player = new Player(cameraLogic, serverMessageHandler);
 }
 
 void Game::handleEvents(){
@@ -147,11 +147,11 @@ void Game::update(){
 			}*/
 }
 
-void Game::render(){
-
+void Game::render()
+{
 	//----------------------------------------------------------------------
 	//Mandar Mensaje de Clear
-	server->Send2("gameview,clear,");
+	//server->Send2("gameview,clear,");
 
 	//----------------------------------------------------------------------
 	//Manda un mensaje para dibujar nivel primero(Por ahora no hace nada)
@@ -163,7 +163,7 @@ void Game::render(){
 
     //----------------------------------------------------------------------
     //Manda mensaje para mostrar la escena
-    server->Send2("gameview,show,");
+    //server->Send2("gameview,show,");
 }
 
 void Game::destroy()
