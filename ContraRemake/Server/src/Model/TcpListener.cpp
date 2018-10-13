@@ -34,6 +34,7 @@ void CTcpListener::Send2(std::string msg){
 	//std::cout<<sizeof(msj)<<std::endl;
 	//send(clientSocket, (void *)&msj, sizeof(msj), 0);
 	send(clientSocket, msg.c_str(), msg.size() + 1, 0);
+	std::cout << msg << std::endl;
 
 	char buf[MAX_BUFFER_SIZE];
 

@@ -60,7 +60,6 @@ bool TcpClient::Send( std::string msg ){
 
 bool TcpClient::recive(){
 	char buf[255];
-
 	int bytesReceived = recv(network_socket, buf, sizeof(buf), 0);
 	if (bytesReceived > 0){
 

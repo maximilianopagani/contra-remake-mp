@@ -27,13 +27,13 @@ void *memset(void *s, int c, size_t n);
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include "GameView.hh"
 
-#include "PlayerView.hh"
-#include "PlatformView.hh"
-#include "LevelView.hh"
-#include "EnemyView.hh"
-#include "BulletView.hh"
+#include "View/GameView.hh"
+#include "View/PlayerView.hh"
+#include "View/PlatformView.hh"
+#include "View/LevelView.hh"
+#include "View/EnemyView.hh"
+#include "View/BulletView.hh"
 
 #include <list>
 
