@@ -14,6 +14,8 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	serverMessageHandler = _serverMessageHandler;
 	server = _server;
 	max_players = _max_players;
+
+	//server->setQueueToReceiveMessages(&received_messages_queue);
 }
 
 Game::~Game()
@@ -46,8 +48,43 @@ void Game::init()
     player = new Player(cameraLogic, serverMessageHandler);
 }
 
+/*
+void Game::processMessages()
+{
+	Message* message;
+
+	pthread_mutex_lock(&mutex);
+
+	while(!received_messages_queue.empty())
+	{
+		message = received_messages_queue.front();
+		received_messages_queue.pop();
+		char msg[256];
+		message->getContent(msg);
+		std::cout<<"Game: PRUEBA DEFINITIVA, LEO MENSAJE: "<<msg<<std::endl;
+		delete message;
+	}
+
+	pthread_mutex_unlock(&mutex);
+}
+*/
+
 void Game::handleEvents()
 {
+	server->getNewReceivedMessages(&received_messages_queue); // Traspaso los mensajes desde la cola compartida entre Server y Game, a la cola exclusiva de game.
+
+	Message* message;
+
+	while(!received_messages_queue.empty())
+	{
+		message = received_messages_queue.front();
+		received_messages_queue.pop();
+		char msg[256];
+		message->getContent(msg);
+		std::cout<<"Game: Leo las ultimas novedades de mensajes arribados: "<<msg<<std::endl;
+		// PROCESAR EVENTOS
+		delete message;
+	}
 	//----------------------------------------------------------------------
 	//Aca recibe una lista de teclas las cuales procesa
 
@@ -123,6 +160,10 @@ void Game::update()
 	//----------------------------------------------------------------------
 	//Setea el nuevo border apartir de jugador
 	level->moveForward(player->getPosX(), player->getPosY());
+
+	//char msg[256];
+	//received_messages_queue.front()->getContent(msg);
+	//std::cout<<"MENSAJE EN GAME:"<<msg<<std::endl;
 
 	//----------------------------------------------------------------------
 	//Manejo de Colisiones con las plataformas

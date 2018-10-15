@@ -38,8 +38,8 @@ class Message
 {
 	public:
 		Message(std::string unique_param);
-		Message(MsgDestHeader param1, MsgCmdHeader param2, int param3 = 0, int param4 = 0, int param5 = 0, int param6 = 0);
-		Message(MsgDestHeader param1, MsgCmdHeader param2, std::string param3 = "0", std::string param4 = "0", std::string param5 = "0", std::string param6 = "0");
+		Message(MsgDestHeader header1, MsgCmdHeader header2, int param1 = 0, int param2 = 0, int param3 = 0, int param4 = 0);
+		Message(MsgDestHeader header1, MsgCmdHeader header2, std::string param1 = "0", std::string param2 = "0", std::string param3 = "0", std::string param4 = "0");
 		virtual ~Message() {};
 
 		void getContent(char* content) { std::strcpy(content, messageContent); }

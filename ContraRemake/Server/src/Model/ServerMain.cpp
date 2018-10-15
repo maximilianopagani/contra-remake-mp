@@ -8,19 +8,32 @@
 #define PUERTO 54000
 #define MAX_PLAYERS 1
 
+pthread_mutex_t mutex; // MUTEX GLOBAL PARA SER UTILIZADO EN SERVERHANDLER Y EN GAME CUANDO COMPARTAN ACCESO MEDIANTE DISTINTOS THREADS A LAS COLAS DE MENSAJES
+
 int ServerMain(int argc, char* argv[])
 {
+	mutex = PTHREAD_MUTEX_INITIALIZER;
+	pthread_mutex_init(&mutex, NULL);
+
 	ServerHandler* server = new ServerHandler(PUERTO, MAX_PLAYERS); // (PUERTO, CANTIDAD DE JUGADORES EN LA PARTIDA)
 
-	cout<<"Servidor creado"<<endl;
+	cout<<"ServerMain: Servidor creado."<<endl;
+
+	ServerMessageHandler* messageHandler = new ServerMessageHandler(server);
+
+	cout<<"ServerMain: Gestionador de mensajes creado."<<endl;
+
+	Game* synergy = new Game(server, messageHandler, MAX_PLAYERS); // EN EL CONSTRUCTOR DE GAME, CONOCIENDO A SERVER, LE SETEO EL PUNTERO A LA COLA DONDE SERVER VA A GUARDAR LOS MENSAJES
+
+	cout<<"ServerMain: Juego creado."<<endl;
 
 	if(server->startServer())
 	{
-		 cout<<"Servidor iniciado"<<endl;
+		 cout<<"ServerMain: Servidor iniciado"<<endl;
 	}
 	else
 	{
-		cout<<"Falla al iniciar servidor"<<endl;
+		cout<<"ServerMain: Falla al iniciar servidor"<<endl;
 		delete server;
 		return 0;
 	}
@@ -28,16 +41,13 @@ int ServerMain(int argc, char* argv[])
 	server->startListeningThread();
 
 	//----------------------------------------------------------------------
-	//Creo el juego e inicio el ciclo del juego
-	Game* synergy = new Game(server, new ServerMessageHandler(server), MAX_PLAYERS);
-	cout<<"Juego creado."<<endl;
 
 	synergy->init();
-	cout<<"Juego Inicializado."<<endl;
+	cout<<"ServerMain: Juego Inicializado."<<endl;
 
 	//----------------------------------------------------------------------
 
-	cout<<"En espera de conexión de "<<synergy->getMaxPlayers()<<" jugadores."<<endl;
+	cout<<"ServerMain: En espera de conexión de "<<synergy->getMaxPlayers()<<" jugadores."<<endl;
 
 	while(server->getConnectedClients() != synergy->getMaxPlayers())
 	{
@@ -45,12 +55,12 @@ int ServerMain(int argc, char* argv[])
 	}
 
 	//Ciclo del juego. NO DEBERIA EMPEZAR HASTA QUE SE CONECTEN TODOS LOS JUGADORES DE LA PARTIDA
-	cout<<"Se alcanzó la cantidad de jugadores conectados necesaria. Comienza el juego."<<endl;
+	cout<<"ServerMain: Se alcanzó la cantidad de jugadores conectados necesaria. Comienza el juego."<<endl;
 
 	//============= MANEJO DEL FRAMERATE =============
 	if(SDL_Init(SDL_INIT_TIMER) != 0)
 	{
-		cout<< "Falla al inicializar SDL_TIMER"<<endl;
+		cout<<"ServerMain: Falla al inicializar SDL_TIMER"<<endl;
 		return false;
 	}
 
@@ -71,7 +81,7 @@ int ServerMain(int argc, char* argv[])
 		synergy->handleEvents();
 
 		//----------------------------------------------------------------------
-		//Actualizo todo lo que vallaa pasando acorde a los eventos
+		//Actualizo todo lo que vaya pasando acorde a los eventos
 		synergy->update();
 
 		//----------------------------------------------------------------------
@@ -91,7 +101,7 @@ int ServerMain(int argc, char* argv[])
 	//Destruyo juego
 	synergy->destroy();
 	//delete server; hacer el destructor, matar todos los thread, si hubiese, y liberar recursos
-	cout<<"Destrui el servidor"<<endl;
+	cout<<"ServerMain: Destrui el servidor"<<endl;
 
 	return 0;
 }

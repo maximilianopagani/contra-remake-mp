@@ -16,6 +16,8 @@
 #include <list>
 #include "Client.hh"
 
+extern pthread_mutex_t mutex;
+
 class ServerHandler
 {
 	public:
@@ -37,6 +39,8 @@ class ServerHandler
 		static void* acceptConnectionsThread(void* server);
 		static void* recieveMessagesFromClientThread(void* client);
 
+		void getNewReceivedMessages(std::queue<Message*>* store_in_queue);
+
 	private:
 
 		int port;
@@ -46,7 +50,6 @@ class ServerHandler
 		int listening_socket;
 
 		pthread_t accept_connections_thread;
-		pthread_mutex_t mutex;
 
 		std::list<Client*> connectedClients;
 		std::list<Client*>::iterator connectedClientsIterator;

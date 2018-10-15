@@ -141,25 +141,32 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 */
 }
 
-void Player::update(){
-
+void Player::update()
+{
 	//if(falling) pos_y += 5;
 	//Salto
-	switch(state) {
+	switch(state)
+	{
 		case STATE_JUMPINGUP:
 				pos_y-=10;
 				maxDistanceJump-=5;
 				//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
-				if(maxDistanceJump == 0) state = STATE_JUMPINGDOWN;
+				if(maxDistanceJump == 0)
+					state = STATE_JUMPINGDOWN;
+
 				break;
+
 		case STATE_JUMPINGDOWN:
 				maxDistanceJump += 5;
 				//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
-				if(!falling) {
+				if(!falling)
+				{
 					state = STATE_STANDING;
 					maxDistanceJump=150;
 				}
+
 				break;
+
 		default:
 				break;
 	}
@@ -173,114 +180,150 @@ void Player::update(){
 	        delete (*bulletsIterator);
 	        bullets.erase(bulletsIterator++);
 	    }
-	    else {
+	    else
+	    {
 	        ++bulletsIterator;
 	    }
 	}
 }
 
-void Player::jump(){
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN && !falling) state = STATE_JUMPINGUP;
+void Player::jump()
+{
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN && !falling)
+		state = STATE_JUMPINGUP;
 }
 
-void Player::goDown(){
+void Player::goDown()
+{
 	if(!falling)
 	{
 		if (direction == DIRECTION_BACK)
 			state = STATE_STANDING_BACK;
 		else
 			state = STATE_STANDING;
+
 		falling = true;
 	}
 }
 
-void Player::walkLeft(){
+void Player::walkLeft()
+{
 	direction = DIRECTION_BACK;
-	if (!cameraLogic->outOfCameraLeftLimit(pos_x - 5)) {
+	if (!cameraLogic->outOfCameraLeftLimit(pos_x - 5))
+	{
 		pos_x-=5;
 	}
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN)
+	{
 
-		if(aimingAt==AIM_UP_BACK){
+		if(aimingAt==AIM_UP_BACK)
+		{
 			state = STATE_WALKINGLEFTPOINTUP;
 		}
-		else if(aimingAt==AIM_DOWN_BACK){
+		else if(aimingAt==AIM_DOWN_BACK)
+		{
 			state = STATE_WALKINGLEFTPOINTDOWN;
 		}
-		else {
+		else
+		{
 			state = STATE_WALKINGLEFT;
 		}
 	}
 }
 
-void Player::walkRight(){
+void Player::walkRight()
+{
 	direction = DIRECTION_FRONT;
-	if (!cameraLogic->outOfCameraRightLimit(pos_x + 5)) {
+	if (!cameraLogic->outOfCameraRightLimit(pos_x + 5))
+	{
 		pos_x+=5;
 	}
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN) {
-		if(aimingAt==AIM_UP){
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN)
+	{
+		if(aimingAt==AIM_UP)
+		{
 			state = STATE_WALKINGRIGHTPOINTUP;
 		}
-		else if(aimingAt==AIM_DOWN){
+		else if(aimingAt==AIM_DOWN)
+		{
 			state = STATE_WALKINGRIGHTPOITNDOWN;
 		}
-		else {
+		else
+		{
 			state = STATE_WALKINGRIGHT;
 		}
 	}
 }
 
-void Player::pointUP(bool cond){
+void Player::pointUP(bool cond)
+{
 	if(direction == DIRECTION_BACK)
 		aimingAt = AIM_UP_BACK;
-	else aimingAt = AIM_UP;
+	else
+		aimingAt = AIM_UP;
 
-	if(cond){
+	if(cond)
+	{
 		if(direction == DIRECTION_BACK)
 			state=STATE_POINTUP_BACK;
-		else state=STATE_POINTUP;
+		else
+			state=STATE_POINTUP;
 	}
 }
 
-void Player::pointDown(bool cond){
+void Player::pointDown(bool cond)
+{
 	if(direction == DIRECTION_BACK)
 			aimingAt = AIM_DOWN_BACK;
-	else aimingAt = AIM_DOWN;
+	else
+		aimingAt = AIM_DOWN;
 
-	if(cond){
+	if(cond)
+	{
 		if(direction == DIRECTION_BACK)
 			state = STATE_POINTDOWN_BACK;
-		else state = STATE_POINTDOWN;
+		else
+			state = STATE_POINTDOWN;
 	}
 }
 
-void Player::pointDefault(bool cond){
+void Player::pointDefault(bool cond)
+{
 	if(direction == DIRECTION_BACK)
-			aimingAt = AIM_BACK;
-	else aimingAt = AIM_FRONT;
+		aimingAt = AIM_BACK;
+	else
+		aimingAt = AIM_FRONT;
 
-	if(cond){
+	if(cond)
+	{
 		if(direction == DIRECTION_BACK)
 			state = STATE_POINTBACK;
-		else state = STATE_POINTFRONT;
+		else
+			state = STATE_POINTFRONT;
 	}
 }
 
-void Player::bodyToGround(){
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN && !falling){
-		if(direction == DIRECTION_BACK) {
+void Player::bodyToGround()
+{
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN && !falling)
+	{
+		if(direction == DIRECTION_BACK)
+		{
 			aimingAt = AIM_BODYTOGROUND_BACK;
 			state = STATE_POINTBODYTOGROUND_BACK;
-		} else {
+		}
+		else
+		{
 			aimingAt = AIM_BODYTOGROUND;
 			state = STATE_POINTBODYTOGROUND;
 		}
 	}
 }
 
-void Player::normalState(){
-	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN){
+void Player::normalState()
+{
+	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN)
+	{
 		state= STATE_STANDING;
 	}
 }
@@ -293,7 +336,8 @@ void Player::shoot()
 
 	//if((currentShotTime - lastShotTime) > shotCooldown)
 	//{
-		switch(aimingAt){
+		switch(aimingAt)
+		{
 			case AIM_FRONT:
 				bullets.push_back(new Bullet(cameraLogic, pos_x+47, pos_y+25, 10, 0, distanceToTravel));
 				break;

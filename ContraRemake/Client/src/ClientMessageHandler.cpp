@@ -27,7 +27,7 @@ void ClientMessageHandler::redirectRecievedMessage(Message* message)
 	char msg[256];
 	message->getContent(msg);
 
-	std::cout<<"Procesando mensaje: "<<msg<<std::endl;
+	std::cout<<"ClientMessageHandler: Procesando mensaje: "<<msg<<std::endl;
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,],%[^;];", &MSG_HEADER_1, &MSG_HEADER_2, param2, param3, param4, param5, param6);
 

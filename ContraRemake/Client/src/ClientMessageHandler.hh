@@ -8,7 +8,7 @@
 #ifndef SRC_CLIENTMESSAGEHANDLER_HH_
 #define SRC_CLIENTMESSAGEHANDLER_HH_
 
-#include "../../Common/Message.hh"
+#include "../../Utils/Message.hh"
 
 #include <stdio.h>
 

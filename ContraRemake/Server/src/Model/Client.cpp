@@ -14,8 +14,5 @@ Client::Client(int _socket, std::string _ip, int _port) // @suppress("Class memb
 	port = _port;
 }
 
-Client::~Client()
-{
-	// TODO Auto-generated destructor stub
-}
+Client::~Client() {}
 

@@ -107,19 +107,22 @@ void ClientHandler::processMessages()
 	{
 		pthread_mutex_lock(&mutex);
 
-		if(!received_messages_queue.empty())
+		while(!received_messages_queue.empty())
 		{
 			message = received_messages_queue.front();
 			received_messages_queue.pop();
+			clientMessageHandler->redirectRecievedMessage(message);
 		}
 
 		pthread_mutex_unlock(&mutex);
 
+		/*
 		if(message != NULL)
 		{
 			clientMessageHandler->redirectRecievedMessage(message);
 			message = NULL;
 		}
+		*/
 	}
 }
 

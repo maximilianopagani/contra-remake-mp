@@ -8,7 +8,7 @@
 #ifndef MODEL_SERVERMESSAGEHANDLER_HH_
 #define MODEL_SERVERMESSAGEHANDLER_HH_
 
-#include "../../../Common/Message.hh"
+#include "../../../Utils/Message.hh"
 #include "ServerHandler.hh"
 
 class ServerMessageHandler

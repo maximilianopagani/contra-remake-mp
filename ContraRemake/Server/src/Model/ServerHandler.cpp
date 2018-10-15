@@ -22,7 +22,7 @@ bool ServerHandler::startServer()
 	// FALLA LA CREACION DEL SOCKET
 	if(listening_socket == -1)
 	{
-		std::cout<<"Falla al crear el socket de escucha inicial."<<std::endl;
+		std::cout<<"ServerHandler: Falla al crear el socket de escucha inicial."<<std::endl;
 		return false;
 	}
 	// ESTRUCTURA DE INFORMACION QUE DEFINE COMPORTAMIENTO DEL SOCKET PARA ESCUCHAR CONEXIONES "listening_socket"
@@ -34,18 +34,16 @@ bool ServerHandler::startServer()
 	// ASOCIO EL SOCKET QUE CREE PARA ESCUCHAR CONEXIONES CON UNA DIRECCION DE IP, PUERTO Y FAMILIA DE PROTOCOLO DEFINIDO ANTERIORMENTE
 	if(bind(listening_socket, (struct sockaddr*) &server_address, sizeof(server_address)) == -1)
 	{
-		std::cout<<"Falla al asociar el socket de escucha con la estructura deseada."<<std::endl;
+		std::cout<<"ServerHandler: Falla al asociar el socket de escucha con la estructura deseada."<<std::endl;
 		return false;
 	}
 
 	// LE DIJO AL SOCKET QUE SE QUEDE ESCUCHANDO CONEXIONES ENTRANTES (HASTA max_clients CONEXIONES)
 	if(listen(listening_socket, max_clients) == -1)
 	{
-		std::cout<<"Falla al setear al socket en modo de espera de conexiones."<<std::endl;
+		std::cout<<"ServerHandler: Falla al setear al socket en modo de espera de conexiones."<<std::endl;
 		return false;
 	}
-
-	pthread_mutex_init(&mutex, NULL);
 
 	return true;
 }
@@ -58,7 +56,7 @@ void ServerHandler::startListeningThread()
 // Para invocar un thread no se puede con un metodo común de un objeto, hay que llamar una funcion estática, y pasarle los objetos para luego llamar al método de instancia.
 void* ServerHandler::acceptConnectionsThread(void* server)
 {
-	std::cout<<"Iniciando acceptConnectionsThread."<<std::endl;
+	std::cout<<"ServerHandler: Iniciando acceptConnectionsThread."<<std::endl;
 	((ServerHandler*)server)->acceptConnections();
 	return nullptr;
 }
@@ -79,7 +77,7 @@ void ServerHandler::acceptConnections()
 			struct sockaddr_in client_address; // Estructura que me va a servir para guardar la informacion de la conexion entrante
 			socklen_t address_size = sizeof(client_address);
 
-			std::cout<<"Invocando llamada bloqueante accept(). En espera de conexiones..."<<std::endl;
+			std::cout<<"ServerHandler: Invocando llamada bloqueante accept(). En espera de conexiones..."<<std::endl;
 
 			// LLAMADA BLOQUEANTE. NO avanza hasta que no recibe y acepta una nueva conexión. Si salió todo OK, me devuelve el archivo
 			// descriptivo de un NUEVO SOCKET creado exclusivamente para esa conexión (un integer). El socket original de escucha sigue escuchando, no se ve modificado.
@@ -92,7 +90,7 @@ void ServerHandler::acceptConnections()
 				// vienen en el formato de red estándar (big endian) y en mi maquina los quiero en (little endian)
 				Client* new_client = new Client(new_socket, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port));
 
-				std::cout<<"Conexión establecida con un nuevo cliente. IP: "<<new_client->getIp()<<" - PUERTO: "<<new_client->getPort()<<std::endl;
+				std::cout<<"ServerHandler: Conexión establecida con un nuevo cliente. IP: "<<new_client->getIp()<<" - PUERTO: "<<new_client->getPort()<<std::endl;
 				// Mando un mensaje al cliente recien conectado
 				this->sendToClient(new_client, new Message(INFO, NONE, "Te conectaste al servidor."));
 
@@ -111,7 +109,7 @@ void ServerHandler::acceptConnections()
 			}
 			else
 			{
-				std::cout<<"Error al tratar de aceptar conexión entrante y crear nuevo socket."<<std::endl;
+				std::cout<<"ServerHandler: Error al tratar de aceptar conexión entrante y crear nuevo socket."<<std::endl;
 			}
 		}
 	}
@@ -122,7 +120,7 @@ void ServerHandler::acceptConnections()
 void* ServerHandler::recieveMessagesFromClientThread(void* arguments)
 {
 	struct thread_arg_struct* args = (struct thread_arg_struct*) arguments;;
-	std::cout<<"Iniciando recieveMessagesThread de cliente con IP: "<<(args->arg_client)->getIp()<<" y PUERTO: "<<(args->arg_client)->getPort()<<std::endl;
+	std::cout<<"ServerHandler: Iniciando recieveMessagesThread de cliente con IP: "<<(args->arg_client)->getIp()<<" y PUERTO: "<<(args->arg_client)->getPort()<<std::endl;
 	(args->arg_server)->recieveMessagesFrom((args->arg_client));
 	return nullptr;
 }
@@ -135,29 +133,41 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 
 	while(true)
 	{
-		bytes_received = recv(client->getSocket(), buffer, 256, 0); // LLAMADA BLOQUEANTE. NO avanza hasta recibir un mensaje
+		bytes_received = recv(client->getSocket(), buffer, sizeof(buffer), 0); // LLAMADA BLOQUEANTE. NO avanza hasta recibir un mensaje
 
 		if(bytes_received > 0)
 		{
-			client->pushReceivedMessage(new Message(buffer)); // Encolo mensajes a la cola de mensajes de ese cliente
-			char msg[256];
-			client->getReceivedMessage()->getContent(msg);
-			std::cout<<"Mensaje de cliente recibido: "<<msg<<std::endl; // Obtengo el mensaje mas antiguo de la cola (el primero en entrar)
-			client->popReceivedMessage(); // Elimino el mensaje mas antiguo de la cola (el primero en entrar)
-
-			/*
 			pthread_mutex_lock(&mutex);
 
-			received_messages_queue.push(new Message(buffer));
+			received_messages_queue.push(new Message(buffer)); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
 
 			pthread_mutex_unlock(&mutex);
-			 */
+
 		}
 		else if(bytes_received == -1)
 		{
-			std::cout<<"Falla en recepción de mensaje."<<std::endl;
+			std::cout<<"ServerHandler: Falla en recepción de mensaje."<<std::endl;
 		}
 	}
+}
+
+void ServerHandler::getNewReceivedMessages(std::queue<Message*>* store_in_queue)
+{
+	pthread_mutex_lock(&mutex);
+
+	Message* message;
+
+	while(!received_messages_queue.empty())
+	{
+		message = received_messages_queue.front();
+		received_messages_queue.pop();
+		char msg[256];
+		message->getContent(msg);
+		std::cout<<"ServerHandler: Moviendo mensaje de cola de ServerHandler a cola de Game: "<<msg<<std::endl;
+		store_in_queue->push(message);
+	}
+
+	pthread_mutex_unlock(&mutex);
 }
 
 void ServerHandler::sendToAllClients(Message* message) // Para enviar un mensaje a todos los clientes conectados
@@ -167,9 +177,10 @@ void ServerHandler::sendToAllClients(Message* message) // Para enviar un mensaje
 	{
 		char msg[256];
 		message->getContent(msg);
-		std::cout<<"Mensaje enviado al cliente: "<<msg<<std::endl;
-		send((*connectedClientsIterator)->getSocket(), msg, 256, 0);
+		std::cout<<"ServerHandler: Mensaje enviado al cliente: "<<msg<<std::endl;
+		send((*connectedClientsIterator)->getSocket(), msg, sizeof(msg), 0);
 	    ++connectedClientsIterator;
+	    // No llamar para cada uno a sendToClient() porque borraría el mensaje al terminar el primer cliente.
 	}
 	delete message;
 }
@@ -178,8 +189,8 @@ void ServerHandler::sendToClient(Client* client, Message* message) // Para envia
 {
 	char msg[256];
 	message->getContent(msg);
-	std::cout<<"Mensaje enviado al cliente: "<<msg<<std::endl;
-	send(client->getSocket(), msg, 256, 0);
+	std::cout<<"ServerHandler: Mensaje enviado al cliente: "<<msg<<std::endl;
+	send(client->getSocket(), msg, sizeof(msg), 0);
 	delete message;
 }
 
@@ -187,8 +198,8 @@ void ServerHandler::sendToSocket(int destination_socket, Message* message) // Pa
 {
 	char msg[256];
 	message->getContent(msg);
-	std::cout<<"Mensaje enviado al socket: "<<msg<<std::endl;
-	send(destination_socket, msg, 256, 0);
+	std::cout<<"ServerHandler: Mensaje enviado al socket: "<<msg<<std::endl;
+	send(destination_socket, msg, sizeof(msg), 0);
 	delete message;
 }
 

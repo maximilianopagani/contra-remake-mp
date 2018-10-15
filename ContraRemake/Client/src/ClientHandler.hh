@@ -16,7 +16,6 @@
 #include <string>
 #include <queue>
 #include <thread>
-#include "../../Common/Message.hh"
 #include "ClientMessageHandler.hh"
 
 class ClientHandler
@@ -35,6 +34,9 @@ class ClientHandler
 
 		void processMessages();
 		static void* processMessagesThread(void* client);
+
+		pthread_mutex_t* getMutex() { return &mutex; }
+		std::queue<Message*>* getReceivedMessagesQueue() { return &received_messages_queue; }
 
 	private:
 
