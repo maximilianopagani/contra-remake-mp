@@ -17,12 +17,13 @@
 #include <queue>
 #include <thread>
 #include "../../Common/Message.hh"
+#include "ClientMessageHandler.hh"
 
 class ClientHandler
 {
 	public:
 
-		ClientHandler();
+		ClientHandler(ClientMessageHandler* _clientMessageHandler);
 		virtual ~ClientHandler();
 
 		bool initSocket();
@@ -32,17 +33,21 @@ class ClientHandler
 		void recieveMessages();
 		static void* recieveMessagesThread(void* client);
 
-		void pushReceivedMessage(std::string message) { received_messages.push(message); }
-		std::string getReceivedMessage() { return received_messages.front(); }
-		void popReceivedMessage() { received_messages.pop(); }
+		void processMessages();
+		static void* processMessagesThread(void* client);
 
 	private:
 
 		int network_socket, server_port;
 		std::string server_ip;
 
+		ClientMessageHandler* clientMessageHandler;
+
 		pthread_t receive_messages_thread;
-		std::queue<std::string> received_messages;
+		pthread_t process_messages_thread;
+		pthread_mutex_t mutex;
+
+		std::queue<Message*> received_messages_queue;
 };
 
 #endif /* CLIENT_SRC_CLIENTHANDLER_HH_ */

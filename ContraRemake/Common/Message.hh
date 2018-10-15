@@ -9,12 +9,14 @@
 #define COMMON_MESSAGE_HH_
 
 #include <string>
+#include <cstring>
 
 enum MsgDestHeader {
 	ERROR,
 	INFO,
 	REQUEST,
 	LOGIN,
+	INPUT,
 	VIEW,
 	PLAYER,
 	LEVEL,
@@ -28,23 +30,24 @@ enum MsgCmdHeader {
 	KEYS,
 	RENDER,
 	LOAD,
-	CLEAR
+	CLEAR,
+	SHOW
 };
 
 class Message
 {
 	public:
-
+		Message(std::string unique_param);
 		Message(MsgDestHeader param1, MsgCmdHeader param2, int param3 = 0, int param4 = 0, int param5 = 0, int param6 = 0);
-		Message(MsgDestHeader param1, MsgCmdHeader param2, std::string param3 = "", std::string param4 = "", std::string param5 = "", std::string param6 = "");
+		Message(MsgDestHeader param1, MsgCmdHeader param2, std::string param3 = "0", std::string param4 = "0", std::string param5 = "0", std::string param6 = "0");
 		virtual ~Message() {};
 
-		std::string getContent() { return messageString; }
+		void getContent(char* content) { std::strcpy(content, messageContent); }
 		int getSize() { return messageSize; }
 
 	private:
 
-		std::string messageString;
+		char messageContent[256];
 		int messageSize;
 };
 

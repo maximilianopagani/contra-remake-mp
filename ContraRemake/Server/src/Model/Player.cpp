@@ -31,7 +31,8 @@ Player::~Player()
 	this->destroy();
 }
 
-void Player::render(){
+void Player::render()
+{
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar cuando camina
 
@@ -49,10 +50,7 @@ void Player::render(){
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar jugador
 
-
-
-	//server->Send2("player,"+std::to_string(STATE_STANDING)+","+ std::to_string(pos_x)+","+std::to_string(pos_y));
-		//logicToViewTransporter->sendToDraw(PLAYERVIEW, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY());
+	serverMessageHandler->sendToAllClients(new Message(PLAYER, RENDER, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar las balas

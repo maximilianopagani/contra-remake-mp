@@ -7,7 +7,7 @@
 
 #include "ServerHandler.hh"
 
-ServerHandler::ServerHandler(int _port, uint _max_clients)
+ServerHandler::ServerHandler(int _port, uint _max_clients) // @suppress("Class members should be properly initialized")
 {
 	max_clients = _max_clients;
 	port = _port;
@@ -48,6 +48,11 @@ bool ServerHandler::startServer()
 	return true;
 }
 
+void ServerHandler::startListeningThread()
+{
+	pthread_create(&accept_connections_thread, NULL, &ServerHandler::acceptConnectionsThread, this);
+}
+
 // Para invocar un thread no se puede con un metodo común de un objeto, hay que llamar una funcion estática, y pasarle los objetos para luego llamar al método de instancia.
 void* ServerHandler::acceptConnectionsThread(void* server)
 {
@@ -85,7 +90,7 @@ void ServerHandler::acceptConnections()
 				// vienen en el formato de red estándar (big endian) y en mi maquina los quiero en (little endian)
 				Client* new_client = new Client(new_socket, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port));
 
-				std::cout<<"Conexión extablecida con un nuevo cliente. IP: "<<new_client->getIp()<<" - PUERTO: "<<new_client->getPort()<<std::endl;
+				std::cout<<"Conexión establecida con un nuevo cliente. IP: "<<new_client->getIp()<<" - PUERTO: "<<new_client->getPort()<<std::endl;
 				// Mando un mensaje al cliente recien conectado
 				this->sendToClient(new_client, new Message(INFO, NONE, "Te conectaste al servidor."));
 
@@ -128,15 +133,16 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 
 	while(true)
 	{
-		bytes_received = recv(client->getSocket(), buffer, sizeof(buffer), 0); // LLAMADA BLOQUEANTE. NO avanza hasta recibir un mensaje
+		bytes_received = recv(client->getSocket(), buffer, 256, 0); // LLAMADA BLOQUEANTE. NO avanza hasta recibir un mensaje
 
 		if(bytes_received > 0)
 		{
-			client->pushReceivedMessage(buffer); // Encolo mensajes a la cola de mensajes de ese cliente
-			std::cout<<"Mensaje de cliente recibido: "<<client->getReceivedMessage()<<std::endl; // Obtengo el mensaje mas antiguo de la cola (el primero en entrar)
-			client->popReceivedMessage(); // Elimino el mensaje mas antiguo de la cola (el primero en entrar)
 
-			// Encolar mensaje a una clase global? al message handler?
+			client->pushReceivedMessage(new Message(buffer)); // Encolo mensajes a la cola de mensajes de ese cliente
+			char msg[256];
+			client->getReceivedMessage()->getContent(msg);
+			std::cout<<"Mensaje de cliente recibido: "<<msg<<std::endl; // Obtengo el mensaje mas antiguo de la cola (el primero en entrar)
+			client->popReceivedMessage(); // Elimino el mensaje mas antiguo de la cola (el primero en entrar)
 		}
 		else if(bytes_received == -1)
 		{
@@ -145,7 +151,7 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 	}
 }
 
-void ServerHandler::sendToAll(Message* message) // Para enviar un mensaje a todos los clientes conectados
+void ServerHandler::sendToAllClients(Message* message) // Para enviar un mensaje a todos los clientes conectados
 {
 	// Itero por la lista de jugadores conectados, y les mando el mensaje mediante el socket que guardan dentro
 	for(connectedClientsIterator = connectedClients.begin(); connectedClientsIterator != connectedClients.end();)
@@ -157,14 +163,20 @@ void ServerHandler::sendToAll(Message* message) // Para enviar un mensaje a todo
 
 void ServerHandler::sendToClient(Client* client, Message* message) // Para enviar un mensaje a un cliente conectado en particular
 {
-	std::cout<<"Mensaje enviado al cliente: "<<message->getContent().c_str()<<std::endl;
-	send(client->getSocket(), message->getContent().c_str(), message->getSize()+1, 0);
+	char msg[256];
+	message->getContent(msg);
+	std::cout<<"Mensaje enviado al cliente: "<<msg<<std::endl;
+	send(client->getSocket(), msg, 256, 0);
+	delete message;
 }
 
 void ServerHandler::sendToSocket(int destination_socket, Message* message) // Para enviar un mensaje a un socket en particular
 {
-	std::cout<<"Mensaje enviado al socket: "<<message->getContent().c_str()<<std::endl;
-	send(destination_socket, message->getContent().c_str(), message->getSize()+1, 0);
+	char msg[256];
+	message->getContent(msg);
+	std::cout<<"Mensaje enviado al socket: "<<msg<<std::endl;
+	send(destination_socket, msg, 256, 0);
+	delete message;
 }
 
 ServerHandler::~ServerHandler() {}

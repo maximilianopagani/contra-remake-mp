@@ -6,8 +6,6 @@
 
 using namespace std;
 
-#define MODO "server"
-
 void print_usage()
 {
 	cout << "Uso: ./Contra -mode modo [-logger_mode modo]" << endl;
@@ -21,22 +19,6 @@ int main(int argc, char** argv)
 { 
 	Logger::Level logMode;
 	bool hasLogMode = true;
-	
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	// HARCODEO PARA SELECCIONAR MODO DESDE EL CODIGO
-	if(std::string(MODO) == "client")
-	{
-		ClientMain();
-		return 0;
-	}
-	else if(std::string(MODO) == "server")
-	{
-		ServerMain(argc, argv);
-		return 0;
-	}
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 	if(argc == 1)
 	{

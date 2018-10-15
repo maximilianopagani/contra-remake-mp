@@ -17,7 +17,7 @@ class Game
 {
     public:
 
-		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler);
+		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players);
         virtual ~Game();
 
         void init();
@@ -25,6 +25,7 @@ class Game
         void update();
         void render();
         void destroy();
+        int getMaxPlayers() { return max_players; }
 
         void restartGame();
         void nextLevel();
@@ -37,6 +38,7 @@ class Game
         bool enEjecucion;
 
         int currentLevel;
+        int max_players;
 
        // GameParser* gameParser;
         //GameView* gameView;

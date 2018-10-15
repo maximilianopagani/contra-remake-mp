@@ -7,92 +7,68 @@
 
 #include "ClientMessageHandler.hh"
 
-ClientMessageHandler::ClientMessageHandler(ClientHandler* _client)
+ClientMessageHandler::ClientMessageHandler(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView)
 {
-	client = _client;
+	gameView = _gameView;
+	playerView = _playerView;
+	levelView = _levelView;
+	platformView = _platformView;
+	bulletView = _bulletView;
+	enemyView = _enemyView;
 }
 
-void ClientMessageHandler::sendToServer(Message* message)
-{
-	client->sendToServer(message);
-}
-
-ClientMessageHandler::~ClientMessageHandler() {
-	// TODO Auto-generated destructor stub
-}
+ClientMessageHandler::~ClientMessageHandler() {}
 
 void ClientMessageHandler::redirectRecievedMessage(Message* message)
 {
-/*
- * void TcpClient::messageFilter(std::string str){
+	int MSG_HEADER_1, MSG_HEADER_2;
+	char param2[32]; char param3[32]; char param4[32]; char param5[32]; char param6[32];
 
-	std::string messageParts[5];
-	int indice = 0 ;
+	char msg[256];
+	message->getContent(msg);
 
-	//-----------------------
-	//Separo por comas el mensaje
-	char* token = strtok(const_cast<char*>(str.c_str()), ",");
-	while( token!= nullptr){
-		//message.push_back(std::string(token));
-		messageParts[indice] = token ;
-		token = strtok(nullptr,",");
-		indice++;
-	}
-	indice = 0;
+	std::cout<<"Procesando mensaje: "<<msg<<std::endl;
+	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,],%[^;];", &MSG_HEADER_1, &MSG_HEADER_2, param2, param3, param4, param5, param6);
 
-	//-----------------------
-	//Mensaje para jugador
-	if( messageParts[0]=="player" ){
-		std::cout<<"mesaje para jugador"<<std::endl;
-		//playerView->render(6, 150, 150);
+	switch(MSG_HEADER_1)
+	{
+		case PLAYER:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case RENDER:
+				{
+					int estado = atoi(param2);
+					int posX = atoi(param3);
+					int posY = atoi(param4);
 
-		int estado = atoi( messageParts[1].c_str() );
-		int posX = atoi( messageParts[2].c_str() );
-		int posY = atoi( messageParts[3].c_str() );
+					playerView->render(estado, posX, posY);
+					break;
+				}
+			}
+			break;
+		}
 
-		playerView->render(estado, posX, posY);
-		view->show();
-	}
+		case VIEW:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case CLEAR:
+				{
+					gameView->clear();
+					break;
+				}
 
-	//-----------------------
-	//Mensaje para GameVIew
-	if( messageParts[0] == "gameview" ){
-		std::cout<<"mesaje para GameView"<<std::endl;
+				case SHOW:
+				{
+					gameView->show();
+					break;
+				}
 
-		if( messageParts[1] == "clear" ){
-			std::cout<<"CLEAR"<<std::endl;
-			view->clear();
+			}
+			break;
 		}
 	}
 
-	//-----------------------
-	//Mensaje para Plataforma
-	if( messageParts[0] == "plataforma"){
-			std::cout<<"mesaje para plataforma"<<std::endl;
-	}
-
-	//-----------------------
-	//Mensaje para Level
-	if(  messageParts[0] == "level" ){
-			std::cout<<"mesaje para level"<<std::endl;
-	}
-
-	//-----------------------
-	//Mensaje para Enemy
-	if(  messageParts[0] == "enemy"){
-			std::cout<<"mesaje para enemy"<<std::endl;
-	}
-
-	//-----------------------
-	//Mensaje para Bullet
-	if(  messageParts[0] == "bullet"){
-			std::cout<<"mesaje para bullet"<<std::endl;
-	}
-
-	std::cout<<"mesaje spliteado : "<<std::endl;
-	for(int j=0 ; j <5 ; j++){
-		cout<<messageParts[j]<<endl;
-	}
-}
-*/
+	delete message;
 }

@@ -2,7 +2,7 @@
 #include "Game.hh"
 #include "Platform.hh"
 
-Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler)
+Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players)
 {
 	enEjecucion = false;
 //	gameParser = NULL;
@@ -13,6 +13,7 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler)
 	cameraLogic = new CameraLogic(0, 0, 800, 600);
 	serverMessageHandler = _serverMessageHandler;
 	server = _server;
+	max_players = _max_players;
 }
 
 Game::~Game()
@@ -45,8 +46,8 @@ void Game::init()
     player = new Player(cameraLogic, serverMessageHandler);
 }
 
-void Game::handleEvents(){
-
+void Game::handleEvents()
+{
 	//----------------------------------------------------------------------
 	//Aca recibe una lista de teclas las cuales procesa
 
@@ -149,9 +150,7 @@ void Game::update(){
 
 void Game::render()
 {
-	//----------------------------------------------------------------------
-	//Mandar Mensaje de Clear
-	//server->Send2("gameview,clear,");
+	serverMessageHandler->sendToAllClients(new Message(VIEW, CLEAR, 0));
 
 	//----------------------------------------------------------------------
 	//Manda un mensaje para dibujar nivel primero(Por ahora no hace nada)
@@ -161,9 +160,7 @@ void Game::render()
     //Manda un mensaje para dibujar al jugador
     player->render();
 
-    //----------------------------------------------------------------------
-    //Manda mensaje para mostrar la escena
-    //server->Send2("gameview,show,");
+	serverMessageHandler->sendToAllClients(new Message(VIEW, SHOW, 0));
 }
 
 void Game::destroy()

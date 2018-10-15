@@ -9,21 +9,32 @@
 #define SRC_CLIENTMESSAGEHANDLER_HH_
 
 #include "../../Common/Message.hh"
-#include "ClientHandler.hh"
+
+#include <stdio.h>
+
+#include "View/GameView.hh"
+#include "View/PlayerView.hh"
+#include "View/LevelView.hh"
+#include "View/PlatformView.hh"
+#include "View/BulletView.hh"
+#include "View/EnemyView.hh"
 
 class ClientMessageHandler
 {
 	public:
 
-		ClientMessageHandler(ClientHandler* _client);
+		ClientMessageHandler(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView);
 		virtual ~ClientMessageHandler();
-
-		void sendToServer(Message* message);
 		void redirectRecievedMessage(Message* message);
 
 	private:
 
-		ClientHandler* client;
+		GameView* gameView;
+		PlayerView* playerView;
+		LevelView* levelView;
+		PlatformView* platformView;
+		BulletView* bulletView;
+		EnemyView* enemyView;
 };
 
 #endif /* SRC_CLIENTMESSAGEHANDLER_HH_ */

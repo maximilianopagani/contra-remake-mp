@@ -10,43 +10,66 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "ClientHandler.hh"
-#include "View/GameView.hh"
+#include "ClientMessageHandler.hh"
 
 using namespace std;
 
 
 int ClientMain()
 {
-	cout<<"Inicio Cliente"<<endl;
+	cout<<"ClientMain: Inicio aplicacion en modo cliente."<<endl;
 
-	//----------------------------------------------------------------------
-    //Inicio la vista
-	GameView* view = new GameView();
-	if(!view->init())	view->destroy();
+	GameView* gameView = new GameView();
 
-	//----------------------------------------------------------------------
-	//Inicio un Cliente
-	ClientHandler* client = new ClientHandler();
+	cout<<"ClientMain: Vista principal creada."<<endl;
+
+	if(!gameView->init())
+	{
+		cout<<"ClientMain: Error al iniciar GameView"<<endl;
+		gameView->destroy();
+		return 0;
+	}
+
+	cout<<"ClientMain: Gameview inicializado."<<endl;
+
+	PlayerView* playerView = new PlayerView(gameView);
+	LevelView* levelView = new LevelView(gameView);
+	PlatformView* platformView = new PlatformView(gameView);
+	BulletView* bulletView = new BulletView(gameView);
+	EnemyView* enemyView = new EnemyView(gameView);
+
+	cout<<"ClientMain: Vistas de los modulos creadas."<<endl;
+
+	ClientMessageHandler* clientMessageHandler = new ClientMessageHandler(gameView, playerView, levelView, platformView, bulletView, enemyView);
+
+	cout<<"ClientMain: Gestionador de mensajes creado."<<endl;
+
+	ClientHandler* client = new ClientHandler(clientMessageHandler);
+
+	cout<<"ClientMain: Cliente creado."<<endl;
 
 	if(!client->initSocket())
 	{
-		std::cout<<"Falla al inicializar el cliente."<<std::endl;
+		std::cout<<"ClientMain: Falla al inicializar el socket del cliente."<<std::endl;
+		delete client;
 		return 0;
 	}
 
-	//----------------------------------------------------------------------
-    //Intento conectarme al servidor
+	cout<<"ClientMain: Socket del cliente inicializado."<<endl;
+
 	if(!client->connectToServer("127.0.0.1", 54000))
 	{
-		std::cout<<"Falla al intentar establecer la conexión."<<std::endl;
+		std::cout<<"ClientMain: Falla al intentar establecer la conexión."<<std::endl;
 		return 0;
 	}
 
-	//----------------------------------------------------------------------
+	std::cout<<"ClientMain: Conexión con el servidor establecida."<<std::endl;
+
 	//CICLO DEL JUEGO
 
-	const int FPS = 35;
+	const int FPS = 1;
 	const int frameDelay = 1000 / FPS ;
 	Uint32 timeAtIterationStart;
 	int iterationTime;
@@ -57,60 +80,43 @@ int ClientMain()
 
 	SDL_Event event;
 
-	/*
-	enum GAME_KEY {
-		KEY_UP,
-		KEY_DOWN,
-		KEY_RIGHT,
-		KEY_LEFT,
-		KEY_SPACE,
-		KEY_LCTRL,
-		KEY_N
-	};
-
-	int client_key_states[7];
-	*/
-
 	while(en_ejecucion)
 	{
-		timeAtIterationStart = view->getTicks();
+		timeAtIterationStart = gameView->getTicks();
+
+		//===================== EVENTOS =======================
+		std::cout<<"ClientMain: Inicio de procesamiento de eventos y teclas."<<std::endl;
 
 		while(SDL_PollEvent(&event))
 		{
 			if(event.type == SDL_QUIT)
 			{
-				en_ejecucion = false ;
+				en_ejecucion = false;
 			}
 		}
 
 		sdl_key_states = SDL_GetKeyboardState(NULL);
 
-		/*
-		client_key_states[KEY_UP] = sdl_key_states[SDL_SCANCODE_UP];
-		client_key_states[KEY_DOWN] = sdl_key_states[SDL_SCANCODE_DOWN];
-		client_key_states[KEY_RIGHT] = sdl_key_states[SDL_SCANCODE_RIGHT];
-		client_key_states[KEY_LEFT] = sdl_key_states[SDL_SCANCODE_LEFT];
-		client_key_states[KEY_SPACE] = sdl_key_states[SDL_SCANCODE_SPACE];
-		client_key_states[KEY_LCTRL] = sdl_key_states[SDL_SCANCODE_LCTRL];
-		client_key_states[KEY_N] = sdl_key_states[SDL_SCANCODE_N];
-		*/
+		client->sendToServer(new Message(INPUT, KEYS, (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_N])))); // @suppress("Function cannot be resolved")
+
+		std::cout<<"ClientMain: Fin de procesamiento de eventos y teclas."<<std::endl;
+
+		//=====================================================
 
 		//Manejo del framerate
-		iterationTime = view->getTicks() - timeAtIterationStart;
+		iterationTime = gameView->getTicks() - timeAtIterationStart;
 
 		if(frameDelay > iterationTime) // Si lo que tardó la iteracion es menor a lo que debe tardar un ciclo para mostrarse a la tasa de frames deseada
 		{
-			view->delay(frameDelay - iterationTime);
+			gameView->delay(frameDelay - iterationTime);
 		}
-
-		client->sendToServer(new Message(INFO, KEYS, (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_N])))); // @suppress("Function cannot be resolved")
-
 	}
 
 	//----------------------------------------------------------------------
     //Destruyo todo lo relacionado a SDL2
 	cout<<"Se cerro la vista del cliente"<<endl;
-	view->destroy();
+
+	gameView->destroy();
 
 	return 0;
 }

@@ -12,12 +12,10 @@ ServerMessageHandler::ServerMessageHandler(ServerHandler* _server)
 	server = _server;
 }
 
-void ServerMessageHandler::sendToAll(Message* message)
+void ServerMessageHandler::sendToAllClients(Message* message)
 {
-	server->sendToAll(message);
+	server->sendToAllClients(message);
 }
 
-ServerMessageHandler::~ServerMessageHandler() {
-	// TODO Auto-generated destructor stub
-}
+ServerMessageHandler::~ServerMessageHandler() {}
 

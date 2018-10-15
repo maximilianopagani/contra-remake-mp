@@ -14,7 +14,6 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include <list>
-#include "../../../Common/Message.hh"
 #include "Client.hh"
 
 class ServerHandler
@@ -25,12 +24,15 @@ class ServerHandler
 		virtual ~ServerHandler();
 
 		bool startServer();
+		void startListeningThread();
 		void acceptConnections();
 		void recieveMessagesFrom(Client* client);
 
 		void sendToClient(Client* client, Message* message);
-		void sendToAll(Message* message);
+		void sendToAllClients(Message* message);
 		void sendToSocket(int destination_socket, Message* message);
+
+		int getConnectedClients() { return connectedClients.size(); }
 
 		static void* acceptConnectionsThread(void* server);
 		static void* recieveMessagesFromClientThread(void* client);
@@ -42,6 +44,9 @@ class ServerHandler
 
 		struct sockaddr_in server_address;
 		int listening_socket;
+
+		pthread_t accept_connections_thread;
+		pthread_mutex_t mutex;
 
 		std::list<Client*> connectedClients;
 		std::list<Client*>::iterator connectedClientsIterator;

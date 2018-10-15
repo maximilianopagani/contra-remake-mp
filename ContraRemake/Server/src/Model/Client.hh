@@ -11,6 +11,7 @@
 #include <string>
 #include <queue>
 #include <thread>
+#include "../../../Common/Message.hh"
 
 class Client
 {
@@ -24,8 +25,8 @@ class Client
 		int getPort() { return port; }
 		pthread_t* getRecieveMessagesThread() { return &receive_messages_thread; }
 
-		void pushReceivedMessage(std::string message) { received_messages.push(message); }
-		std::string getReceivedMessage() { return received_messages.front(); }
+		void pushReceivedMessage(Message* message) { received_messages.push(message); }
+		Message* getReceivedMessage() { return received_messages.front(); }
 		void popReceivedMessage() { received_messages.pop(); }
 
 	private:
@@ -33,8 +34,8 @@ class Client
 		int socket, port;
 		std::string ip;
 
-		std::queue<std::string> received_messages;
-		std::queue<std::string> sending_messages; // Aca se irían encolando los mensajes que quearmos ir enviando al cliente.
+		std::queue<Message*> received_messages;
+		std::queue<Message*> sending_messages; // Aca se irían encolando los mensajes que quearmos ir enviando al cliente.
 		// El asunto es que si a todos los clientes mando lo mismo, sería al pedo tener 4 colas iguales, quizas convenga una sola en Server,
 		// aunque el envio va a ser distinto para cada cliente en la fase previa a que el cliente comience a jugar (pedido de datos de login, etc)
 
