@@ -8,12 +8,12 @@
 #define PUERTO 54000
 #define MAX_PLAYERS 1
 
-pthread_mutex_t mutex; // MUTEX GLOBAL PARA SER UTILIZADO EN SERVERHANDLER Y EN GAME CUANDO COMPARTAN ACCESO MEDIANTE DISTINTOS THREADS A LAS COLAS DE MENSAJES
+pthread_mutex_t server_mutex; // MUTEX GLOBAL PARA SER UTILIZADO EN SERVERHANDLER Y EN GAME CUANDO COMPARTAN ACCESO MEDIANTE DISTINTOS THREADS A LAS COLAS DE MENSAJES
 
 int ServerMain(int argc, char* argv[])
 {
-	mutex = PTHREAD_MUTEX_INITIALIZER;
-	pthread_mutex_init(&mutex, NULL);
+	server_mutex = PTHREAD_MUTEX_INITIALIZER;
+	pthread_mutex_init(&server_mutex, NULL);
 
 	ServerHandler* server = new ServerHandler(PUERTO, MAX_PLAYERS); // (PUERTO, CANTIDAD DE JUGADORES EN LA PARTIDA)
 
@@ -23,7 +23,7 @@ int ServerMain(int argc, char* argv[])
 
 	cout<<"ServerMain: Gestionador de mensajes creado."<<endl;
 
-	Game* synergy = new Game(server, messageHandler, MAX_PLAYERS); // EN EL CONSTRUCTOR DE GAME, CONOCIENDO A SERVER, LE SETEO EL PUNTERO A LA COLA DONDE SERVER VA A GUARDAR LOS MENSAJES
+	Game* synergy = new Game(server, messageHandler, MAX_PLAYERS);
 
 	cout<<"ServerMain: Juego creado."<<endl;
 

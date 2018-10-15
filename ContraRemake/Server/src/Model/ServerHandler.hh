@@ -16,7 +16,7 @@
 #include <list>
 #include "Client.hh"
 
-extern pthread_mutex_t mutex;
+extern pthread_mutex_t server_mutex;
 
 class ServerHandler
 {
@@ -54,7 +54,7 @@ class ServerHandler
 		std::list<Client*> connectedClients;
 		std::list<Client*>::iterator connectedClientsIterator;
 
-		std::queue<Message*> received_messages_queue;
+		std::queue<Message*> server_recv_msgs_queue;
 };
 
 #endif /* MODEL_SERVERHANDLER_HH_ */

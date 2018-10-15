@@ -13,7 +13,7 @@
 //#include "../Utils/GameParser.hh"
 #include "../Utils/CollisionHelper.hh"
 
-extern pthread_mutex_t mutex;
+extern pthread_mutex_t server_mutex;
 
 class Game
 {
@@ -29,7 +29,6 @@ class Game
         void destroy();
         int getMaxPlayers() { return max_players; }
 
-        void processMessages();
         void restartGame();
         void nextLevel();
         void endGame();
@@ -55,7 +54,7 @@ class Game
         //Servidor para enviar y recibir mensajes
         ServerHandler* server;
 
-        std::queue<Message*> received_messages_queue;
+        std::queue<Message*> game_recv_msgs_queue;
 };
 
 #endif /* SRC_GAME_HH_ */

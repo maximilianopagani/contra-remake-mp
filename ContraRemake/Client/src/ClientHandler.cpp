@@ -115,14 +115,6 @@ void ClientHandler::processMessages()
 		}
 
 		pthread_mutex_unlock(&mutex);
-
-		/*
-		if(message != NULL)
-		{
-			clientMessageHandler->redirectRecievedMessage(message);
-			message = NULL;
-		}
-		*/
 	}
 }
 

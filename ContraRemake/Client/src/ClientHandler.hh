@@ -35,9 +35,6 @@ class ClientHandler
 		void processMessages();
 		static void* processMessagesThread(void* client);
 
-		pthread_mutex_t* getMutex() { return &mutex; }
-		std::queue<Message*>* getReceivedMessagesQueue() { return &received_messages_queue; }
-
 	private:
 
 		int network_socket, server_port;

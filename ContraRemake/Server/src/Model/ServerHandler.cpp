@@ -137,11 +137,11 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 
 		if(bytes_received > 0)
 		{
-			pthread_mutex_lock(&mutex);
+			pthread_mutex_lock(&server_mutex);
 
-			received_messages_queue.push(new Message(buffer)); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
+			server_recv_msgs_queue.push(new Message(buffer)); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
 
-			pthread_mutex_unlock(&mutex);
+			pthread_mutex_unlock(&server_mutex);
 
 		}
 		else if(bytes_received == -1)
@@ -153,21 +153,21 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 
 void ServerHandler::getNewReceivedMessages(std::queue<Message*>* store_in_queue)
 {
-	pthread_mutex_lock(&mutex);
+	pthread_mutex_lock(&server_mutex);
 
 	Message* message;
 
-	while(!received_messages_queue.empty())
+	while(!server_recv_msgs_queue.empty())
 	{
-		message = received_messages_queue.front();
-		received_messages_queue.pop();
+		message = server_recv_msgs_queue.front();
+		server_recv_msgs_queue.pop();
 		char msg[256];
 		message->getContent(msg);
 		std::cout<<"ServerHandler: Moviendo mensaje de cola de ServerHandler a cola de Game: "<<msg<<std::endl;
 		store_in_queue->push(message);
 	}
 
-	pthread_mutex_unlock(&mutex);
+	pthread_mutex_unlock(&server_mutex);
 }
 
 void ServerHandler::sendToAllClients(Message* message) // Para enviar un mensaje a todos los clientes conectados

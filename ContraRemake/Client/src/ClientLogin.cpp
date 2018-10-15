@@ -162,18 +162,18 @@ bool init() {
 bool loadMedia() {
 	bool success = true;
 
-	splashTexture.loadFromFile(".images/login/Contra_Splash.png");
+	splashTexture.loadFromFile("../.images/login/Contra_Splash.png");
 
-	buttonTexture.loadFromFile(".images/login/button.png");
+	buttonTexture.loadFromFile("../.images/login/button.png");
 
-	font = TTF_OpenFont(".fonts/Oxygen.ttf", 16);
+	font = TTF_OpenFont("../.fonts/Oxygen.ttf", 16);
 	if (font == NULL) {
 		std::cout << "Failed to load Oxygen font! SDL_ttf Error: "
 				<< TTF_GetError() << std::endl;
 		success = false;
 	}
 
-	passwordFont = TTF_OpenFont(".fonts/Password.ttf", 16);
+	passwordFont = TTF_OpenFont("../.fonts/Password.ttf", 16);
 	if (passwordFont == NULL) {
 		std::cout << "Failed to load Password font! SDL_ttf Error: "
 				<< TTF_GetError() << std::endl;
