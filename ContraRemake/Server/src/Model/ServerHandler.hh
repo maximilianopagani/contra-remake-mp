@@ -50,6 +50,8 @@ class ServerHandler
 
 		std::list<Client*> connectedClients;
 		std::list<Client*>::iterator connectedClientsIterator;
+
+		std::queue<Message*> received_messages_queue;
 };
 
 #endif /* MODEL_SERVERHANDLER_HH_ */

@@ -37,7 +37,7 @@ void Game::init()
 
 	//----------------------------------------------------------------------
 	//En la creacion de level envio mensajes para LevelVIew
-//    level = new Level(gameParser, cameraLogic, LEVEL1);
+    //level = new Level(gameParser, cameraLogic, LEVEL1);
 
     //gameView->setLimitXY(level->getLevelWidth(), level->getLevelHeight());
 
@@ -114,8 +114,8 @@ void Game::endGame()
 }
 
 
-void Game::update(){
-
+void Game::update()
+{
 	//----------------------------------------------------------------------
 	//La primera vez unicamente mira si cae o no el personaje
 	player->update();

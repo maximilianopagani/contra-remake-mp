@@ -38,6 +38,7 @@ int ServerMain(int argc, char* argv[])
 	//----------------------------------------------------------------------
 
 	cout<<"En espera de conexión de "<<synergy->getMaxPlayers()<<" jugadores."<<endl;
+
 	while(server->getConnectedClients() != synergy->getMaxPlayers())
 	{
 		// Espero
@@ -70,7 +71,7 @@ int ServerMain(int argc, char* argv[])
 		synergy->handleEvents();
 
 		//----------------------------------------------------------------------
-		//Actualizo todo lo que valla pasando acorde a los eventos
+		//Actualizo todo lo que vallaa pasando acorde a los eventos
 		synergy->update();
 
 		//----------------------------------------------------------------------

@@ -80,7 +80,7 @@ bool GameView::init()
 		}
 	}
 
-	invalidTexture = textureGenerator("Client/.images/ImageNotFound.png");
+	invalidTexture = textureGenerator("../.images/ImageNotFound.png");
 	if(invalidTexture == NULL)
 	{
 		//LOGGER_ERROR("Imposible cargar imágen invalida para usar ante eventuales fallas en el generador de textura");
@@ -103,7 +103,6 @@ void GameView::draw(SDL_Texture* texture, SDL_Rect* src, int posXinCamera, int p
 	rectToDraw.w = width;
 	rectToDraw.h = height;
 
-	std::cout<<"dibujo sprite en: "<<posXinCamera<<" "<<posYinCamera<<" "<<width<<" "<<height<<" "<<src->x<<" "<<src->y<<" "<<src->w<<" "<<src->h<<std::endl;
 	SDL_RenderCopy(renderer, texture, src, &rectToDraw);
 }
 

@@ -45,6 +45,8 @@ bool ServerHandler::startServer()
 		return false;
 	}
 
+	pthread_mutex_init(&mutex, NULL);
+
 	return true;
 }
 
@@ -137,12 +139,19 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 
 		if(bytes_received > 0)
 		{
-
 			client->pushReceivedMessage(new Message(buffer)); // Encolo mensajes a la cola de mensajes de ese cliente
 			char msg[256];
 			client->getReceivedMessage()->getContent(msg);
 			std::cout<<"Mensaje de cliente recibido: "<<msg<<std::endl; // Obtengo el mensaje mas antiguo de la cola (el primero en entrar)
 			client->popReceivedMessage(); // Elimino el mensaje mas antiguo de la cola (el primero en entrar)
+
+			/*
+			pthread_mutex_lock(&mutex);
+
+			received_messages_queue.push(new Message(buffer));
+
+			pthread_mutex_unlock(&mutex);
+			 */
 		}
 		else if(bytes_received == -1)
 		{
@@ -156,9 +165,13 @@ void ServerHandler::sendToAllClients(Message* message) // Para enviar un mensaje
 	// Itero por la lista de jugadores conectados, y les mando el mensaje mediante el socket que guardan dentro
 	for(connectedClientsIterator = connectedClients.begin(); connectedClientsIterator != connectedClients.end();)
 	{
-	    this->sendToClient((*connectedClientsIterator), message);
+		char msg[256];
+		message->getContent(msg);
+		std::cout<<"Mensaje enviado al cliente: "<<msg<<std::endl;
+		send((*connectedClientsIterator)->getSocket(), msg, 256, 0);
 	    ++connectedClientsIterator;
 	}
+	delete message;
 }
 
 void ServerHandler::sendToClient(Client* client, Message* message) // Para enviar un mensaje a un cliente conectado en particular

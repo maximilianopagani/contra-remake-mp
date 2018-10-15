@@ -11,10 +11,10 @@ PlatformView::PlatformView(GameView* _gameView)
 {
 	gameView = _gameView;
 	// TODO ver el 48 hardcodeado
-	ice = new Sprite(gameView, "Client/.images/platforms/ice1_48x48.png", 48, 48, 48, 48);
-	wood = new Sprite(gameView, "Client/.images/platforms/wood2_48x48.png", 48, 48, 48, 48);
-	rock = new Sprite(gameView, "Client/.images/platforms/rock1_48x48.png", 48, 48, 48, 48);
-	grass = new Sprite(gameView, "Client/.images/platforms/grass1_48x48.png", 48, 48, 48, 48);
+	ice = new Sprite(gameView, "../.images/platforms/ice1_48x48.png", 48, 48, 48, 48);
+	wood = new Sprite(gameView, "../.images/platforms/wood2_48x48.png", 48, 48, 48, 48);
+	rock = new Sprite(gameView, "../.images/platforms/rock1_48x48.png", 48, 48, 48, 48);
+	grass = new Sprite(gameView, "../.images/platforms/grass1_48x48.png", 48, 48, 48, 48);
 	error = new Sprite(gameView, "", 48, 48, 48, 48);
 	toRender = NULL;
 }
