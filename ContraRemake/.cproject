@@ -49,9 +49,11 @@
                                 								
                                 <option id="gnu.cpp.compiler.option.other.other.1566607556" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" useByScannerDiscovery="false" value="-c -fmessage-length=0 -std=c++11" valueType="string"/>
                                 								
-                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.430067725" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
+                                <option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.430067725" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
                                     									
                                     <listOptionValue builtIn="false" value="pthread"/>
+                                    									
+                                    <listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/Client/src}&quot;"/>
                                     								
                                 </option>
                                 								
@@ -119,25 +121,7 @@
     	
     <storageModule moduleId="cdtBuildSystem" version="4.0.0">
         		
-        <project id="ContraRemake.cdt.managedbuild.target.gnu.exe.538260851" name="Executable" projectType="cdt.managedbuild.target.gnu.exe"/>
-        	
-    </storageModule>
-    	
-    <storageModule moduleId="scannerConfiguration">
-        		
-        <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-        		
-        <scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1977954674;cdt.managedbuild.config.gnu.exe.debug.1977954674.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1486203918;cdt.managedbuild.tool.gnu.cpp.compiler.input.1442690510">
-            			
-            <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-            		
-        </scannerConfigBuildInfo>
-        		
-        <scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1977954674;cdt.managedbuild.config.gnu.exe.debug.1977954674.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.357794580;cdt.managedbuild.tool.gnu.c.compiler.input.393127152">
-            			
-            <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-            		
-        </scannerConfigBuildInfo>
+        <project id="ContraRemake.cdt.managedbuild.target.gnu.exe.1201197113" name="Executable" projectType="cdt.managedbuild.target.gnu.exe"/>
         	
     </storageModule>
     	
@@ -154,5 +138,23 @@
     </storageModule>
     	
     <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+    	
+    <storageModule moduleId="scannerConfiguration">
+        		
+        <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+        		
+        <scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1761893130;cdt.managedbuild.config.gnu.exe.debug.1761893130.;cdt.managedbuild.tool.gnu.cpp.compiler.exe.debug.1420864950;cdt.managedbuild.tool.gnu.cpp.compiler.input.502103100">
+            			
+            <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+            		
+        </scannerConfigBuildInfo>
+        		
+        <scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.exe.debug.1761893130;cdt.managedbuild.config.gnu.exe.debug.1761893130.;cdt.managedbuild.tool.gnu.c.compiler.exe.debug.753917678;cdt.managedbuild.tool.gnu.c.compiler.input.14446276">
+            			
+            <autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+            		
+        </scannerConfigBuildInfo>
+        	
+    </storageModule>
     
 </cproject>

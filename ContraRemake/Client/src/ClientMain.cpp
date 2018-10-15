@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "ClientMain.hh"
 #include "ClientHandler.hh"
 #include "ClientMessageHandler.hh"
 
@@ -20,6 +21,8 @@ using namespace std;
 int ClientMain()
 {
 	cout<<"ClientMain: Inicio aplicacion en modo cliente."<<endl;
+
+	clientLogin();
 
 	GameView* gameView = new GameView();
 
