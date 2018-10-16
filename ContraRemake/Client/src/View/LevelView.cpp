@@ -24,8 +24,7 @@ void LevelView::loadSprite(string path, int background)
 			{
 				background1Sprite->destroy();
 			}
-
-			background1Sprite = new Sprite(gameView, path, 800, 600, 800, 600);
+			background1Sprite = new Sprite(gameView, "../images/background/"+path, 800, 600, 800, 600);
 			break;
 
 		case 2:
@@ -34,7 +33,7 @@ void LevelView::loadSprite(string path, int background)
 				background2Sprite->destroy();
 			}
 
-			background2Sprite = new Sprite(gameView, path, 800, 600, 800, 600);
+			background2Sprite = new Sprite(gameView, "../images/background/"+path, 800, 600, 800, 600);
 			break;
 
 		case 3:
@@ -43,7 +42,7 @@ void LevelView::loadSprite(string path, int background)
 				background3Sprite->destroy();
 			}
 
-			background3Sprite = new Sprite(gameView, path, 800, 600, 800, 600);
+			background3Sprite = new Sprite(gameView, "../images/background/"+path, 800, 600, 800, 600);
 			break;
 	}
 }
@@ -53,7 +52,7 @@ void LevelView::render(int pos_x, int pos_y, int background)
 	switch(background)
 	{
 		case 1:
-			background1Sprite->setSourceRectXY(pos_x, pos_y);
+			background1Sprite->setSourceRectXY(0, 0);
 			background1Sprite->render(0, 0);
 			break;
 		case 2:

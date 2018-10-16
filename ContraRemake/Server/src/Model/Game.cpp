@@ -43,6 +43,7 @@ void Game::init()
 
     //----------------------------------------------------------------------
     //En la creacion de jugador no envio nada a vista
+    level = new Level(cameraLogic,currentLevel,serverMessageHandler);
     player = new Player(cameraLogic, serverMessageHandler);
 }
 

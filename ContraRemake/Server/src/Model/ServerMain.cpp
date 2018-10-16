@@ -42,11 +42,6 @@ int ServerMain(int argc, char* argv[])
 
 	//----------------------------------------------------------------------
 
-	synergy->init();
-	cout<<"ServerMain: Juego Inicializado."<<endl;
-
-	//----------------------------------------------------------------------
-
 	cout<<"ServerMain: En espera de conexión de "<<synergy->getMaxPlayers()<<" jugadores."<<endl;
 
 	while(server->getConnectedClients() != synergy->getMaxPlayers())
@@ -69,6 +64,11 @@ int ServerMain(int argc, char* argv[])
 	Uint32 timeAtIterationStart;
 	int iterationTime;
 	//================================================
+
+	//----------------------------------------------------------------------
+
+		synergy->init();
+		cout<<"ServerMain: Juego Inicializado."<<endl;
 
 	while(synergy->state())
 	{

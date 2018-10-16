@@ -7,10 +7,11 @@
 
 #include "Level.hh"
 
-Level::Level( CameraLogic* _cameraLogic, LevelNumber _level)
+Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serverMessageHandler)
 {
 	cameraLogic = _cameraLogic;
 	//logicToViewTransporter = _logicToViewTransporter;
+	serverMessageHandler = _serverMessageHandler;
 
 	switch(_level)
 	{
@@ -18,10 +19,10 @@ Level::Level( CameraLogic* _cameraLogic, LevelNumber _level)
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			/*logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo1Nivel1(), 1);
-			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel1(), 2);
-			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel1(), 3);
-*/
+			serverMessageHandler->sendToAllClients(new Message(LEVEL,LOAD,"set1/fondo1.png","1"));
+			serverMessageHandler->sendToAllClients(new Message(LEVEL,LOAD,"set1/fondo2.png","2"));
+			serverMessageHandler->sendToAllClients(new Message(LEVEL,LOAD,"set1/fondo3.png","3"));
+
 			background1Width = 8000;
 			background1Height = 600;
 
@@ -150,10 +151,9 @@ void Level::render(){
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar fondo
 
-	/*logicToViewTransporter->sendToDraw(LEVELVIEW, background3PosX, background3PosY, 3);
-	logicToViewTransporter->sendToDraw(LEVELVIEW, background2PosX, background2PosY, 2);
-	logicToViewTransporter->sendToDraw(LEVELVIEW, background1PosX, background1PosY, 1);
-*/
+	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background3PosX, background3PosY, 3));
+	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background3PosX, background3PosY, 2));
+	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background3PosX, background3PosY, 1));
 
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar las plataformas

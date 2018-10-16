@@ -13,6 +13,7 @@
 #include "Platform.hh"
 #include "Enemy.hh"
 #include "CameraLogic.hh"
+#include "ServerMessageHandler.hh"
 
 enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};
 
@@ -20,7 +21,7 @@ class Level
 {
 	public:
 
-		Level( CameraLogic* _cameraLogic, LevelNumber _level);
+		Level( CameraLogic* _cameraLogic, int _level , ServerMessageHandler* _serverMessageHandler);
 		virtual ~Level();
 
 		void render();
@@ -47,6 +48,8 @@ class Level
 
 		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
 		ScrollingType scrolling;
+
+		ServerMessageHandler* serverMessageHandler;
 
 		/*std::list<PlataformParser> platformParser;
 		std::list<PlataformParser>::iterator platformParserIterator;
