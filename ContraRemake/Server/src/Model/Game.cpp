@@ -51,7 +51,7 @@ void Game::handleEvents()
 {
 	server->getNewReceivedMessages(&game_recv_msgs_queue); // Traspaso los mensajes desde la cola compartida entre Server y Game, a la cola exclusiva de game.
 
-	Message* message;
+	MessageServer* message;
 
 	while(!game_recv_msgs_queue.empty())
 	{
@@ -165,7 +165,7 @@ void Game::update()
 
 void Game::render()
 {
-	serverMessageHandler->sendToAllClients(new Message(VIEW, CLEAR, 0));
+	serverMessageHandler->sendToAllClients(new MessageServer(VIEW, CLEAR, 0));
 
 	//----------------------------------------------------------------------
 	//Manda un mensaje para dibujar nivel primero(Por ahora no hace nada)
@@ -175,7 +175,7 @@ void Game::render()
     //Manda un mensaje para dibujar al jugador
     player->render();
 
-	serverMessageHandler->sendToAllClients(new Message(VIEW, SHOW, 0));
+	serverMessageHandler->sendToAllClients(new MessageServer(VIEW, SHOW, 0));
 }
 
 void Game::destroy()

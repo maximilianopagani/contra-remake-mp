@@ -50,7 +50,7 @@ void Player::render()
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar jugador
 
-	serverMessageHandler->sendToAllClients(new Message(PLAYER, RENDER, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
+	serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, RENDER, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar las balas
@@ -405,7 +405,7 @@ int Player::getLeftLimit()
 
 int Player::getRightLimit()
 {
-	return getPosX() + PlayerStateHandler::getDestinationWidth(state) - 15;
+	return getPosX() + PlayerStateHandlerServer::getDestinationWidth(state) - 15;
 }
 
 int Player::getTopLimit()
@@ -415,5 +415,5 @@ int Player::getTopLimit()
 
 int Player::getBottomLimit()
 {
-	return getTopLimit() + PlayerStateHandler::getDestinationHeight(state);
+	return getTopLimit() + PlayerStateHandlerServer::getDestinationHeight(state);
 }

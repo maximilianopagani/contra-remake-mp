@@ -19,9 +19,9 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			serverMessageHandler->sendToAllClients(new Message(LEVEL,LOAD,"set1/fondo1.png","1"));
-			serverMessageHandler->sendToAllClients(new Message(LEVEL,LOAD,"set1/fondo2.png","2"));
-			serverMessageHandler->sendToAllClients(new Message(LEVEL,LOAD,"set1/fondo3.png","3"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set1/fondo1.png","1"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set1/fondo2.png","2"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set1/fondo3.png","3"));
 
 			background1Width = 8000;
 			background1Height = 600;
@@ -151,9 +151,9 @@ void Level::render(){
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar fondo
 
-	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background3PosX, background3PosY, 3));
-	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background2PosX, background2PosY, 2));
-	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background1PosX, background1PosY, 1));
+	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background3PosX, background3PosY, 3));
+	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background2PosX, background2PosY, 2));
+	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background1PosX, background1PosY, 1));
 
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar las plataformas

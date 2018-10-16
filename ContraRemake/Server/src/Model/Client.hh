@@ -11,7 +11,8 @@
 #include <string>
 #include <queue>
 #include <thread>
-#include "../../../Utils/Message.hh"
+
+#include "../Utils/MessageServer.hh"
 
 class Client
 {
@@ -30,7 +31,7 @@ class Client
 		int socket, port;
 		std::string ip;
 
-		std::queue<Message*> sending_messages; // Aca se irían encolando los mensajes que quearmos ir enviando al cliente.
+		std::queue<MessageServer*> sending_messages; // Aca se irían encolando los mensajes que quearmos ir enviando al cliente.
 		// El asunto es que si a todos los clientes mando lo mismo, sería al pedo tener 4 colas iguales, quizas convenga una sola en Server,
 		// aunque el envio va a ser distinto para cada cliente en la fase previa a que el cliente comience a jugar (pedido de datos de login, etc)
 

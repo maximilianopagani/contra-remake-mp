@@ -30,16 +30,16 @@ class ServerHandler
 		void acceptConnections();
 		void recieveMessagesFrom(Client* client);
 
-		void sendToClient(Client* client, Message* message);
-		void sendToAllClients(Message* message);
-		void sendToSocket(int destination_socket, Message* message);
+		void sendToClient(Client* client, MessageServer* message);
+		void sendToAllClients(MessageServer* message);
+		void sendToSocket(int destination_socket, MessageServer* message);
 
 		int getConnectedClients() { return connectedClients.size(); }
 
 		static void* acceptConnectionsThread(void* server);
 		static void* recieveMessagesFromClientThread(void* client);
 
-		void getNewReceivedMessages(std::queue<Message*>* store_in_queue);
+		void getNewReceivedMessages(std::queue<MessageServer*>* store_in_queue);
 
 	private:
 
@@ -54,7 +54,7 @@ class ServerHandler
 		std::list<Client*> connectedClients;
 		std::list<Client*>::iterator connectedClientsIterator;
 
-		std::queue<Message*> server_recv_msgs_queue;
+		std::queue<MessageServer*> server_recv_msgs_queue;
 };
 
 #endif /* MODEL_SERVERHANDLER_HH_ */

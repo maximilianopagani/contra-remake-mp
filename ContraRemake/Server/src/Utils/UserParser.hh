@@ -9,7 +9,7 @@
 #define SERVER_USERPARSER_HH_
 
 #include <string>
-#include "../../../Utils/Constants.hh"
+#include "ServerConstants.hh"
 
 using namespace std;
 

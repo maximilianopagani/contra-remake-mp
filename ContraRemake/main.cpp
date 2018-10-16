@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "Client/src/ClientMain.hh"
-#include "Utils/Logger.hh"
+//#include "Utils/Logger.hh"
 #include "Server/src/Model/ServerMain.hh"
 
 using namespace std;
@@ -17,7 +17,7 @@ void print_usage()
 
 int main(int argc, char** argv) 
 { 
-	Logger::Level logMode;
+	//Logger::Level logMode;
 	bool hasLogMode = true;
 
 	if(argc == 1)

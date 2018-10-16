@@ -12,7 +12,7 @@ ServerMessageHandler::ServerMessageHandler(ServerHandler* _server)
 	server = _server;
 }
 
-void ServerMessageHandler::sendToAllClients(Message* message)
+void ServerMessageHandler::sendToAllClients(MessageServer* message)
 {
 	server->sendToAllClients(message);
 }

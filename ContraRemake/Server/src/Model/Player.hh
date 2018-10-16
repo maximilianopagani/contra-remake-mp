@@ -10,12 +10,12 @@
 #ifndef PLAYER_HH_
 #define PLAYER_HH_
 
-#include "../../../Utils/Logger.hh"
+#include "../Utils/Logger.hh"
 #include "../Utils/ICollisional.hh"
-#include "../../../Utils/PlayerStateHandler.hh"
 #include "Bullet.hh"
 #include <list>
 
+#include "../Utils/PlayerStateHandlerServer.hh"
 #include "ServerMessageHandler.hh"
 
 class Player : public ICollisional

@@ -8,7 +8,7 @@
 #ifndef MODEL_SERVERMESSAGEHANDLER_HH_
 #define MODEL_SERVERMESSAGEHANDLER_HH_
 
-#include "../../../Utils/Message.hh"
+#include "../Utils/MessageServer.hh"
 #include "ServerHandler.hh"
 
 class ServerMessageHandler
@@ -18,8 +18,8 @@ class ServerMessageHandler
 		ServerMessageHandler(ServerHandler* _server);
 		virtual ~ServerMessageHandler();
 
-		void sendToAllClients(Message* message);
-		void redirectRecievedMessage(Message* message);
+		void sendToAllClients(MessageServer* message);
+		void redirectRecievedMessage(MessageServer* message);
 
 	private:
 

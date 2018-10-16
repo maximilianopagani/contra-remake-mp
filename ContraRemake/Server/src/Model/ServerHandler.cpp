@@ -92,7 +92,7 @@ void ServerHandler::acceptConnections()
 
 				std::cout<<"ServerHandler: Conexión establecida con un nuevo cliente. IP: "<<new_client->getIp()<<" - PUERTO: "<<new_client->getPort()<<std::endl;
 				// Mando un mensaje al cliente recien conectado
-				this->sendToClient(new_client, new Message(INFO, NONE, "Te conectaste al servidor."));
+				this->sendToClient(new_client, new MessageServer(INFO, NONE, "Te conectaste al servidor."));
 
 				// Agrego el cliente a la lista de jugadores conectados
 				connectedClients.push_back(new_client);
@@ -139,7 +139,7 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 		{
 			pthread_mutex_lock(&server_mutex);
 
-			server_recv_msgs_queue.push(new Message(buffer)); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
+			server_recv_msgs_queue.push(new MessageServer(buffer)); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
 
 			pthread_mutex_unlock(&server_mutex);
 
@@ -151,11 +151,11 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 	}
 }
 
-void ServerHandler::getNewReceivedMessages(std::queue<Message*>* store_in_queue)
+void ServerHandler::getNewReceivedMessages(std::queue<MessageServer*>* store_in_queue)
 {
 	pthread_mutex_lock(&server_mutex);
 
-	Message* message;
+	MessageServer* message;
 
 	while(!server_recv_msgs_queue.empty())
 	{
@@ -170,7 +170,7 @@ void ServerHandler::getNewReceivedMessages(std::queue<Message*>* store_in_queue)
 	pthread_mutex_unlock(&server_mutex);
 }
 
-void ServerHandler::sendToAllClients(Message* message) // Para enviar un mensaje a todos los clientes conectados
+void ServerHandler::sendToAllClients(MessageServer* message) // Para enviar un mensaje a todos los clientes conectados
 {
 	// Itero por la lista de jugadores conectados, y les mando el mensaje mediante el socket que guardan dentro
 	for(connectedClientsIterator = connectedClients.begin(); connectedClientsIterator != connectedClients.end();)
@@ -185,7 +185,7 @@ void ServerHandler::sendToAllClients(Message* message) // Para enviar un mensaje
 	delete message;
 }
 
-void ServerHandler::sendToClient(Client* client, Message* message) // Para enviar un mensaje a un cliente conectado en particular
+void ServerHandler::sendToClient(Client* client, MessageServer* message) // Para enviar un mensaje a un cliente conectado en particular
 {
 	char msg[256];
 	message->getContent(msg);
@@ -194,7 +194,7 @@ void ServerHandler::sendToClient(Client* client, Message* message) // Para envia
 	delete message;
 }
 
-void ServerHandler::sendToSocket(int destination_socket, Message* message) // Para enviar un mensaje a un socket en particular
+void ServerHandler::sendToSocket(int destination_socket, MessageServer* message) // Para enviar un mensaje a un socket en particular
 {
 	char msg[256];
 	message->getContent(msg);

@@ -1,7 +1,9 @@
 
-#include "../../../Utils/Logger.hh"
-#include "../../../Utils/Utils.hh"
+#include "../Utils/Logger.hh"
+#include "../Utils/Utils.hh"
 #include "Game.hh"
+#include "../Utils/ServerParser.hh"
+#include "../Utils/GameParser.hh"
 #include "ServerHandler.hh"
 #include <SDL2/SDL.h> //============= MANEJO DEL FRAMERATE =============
 
@@ -29,7 +31,36 @@ int ServerMain(int argc, char* argv[])
 
 	if(server->startServer())
 	{
-		 cout<<"ServerMain: Servidor iniciado"<<endl;
+		cout<<"ServerMain: Servidor iniciado"<<endl;
+		ServerParser* serverParser = new ServerParser();
+
+		LOGGER_INIT_SETUP(Logger::DEBUG);
+		if (serverParser->loadConfiguration()) {
+			LOGGER_INFO("Carga de configuracion del servidor aceptada");
+			serverParser->testDataServerParser();
+
+			GameParser* parser = new GameParser();
+
+			if (parser->loadConfiguration()) {
+				LOGGER_INFO("Carga de configuracion del juego aceptada");
+			} else {
+				cout << "Carga de configuracion del juego rechazada" << endl;
+				// se mata al primer logger
+				LOGGER_KILL();
+				if (parser)
+					delete parser;
+				return 1;
+			}
+		} else {
+			cout << "Carga de configuracion del servidor rechazada" << endl;
+			// se mata al primer logger
+			LOGGER_KILL();
+			if (serverParser)
+				delete serverParser;
+			//return 1;
+		}
+		// se mata al primer logger
+		LOGGER_KILL();
 	}
 	else
 	{

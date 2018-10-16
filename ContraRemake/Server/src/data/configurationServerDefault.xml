@@ -1,0 +1,31 @@
+<server>
+	<maximumquantityclients>1</maximumquantityclients>
+	<port>15390</port>
+	<users>
+		<user>
+			<id>1</id>
+			<name>maxi</name>
+			<password>maxi</password>	
+		</user>
+		<user>
+			<id>2</id>
+			<name>lucas</name>
+			<password>lucas</password>	
+		</user>
+		<user>
+			<id>3</id>
+			<name>ignacio</name>
+			<password>ignacio</password>	
+		</user>
+		<user>
+			<id>4</id>
+			<name>giovanni</name>
+			<password>giovanni</password>	
+		</user>
+		<user>
+			<id>5</id>
+			<name>gino</name>
+			<password>gino</password>	
+		</user>
+	</users>
+</server>

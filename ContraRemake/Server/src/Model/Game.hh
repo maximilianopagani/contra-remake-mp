@@ -54,7 +54,7 @@ class Game
         //Servidor para enviar y recibir mensajes
         ServerHandler* server;
 
-        std::queue<Message*> game_recv_msgs_queue;
+        std::queue<MessageServer*> game_recv_msgs_queue;
 };
 
 #endif /* SRC_GAME_HH_ */
