@@ -152,8 +152,8 @@ void Level::render(){
 	//Mandar Mensaje para dibujar fondo
 
 	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background3PosX, background3PosY, 3));
-	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background3PosX, background3PosY, 2));
-	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background3PosX, background3PosY, 1));
+	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background2PosX, background2PosY, 2));
+	serverMessageHandler->sendToAllClients(new Message(LEVEL,RENDER, background1PosX, background1PosY, 1));
 
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar las plataformas

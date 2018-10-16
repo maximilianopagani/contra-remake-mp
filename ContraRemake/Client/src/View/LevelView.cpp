@@ -52,13 +52,15 @@ void LevelView::render(int pos_x, int pos_y, int background)
 	switch(background)
 	{
 		case 1:
-			background1Sprite->setSourceRectXY(0, 0);
+			background1Sprite->setSourceRectXY(pos_x, pos_y); // Cuando el mapa se corre, corremos el (x,y) inicial sobre el cual recortamos los 800x600 pixels.
 			background1Sprite->render(0, 0);
 			break;
+
 		case 2:
 			background2Sprite->setSourceRectXY(pos_x, pos_y);
 			background2Sprite->render(0, 0);
 			break;
+
 		case 3:
 			background3Sprite->setSourceRectXY(pos_x, pos_y);
 			background3Sprite->render(0, 0);

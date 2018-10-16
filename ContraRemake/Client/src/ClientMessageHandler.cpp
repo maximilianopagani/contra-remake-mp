@@ -74,9 +74,11 @@ void ClientMessageHandler::redirectRecievedMessage(Message* message)
 			switch(MSG_HEADER_2)
 			{
 				case LOAD:
-				{	int background = atoi(param3);
+				{
+					int background = atoi(param3);
 					cout<<background<<endl;
 					levelView->loadSprite(param2, background);
+
 					break;
 				}
 
@@ -85,7 +87,6 @@ void ClientMessageHandler::redirectRecievedMessage(Message* message)
 					int pos_x = atoi(param2);
 					int pos_y = atoi(param3);
 					int background = atoi(param4);
-
 					levelView->render(pos_x, pos_y, background);
 
 					break;
