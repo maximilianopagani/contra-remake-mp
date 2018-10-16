@@ -8,7 +8,6 @@
 #ifndef MODEL_LEVEL_HH_
 #define MODEL_LEVEL_HH_
 
-//#include "../Utils/GameParser.hh"
 #include "../Utils/PlatformParser.hh"
 #include "../Utils/GameParser.hh"
 #include "Platform.hh"
@@ -40,7 +39,6 @@ class Level
 
 		CameraLogic* cameraLogic;
 		 GameParser* gameParser;
-		//LogicToViewTransporter* logicToViewTransporter;
 
 		int background1PosX, background1PosY, background1Width, background1Height;
 		int background2PosX, background2PosY, background2Width, background2Height; // no seria necesario si todas las capas fuesen del mismo tamaño

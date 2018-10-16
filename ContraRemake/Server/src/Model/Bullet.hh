@@ -10,13 +10,13 @@
 
 #include "CameraLogic.hh"
 #include <math.h>
-//#include "LogicToViewTransporter.hh"
+#include "ServerMessageHandler.hh"
 
 class Bullet
 {
 	public:
 
-		Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel);
+		Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel, ServerMessageHandler* _serverMessageHandler);
 		virtual ~Bullet();
 
 		void updatePos();
@@ -26,7 +26,7 @@ class Bullet
 	private:
 
 		CameraLogic* cameraLogic;
-		//LogicToViewTransporter* logicToViewTransporter;
+		ServerMessageHandler* serverMessageHandler;
 
 		int pos_x, pos_y; // Posicion absoluta con respecto al mapa gigante.
 		int speed_x, speed_y; // Velocidad que avanza en cada coordenada en cada update

@@ -6,7 +6,6 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 {
 	enEjecucion = false;
 	gameParser = _gameParser;
-	//gameView = _gameView;
 	level = NULL;
 	player = NULL;
 	currentLevel = 0;
@@ -186,7 +185,6 @@ void Game::destroy()
 	level->destroy();
 
 	//Le digo a todos los clientes que destruyan todo
-	//gameView->destroy();
 
 	LOGGER_INFO("El juego se ha cerrado correctamente.");
 }

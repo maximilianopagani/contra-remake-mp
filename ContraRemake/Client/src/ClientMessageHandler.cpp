@@ -112,6 +112,22 @@ void ClientMessageHandler::redirectRecievedMessage(Message* message)
 			}
 			break;
 		}
+		case BULLET:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case RENDER:
+				{
+					int posX = atoi(param1);
+					int posY = atoi(param2);
+					bulletView->render(posX, posY);
+
+					break;
+				}
+
+			}
+			break;
+		}
 	}
 
 	delete message;

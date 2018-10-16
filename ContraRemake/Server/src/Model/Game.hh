@@ -7,7 +7,6 @@
 #ifndef GAME_HH_
 #define GAME_HH_
 
-//#include "../Vista/GameView.hh"
 #include "Level.hh"
 #include "Player.hh"
 #include "../Utils/GameParser.hh"
@@ -43,7 +42,7 @@ class Game
         int max_players;
 
         GameParser* gameParser;
-        //GameView* gameView;
+
         Player* player;
         Level* level;
 

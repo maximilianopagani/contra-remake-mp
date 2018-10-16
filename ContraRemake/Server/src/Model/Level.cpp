@@ -47,10 +47,10 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		{
 			scrolling = SCROLLING_VERTICAL;
 
-			/*logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo1Nivel2(), 1);
-			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel2(), 2);
-			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel2(), 3);
-*/
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set2/fondo1.png","1"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set2/fondo2.png","2"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set2/fondo3.png","3"));
+
 			background1Width = 800;
 			background1Height = 4000;
 
@@ -75,10 +75,10 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-		/*	logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo1Nivel3(), 1);
-			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo2Nivel3(), 2);
-			logicToViewTransporter->sendToLoad(LEVELVIEW, gameParser->getFondo3Nivel3(), 3);
-*/
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set3/fondo1.png","1"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set3/fondo2.png","2"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set3/fondo3.png","3"));
+
 			background1Width = 8000;
 			background1Height = 600;
 
@@ -166,7 +166,7 @@ void Level::render(){
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar al enemigo
 
-	/*enemy->sendToDraw();*/
+				/*enemy->sendToDraw();*/
 }
 
 void Level::destroy()
@@ -176,7 +176,7 @@ void Level::destroy()
 
 void Level::moveForward(int playerPosX, int playerPosY)
 {
-	/*if(scrolling == SCROLLING_HORIZONTAL)
+	if(scrolling == SCROLLING_HORIZONTAL)
 	{
 		if((background1PosX + cameraLogic->getCameraWidth()) < background1Width)
 		{
@@ -207,7 +207,7 @@ void Level::moveForward(int playerPosX, int playerPosY)
 				cameraLogic->setCameraPosY(background1PosY);
 			}
 		}
-	}*/
+	}
 }
 
 // Esto solo mueve los fondos y la camara a la posicion inicial del nivel. No borra enemigos ni plataformas ni los crea devuelta.
