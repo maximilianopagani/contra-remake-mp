@@ -1,3 +1,0 @@
-2018-10-09.15:00:31 <INI> ----------------------------|MODE : ERR|----------------------------
-2018-10-09.15:00:33 <ERR> GameView:133 || Imposible cargar  - SDL_Image_Error: SDL_RWFromFile(): No file or no mode specified - ACCION: Se carga textura invalida en su lugar.
-2018-10-09.15:00:44 <KLL> -------------------------------| END |-------------------------------

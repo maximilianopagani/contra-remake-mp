@@ -18,6 +18,8 @@ int ServerMain(int argc, char* argv[])
 	pthread_mutex_init(&server_mutex, NULL);
 
 	ServerHandler* server = new ServerHandler(PUERTO, MAX_PLAYERS); // (PUERTO, CANTIDAD DE JUGADORES EN LA PARTIDA)
+	ServerParser* serverParser = new ServerParser();
+	GameParser* parser = new GameParser();
 
 	cout<<"ServerMain: Servidor creado."<<endl;
 
@@ -25,21 +27,17 @@ int ServerMain(int argc, char* argv[])
 
 	cout<<"ServerMain: Gestionador de mensajes creado."<<endl;
 
-	Game* synergy = new Game(server, messageHandler, MAX_PLAYERS);
-
-	cout<<"ServerMain: Juego creado."<<endl;
-
 	if(server->startServer())
 	{
 		cout<<"ServerMain: Servidor iniciado"<<endl;
-		ServerParser* serverParser = new ServerParser();
+
 
 		LOGGER_INIT_SETUP(Logger::DEBUG);
 		if (serverParser->loadConfiguration()) {
 			LOGGER_INFO("Carga de configuracion del servidor aceptada");
 			serverParser->testDataServerParser();
 
-			GameParser* parser = new GameParser();
+
 
 			if (parser->loadConfiguration()) {
 				LOGGER_INFO("Carga de configuracion del juego aceptada");
@@ -69,6 +67,10 @@ int ServerMain(int argc, char* argv[])
 		return 0;
 	}
 
+	Game* synergy = new Game(server, messageHandler, MAX_PLAYERS,parser);
+
+	cout<<"ServerMain: Juego creado."<<endl;
+
 	server->startListeningThread();
 
 	//----------------------------------------------------------------------
@@ -90,7 +92,7 @@ int ServerMain(int argc, char* argv[])
 		return false;
 	}
 
-	const int FPS = 1;
+	const int FPS = 30;
 	const int frameDelay = 1000 / FPS ;
 	Uint32 timeAtIterationStart;
 	int iterationTime;

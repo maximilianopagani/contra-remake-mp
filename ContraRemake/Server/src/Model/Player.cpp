@@ -13,7 +13,7 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	serverMessageHandler = _serverMessageHandler;
 
 	pos_x = 150;
-	pos_y = 300;
+	pos_y = 0;
 	maxDistanceJump=150;
 	falling = true;
 
@@ -143,7 +143,7 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 
 void Player::update()
 {
-	//if(falling) pos_y += 5;
+	if(falling) pos_y += 5;
 	//Salto
 	switch(state)
 	{

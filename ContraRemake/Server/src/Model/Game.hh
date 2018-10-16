@@ -10,7 +10,7 @@
 //#include "../Vista/GameView.hh"
 #include "Level.hh"
 #include "Player.hh"
-//#include "../Utils/GameParser.hh"
+#include "../Utils/GameParser.hh"
 #include "../Utils/CollisionHelper.hh"
 
 extern pthread_mutex_t server_mutex;
@@ -19,7 +19,7 @@ class Game
 {
     public:
 
-		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players);
+		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players,GameParser* gameParser);
         virtual ~Game();
 
         void init();
@@ -42,7 +42,7 @@ class Game
         int currentLevel;
         int max_players;
 
-       // GameParser* gameParser;
+        GameParser* gameParser;
         //GameView* gameView;
         Player* player;
         Level* level;

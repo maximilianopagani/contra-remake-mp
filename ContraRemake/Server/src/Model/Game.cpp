@@ -2,10 +2,10 @@
 #include "Game.hh"
 #include "Platform.hh"
 
-Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players)
+Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players,GameParser* _gameParser)
 {
 	enEjecucion = false;
-//	gameParser = NULL;
+	gameParser = _gameParser;
 	//gameView = _gameView;
 	level = NULL;
 	player = NULL;
@@ -43,7 +43,7 @@ void Game::init()
 
     //----------------------------------------------------------------------
     //En la creacion de jugador no envio nada a vista
-    level = new Level(cameraLogic,currentLevel,serverMessageHandler);
+    level = new Level(cameraLogic,currentLevel,serverMessageHandler,gameParser);
     player = new Player(cameraLogic, serverMessageHandler);
 }
 
@@ -102,14 +102,14 @@ void Game::nextLevel()
 		case LEVEL1:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL2;
-		//	level = new Level(gameParser, cameraLogic, LEVEL2);
+			level = new Level(cameraLogic, LEVEL2,serverMessageHandler,gameParser);
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 
 		case LEVEL2:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL3;
-		//	level = new Level(gameParser, cameraLogic, LEVEL3);
+			level = new Level(cameraLogic, LEVEL3,serverMessageHandler,gameParser);
 			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 			break;
 
@@ -142,7 +142,7 @@ void Game::update()
 	//----------------------------------------------------------------------
 	//Manejo de Colisiones con las plataformas
 
-			/*list<Platform*>* platforms = level->getPlataformList();
+			list<Platform*>* platforms = level->getPlataformList();
 			list<Platform*>::iterator platformsIterator;
 
 			for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
@@ -152,15 +152,15 @@ void Game::update()
 					break;
 				}
 				else player->fallingDown();
-			}*/
+			}
 
 	//----------------------------------------------------------------------
 	//Logica de reUbicar al personaje despues de caer
 
-			/*if(cameraLogic->outOfCameraLowerLimit(player->getPosY()) ){
+			if(cameraLogic->outOfCameraLowerLimit(player->getPosY()) ){
 				player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 				level->restart();
-			}*/
+			}
 }
 
 void Game::render()

@@ -95,6 +95,30 @@ void ClientMessageHandler::redirectRecievedMessage(Message* message)
 			}
 			break;
 		}
+		case PLATFORM:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case LOAD:
+				{
+					platformView->loadSprite(param2);
+
+					break;
+				}
+
+				case RENDER:
+				{
+					int posX = atoi(param2);
+					int posY = atoi(param3);
+					int tileAmount = atoi(param4);
+					platformView->render(posX, posY, tileAmount);
+
+					break;
+				}
+
+			}
+			break;
+		}
 	}
 
 	delete message;

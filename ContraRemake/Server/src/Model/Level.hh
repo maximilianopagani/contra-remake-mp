@@ -10,6 +10,7 @@
 
 //#include "../Utils/GameParser.hh"
 #include "../Utils/PlatformParser.hh"
+#include "../Utils/GameParser.hh"
 #include "Platform.hh"
 #include "Enemy.hh"
 #include "CameraLogic.hh"
@@ -21,7 +22,7 @@ class Level
 {
 	public:
 
-		Level( CameraLogic* _cameraLogic, int _level , ServerMessageHandler* _serverMessageHandler);
+		Level( CameraLogic* _cameraLogic, int _level , ServerMessageHandler* _serverMessageHandler,GameParser* _gameParser);
 		virtual ~Level();
 
 		void render();
@@ -31,13 +32,14 @@ class Level
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
 
-		//list<Platform*>* getPlataformList(){ return &platforms; }
+		list<Platform*>* getPlataformList(){ return &platforms; }
 
 		void restart();
 
 	private:
 
 		CameraLogic* cameraLogic;
+		 GameParser* gameParser;
 		//LogicToViewTransporter* logicToViewTransporter;
 
 		int background1PosX, background1PosY, background1Width, background1Height;
@@ -51,10 +53,10 @@ class Level
 
 		ServerMessageHandler* serverMessageHandler;
 
-		/*std::list<PlataformParser> platformParser;
+		std::list<PlataformParser> platformParser;
 		std::list<PlataformParser>::iterator platformParserIterator;
 		std::list<Platform*> platforms;
-		std::list<Platform*>::iterator platformsIterator;*/
+		std::list<Platform*>::iterator platformsIterator;
 
         Enemy* enemy;
 

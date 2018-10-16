@@ -7,10 +7,10 @@
 
 #include "Level.hh"
 
-Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serverMessageHandler)
+Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serverMessageHandler,GameParser* _gameParser)
 {
 	cameraLogic = _cameraLogic;
-	//logicToViewTransporter = _logicToViewTransporter;
+	gameParser = _gameParser ;
 	serverMessageHandler = _serverMessageHandler;
 
 	switch(_level)
@@ -33,7 +33,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			background3Height = 600;
 
 			// Cargo plataformas del XML
-			//platformParser = gameParser->getPlataformas();
+			platformParser = gameParser->getPlataformas();
 
 			playerSpawnX = 150;
 			playerSpawnY = 300;
@@ -61,7 +61,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			background3Height = 1300;
 
 			// Cargo plataformas del XML
-			//platformParser = gameParser->getPlataforms2();
+			platformParser = gameParser->getPlataforms2();
 
 			playerSpawnX = 150;
 			playerSpawnY = 3800;
@@ -89,7 +89,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			background3Height = 600;
 
 			// Cargo plataformas del XML
-			//platformParser = gameParser->getPlataforms3();
+			platformParser = gameParser->getPlataforms3();
 
 			playerSpawnX = 150;
 			playerSpawnY = 400;
@@ -101,15 +101,15 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 	}
 
 	// Creo las plataformas desde lo cargado por el parser
-	/*for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++)
+	for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++)
 	{
 		string platformType = (*platformParserIterator).getTipo();
 		int platformXInitial = (*platformParserIterator).getXInicial();
 		int platformXFinal = (*platformParserIterator).getXFinal();
 		int platformY = (*platformParserIterator).getAltura();
 
-		platforms.push_back(new Platform(cameraLogic, platformType, platformXInitial, platformY, platformXFinal - platformXInitial));
-	}*/
+		platforms.push_back(new Platform(cameraLogic, platformType, platformXInitial, platformY, platformXFinal - platformXInitial , serverMessageHandler));
+	}
 
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
@@ -158,10 +158,10 @@ void Level::render(){
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar las plataformas
 
-	/*for(platformsIterator = platforms.begin(); platformsIterator != platforms.end();){
+	for(platformsIterator = platforms.begin(); platformsIterator != platforms.end();){
 		(*platformsIterator)->render();
 		++platformsIterator;
-	}*/
+	}
 
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar al enemigo
