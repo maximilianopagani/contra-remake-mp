@@ -75,8 +75,11 @@ class Player : public ICollisional
 		// manejo de disparo
 		enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND,AIM_BACK,AIM_UP_BACK,AIM_DOWN_BACK,AIM_BODYTOGROUND_BACK};
 		AimPosition aimingAt;
+
+		//Manejo de balas
 		Uint32 lastShotTime;
 		Uint32 shotCooldown;
+		int distanceToTravel = 425;
 
 		// Manejo de balas
 		std::list<Bullet*> bullets;

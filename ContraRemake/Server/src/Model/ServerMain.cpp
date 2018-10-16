@@ -5,7 +5,6 @@
 #include "../Utils/ServerParser.hh"
 #include "../Utils/GameParser.hh"
 #include "ServerHandler.hh"
-#include <SDL2/SDL.h> //============= MANEJO DEL FRAMERATE =============
 
 #define PUERTO 54000
 #define MAX_PLAYERS 1
@@ -14,6 +13,12 @@ pthread_mutex_t server_mutex; // MUTEX GLOBAL PARA SER UTILIZADO EN SERVERHANDLE
 
 int ServerMain(int argc, char* argv[])
 {
+	if(!Utils::initTimer())
+	{
+		cout<<"ServerMain: Falla al inicializar el timer."<<endl;
+		return false;
+	}
+
 	server_mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_init(&server_mutex, NULL);
 
@@ -67,7 +72,7 @@ int ServerMain(int argc, char* argv[])
 		return 0;
 	}
 
-	Game* synergy = new Game(server, messageHandler, MAX_PLAYERS,parser);
+	Game* synergy = new Game(server, messageHandler, MAX_PLAYERS, parser);
 
 	cout<<"ServerMain: Juego creado."<<endl;
 
@@ -86,12 +91,6 @@ int ServerMain(int argc, char* argv[])
 	cout<<"ServerMain: Se alcanzó la cantidad de jugadores conectados necesaria. Comienza el juego."<<endl;
 
 	//============= MANEJO DEL FRAMERATE =============
-	if(SDL_Init(SDL_INIT_TIMER) != 0)
-	{
-		cout<<"ServerMain: Falla al inicializar SDL_TIMER"<<endl;
-		return false;
-	}
-
 	const int FPS = 30;
 	const int frameDelay = 1000 / FPS ;
 	Uint32 timeAtIterationStart;
@@ -106,7 +105,7 @@ int ServerMain(int argc, char* argv[])
 	while(synergy->state())
 	{
 		//============= MANEJO DEL FRAMERATE =============
-		timeAtIterationStart = SDL_GetTicks();
+		timeAtIterationStart = Utils::getTicks();
 		//================================================
 
 		//----------------------------------------------------------------------
@@ -122,11 +121,11 @@ int ServerMain(int argc, char* argv[])
 		synergy->render();
 
 		//============= MANEJO DEL FRAMERATE =============
-		iterationTime = SDL_GetTicks() - timeAtIterationStart;
+		iterationTime = Utils::getTicks() - timeAtIterationStart;
 
 		if(frameDelay > iterationTime) // Si lo que tardó la iteracion es menor a lo que debe tardar un ciclo para mostrarse a la tasa de frames deseada
 		{
-			SDL_Delay(frameDelay - iterationTime);
+			Utils::setDelay(frameDelay - iterationTime);
 		}
 		//================================================
 	}
