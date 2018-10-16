@@ -13,17 +13,25 @@
 
 class PlatformView
 {
+	enum PlatformType {
+		TYPE_GRASS,
+		TYPE_ICE,
+		TYPE_WOOD,
+		TYPE_ROCK,
+		TYPE_ERROR
+	};
+
 	public:
 		PlatformView(GameView* _gameView);
 		virtual ~PlatformView();
 
-		void loadSprite(string type);
-		void render(int posX, int posY, int tileAmount);
+		void render(int posX, int posY, int tileAmount, int typeCode);
 		void destroy();
 
 	private:
+
 		GameView* gameView;
-		Sprite *ice, *wood, *rock, *grass, *error, *toRender;
+		Sprite* sprites[5];
 };
 
 #endif /* VISTA_PLATFORMVIEW_HH_ */

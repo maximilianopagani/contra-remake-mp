@@ -15,7 +15,19 @@ Platform::Platform(CameraLogic* _cameraLogic, std::string _type, int pos_x, int 
 	//logicToViewTransporter = _logicToViewTransporter;
 	posX = pos_x;
 	posY = pos_y;
-	type = _type;
+
+	typeString = _type;
+
+	if(typeString == "GRASS")
+		typeCode = TYPE_GRASS;
+	else if(typeString == "ROCK")
+		typeCode = TYPE_ROCK;
+	else if(typeString == "WOOD")
+		typeCode = TYPE_WOOD;
+	else if(typeString == "ICE")
+		typeCode = TYPE_ICE;
+	else
+		typeCode = TYPE_ERROR;
 
 	// TODO revisar width hardcodeado
 	tileHeight = 48;
@@ -26,25 +38,14 @@ Platform::Platform(CameraLogic* _cameraLogic, std::string _type, int pos_x, int 
 		++tileAmount;
 }
 
-Platform::~Platform()
-{
-	this->destroy();
-}
-
-void Platform::destroy()
-{
-}
+Platform::~Platform() {}
 
 void Platform::render()
 {
 	// Chequeo si alguna parte de la plataforma va a verse dentro de la ventana, y si se vé, se la mando al cliente
 	if( !(cameraLogic->outOfCameraRightLimit(posX - 40) || cameraLogic->outOfCameraLeftLimit(posX + tileAmount * tileWidth) || cameraLogic->outOfCameraHigherLimit(posY + tileHeight) || cameraLogic->outOfCameraLowerLimit(posY - 10)) )
 	{
-		serverMessageHandler->sendToAllClients(new MessageServer(PLATFORM,LOAD,type));
-		serverMessageHandler->sendToAllClients(new MessageServer(PLATFORM,RENDER,posX - cameraLogic->getCameraPosX(), posY - cameraLogic->getCameraPosY(), tileAmount));
-
-		//logicToViewTransporter->sendToLoad(PLATFORMVIEW, type); // ver si es mejor en lugar de realizar 2 envios distintos, si enviar uno solo con el tipo en el sendToDraw
-	//	logicToViewTransporter->sendToDraw(PLATFORMVIEW, posX - cameraLogic->getCameraPosX(), posY - cameraLogic->getCameraPosY(), tileAmount); // le mando xinicial, yinicial y cantidad de tiles
+		serverMessageHandler->sendToAllClients(new MessageServer(PLATFORM, RENDER, posX - cameraLogic->getCameraPosX(), posY - cameraLogic->getCameraPosY(), tileAmount, typeCode));
 	}
 }
 

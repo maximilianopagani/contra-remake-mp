@@ -22,14 +22,14 @@ ClientMessageHandler::~ClientMessageHandler() {}
 void ClientMessageHandler::redirectRecievedMessage(Message* message)
 {
 	int MSG_HEADER_1, MSG_HEADER_2;
-	char param2[32]; char param3[32]; char param4[32]; char param5[32]; char param6[32];
+	char param1[32]; char param2[32]; char param3[32]; char param4[32];
 
 	char msg[256];
 	message->getContent(msg);
 
 	std::cout<<"ClientMessageHandler: Procesando mensaje: "<<msg<<std::endl;
 
-	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,],%[^;];", &MSG_HEADER_1, &MSG_HEADER_2, param2, param3, param4, param5, param6);
+	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
 	switch(MSG_HEADER_1)
 	{
@@ -39,9 +39,9 @@ void ClientMessageHandler::redirectRecievedMessage(Message* message)
 			{
 				case RENDER:
 				{
-					int estado = atoi(param2);
-					int posX = atoi(param3);
-					int posY = atoi(param4);
+					int estado = atoi(param1);
+					int posX = atoi(param2);
+					int posY = atoi(param3);
 
 					playerView->render(estado, posX, posY);
 					break;
@@ -75,18 +75,17 @@ void ClientMessageHandler::redirectRecievedMessage(Message* message)
 			{
 				case LOAD:
 				{
-					int background = atoi(param3);
-					cout<<background<<endl;
-					levelView->loadSprite(param2, background);
+					int background = atoi(param2);
+					levelView->loadSprite(param1, background);
 
 					break;
 				}
 
 				case RENDER:
 				{
-					int pos_x = atoi(param2);
-					int pos_y = atoi(param3);
-					int background = atoi(param4);
+					int pos_x = atoi(param1);
+					int pos_y = atoi(param2);
+					int background = atoi(param3);
 					levelView->render(pos_x, pos_y, background);
 
 					break;
@@ -99,19 +98,13 @@ void ClientMessageHandler::redirectRecievedMessage(Message* message)
 		{
 			switch(MSG_HEADER_2)
 			{
-				case LOAD:
-				{
-					platformView->loadSprite(param2);
-
-					break;
-				}
-
 				case RENDER:
 				{
-					int posX = atoi(param2);
-					int posY = atoi(param3);
-					int tileAmount = atoi(param4);
-					platformView->render(posX, posY, tileAmount);
+					int posX = atoi(param1);
+					int posY = atoi(param2);
+					int tileAmount = atoi(param3);
+					int typeCode = atoi(param4);
+					platformView->render(posX, posY, tileAmount, typeCode);
 
 					break;
 				}

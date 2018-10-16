@@ -28,7 +28,6 @@ class Platform : public ICollisional
 		void render();
 		int getPosX() { return posX; }
 		int getPosY() { return posY; }
-		void destroy();
 
 		//Collisional
 		int getLeftLimit();
@@ -37,9 +36,21 @@ class Platform : public ICollisional
 		int getBottomLimit();
 
 	private:
+
+		enum PlatformType {
+			TYPE_GRASS,
+			TYPE_ICE,
+			TYPE_WOOD,
+			TYPE_ROCK,
+			TYPE_ERROR
+		};
+
 		CameraLogic* cameraLogic;
 		ServerMessageHandler* serverMessageHandler;
-		std::string type;
+
+		std::string typeString;
+		PlatformType typeCode;
+
 		int tileAmount, tileWidth, tileHeight, posX, posY;
 };
 
