@@ -16,17 +16,19 @@
 class PlayerView
 {
 	public:
+
 		PlayerView(GameView* _gameView);
 		virtual ~PlayerView();
 
 		void loadSprite(string type);
-		void update(PlayerState aState);
 		void render(int aState, int posX, int posY);
 		void destroy();
 
 	private:
+
 		GameView* gameView;
 		Sprite* animations[PlayerStateHandler::MAX_ANIMATIONS];
+		int lastState = STATE_STANDING, hasToUpdateCount = 0;
 };
 
 #endif /* VISTA_PLAYERVIEW_HH_ */

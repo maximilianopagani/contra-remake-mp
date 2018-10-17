@@ -18,11 +18,12 @@ class Game
 {
     public:
 
-		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players,GameParser* gameParser);
+		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players, GameParser* gameParser);
         virtual ~Game();
 
         void init();
         void handleEvents();
+        void processMessage(MessageServer* message);
         void update();
         void render();
         void destroy();

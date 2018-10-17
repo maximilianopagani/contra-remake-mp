@@ -20,7 +20,7 @@ PlayerView::PlayerView(GameView* _gameView)
 	animations[STATE_JUMPINGUP] = new Sprite(gameView,"../.images/player/jumping.png", 20, 38, 46, 114);
 	animations[STATE_JUMPINGDOWN] = new Sprite(gameView,"../.images/player/jumping.png", 20, 38, 46, 87);
 	animations[STATE_POINTUP] = new Sprite(gameView,"../.images/player/pointUp.png", 18, 36, 41, 82);
-	animations[STATE_POINTFRONT] = new Sprite(gameView,"../.images/player/pointFront.png", 25, 36, 58, 82);
+	animations[STATE_POINTFRONT] = new Sprite(gameView,"../.images/player/pointFront.png", 25, 36, 58, 84);
 	animations[STATE_POINTBACK] = new Sprite(gameView,"../.images/player/pointBack.png", 25, 36, 58, 82);
 	animations[STATE_POINTDOWN] = new Sprite(gameView,"../.images/player/pointDown.png", 22, 37, 51, 85);
 	animations[STATE_POINTBODYTOGROUND] = new Sprite(gameView,"../.images/player/bodyToGround.png", 32, 38, 74, 87);
@@ -42,13 +42,26 @@ void PlayerView::destroy()
 	}
 }
 
-void PlayerView::update(PlayerState aState)
-{
-	animations[aState]->update();
-}
-
 void PlayerView::render(int aState, int pos_x, int pos_y)
 {
+	if(lastState == aState)
+	{
+		if(hasToUpdateCount == 4)
+		{
+			animations[aState]->update();
+			hasToUpdateCount = 0;
+		}
+		else
+		{
+			hasToUpdateCount++;
+		}
+	}
+	else
+	{
+		hasToUpdateCount = 0;
+	}
+
 	animations[aState]->render(pos_x, pos_y);
+	lastState = aState;
 }
 

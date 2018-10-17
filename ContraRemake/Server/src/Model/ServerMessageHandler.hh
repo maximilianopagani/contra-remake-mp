@@ -19,7 +19,6 @@ class ServerMessageHandler
 		virtual ~ServerMessageHandler();
 
 		void sendToAllClients(MessageServer* message);
-		void redirectRecievedMessage(MessageServer* message);
 
 	private:
 

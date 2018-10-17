@@ -21,7 +21,7 @@ class Bullet
 
 		void updatePos();
 		bool outOfLimits();
-		void sendToDraw();
+		void render();
 
 	private:
 

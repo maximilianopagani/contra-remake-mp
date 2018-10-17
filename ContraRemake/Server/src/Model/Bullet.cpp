@@ -36,7 +36,7 @@ bool Bullet::outOfLimits()
 		return false;
 }
 
-void Bullet::sendToDraw()
+void Bullet::render()
 {
-	serverMessageHandler->sendToAllClients(new MessageServer(BULLET,RENDER, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY() ));
+	serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 }

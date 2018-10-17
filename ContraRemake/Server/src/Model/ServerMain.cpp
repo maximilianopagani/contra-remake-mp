@@ -91,16 +91,14 @@ int ServerMain(int argc, char* argv[])
 	cout<<"ServerMain: Se alcanzó la cantidad de jugadores conectados necesaria. Comienza el juego."<<endl;
 
 	//============= MANEJO DEL FRAMERATE =============
-	const int FPS = 1;
+	const int FPS = 35;
 	const int frameDelay = 1000 / FPS ;
 	Uint32 timeAtIterationStart;
 	int iterationTime;
 	//================================================
 
-	//----------------------------------------------------------------------
-
-		synergy->init();
-		cout<<"ServerMain: Juego Inicializado."<<endl;
+	synergy->init();
+	cout<<"ServerMain: Juego Inicializado."<<endl;
 
 	while(synergy->state())
 	{

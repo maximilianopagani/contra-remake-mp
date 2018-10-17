@@ -13,8 +13,6 @@
 #include "../Utils/Logger.hh"
 #include "../Utils/ICollisional.hh"
 #include "Bullet.hh"
-#include <list>
-
 #include "../Utils/PlayerStateHandlerServer.hh"
 #include "ServerMessageHandler.hh"
 
@@ -55,7 +53,8 @@ class Player : public ICollisional
 		void fallingDownStop(){falling = false ;}
 		void fallingDown(){falling = true ;}
 
-		void handleKeys(const Uint8* _currentKeyStates);
+		void handleKeys(const Uint8* playerKeyStates);
+		bool alreadyProcessedKeys() { return processedKeys; }
 
 	private:
 
@@ -88,7 +87,19 @@ class Player : public ICollisional
 		CameraLogic* cameraLogic;
 		ServerMessageHandler* serverMessageHandler;
 
-		const Uint8* currentKeyStates = NULL; // NO liberar/delete, es un puntero a un array interno de SDL
+		enum PlayerKeys {
+			KEYCODE_UP,
+			KEYCODE_DOWN,
+			KEYCODE_RIGHT,
+			KEYCODE_LEFT,
+			KEYCODE_SPACE,
+			KEYCODE_LCTRL,
+			KEYCODE_N,
+		};
+
+		bool processedKeys = false;
+
+		//Uint8 playerKeyStates[7] = {0,0,0,0,0,0,0};
 };
 
 #endif /* PLAYER_HH_ */

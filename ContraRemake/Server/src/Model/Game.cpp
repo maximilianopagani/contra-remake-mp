@@ -1,6 +1,5 @@
 
 #include "Game.hh"
-#include "Platform.hh"
 
 Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players,GameParser* _gameParser)
 {
@@ -23,26 +22,9 @@ Game::~Game()
 void Game::init()
 {
 	enEjecucion = true;
-
-    // ES A MANERA DE PRUEBA INICIAL
-	//GameParser* gameParser = new GameParser();
-	//if (gameParser->loadConfiguration()) {
-	//	loadDataParserModel(gameParser);
-	//}
-	//if (gameParser) {delete gameParser;}
-	// FINAL DE PRUEBA INICIAL
-
     currentLevel = LEVEL1;
 
-	//----------------------------------------------------------------------
-	//En la creacion de level envio mensajes para LevelVIew
-    //level = new Level(gameParser, cameraLogic, LEVEL1);
-
-    //gameView->setLimitXY(level->getLevelWidth(), level->getLevelHeight());
-
-    //----------------------------------------------------------------------
-    //En la creacion de jugador no envio nada a vista
-    level = new Level(cameraLogic,currentLevel,serverMessageHandler,gameParser);
+    level = new Level(cameraLogic, currentLevel, serverMessageHandler, gameParser);
     player = new Player(cameraLogic, serverMessageHandler);
 }
 
@@ -56,29 +38,54 @@ void Game::handleEvents()
 	{
 		message = game_recv_msgs_queue.front();
 		game_recv_msgs_queue.pop();
-		char msg[256];
-		message->getContent(msg);
-		std::cout<<"Game: Leo las ultimas novedades de mensajes arribados: "<<msg<<std::endl;
-		// PROCESAR EVENTOS
+		this->processMessage(message); // PROCESAR EVENTOS
 		delete message;
 	}
-	//----------------------------------------------------------------------
-	//Aca recibe una lista de teclas las cuales procesa
+}
 
+void Game::processMessage(MessageServer* message)
+{
+	int MSG_HEADER_1, MSG_HEADER_2;
+	char param1[32]; char param2[32]; char param3[32]; char param4[32];
+	char msg[256];
 
-	/*SDL_Event event;
+	message->getContent(msg);
+	std::cout<<"Game: handleEvents() - Procesando mensaje: "<<msg<<std::endl;
 
-	while(SDL_PollEvent(&event)){
+	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
-		if(event.type == SDL_QUIT){
-			enEjecucion = false ;
-		}
-		else if(event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_n){
-			this->nextLevel();
+	switch(MSG_HEADER_1)
+	{
+		case INPUT:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case KEYS:
+				{
+					// IMPORTANTE SOLO PROCESAR UN MENSAJE DE TECLAS POR JUGADOR POR CICLO. SI POR CUALQUIER CAUSA, LLEGARA A DESENCOLAR MAS DE UN MENSAJE DE TECLAS PARA
+					// UN MISMO PLAYER TENGO QUE PROCESAR SOLO UNO Y DESCARTAR EL RESTO
+
+					if(!player->alreadyProcessedKeys()) // cuando implementemos lista de jugadores o ids de jugadores, esto bajaría hasta el param1 y sabriamos la ID del pj que es
+					{
+						Uint8 player_keys[7];
+						player_keys[0] = param1[0] - '0';
+						player_keys[1] = param1[1] - '0';
+						player_keys[2] = param1[2] - '0';
+						player_keys[3] = param1[3] - '0';
+						player_keys[4] = param1[4] - '0';
+						player_keys[5] = param1[5] - '0';
+						player_keys[6] = param1[6] - '0'; // tecla corresondiente a la N, avanzar nivel. Esto quizas se debería mandar en un mensaje dedicado desde cliente?
+
+						player->handleKeys(player_keys);
+					}
+
+					break;
+				}
+			}
+
+			break;
 		}
 	}
-
-	player->handleKeys(SDL_GetKeyboardState(NULL));*/
 }
 
 void Game::restartGame()
@@ -141,17 +148,17 @@ void Game::update()
 	//----------------------------------------------------------------------
 	//Manejo de Colisiones con las plataformas
 
-			list<Platform*>* platforms = level->getPlataformList();
-			list<Platform*>::iterator platformsIterator;
+	list<Platform*>* platforms = level->getPlataformList();
+	list<Platform*>::iterator platformsIterator;
 
-			for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
+	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
 
-				if(CollisionHelper::stands(player, *platformsIterator)){
-					player->fallingDownStop();
-					break;
-				}
-				else player->fallingDown();
-			}
+		if(CollisionHelper::stands(player, *platformsIterator)){
+			player->fallingDownStop();
+			break;
+		}
+		else player->fallingDown();
+	}
 
 	//----------------------------------------------------------------------
 	//Logica de reUbicar al personaje despues de caer

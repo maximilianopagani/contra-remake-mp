@@ -72,7 +72,7 @@ int ClientMain()
 
 	//CICLO DEL JUEGO
 
-	const int FPS = 1;
+	const int FPS = 35;
 	const int frameDelay = 1000 / FPS ;
 	Uint32 timeAtIterationStart;
 	int iterationTime;
@@ -101,6 +101,7 @@ int ClientMain()
 
 		sdl_key_states = SDL_GetKeyboardState(NULL);
 		sdl_key_string = (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_N]));
+		// VER SI MANDAR LA TECLA DE NEXTLEVEL EN MENSAJE APARTE. O SI MANDAR TAMBIEN (EN  MENSAJE APARTE O MISMO STRING) EL EVENTO DE SDL_QUIT
 		if(sdl_key_string != "0000000")
 		{
 			client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));

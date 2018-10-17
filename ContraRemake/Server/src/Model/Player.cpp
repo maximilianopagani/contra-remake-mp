@@ -16,6 +16,7 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	pos_y = 200;
 	maxDistanceJump = 150;
 	falling = true;
+	processedKeys = false;
 
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
@@ -33,67 +34,45 @@ Player::~Player()
 
 void Player::render()
 {
-	//----------------------------------------------------------------------
-	//Mandar Mensaje para dibujar cuando camina
-
-	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN
-		|| state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN){
-
-		timeAtIterationStart++; // esto se podria dejar a la view del cliente
-
-		if(timeAtIterationStart > 3){
-			//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
-			timeAtIterationStart =0;
-		}
-	}
-
-	//----------------------------------------------------------------------
-	//Mandar Mensaje para dibujar jugador
-
 	serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, RENDER, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 
-	//----------------------------------------------------------------------
-	//Mandar Mensaje para dibujar las balas
-
-	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();){
-		(*bulletsIterator)->sendToDraw();
+	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
+	{
+		(*bulletsIterator)->render();
 		++bulletsIterator;
 	}
 }
 
-void Player::handleKeys(const Uint8* _currentKeyStates)
+void Player::handleKeys(const Uint8* playerKeyStates)
 {
-	/*LOGGER_DEBUG("Comienzo handle en state : " + PlayerStateHandler::stateToString(state) );
-	currentKeyStates = _currentKeyStates;
-
 	// bug de ambas direcciones
-	if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT])
+	if(playerKeyStates[KEYCODE_RIGHT] && playerKeyStates[KEYCODE_LEFT])
 	{
 		LOGGER_DEBUG("IZQ Y DER");
 		if(state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
 			this->pointDefault(true);
 	}
 	// caminar derecha
-	else if(currentKeyStates[SDL_SCANCODE_RIGHT])
+	else if(playerKeyStates[KEYCODE_RIGHT])
 	{
 		LOGGER_DEBUG("El jugador presiona DERECHA");
 		this->walkRight();
-		if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
+		if(playerKeyStates[KEYCODE_DOWN] && !playerKeyStates[KEYCODE_UP])
 			this->pointDown(false);
 	}
 	// caminar izq
-	else if(currentKeyStates[SDL_SCANCODE_LEFT])
+	else if(playerKeyStates[KEYCODE_LEFT])
 	{
 		LOGGER_DEBUG("El jugador presiona IZQUIERDA");
 		this->walkLeft();
-		if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
+		if(playerKeyStates[KEYCODE_DOWN] && !playerKeyStates[KEYCODE_UP])
 			this->pointDown(false);
 	}
-	else if(currentKeyStates[SDL_SCANCODE_DOWN] && !currentKeyStates[SDL_SCANCODE_UP])
+	else if(playerKeyStates[KEYCODE_DOWN] && !playerKeyStates[KEYCODE_UP])
 	{
 		LOGGER_DEBUG("El jugador presiona ABAJO y NO ARRIBA");
 		//caer de plataforma solo si se tocan ambas teclas a la vez
-		if(currentKeyStates[SDL_SCANCODE_SPACE] && !currentKeyStates[SDL_SCANCODE_LCTRL])
+		if(playerKeyStates[KEYCODE_SPACE] && !playerKeyStates[KEYCODE_LCTRL])
 			this->goDown();
 		//cuerpo a tierra -- bug arriba+abajo
 		else
@@ -106,49 +85,51 @@ void Player::handleKeys(const Uint8* _currentKeyStates)
 	}
 
 	//Salto
-	if(currentKeyStates[SDL_SCANCODE_SPACE])
+	if(playerKeyStates[KEYCODE_SPACE])
 	{
 		LOGGER_DEBUG("El jugador SALTA");
 		this->jump();
 	}
 
 	// apunta arriba
-	if(currentKeyStates[SDL_SCANCODE_UP])
+	if(playerKeyStates[KEYCODE_UP])
 	{
-		if(currentKeyStates[SDL_SCANCODE_DOWN])
+		if(playerKeyStates[KEYCODE_DOWN])
 		{
 			this->pointDefault(false);
 			LOGGER_DEBUG("El jugador presiona ARRIBA y ABAJO");
 		}
-		else if(currentKeyStates[SDL_SCANCODE_RIGHT] && currentKeyStates[SDL_SCANCODE_LEFT] && state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP) // para bug de ambas direcciones
+		else if(playerKeyStates[KEYCODE_RIGHT] && playerKeyStates[KEYCODE_LEFT] && state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP) // para bug de ambas direcciones
 			this->pointUP(true);
-		else if(currentKeyStates[SDL_SCANCODE_RIGHT] || currentKeyStates[SDL_SCANCODE_LEFT] || state == STATE_JUMPINGDOWN || state == STATE_JUMPINGUP)
+		else if(playerKeyStates[KEYCODE_RIGHT] || playerKeyStates[KEYCODE_LEFT] || state == STATE_JUMPINGDOWN || state == STATE_JUMPINGUP)
 			this->pointUP(false);
 		else if (state != STATE_JUMPINGDOWN && state != STATE_JUMPINGUP)
 			this->pointUP(true);
 	}
-	else if(!currentKeyStates[SDL_SCANCODE_DOWN])
+	else if(!playerKeyStates[KEYCODE_DOWN])
 	{
 		this->pointDefault(false);
 	}
 
 	// dispara, es independiente a lo demas
-	if(currentKeyStates[SDL_SCANCODE_LCTRL])
+	if(playerKeyStates[KEYCODE_LCTRL])
 	{
-		LOGGER_DEBUG("El jugador DISPARA");
+		//LOGGER_DEBUG("El jugador DISPARA");
 		this->shoot();
 	}
-*/
+
+	processedKeys = true;
 }
 
 void Player::update()
 {
-	if(falling) pos_y += 5;
+	if(!processedKeys)
+	{
+		this->normalState();
+	}
 
-	//-----------------------------------------------------
-	//Sacarlo de aca es solo para probar como scrolea y dispara
-	pos_x+=5 ;
-	this->shoot();
+	if(falling)
+		pos_y += 5;
 
 	//------------------------------------------------------
 	//Salto
@@ -194,6 +175,8 @@ void Player::update()
 	        ++bulletsIterator;
 	    }
 	}
+
+	processedKeys = false;
 }
 
 void Player::jump()
@@ -299,16 +282,22 @@ void Player::pointDown(bool cond)
 void Player::pointDefault(bool cond)
 {
 	if(direction == DIRECTION_BACK)
+	{
 		aimingAt = AIM_BACK;
+
+		if(cond)
+		{
+			state = STATE_POINTBACK;
+		}
+	}
 	else
+	{
 		aimingAt = AIM_FRONT;
 
-	if(cond)
-	{
-		if(direction == DIRECTION_BACK)
-			state = STATE_POINTBACK;
-		else
+		if(cond)
+		{
 			state = STATE_POINTFRONT;
+		}
 	}
 }
 
@@ -333,7 +322,7 @@ void Player::normalState()
 {
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN)
 	{
-		state= STATE_STANDING;
+		this->pointDefault(true);
 	}
 }
 
@@ -397,6 +386,7 @@ void Player::spawn(int x, int y)
 	direction = DIRECTION_FRONT;
 	maxDistanceJump = 150;
 	falling = true;
+	processedKeys = false;
 	lastShotTime = 0;
 	bullets.clear();
 }
