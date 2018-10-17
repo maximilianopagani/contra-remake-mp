@@ -123,11 +123,6 @@ void Player::handleKeys(const Uint8* playerKeyStates)
 
 void Player::update()
 {
-	if(!processedKeys)
-	{
-		this->normalState();
-	}
-
 	if(falling)
 		pos_y += 5;
 
@@ -322,7 +317,7 @@ void Player::normalState()
 {
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN)
 	{
-		this->pointDefault(true);
+		state = STATE_STANDING;
 	}
 }
 

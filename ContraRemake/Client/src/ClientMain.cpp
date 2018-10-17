@@ -81,6 +81,7 @@ int ClientMain()
 
 	const Uint8* sdl_key_states;
 	std::string sdl_key_string;
+	bool sendNoKeysMessage = true;
 
 	SDL_Event event;
 
@@ -105,6 +106,12 @@ int ClientMain()
 		if(sdl_key_string != "0000000")
 		{
 			client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));
+			sendNoKeysMessage = true;
+		}
+		else if(sendNoKeysMessage)
+		{
+			client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));
+			sendNoKeysMessage = false;
 		}
 
 		std::cout<<"ClientMain: Fin de procesamiento de eventos y teclas."<<std::endl;

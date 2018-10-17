@@ -68,6 +68,7 @@ void Game::processMessage(MessageServer* message)
 					if(!player->alreadyProcessedKeys()) // cuando implementemos lista de jugadores o ids de jugadores, esto bajaría hasta el param1 y sabriamos la ID del pj que es
 					{
 						Uint8 player_keys[7];
+
 						player_keys[0] = param1[0] - '0';
 						player_keys[1] = param1[1] - '0';
 						player_keys[2] = param1[2] - '0';

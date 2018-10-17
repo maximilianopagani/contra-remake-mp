@@ -97,9 +97,7 @@ class Player : public ICollisional
 			KEYCODE_N,
 		};
 
-		bool processedKeys = false;
-
-		//Uint8 playerKeyStates[7] = {0,0,0,0,0,0,0};
+		bool processedKeys = false; // Esto es para evitar procesar 2 mensajes que hayan llegado muy juntos en el mismo frame, y hacer que por ejemplo, el pj avanze el doble.
 };
 
 #endif /* PLAYER_HH_ */
