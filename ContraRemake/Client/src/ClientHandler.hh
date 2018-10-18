@@ -16,6 +16,8 @@
 #include <string>
 #include <queue>
 #include <thread>
+#include <mutex>
+#include <atomic>
 
 class ClientMessageHandler;
 
@@ -47,14 +49,17 @@ class ClientHandler
 
 		ClientMessageHandler* clientMessageHandler;
 
-		pthread_t receive_messages_thread;
-		pthread_t process_messages_thread;
-		pthread_mutex_t client_mutex;
+		// Threads con POSIX
+		//pthread_t receive_messages_thread;
+		//pthread_t process_messages_thread;
+		//pthread_mutex_t client_mutex;
+		//bool running = true;
 
 		std::queue<Message*> received_messages_queue;
 
-		bool running;
-		//std::atomic<bool> stop_flag;
+		// Threads con std:threads, std::mutex y std::atomic
+		std::mutex client_mutex;
+		std::atomic<bool> continue_flag {true};
 };
 
 #endif /* CLIENT_SRC_CLIENTHANDLER_HH_ */

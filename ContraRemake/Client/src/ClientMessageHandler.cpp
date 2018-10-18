@@ -37,7 +37,7 @@ void ClientMessageHandler::processMessage(Message* message)
 	char msg[256];
 	message->getContent(msg);
 
-	std::cout<<"ClientMessageHandler: Procesando mensaje: "<<msg<<std::endl;
+	std::cout<<"ClientMessageHandler: Procesando mensaje recibido del servidor: "<<msg<<std::endl;
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
@@ -152,11 +152,11 @@ void ClientMessageHandler::processMessage(Message* message)
 							// avisar al server?
 						}
 					}
+
 					sdl_key_states = SDL_GetKeyboardState(NULL);
 					sdl_key_string = (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_N]));
 					// VER SI MANDAR LA TECLA DE NEXTLEVEL EN MENSAJE APARTE. O SI MANDAR TAMBIEN (EN  MENSAJE APARTE O MISMO STRING) EL EVENTO DE SDL_QUIT
 					client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));
-
 					break;
 				}
 			}

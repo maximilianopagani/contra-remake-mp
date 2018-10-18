@@ -13,15 +13,8 @@ ClientHandler::ClientHandler(ClientMessageHandler* _clientMessageHandler) // @su
 	server_port = 0;
 	server_ip = "";
 	clientMessageHandler = _clientMessageHandler;
-	running = true;
 }
-
-void ClientHandler::quit()
-{
-	pthread_mutex_lock(&client_mutex);
-	running = false;
-	pthread_mutex_unlock(&client_mutex);
-}
+ClientHandler::~ClientHandler() {}
 
 bool ClientHandler::initSocket()
 {
@@ -63,6 +56,17 @@ bool ClientHandler::connectToServer(std::string _server_ip, int _server_port)
 	return true;
 }
 
+//============================== IMPLEMENTACION CON THREADS POSIX =================================
+
+/*
+
+void ClientHandler::quit()
+{
+	pthread_mutex_lock(&client_mutex);
+	running = false;
+	pthread_mutex_unlock(&client_mutex);
+}
+
 void ClientHandler::run()
 {
 	client_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -73,13 +77,6 @@ void ClientHandler::run()
 
 	pthread_join(receive_messages_thread, NULL);
 	pthread_join(process_messages_thread, NULL);
-}
-
-void* ClientHandler::recieveMessagesThread(void* client)
-{
-	std::cout<<"ClientHandler: Iniciando recieveMessagesThread."<<std::endl;
-	((ClientHandler*)client)->recieveMessages();
-	return nullptr;
 }
 
 void ClientHandler::recieveMessages()
@@ -106,13 +103,6 @@ void ClientHandler::recieveMessages()
 	}
 }
 
-void* ClientHandler::processMessagesThread(void* client)
-{
-	std::cout<<"ClientHandler: Iniciando processMessagesThread."<<std::endl;
-	((ClientHandler*)client)->processMessages();
-	return nullptr;
-}
-
 void ClientHandler::processMessages()
 {
 	Message* message = NULL;
@@ -131,6 +121,21 @@ void ClientHandler::processMessages()
 		pthread_mutex_unlock(&client_mutex);
 	}
 }
+*/
+
+void* ClientHandler::recieveMessagesThread(void* client)
+{
+	std::cout<<"ClientHandler: Iniciando recieveMessagesThread."<<std::endl;
+	((ClientHandler*)client)->recieveMessages();
+	return nullptr;
+}
+
+void* ClientHandler::processMessagesThread(void* client)
+{
+	std::cout<<"ClientHandler: Iniciando processMessagesThread."<<std::endl;
+	((ClientHandler*)client)->processMessages();
+	return nullptr;
+}
 
 void ClientHandler::sendToServer(Message* message)
 {
@@ -141,4 +146,57 @@ void ClientHandler::sendToServer(Message* message)
 	delete message;
 }
 
-ClientHandler::~ClientHandler() {}
+//========== IMPLEMENTACION CON std:threads, std::mutex y std::atomic =============
+
+void ClientHandler::quit()
+{
+	continue_flag.store(false);
+}
+
+void ClientHandler::run()
+{
+	std::thread receive_thread (ClientHandler::recieveMessagesThread, this);
+	std::thread process_thread (ClientHandler::processMessagesThread, this);
+
+	receive_thread.join();
+	process_thread.join();
+}
+
+void ClientHandler::recieveMessages()
+{
+	char buffer[256];
+	int bytes_received = 0;
+
+	while(continue_flag.load())
+	{
+		bytes_received = recv(network_socket, buffer, 256, 0); // LLAMADA BLOQUEANTE
+
+		if(bytes_received > 0)
+		{
+	        client_mutex.lock();
+			received_messages_queue.push(new Message(buffer)); // Encolo mensajes a la cola de mensajes
+			client_mutex.unlock();
+		}
+		else if(bytes_received == -1)
+		{
+			std::cout<<"ClientHandler: Falla en recepción de mensaje."<<std::endl;
+		}
+	}
+}
+
+void ClientHandler::processMessages()
+{
+	Message* message = NULL;
+
+	while(continue_flag.load())
+	{
+		client_mutex.lock();
+		while(!received_messages_queue.empty())
+		{
+			message = received_messages_queue.front();
+			received_messages_queue.pop();
+			clientMessageHandler->processMessage(message);
+		}
+		client_mutex.unlock();
+	}
+}

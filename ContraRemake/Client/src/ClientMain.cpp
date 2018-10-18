@@ -15,8 +15,10 @@
 #include "ClientHandler.hh"
 #include "ClientMessageHandler.hh"
 
-using namespace std;
+#define CONNECT_TO_IP	"127.0.0.1"
+#define CONNECT_TO_PORT	54000
 
+using namespace std;
 
 int ClientMain()
 {
@@ -71,7 +73,7 @@ int ClientMain()
 
 	cout<<"ClientMain: Socket del cliente inicializado."<<endl;
 
-	if(!client->connectToServer("127.0.0.1", 54000))
+	if(!client->connectToServer(CONNECT_TO_IP, CONNECT_TO_PORT))
 	{
 		std::cout<<"ClientMain: Falla al intentar establecer la conexión."<<std::endl;
 		return 0;
