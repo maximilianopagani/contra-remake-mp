@@ -16,6 +16,9 @@
 #include <string>
 #include <queue>
 #include <thread>
+
+class ClientMessageHandler;
+
 #include "ClientMessageHandler.hh"
 
 class ClientHandler
@@ -28,12 +31,16 @@ class ClientHandler
 		bool initSocket();
 		bool connectToServer(std::string _server_ip, int _server_port);
 		void sendToServer(Message* message);
+		void run();
+		void quit();
 
 		void recieveMessages();
 		static void* recieveMessagesThread(void* client);
+		pthread_t* getReceiveMessagesThread() { return &receive_messages_thread; }
 
 		void processMessages();
 		static void* processMessagesThread(void* client);
+		pthread_t* getProcessMessagesThread() { return &process_messages_thread; }
 
 	private:
 
@@ -44,9 +51,12 @@ class ClientHandler
 
 		pthread_t receive_messages_thread;
 		pthread_t process_messages_thread;
-		pthread_mutex_t mutex;
+		pthread_mutex_t client_mutex;
 
 		std::queue<Message*> received_messages_queue;
+
+		volatile bool running;
+		//std::atomic<bool> stop_flag;
 };
 
 #endif /* CLIENT_SRC_CLIENTHANDLER_HH_ */

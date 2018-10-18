@@ -13,6 +13,14 @@ ClientHandler::ClientHandler(ClientMessageHandler* _clientMessageHandler) // @su
 	server_port = 0;
 	server_ip = "";
 	clientMessageHandler = _clientMessageHandler;
+	running = true;
+}
+
+void ClientHandler::quit()
+{
+	pthread_mutex_lock(&client_mutex);
+	running = false;
+	pthread_mutex_unlock(&client_mutex);
 }
 
 bool ClientHandler::initSocket()
@@ -52,13 +60,19 @@ bool ClientHandler::connectToServer(std::string _server_ip, int _server_port)
 	}
 
 	std::cout<<"ClientHandler: Conexion con el servidor exitosa."<<std::endl;
+	return true;
+}
 
-	pthread_mutex_init(&mutex, NULL);
+void ClientHandler::run()
+{
+	client_mutex = PTHREAD_MUTEX_INITIALIZER;
+	pthread_mutex_init(&client_mutex, NULL);
 
 	pthread_create(&receive_messages_thread, NULL, &ClientHandler::recieveMessagesThread, this);
 	pthread_create(&process_messages_thread, NULL, &ClientHandler::processMessagesThread, this);
 
-	return true;
+	pthread_join(receive_messages_thread, NULL);
+	pthread_join(process_messages_thread, NULL);
 }
 
 void* ClientHandler::recieveMessagesThread(void* client)
@@ -73,17 +87,17 @@ void ClientHandler::recieveMessages()
 	char buffer[256];
 	int bytes_received = 0;
 
-	while(true)
+	pthread_mutex_lock(&client_mutex);
+	while(running)
 	{
+		pthread_mutex_unlock(&client_mutex);
 		bytes_received = recv(network_socket, buffer, 256, 0); // LLAMADA BLOQUEANTE
 
 		if(bytes_received > 0)
 		{
-	        pthread_mutex_lock(&mutex);
-
+	        pthread_mutex_lock(&client_mutex);
 			received_messages_queue.push(new Message(buffer)); // Encolo mensajes a la cola de mensajes
-
-			pthread_mutex_unlock(&mutex);
+			pthread_mutex_unlock(&client_mutex);
 		}
 		else if(bytes_received == -1)
 		{
@@ -103,18 +117,18 @@ void ClientHandler::processMessages()
 {
 	Message* message = NULL;
 
-	while(true)
+	pthread_mutex_lock(&client_mutex);
+	while(running)
 	{
-		pthread_mutex_lock(&mutex);
-
+		//pthread_mutex_unlock(&client_mutex);
+		//pthread_mutex_lock(&client_mutex);
 		while(!received_messages_queue.empty())
 		{
 			message = received_messages_queue.front();
 			received_messages_queue.pop();
-			clientMessageHandler->redirectRecievedMessage(message);
+			clientMessageHandler->processMessage(message);
 		}
-
-		pthread_mutex_unlock(&mutex);
+		pthread_mutex_unlock(&client_mutex);
 	}
 }
 

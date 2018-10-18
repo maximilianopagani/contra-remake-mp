@@ -41,6 +41,8 @@ void Game::handleEvents()
 		this->processMessage(message); // PROCESAR EVENTOS
 		delete message;
 	}
+
+	serverMessageHandler->sendToAllClients(new MessageServer(REQUEST, KEYS, 0));
 }
 
 void Game::processMessage(MessageServer* message)

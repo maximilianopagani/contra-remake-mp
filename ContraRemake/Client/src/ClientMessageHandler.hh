@@ -19,15 +19,23 @@
 #include "View/BulletView.hh"
 #include "View/EnemyView.hh"
 
+class ClientHandler;
+
+#include "ClientHandler.hh"
+
 class ClientMessageHandler
 {
 	public:
 
 		ClientMessageHandler(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView);
 		virtual ~ClientMessageHandler();
-		void redirectRecievedMessage(Message* message);
+
+		bool setClientHandler(ClientHandler* _client);
+		void processMessage(Message* message);
 
 	private:
+
+		ClientHandler* client = NULL;
 
 		GameView* gameView;
 		PlayerView* playerView;

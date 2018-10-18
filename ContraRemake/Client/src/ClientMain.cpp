@@ -53,6 +53,15 @@ int ClientMain()
 
 	cout<<"ClientMain: Cliente creado."<<endl;
 
+	if(!clientMessageHandler->setClientHandler(client))
+	{
+		std::cout<<"ClientMain: Falla al asociar ClientHandler con ClientMessageHandler."<<std::endl;
+		delete client;
+		delete clientMessageHandler;
+	}
+
+	std::cout<<"ClientMain: ClientHandler asociado con ClientMessageHandler."<<std::endl;
+
 	if(!client->initSocket())
 	{
 		std::cout<<"ClientMain: Falla al inicializar el socket del cliente."<<std::endl;
@@ -68,69 +77,14 @@ int ClientMain()
 		return 0;
 	}
 
-	std::cout<<"ClientMain: Conexión con el servidor establecida."<<std::endl;
+	std::cout<<"ClientMain: Conexión con el servidor establecida. Se inicia ejecución del cliente."<<std::endl;
 
-	//CICLO DEL JUEGO
+	client->run();
 
-	const int FPS = 35;
-	const int frameDelay = 1000 / FPS ;
-	Uint32 timeAtIterationStart;
-	int iterationTime;
+	cout<<"ClientMain: Cliente cerrado. Se cierra la vista del cliente"<<endl;
 
-	bool en_ejecucion = true;
-
-	const Uint8* sdl_key_states;
-	std::string sdl_key_string;
-	bool sendNoKeysMessage = true;
-
-	SDL_Event event;
-
-	while(en_ejecucion)
-	{
-		timeAtIterationStart = gameView->getTicks();
-
-		//===================== EVENTOS =======================
-		std::cout<<"ClientMain: Inicio de procesamiento de eventos y teclas."<<std::endl;
-
-		while(SDL_PollEvent(&event))
-		{
-			if(event.type == SDL_QUIT)
-			{
-				en_ejecucion = false;
-			}
-		}
-
-		sdl_key_states = SDL_GetKeyboardState(NULL);
-		sdl_key_string = (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_N]));
-		// VER SI MANDAR LA TECLA DE NEXTLEVEL EN MENSAJE APARTE. O SI MANDAR TAMBIEN (EN  MENSAJE APARTE O MISMO STRING) EL EVENTO DE SDL_QUIT
-		if(sdl_key_string != "0000000")
-		{
-			client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));
-			sendNoKeysMessage = true;
-		}
-		else if(sendNoKeysMessage)
-		{
-			client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));
-			sendNoKeysMessage = false;
-		}
-
-		std::cout<<"ClientMain: Fin de procesamiento de eventos y teclas."<<std::endl;
-
-		//=====================================================
-
-		//Manejo del framerate
-		iterationTime = gameView->getTicks() - timeAtIterationStart;
-
-		if(frameDelay > iterationTime) // Si lo que tardó la iteracion es menor a lo que debe tardar un ciclo para mostrarse a la tasa de frames deseada
-		{
-			gameView->delay(frameDelay - iterationTime);
-		}
-	}
-
-	//----------------------------------------------------------------------
-    //Destruyo todo lo relacionado a SDL2
-	cout<<"Se cerro la vista del cliente"<<endl;
-
+	delete clientMessageHandler;
+	delete client;
 	gameView->destroy();
 
 	return 0;
