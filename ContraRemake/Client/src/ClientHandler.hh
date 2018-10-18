@@ -36,11 +36,9 @@ class ClientHandler
 
 		void recieveMessages();
 		static void* recieveMessagesThread(void* client);
-		pthread_t* getReceiveMessagesThread() { return &receive_messages_thread; }
 
 		void processMessages();
 		static void* processMessagesThread(void* client);
-		pthread_t* getProcessMessagesThread() { return &process_messages_thread; }
 
 	private:
 
@@ -55,7 +53,7 @@ class ClientHandler
 
 		std::queue<Message*> received_messages_queue;
 
-		volatile bool running;
+		bool running;
 		//std::atomic<bool> stop_flag;
 };
 
