@@ -1,7 +1,7 @@
 
 #include "Game.hh"
 
-Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players, GameParser* _gameParser)
+Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players, GameParser* _gameParser, int _FPS)
 {
 	enEjecucion = false;
 	gameParser = _gameParser;
@@ -11,6 +11,7 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	serverMessageHandler = _serverMessageHandler;
 	server = _server;
 	max_players = _max_players;
+	FPS = _FPS;
 }
 
 Game::~Game()
@@ -29,6 +30,43 @@ void Game::init()
     {
     	players.push_back(new Player(cameraLogic, serverMessageHandler));
     }
+}
+
+void Game::runGame()
+{
+	//============= MANEJO DEL FRAMERATE =============
+	const int frameDelay = 1000 / FPS ;
+	Uint32 timeAtIterationStart;
+	int iterationTime;
+	//================================================
+
+	while(enEjecucion)
+	{
+		//============= MANEJO DEL FRAMERATE =============
+		timeAtIterationStart = Utils::getTicks();
+		//================================================
+
+		//----------------------------------------------------------------------
+		//Aca tengo que poner algo que reciba mensaje y los pushee
+		this->handleEvents();
+
+		//----------------------------------------------------------------------
+		//Actualizo todo lo que vaya pasando acorde a los eventos
+		this->update();
+
+		//----------------------------------------------------------------------
+		//Dibujo toda la escena
+		this->render();
+
+		//============= MANEJO DEL FRAMERATE =============
+		iterationTime = Utils::getTicks() - timeAtIterationStart;
+
+		if(frameDelay > iterationTime) // Si lo que tardó la iteracion es menor a lo que debe tardar un ciclo para mostrarse a la tasa de frames deseada
+		{
+			Utils::setDelay(frameDelay - iterationTime);
+		}
+		//================================================
+	}
 }
 
 void Game::handleEvents()
@@ -67,7 +105,7 @@ void Game::processMessage(MessageServer* message)
 			{
 				case KEYS:
 				{
-					int player_id = atoi(param1); // chequear si es una posicion válida para acceder al vector de players?
+					int player_id = 0; // chequear si es una posicion válida para acceder al vector de players?
 
 					// IMPORTANTE SOLO PROCESAR UN MENSAJE DE TECLAS POR JUGADOR POR CICLO. SI POR CUALQUIER CAUSA, LLEGARA A DESENCOLAR MAS DE UN MENSAJE DE TECLAS PARA
 					// UN MISMO PLAYER TENGO QUE PROCESAR SOLO UNO Y DESCARTAR EL RESTO
@@ -78,13 +116,13 @@ void Game::processMessage(MessageServer* message)
 						{
 							Uint8 player_keys[7];
 
-							player_keys[0] = param2[0] - '0';
-							player_keys[1] = param2[1] - '0';
-							player_keys[2] = param2[2] - '0';
-							player_keys[3] = param2[3] - '0';
-							player_keys[4] = param2[4] - '0';
-							player_keys[5] = param2[5] - '0';
-							player_keys[6] = param2[6] - '0'; // tecla corresondiente a la N, avanzar nivel. Esto quizas se debería mandar en un mensaje dedicado desde cliente?
+							player_keys[0] = param1[0] - '0';
+							player_keys[1] = param1[1] - '0';
+							player_keys[2] = param1[2] - '0';
+							player_keys[3] = param1[3] - '0';
+							player_keys[4] = param1[4] - '0';
+							player_keys[5] = param1[5] - '0';
+							player_keys[6] = param1[6] - '0'; // tecla corresondiente a la N, avanzar nivel. Esto quizas se debería mandar en un mensaje dedicado desde cliente?
 
 							players.at(player_id)->handleKeys(player_keys);
 						}

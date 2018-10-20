@@ -149,14 +149,32 @@ void ClientMessageHandler::processMessage(Message* message)
 						if(event.type == SDL_QUIT)
 						{
 							client->quit();
-							// avisar al server?
+							//client->sendToServer(new Message(INFO, QUIT, 0));
 						}
 					}
 
 					sdl_key_states = SDL_GetKeyboardState(NULL);
 					sdl_key_string = (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_N]));
 					// VER SI MANDAR LA TECLA DE NEXTLEVEL EN MENSAJE APARTE. O SI MANDAR TAMBIEN (EN  MENSAJE APARTE O MISMO STRING) EL EVENTO DE SDL_QUIT
-					client->sendToServer(new Message(INPUT, KEYS, "0", sdl_key_string));
+					client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));
+					break;
+				}
+				case LOGIN:
+				{
+					client->sendToServer(new Message(INFO, LOGIN, "maxi", "maxi"));
+					break;
+				}
+			}
+			break;
+		}
+
+		case ERROR:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case LOGIN:
+				{
+					//client->quit();
 					break;
 				}
 			}

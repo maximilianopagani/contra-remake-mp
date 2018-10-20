@@ -160,6 +160,8 @@ void ClientHandler::run()
 
 	receive_thread.join();
 	process_thread.join();
+
+	//shutdown(network_socket, SHUT_RDWR);
 }
 
 void ClientHandler::recieveMessages()
@@ -180,6 +182,11 @@ void ClientHandler::recieveMessages()
 		else if(bytes_received == -1)
 		{
 			std::cout<<"ClientHandler: Falla en recepción de mensaje."<<std::endl;
+		}
+		else if(bytes_received == 0)
+		{
+			std::cout<<"ClientHandler: Hubo shutdown desde el server, cerrando cliente."<<std::endl;
+			this->quit();
 		}
 	}
 }

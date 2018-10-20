@@ -18,10 +18,11 @@ class Game
 {
     public:
 
-		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players, GameParser* gameParser);
+		Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players, GameParser* gameParser, int _FPS);
         virtual ~Game();
 
         void init();
+        void runGame();
         void handleEvents();
         void processMessage(MessageServer* message);
         void update();
@@ -35,11 +36,10 @@ class Game
         void nextLevel();
         void endGame();
 
-        bool state() { return enEjecucion; }
-
     private:
 
         bool enEjecucion;
+        int FPS;
 
         int currentLevel;
         int max_players;

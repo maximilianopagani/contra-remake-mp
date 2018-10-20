@@ -18,18 +18,23 @@ class Client
 {
 	public:
 
-		Client(int _socket, std::string _ip, int _port);
+		Client(int _socket, std::string _ip, int _port, std::string _username, std::string _password);
 		virtual ~Client();
 
 		int getSocket() { return socket; }
 		std::string getIp() { return ip; }
 		int getPort() { return port; }
+		std::string getUsername() { return username; }
+		std::string getPassword() { return password; }
 		pthread_t* getRecieveMessagesThread() { return &receive_messages_thread; }
 
 	private:
 
 		int socket, port;
 		std::string ip;
+
+		std::string username;
+		std::string password;
 
 		std::queue<MessageServer*> sending_messages; // Aca se irían encolando los mensajes que quearmos ir enviando al cliente.
 		// El asunto es que si a todos los clientes mando lo mismo, sería al pedo tener 4 colas iguales, quizas convenga una sola en Server,

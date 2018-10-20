@@ -15,7 +15,6 @@ enum MsgDestHeader {
 	ERROR,
 	INFO,
 	REQUEST,
-	LOGIN,
 	INPUT,
 	VIEW,
 	PLAYER,
@@ -27,11 +26,13 @@ enum MsgDestHeader {
 
 enum MsgCmdHeader {
 	NONE,
+	LOGIN,
 	KEYS,
 	RENDER,
 	LOAD,
 	CLEAR,
-	SHOW
+	SHOW,
+	GAMEFULL
 };
 
 class MessageServer

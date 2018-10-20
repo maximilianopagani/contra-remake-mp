@@ -72,47 +72,141 @@ void ServerHandler::acceptConnections()
 {
 	while(true)
 	{
-		if(connectedClients.size() < max_clients) // Todavía no llegué a la cantidad de jugadores seteados para esa partida
+
+		struct sockaddr_in client_address; // Estructura que me va a servir para guardar la informacion de la conexion entrante
+		socklen_t address_size = sizeof(client_address);
+
+		std::cout<<"ServerHandler: Invocando llamada bloqueante accept(). En espera de conexiones..."<<std::endl;
+
+		// LLAMADA BLOQUEANTE. NO avanza hasta que no recibe y acepta una nueva conexión. Si salió todo OK, me devuelve el archivo
+		// descriptivo de un NUEVO SOCKET creado exclusivamente para esa conexión (un integer). El socket original de escucha sigue escuchando, no se ve modificado.
+		int new_socket = accept(listening_socket, (struct sockaddr*) &client_address, &address_size);
+		// Guarda los datos de la conexion en la estructura client_address
+
+		if(new_socket != -1) // Si salió todo OK
 		{
-			struct sockaddr_in client_address; // Estructura que me va a servir para guardar la informacion de la conexion entrante
-			socklen_t address_size = sizeof(client_address);
-
-			std::cout<<"ServerHandler: Invocando llamada bloqueante accept(). En espera de conexiones..."<<std::endl;
-
-			// LLAMADA BLOQUEANTE. NO avanza hasta que no recibe y acepta una nueva conexión. Si salió todo OK, me devuelve el archivo
-			// descriptivo de un NUEVO SOCKET creado exclusivamente para esa conexión (un integer). El socket original de escucha sigue escuchando, no se ve modificado.
-			int new_socket = accept(listening_socket, (struct sockaddr*) &client_address, &address_size);
-			// Guarda los datos de la conexion en la estructura client_address
-
-			if(new_socket != -1) // Si salió todo OK
+			if(connectedClients.size() < max_clients) // Todavía no llegué a la cantidad de jugadores seteados para esa partida
 			{
 				// Creo nuevo cliente con los datos que obtuve de client_address. Es necesario hacer esas conversiones con las llamadas "inet_ntoa" y "n_tohs" ya que originalmente los datos
 				// vienen en el formato de red estándar (big endian) y en mi maquina los quiero en (little endian)
-				Client* new_client = new Client(new_socket, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port));
 
-				std::cout<<"ServerHandler: Conexión establecida con un nuevo cliente. IP: "<<new_client->getIp()<<" - PUERTO: "<<new_client->getPort()<<std::endl;
+				std::cout<<"ServerHandler: Conexión establecida con IP: "<<inet_ntoa(client_address.sin_addr)<<" - PUERTO: "<<ntohs(client_address.sin_port)<<std::endl;
 				// Mando un mensaje al cliente recien conectado
-				this->sendToClient(new_client, new MessageServer(INFO, NONE, "Te conectaste al servidor."));
+				this->sendToSocket(new_socket, new MessageServer(INFO, NONE, "Te conectaste al servidor."));
 
-				// Agrego el cliente a la lista de jugadores conectados
-				connectedClients.push_back(new_client);
+				this->sendToSocket(new_socket, new MessageServer(REQUEST, LOGIN, "Solicito datos de login."));
 
-				// CREO UN THREAD DEDICADO A ESCUCHAR MENSAJES DE ESE NUEVO CLIENTE (PORQUE RECV ES UNA LLAMADA BLOQUEANTE Y ME BLOQUEARIA TODO SI UN CLIENTE NO MANDA NADA)
-				struct thread_arg_struct args;
-				args.arg_server = this;
-				args.arg_client = new_client;
-				// Creo el thread para que se ejecute en la funcion indicada, y le paso los parametros, el server y el cliente.
-				pthread_create(new_client->getRecieveMessagesThread(), NULL, &ServerHandler::recieveMessagesFromClientThread, (void*) &args);
+				char msg[256];
+				if(this->receiveOneMessageFromSocket(new_socket, msg, sizeof(msg)))
+				{
+					std::cout<<"ServerHandler - Recibo mensaje del cliente: "<<msg<<std::endl;
 
-				// LOG DE EXITO
-				// MANDAR PANTALLA DE ESPERANDO JUGADORES O LO QUE SEA ANTES DE ENTRAR A LA OTRA LLAMADA BLOQUEANTE DE ACCEPT
+					std::string user;
+					std::string passw;
+
+					if(this->extractUserAndPasswFromMsg(new MessageServer(msg), user, passw))
+					{
+						std::cout<<"[ServerHandler] Extraigo User: "<<user<<" - Password: "<<passw<<std::endl;
+
+						if(this->validateUserAndPassw(user, passw)) // si chequeo validacion user y passw es correcto
+						{
+							if(!this->alreadyLogged(user, passw))
+							{
+								Client* new_client = new Client(new_socket, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port), user, passw);
+
+								// Agrego el cliente a la lista de jugadores conectados
+								connectedClients.push_back(new_client);
+
+								// CREO UN THREAD DEDICADO A ESCUCHAR MENSAJES DE ESE NUEVO CLIENTE (PORQUE RECV ES UNA LLAMADA BLOQUEANTE Y ME BLOQUEARIA TODO SI UN CLIENTE NO MANDA NADA)
+								struct thread_arg_struct args;
+								args.arg_server = this;
+								args.arg_client = new_client;
+								// Creo el thread para que se ejecute en la funcion indicada, y le paso los parametros, el server y el cliente.
+								pthread_create(new_client->getRecieveMessagesThread(), NULL, &ServerHandler::recieveMessagesFromClientThread, (void*) &args);
+
+								// LOG DE EXITO
+								// MANDAR PANTALLA DE ESPERANDO JUGADORES O LO QUE SEA ANTES DE ENTRAR A LA OTRA LLAMADA BLOQUEANTE DE ACCEPT
+							}
+							else
+							{
+								this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN, "Usuario ya logeado."));
+								shutdown(new_socket, SHUT_RDWR);
+							}
+						}
+						else
+						{
+							this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN, "Login incorrecto."));
+							shutdown(new_socket, SHUT_RDWR);
+						}
+					}
+				}
+				else
+				{
+					std::cout<<"[ServerHandler] Error al leer mensaje de login. Conexión perdida o apagada."<<std::endl;
+				}
 			}
 			else
 			{
-				std::cout<<"ServerHandler: Error al tratar de aceptar conexión entrante y crear nuevo socket."<<std::endl;
+				this->sendToSocket(new_socket, new MessageServer(ERROR, GAMEFULL, "Juego completo."));
+				shutdown(new_socket, SHUT_RDWR);
 			}
 		}
+		else
+		{
+			std::cout<<"ServerHandler: Error al tratar de aceptar conexión entrante y crear nuevo socket."<<std::endl;
+		}
 	}
+}
+
+bool ServerHandler::alreadyLogged(std::string user, std::string passw)
+{
+	for(connectedClientsIterator = connectedClients.begin(); connectedClientsIterator != connectedClients.end();)
+	{
+		if((*connectedClientsIterator)->getUsername() == user && (*connectedClientsIterator)->getPassword() == passw)
+			return true;
+
+		++connectedClientsIterator;
+		// No llamar para cada uno a sendToClient() porque borraría el mensaje al terminar el primer cliente.
+	}
+
+	return false;
+}
+
+bool ServerHandler::validateUserAndPassw(std::string user, std::string passw) // desp los datos de login sacarlos del parser
+{
+	if(user == "maxi" && passw == "maxi")
+		return true;
+	else if(user == "lucas" && passw == "lucas")
+		return true;
+	else if(user == "ignacio" && passw == "ignacio")
+		return true;
+	else if(user == "giovanni" && passw == "giovanni")
+		return true;
+	else if(user == "gino" && passw == "gino")
+		return true;
+	else
+		return false;
+}
+
+bool ServerHandler::extractUserAndPasswFromMsg(MessageServer* message, std::string &user, std::string &passw)
+{
+	int MSG_HEADER_1, MSG_HEADER_2;
+	char param1[32]; char param2[32]; char param3[32]; char param4[32];
+	char msg[256];
+
+	message->getContent(msg);
+	std::cout<<"Game: handleEvents() - Procesando mensaje: "<<msg<<std::endl;
+
+	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
+
+	if(MSG_HEADER_1 == INFO && MSG_HEADER_2 == LOGIN)
+	{
+		user = param1;
+		passw = param2;
+		return true;
+	}
+	else
+		return false;
 }
 
 // Necesitaba pasarle por parametro el servidor, para que pueda ejecutar el método de la instancia, y el cliente para
@@ -123,6 +217,18 @@ void* ServerHandler::recieveMessagesFromClientThread(void* arguments)
 	std::cout<<"ServerHandler: Iniciando recieveMessagesThread de cliente con IP: "<<(args->arg_client)->getIp()<<" y PUERTO: "<<(args->arg_client)->getPort()<<std::endl;
 	(args->arg_server)->recieveMessagesFrom((args->arg_client));
 	return nullptr;
+}
+
+bool ServerHandler::receiveOneMessageFromSocket(int socket, char* dest_char, int dest_char_size)
+{
+	int bytes_received = 0;
+
+	bytes_received = recv(socket, dest_char, dest_char_size, 0); // LLAMADA BLOQUEANTE. NO avanza hasta recibir un mensaje
+
+	if(bytes_received > 0)
+		return true;
+	else
+		return false;
 }
 
 // Metodo infinito, siempre queda en la espera de recepcion de mensajes de ese cliente determinado
@@ -147,6 +253,12 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 		else if(bytes_received == -1)
 		{
 			std::cout<<"ServerHandler: Falla en recepción de mensaje."<<std::endl;
+		}
+		else if(bytes_received == 0)
+		{
+			std::cout<<"Hubo shutdown desde cliente."<<std::endl;
+
+			break;
 		}
 	}
 }

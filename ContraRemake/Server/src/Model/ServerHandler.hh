@@ -28,7 +28,12 @@ class ServerHandler
 		bool startServer();
 		void startListeningThread();
 		void acceptConnections();
+
 		void recieveMessagesFrom(Client* client);
+		bool receiveOneMessageFromSocket(int socket, char* dest_char, int dest_char_size);
+		bool extractUserAndPasswFromMsg(MessageServer* message, std::string &user, std::string &passw);
+		bool validateUserAndPassw(std::string user, std::string passw);
+		bool alreadyLogged(std::string user, std::string passw);
 
 		void sendToClient(Client* client, MessageServer* message);
 		void sendToAllClients(MessageServer* message);
