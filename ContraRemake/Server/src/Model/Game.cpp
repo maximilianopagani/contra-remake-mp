@@ -1,12 +1,11 @@
 
 #include "Game.hh"
 
-Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players,GameParser* _gameParser)
+Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, int _max_players, GameParser* _gameParser)
 {
 	enEjecucion = false;
 	gameParser = _gameParser;
 	level = NULL;
-	player = NULL;
 	currentLevel = 0;
 	cameraLogic = new CameraLogic(0, 0, 800, 600);
 	serverMessageHandler = _serverMessageHandler;
@@ -25,7 +24,11 @@ void Game::init()
     currentLevel = LEVEL1;
 
     level = new Level(cameraLogic, currentLevel, serverMessageHandler, gameParser);
-    player = new Player(cameraLogic, serverMessageHandler);
+
+    for(int i = 0; i < max_players; i++)
+    {
+    	players.push_back(new Player(cameraLogic, serverMessageHandler));
+    }
 }
 
 void Game::handleEvents()
@@ -64,28 +67,31 @@ void Game::processMessage(MessageServer* message)
 			{
 				case KEYS:
 				{
+					int player_id = atoi(param1); // chequear si es una posicion válida para acceder al vector de players?
+
 					// IMPORTANTE SOLO PROCESAR UN MENSAJE DE TECLAS POR JUGADOR POR CICLO. SI POR CUALQUIER CAUSA, LLEGARA A DESENCOLAR MAS DE UN MENSAJE DE TECLAS PARA
 					// UN MISMO PLAYER TENGO QUE PROCESAR SOLO UNO Y DESCARTAR EL RESTO
 
-					if(!player->alreadyProcessedKeys()) // cuando implementemos lista de jugadores o ids de jugadores, esto bajaría hasta el param1 y sabriamos la ID del pj que es
+					if(this->isValidPlayerId(player_id))
 					{
-						Uint8 player_keys[7];
+						if(!(players.at(player_id)->alreadyProcessedKeys())) // cuando implementemos lista de jugadores o ids de jugadores, esto bajaría hasta el param1 y sabriamos la ID del pj que es
+						{
+							Uint8 player_keys[7];
 
-						player_keys[0] = param1[0] - '0';
-						player_keys[1] = param1[1] - '0';
-						player_keys[2] = param1[2] - '0';
-						player_keys[3] = param1[3] - '0';
-						player_keys[4] = param1[4] - '0';
-						player_keys[5] = param1[5] - '0';
-						player_keys[6] = param1[6] - '0'; // tecla corresondiente a la N, avanzar nivel. Esto quizas se debería mandar en un mensaje dedicado desde cliente?
+							player_keys[0] = param2[0] - '0';
+							player_keys[1] = param2[1] - '0';
+							player_keys[2] = param2[2] - '0';
+							player_keys[3] = param2[3] - '0';
+							player_keys[4] = param2[4] - '0';
+							player_keys[5] = param2[5] - '0';
+							player_keys[6] = param2[6] - '0'; // tecla corresondiente a la N, avanzar nivel. Esto quizas se debería mandar en un mensaje dedicado desde cliente?
 
-						player->handleKeys(player_keys);
+							players.at(player_id)->handleKeys(player_keys);
+						}
 					}
-
 					break;
 				}
 			}
-
 			break;
 		}
 	}
@@ -93,7 +99,11 @@ void Game::processMessage(MessageServer* message)
 
 void Game::restartGame()
 {
-	player->destroy();
+    for(int i = 0; i < max_players; i++)
+    {
+    	players.back()->destroy();
+    	players.pop_back();
+    }
 
 	level->destroy();
 
@@ -112,14 +122,20 @@ void Game::nextLevel()
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL2;
 			level = new Level(cameraLogic, LEVEL2,serverMessageHandler,gameParser);
-			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
+		    for(int i = 0; i < max_players; i++)
+		    {
+		    	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
+		    }
 			break;
 
 		case LEVEL2:
 			level->destroy(); // y con el se borrarian enemigos, plataformas, etc. Analizar si dejarlos en memoria y solo borrarlo al salir, por si quiere rejugar
 			currentLevel = LEVEL3;
 			level = new Level(cameraLogic, LEVEL3,serverMessageHandler,gameParser);
-			player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
+		    for(int i = 0; i < max_players; i++)
+		    {
+		    	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
+		    }
 			break;
 
 		case LEVEL3: // No borrar el nivel 3, porque el ciclo sigue, y quedan varias cosas que tiene que ejecutar todavia con el puntero a Level
@@ -142,11 +158,14 @@ void Game::update()
 {
 	//----------------------------------------------------------------------
 	//La primera vez unicamente mira si cae o no el personaje
-	player->update();
+    for(int i = 0; i < max_players; i++)
+    {
+    	players.at(i)->update();
+    }
 
 	//----------------------------------------------------------------------
 	//Setea el nuevo border apartir de jugador
-	level->moveForward(player->getPosX(), player->getPosY());
+	level->moveForward(players.at(0)->getPosX(), players.at(0)->getPosY()); // FALTA HACER TODO EL TEMA DE SCROLL
 
 	//----------------------------------------------------------------------
 	//Manejo de Colisiones con las plataformas
@@ -154,22 +173,32 @@ void Game::update()
 	list<Platform*>* platforms = level->getPlataformList();
 	list<Platform*>::iterator platformsIterator;
 
-	for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
-
-		if(CollisionHelper::stands(player, *platformsIterator)){
-			player->fallingDownStop();
-			break;
+    for(int i = 0; i < max_players; i++)
+    {
+		for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator)
+		{
+			if(CollisionHelper::stands(players.at(i), *platformsIterator))
+			{
+				players.at(i)->fallingDownStop();
+				break;
+			}
+			else
+			{
+				players.at(i)->fallingDown();
+			}
 		}
-		else player->fallingDown();
-	}
-
+    }
 	//----------------------------------------------------------------------
 	//Logica de reUbicar al personaje despues de caer
 
-			if(cameraLogic->outOfCameraLowerLimit(player->getPosY()) ){
-				player->spawn(level->getSpawnPointX(), level->getSpawnPointY());
-				level->restart();
-			}
+    for(int i = 0; i < max_players; i++)
+    {
+    	if(cameraLogic->outOfCameraLowerLimit(players.at(i)->getPosY()))
+    	{
+    		players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
+    		level->restart();
+    	}
+    }
 }
 
 void Game::render()
@@ -182,7 +211,10 @@ void Game::render()
 
     //----------------------------------------------------------------------
     //Manda un mensaje para dibujar al jugador
-    player->render();
+    for(int i = 0; i < max_players; i++)
+    {
+    	players.at(i)->render();
+    }
 
 	serverMessageHandler->sendToAllClients(new MessageServer(VIEW, SHOW, 0));
 }
@@ -191,7 +223,12 @@ void Game::destroy()
 {
 	LOGGER_DEBUG("Se comienza la destruccion del juego.");
 
-	player->destroy();
+    for(int i = 0; i < max_players; i++)
+    {
+    	players.back()->destroy();
+    	players.pop_back();
+    }
+
 	level->destroy();
 
 	//Le digo a todos los clientes que destruyan todo

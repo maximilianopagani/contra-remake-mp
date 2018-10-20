@@ -27,7 +27,9 @@ class Game
         void update();
         void render();
         void destroy();
+
         int getMaxPlayers() { return max_players; }
+        bool isValidPlayerId(int player_id) { return (player_id >= 0 && player_id < max_players); }
 
         void restartGame();
         void nextLevel();
@@ -44,7 +46,8 @@ class Game
 
         GameParser* gameParser;
 
-        Player* player;
+		std::vector<Player*> players;
+
         Level* level;
 
         CameraLogic* cameraLogic;
