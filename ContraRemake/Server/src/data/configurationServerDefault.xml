@@ -1,6 +1,6 @@
 <server>
 	<maximumquantityclients>1</maximumquantityclients>
-	<port>15390</port>
+	<port>54000</port>
 	<users>
 		<user>
 			<id>1</id>

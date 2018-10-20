@@ -13,6 +13,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <string>
 #include <iostream>
+#include "ClientHandler.hh"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -37,7 +38,7 @@ private:
 	int height;
 };
 
-void clientLogin();
+bool clientLogin(ClientHandler * client);
 
 bool init();
 
@@ -47,18 +48,18 @@ void close();
 
 SDL_Texture* loadTexture(std::string path);
 
-SDL_Window* window = NULL;
+extern SDL_Window* window;
 
-SDL_Renderer* renderer = NULL;
+extern SDL_Renderer* renderer;
 
-TTF_Font *font = NULL;
-TTF_Font *passwordFont = NULL;
+extern TTF_Font *font;
+extern TTF_Font *passwordFont;
 
-Texture splashTexture;
-Texture userTexture;
-Texture passwordTexture;
-Texture serverTexture;
-Texture portTexture;
-Texture buttonTexture;
+extern Texture splashTexture;
+extern Texture userTexture;
+extern Texture passwordTexture;
+extern Texture serverTexture;
+extern Texture portTexture;
+extern Texture buttonTexture;
 
 #endif /* CLIENT_SRC_CLIENTLOGIN_HH_ */

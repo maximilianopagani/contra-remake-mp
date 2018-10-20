@@ -6,8 +6,6 @@
 #include "../Utils/GameParser.hh"
 #include "ServerHandler.hh"
 
-#define PUERTO 54000
-#define MAX_PLAYERS 1
 #define GAME_FPS 35
 
 pthread_mutex_t server_mutex; // MUTEX GLOBAL PARA SER UTILIZADO EN SERVERHANDLER Y EN GAME CUANDO COMPARTAN ACCESO MEDIANTE DISTINTOS THREADS A LAS COLAS DE MENSAJES
@@ -23,8 +21,9 @@ int ServerMain(int argc, char* argv[])
 	server_mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_init(&server_mutex, NULL);
 
-	ServerHandler* server = new ServerHandler(PUERTO, MAX_PLAYERS); // (PUERTO, CANTIDAD DE JUGADORES EN LA PARTIDA)
 	ServerParser* serverParser = new ServerParser();
+	if (!serverParser->loadConfiguration()) return 1;
+	ServerHandler* server = new ServerHandler(serverParser->getPort(), serverParser->getMaximumquantityclients()); // (PUERTO, CANTIDAD DE JUGADORES EN LA PARTIDA)
 	GameParser* parser = new GameParser();
 
 	cout<<"ServerMain: Servidor creado."<<endl;
@@ -73,7 +72,7 @@ int ServerMain(int argc, char* argv[])
 		return 0;
 	}
 
-	Game* synergy = new Game(server, messageHandler, MAX_PLAYERS, parser, GAME_FPS);
+	Game* synergy = new Game(server, messageHandler, serverParser->getMaximumquantityclients(), parser, GAME_FPS);
 
 	cout<<"ServerMain: Juego creado."<<endl;
 

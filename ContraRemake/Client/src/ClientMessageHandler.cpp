@@ -7,7 +7,17 @@
 
 #include "ClientMessageHandler.hh"
 
-ClientMessageHandler::ClientMessageHandler(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView)
+ClientMessageHandler::ClientMessageHandler()
+{
+	gameView = NULL;
+	playerView = NULL;
+	levelView = NULL;
+	platformView = NULL;
+	bulletView = NULL;
+	enemyView = NULL;
+}
+
+void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView)
 {
 	gameView = _gameView;
 	playerView = _playerView;

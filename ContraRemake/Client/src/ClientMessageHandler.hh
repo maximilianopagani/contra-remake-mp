@@ -27,9 +27,10 @@ class ClientMessageHandler
 {
 	public:
 
-		ClientMessageHandler(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView);
+		ClientMessageHandler();
 		virtual ~ClientMessageHandler();
 
+		void setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView);
 		bool setClientHandler(ClientHandler* _client);
 		void processMessage(Message* message);
 

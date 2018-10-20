@@ -5,7 +5,8 @@
  *      Author: nacho
  */
 
-#include <ClientLogin.hh>
+#include "ClientLogin.hh"
+#include "ClientParser.hh"
 
 const int BUTTON_POSITION_X = 330;
 const int BUTTON_POSITION_Y = 540;
@@ -19,6 +20,17 @@ const int PASSWORDTEXTBOX_POSITION_Y = 344;
 const int SERVERTEXTBOX_POSITION_Y = 400;
 const int PORTTEXTBOX_POSITION_Y = 454;
 const int MAX_LENGTH = 18;
+
+SDL_Window* window = NULL;
+SDL_Renderer* renderer = NULL;
+TTF_Font *font = NULL;
+TTF_Font *passwordFont = NULL;
+Texture splashTexture;
+Texture userTexture;
+Texture passwordTexture;
+Texture serverTexture;
+Texture portTexture;
+Texture buttonTexture;
 
 Texture::Texture() {
 	texture = NULL;
@@ -206,13 +218,18 @@ void close() {
 	SDL_Quit();
 }
 
-void clientLogin() {
+bool clientLogin(ClientHandler * client) {
+	bool success = false;
 	if (!init()) {
 		std::cout << "Failed to initialize!" << std::endl;
+		return success;
 	} else {
 		if (!loadMedia()) {
 			std::cout << "Failed to load media!" << std::endl;
+			return success;
 		} else {
+			ClientParser* clientParser = new ClientParser();
+			if (!clientParser->loadConfiguration()) return success;
 			bool quit = false;
 			bool userTextBoxEnabled = false;
 			bool passwordTextBoxEnabled = false;
@@ -222,11 +239,11 @@ void clientLogin() {
 			SDL_Color textColor = { 0, 0, 0, 0xFF };
 			std::string userText = "";
 			std::string passwordText = "";
-			std::string serverText = "";
-			std::string portText = "";
+			std::string serverText = clientParser->getIP();
+			std::string portText = clientParser->getPort();
 			SDL_StartTextInput();
 			while (!quit) {
-				bool renderText = false;
+				bool renderText = true;
 				int posicionBotonY = BUTTON_POSITION_Y;
 				while (SDL_PollEvent(&e) != 0) {
 					if (e.type == SDL_QUIT) {
@@ -309,8 +326,14 @@ void clientLogin() {
 							}
 						} else if (e.key.keysym.sym == SDLK_RETURN) {
 							posicionBotonY += 5;
-							//aca debería enviar el mensaje al servidor con usuario y contraseña
-							//ESTOY REPITIENDO CÓDIGO
+							if (!client->connectToServer(serverText, atoi(portText.c_str()))) {
+								std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
+								success = false;
+							}
+							else {
+								std::cout<<"ClientLogin: Conexión con el servidor establecida. Se inicia ejecución del cliente."<<std::endl;
+								success = true;
+							}
 							quit = true;
 						}
 					} else if (e.type == SDL_TEXTINPUT) {
@@ -444,4 +467,5 @@ void clientLogin() {
 		}
 	}
 	close();
+	return success;
 }
