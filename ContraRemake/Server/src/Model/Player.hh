@@ -61,6 +61,8 @@ class Player : public ICollisional
 		int pos_x, pos_y, maxDistanceJump;
 		bool falling;
 
+		Uint32 timeAtIterationStart=0;
+
 		PlayerState state;
 
 		enum PlayerDirection {

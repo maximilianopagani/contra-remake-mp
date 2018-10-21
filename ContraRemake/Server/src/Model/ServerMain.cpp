@@ -6,7 +6,7 @@
 #include "../Utils/GameParser.hh"
 #include "ServerHandler.hh"
 
-#define GAME_FPS 1
+#define GAME_FPS 35
 #define MAX_GAME_PLAYERS 2
 #define SERVER_PORT 54000
 

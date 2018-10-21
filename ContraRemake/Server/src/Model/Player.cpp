@@ -12,7 +12,7 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	cameraLogic = _cameraLogic;
 	serverMessageHandler = _serverMessageHandler;
 
-	pos_x = 400;
+	pos_x = 600;
 	pos_y = 200;
 	maxDistanceJump = 150;
 	falling = true;
@@ -34,6 +34,20 @@ Player::~Player()
 
 void Player::render()
 {
+	//----------------------------------------------------------------------
+	//Mandar Mensaje para dibujar cuando camina
+
+	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN
+			|| state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN){
+
+		timeAtIterationStart++;
+
+		if(timeAtIterationStart > 3){
+			serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, state));
+			timeAtIterationStart =0;
+		}
+	}
+
 	serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, RENDER, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
@@ -133,6 +147,7 @@ void Player::update()
 		case STATE_JUMPINGUP:
 				pos_y-=10;
 				maxDistanceJump-=5;
+				serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, state));
 				//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 				if(maxDistanceJump == 0)
 					state = STATE_JUMPINGDOWN;
@@ -141,6 +156,7 @@ void Player::update()
 
 		case STATE_JUMPINGDOWN:
 				maxDistanceJump += 5;
+				serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, state));
 				//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
 				if(!falling)
 				{

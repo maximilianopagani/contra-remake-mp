@@ -65,3 +65,9 @@ void PlayerView::render(int aState, int pos_x, int pos_y)
 	lastState = aState;
 }
 
+void PlayerView::update(int aState)
+{
+	animations[aState]->update();
+}
+
+

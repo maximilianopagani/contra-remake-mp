@@ -65,6 +65,13 @@ void ClientMessageHandler::processMessage(Message* message)
 					playerView->render(estado, posX, posY);
 					break;
 				}
+				case LOAD:
+				{
+					int estado = atoi(param1);
+					playerView->update(estado);
+					break;
+				}
+
 			}
 			break;
 		}
@@ -171,7 +178,8 @@ void ClientMessageHandler::processMessage(Message* message)
 				}
 				case LOGIN:
 				{
-					client->sendToServer(new Message(INFO, LOGIN, "lucas", "lucas"));
+					client->sendToServer(new Message(INFO, LOGIN, "giovanni", "giovanni"));
+					//client->sendToServer(new Message(INFO, LOGIN, "lucas", "lucas"));
 					break;
 				}
 			}

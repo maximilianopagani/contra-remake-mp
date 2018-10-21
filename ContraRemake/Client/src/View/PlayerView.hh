@@ -22,6 +22,7 @@ class PlayerView
 
 		void loadSprite(string type);
 		void render(int aState, int posX, int posY);
+		void update(int aState);
 		void destroy();
 
 	private:
