@@ -7,10 +7,12 @@
 
 #include "Player.hh"
 
-Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler)
+Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, int _player_id)
 {
 	cameraLogic = _cameraLogic;
 	serverMessageHandler = _serverMessageHandler;
+
+	player_id = _player_id;
 
 	pos_x = 600;
 	pos_y = 200;
@@ -42,13 +44,14 @@ void Player::render()
 
 		timeAtIterationStart++;
 
-		if(timeAtIterationStart > 3){
-			serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, state));
+		if(timeAtIterationStart > 3)
+		{
+			serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, player_id, state));
 			timeAtIterationStart =0;
 		}
 	}
 
-	serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, RENDER, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
+	serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, RENDER, player_id, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
 	{
@@ -147,8 +150,7 @@ void Player::update()
 		case STATE_JUMPINGUP:
 				pos_y-=10;
 				maxDistanceJump-=5;
-				serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, state));
-				//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
+				serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, player_id, state));
 				if(maxDistanceJump == 0)
 					state = STATE_JUMPINGDOWN;
 
@@ -156,8 +158,7 @@ void Player::update()
 
 		case STATE_JUMPINGDOWN:
 				maxDistanceJump += 5;
-				serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, state));
-				//logicToViewTransporter->sendToLoad(PLAYERVIEW, PlayerStateHandler::stateToString(state));
+				serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, player_id, state));
 				if(!falling)
 				{
 					state = STATE_STANDING;

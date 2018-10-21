@@ -28,7 +28,8 @@ void Game::init()
 
     for(int i = 0; i < max_players; i++)
     {
-    	players.push_back(new Player(cameraLogic, serverMessageHandler));
+    	players.push_back(new Player(cameraLogic, serverMessageHandler, i));
+
     }
 }
 

@@ -21,14 +21,21 @@ class PlayerView
 		virtual ~PlayerView();
 
 		void loadSprite(string type);
-		void render(int aState, int posX, int posY);
-		void update(int aState);
+		void render(int player_id, int state, int pos_x, int pos_y);
+		void update(int player_id, int state);
 		void destroy();
 
 	private:
 
 		GameView* gameView;
-		Sprite* animations[PlayerStateHandler::MAX_ANIMATIONS];
+
+		Sprite* sprites_p1[PlayerStateHandler::MAX_ANIMATIONS];
+		Sprite* sprites_p2[PlayerStateHandler::MAX_ANIMATIONS];
+		Sprite* sprites_p3[PlayerStateHandler::MAX_ANIMATIONS];
+		Sprite* sprites_p4[PlayerStateHandler::MAX_ANIMATIONS];
+
+		Sprite** sprites[4];
+
 		int lastState = STATE_STANDING, hasToUpdateCount = 0;
 };
 

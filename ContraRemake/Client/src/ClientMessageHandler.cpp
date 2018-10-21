@@ -59,16 +59,18 @@ void ClientMessageHandler::processMessage(Message* message)
 			{
 				case RENDER:
 				{
-					int estado = atoi(param1);
-					int posX = atoi(param2);
-					int posY = atoi(param3);
-					playerView->render(estado, posX, posY);
+					int player_id = atoi(param1);
+					int estado = atoi(param2);
+					int posX = atoi(param3);
+					int posY = atoi(param4);
+					playerView->render(player_id, estado, posX, posY);
 					break;
 				}
 				case LOAD:
 				{
-					int estado = atoi(param1);
-					playerView->update(estado);
+					int player_id = atoi(param1);
+					int estado = atoi(param2);
+					playerView->update(player_id, estado);
 					break;
 				}
 

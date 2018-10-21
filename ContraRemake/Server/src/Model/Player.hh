@@ -20,7 +20,7 @@ class Player : public ICollisional
 {
 	public:
 
-		Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler);
+		Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, int _player_id);
 		virtual ~Player();
 
 		//Collisional
@@ -58,6 +58,7 @@ class Player : public ICollisional
 
 	private:
 
+		int player_id;
 		int pos_x, pos_y, maxDistanceJump;
 		bool falling;
 
