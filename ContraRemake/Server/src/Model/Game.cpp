@@ -259,8 +259,8 @@ void Game::update()
     {
     	if(cameraLogic->outOfCameraLowerLimit(players.at(i)->getPosY()))
     	{
-    		players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
-    		level->restart();
+    		players.at(i)->spawn(cameraLogic->getCameraPosX()+150,300);
+    		//level->restart();
     	}
     }
 }

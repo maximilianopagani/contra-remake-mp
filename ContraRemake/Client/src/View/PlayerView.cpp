@@ -27,6 +27,7 @@ PlayerView::PlayerView(GameView* _gameView)
 	animations[STATE_POINTDOWN_BACK] = new Sprite(gameView,"../.images/player/pointDownBack.png", 22, 37, 51, 85);
 	animations[STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView,"../.images/player/bodyToGroundBack.png", 32, 38, 74, 87);
 	animations[STATE_POINTUP_BACK] = new Sprite(gameView,"../.images/player/pointUpBack.png", 18, 36, 41, 82);
+
 }
 
 PlayerView::~PlayerView()
@@ -44,25 +45,8 @@ void PlayerView::destroy()
 
 void PlayerView::render(int aState, int pos_x, int pos_y)
 {
-	if(lastState == aState)
-	{
-		if(hasToUpdateCount == 4)
-		{
-			animations[aState]->update();
-			hasToUpdateCount = 0;
-		}
-		else
-		{
-			hasToUpdateCount++;
-		}
-	}
-	else
-	{
-		hasToUpdateCount = 0;
-	}
-
 	animations[aState]->render(pos_x, pos_y);
-	lastState = aState;
+
 }
 
 void PlayerView::update(int aState)

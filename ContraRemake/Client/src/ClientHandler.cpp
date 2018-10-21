@@ -175,6 +175,7 @@ void ClientHandler::recieveMessages()
 
 		if(bytes_received > 0)
 		{
+
 	        client_mutex.lock();
 			received_messages_queue.push(new Message(buffer)); // Encolo mensajes a la cola de mensajes
 			client_mutex.unlock();
