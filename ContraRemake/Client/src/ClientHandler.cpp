@@ -18,7 +18,7 @@ ClientHandler::~ClientHandler() {}
 
 bool ClientHandler::initSocket()
 {
-	network_socket = socket(AF_INET, SOCK_STREAM, 0);
+	network_socket = socket(AF_INET, SOCK_STREAM, MSG_WAITALL);
 
 	if(network_socket == -1)
 	{
