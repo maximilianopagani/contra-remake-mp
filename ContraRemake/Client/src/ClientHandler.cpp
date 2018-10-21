@@ -18,7 +18,7 @@ ClientHandler::~ClientHandler() {}
 
 bool ClientHandler::initSocket()
 {
-	network_socket = socket(AF_INET, SOCK_STREAM, MSG_WAITALL);
+	network_socket = socket(AF_INET, SOCK_STREAM, 0);
 
 	if(network_socket == -1)
 	{
@@ -171,7 +171,7 @@ void ClientHandler::recieveMessages()
 
 	while(continue_flag.load())
 	{
-		bytes_received = recv(network_socket, buffer, 256, 0); // LLAMADA BLOQUEANTE
+		bytes_received = recv(network_socket, buffer, 256, MSG_WAITALL); // LLAMADA BLOQUEANTE
 
 		if(bytes_received > 0)
 		{
