@@ -32,7 +32,9 @@ enum MsgCmdHeader {
 	LOAD,
 	CLEAR,
 	SHOW,
-	GAMEFULL
+	GAMEFULL,
+	DISCONNECT,
+	RECONNECT
 };
 
 class MessageServer
@@ -46,8 +48,15 @@ class MessageServer
 		void getContent(char* content) { std::strcpy(content, messageContent); }
 		int getSize() { return messageSize; }
 
+		void setPlayerId(int _player_id) { player_id = _player_id; }
+		void setUsername(std::string _username) { username = _username; }
+		int getPlayerId() { return player_id; }
+		std::string getUsername() { return username; }
+
 	private:
 
+		int player_id = -1;
+		std::string username = "ERROR";
 		char messageContent[256];
 		int messageSize;
 };

@@ -14,7 +14,7 @@ ServerMessageHandler::ServerMessageHandler(ServerHandler* _server)
 
 void ServerMessageHandler::sendToAllClients(MessageServer* message)
 {
-	server->sendToAllClients(message);
+	server->sendToAllConnectedClients(message);
 }
 
 ServerMessageHandler::~ServerMessageHandler() {}

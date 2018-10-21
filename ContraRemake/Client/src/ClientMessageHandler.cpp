@@ -171,7 +171,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				}
 				case LOGIN:
 				{
-					client->sendToServer(new Message(INFO, LOGIN, "maxi", "maxi"));
+					client->sendToServer(new Message(INFO, LOGIN, "lucas", "lucas"));
 					break;
 				}
 			}

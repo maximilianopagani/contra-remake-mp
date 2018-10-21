@@ -14,6 +14,13 @@
 
 #include "../Utils/MessageServer.hh"
 
+extern pthread_mutex_t server_clients_mutex;
+
+enum CLIENT_STATE {
+	CLIENT_ONLINE,
+	CLIENT_OFFLINE
+};
+
 class Client
 {
 	public:
@@ -21,17 +28,31 @@ class Client
 		Client(int _socket, std::string _ip, int _port, std::string _username, std::string _password);
 		virtual ~Client();
 
-		int getSocket() { return socket; }
+		int getSocket();
+
+		bool isOnline();
+		bool isOffline();
+
+		void setOffline();
+		void setOnline(int connection_socket);
+
 		std::string getIp() { return ip; }
 		int getPort() { return port; }
+
+		int getClientId() { return id; }
 		std::string getUsername() { return username; }
 		std::string getPassword() { return password; }
+
 		pthread_t* getRecieveMessagesThread() { return &receive_messages_thread; }
 
 	private:
 
-		int socket, port;
+		static int CLIENT_ID_COUNTER;
+
+		int socket, port, id;
 		std::string ip;
+
+		CLIENT_STATE state;
 
 		std::string username;
 		std::string password;

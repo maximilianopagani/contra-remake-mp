@@ -32,7 +32,9 @@ enum MsgCmdHeader {
 	LOAD,
 	CLEAR,
 	SHOW,
-	GAMEFULL
+	GAMEFULL,
+	DISCONNECT,
+	RECONNECT
 };
 
 class Message

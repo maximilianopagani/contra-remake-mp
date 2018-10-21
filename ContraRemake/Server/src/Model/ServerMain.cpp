@@ -6,9 +6,12 @@
 #include "../Utils/GameParser.hh"
 #include "ServerHandler.hh"
 
-#define GAME_FPS 35
+#define GAME_FPS 1
+#define MAX_GAME_PLAYERS 2
+#define SERVER_PORT 54000
 
 pthread_mutex_t server_mutex; // MUTEX GLOBAL PARA SER UTILIZADO EN SERVERHANDLER Y EN GAME CUANDO COMPARTAN ACCESO MEDIANTE DISTINTOS THREADS A LAS COLAS DE MENSAJES
+pthread_mutex_t server_clients_mutex;
 
 int ServerMain(int argc, char* argv[])
 {
@@ -21,9 +24,23 @@ int ServerMain(int argc, char* argv[])
 	server_mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_init(&server_mutex, NULL);
 
+	server_clients_mutex = PTHREAD_MUTEX_INITIALIZER;
+	pthread_mutex_init(&server_clients_mutex, NULL);
+
 	ServerParser* serverParser = new ServerParser();
-	if (!serverParser->loadConfiguration()) return 1;
-	ServerHandler* server = new ServerHandler(serverParser->getPort(), serverParser->getMaximumquantityclients()); // (PUERTO, CANTIDAD DE JUGADORES EN LA PARTIDA)
+
+	/*
+	if (!serverParser->loadConfiguration())
+	{
+		std::cout<<"ServerMain: falla en la carga de configuracion del serverParser."<<std::endl;
+		return 1;
+	}
+
+	ServerHandler* server = new ServerHandler(serverParser->getPort(), serverParser->getMaximumquantityclients());
+	*/
+
+	ServerHandler* server = new ServerHandler(SERVER_PORT, MAX_GAME_PLAYERS);
+
 	GameParser* parser = new GameParser();
 
 	cout<<"ServerMain: Servidor creado."<<endl;
@@ -38,6 +55,8 @@ int ServerMain(int argc, char* argv[])
 
 
 		LOGGER_INIT_SETUP(Logger::DEBUG);
+
+		/*
 		if (serverParser->loadConfiguration()) {
 			LOGGER_INFO("Carga de configuracion del servidor aceptada");
 			serverParser->testDataServerParser();
@@ -63,6 +82,22 @@ int ServerMain(int argc, char* argv[])
 			//return 1;
 		}
 		// se mata al primer logger
+		 */
+
+		if (parser->loadConfiguration())
+		{
+			LOGGER_INFO("Carga de configuracion del juego aceptada");
+		}
+		else
+		{
+			cout << "Carga de configuracion del juego rechazada" << endl;
+			// se mata al primer logger
+			LOGGER_KILL();
+			if(parser)
+				delete parser;
+			return 1;
+		}
+
 		LOGGER_KILL();
 	}
 	else
@@ -72,7 +107,9 @@ int ServerMain(int argc, char* argv[])
 		return 0;
 	}
 
-	Game* synergy = new Game(server, messageHandler, serverParser->getMaximumquantityclients(), parser, GAME_FPS);
+	//Game* synergy = new Game(server, messageHandler, serverParser->getMaximumquantityclients(), parser, GAME_FPS);
+
+	Game* synergy = new Game(server, messageHandler, MAX_GAME_PLAYERS, parser, GAME_FPS);
 
 	cout<<"ServerMain: Juego creado."<<endl;
 

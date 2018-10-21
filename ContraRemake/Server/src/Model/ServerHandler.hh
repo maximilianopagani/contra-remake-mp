@@ -22,21 +22,25 @@ class ServerHandler
 {
 	public:
 
-		ServerHandler(int _port, uint _max_clients);
+		ServerHandler(int _port, int _max_clients);
 		virtual ~ServerHandler();
 
 		bool startServer();
 		void startListeningThread();
+		bool isGameFull();
 		void acceptConnections();
 
 		void recieveMessagesFrom(Client* client);
 		bool receiveOneMessageFromSocket(int socket, char* dest_char, int dest_char_size);
 		bool extractUserAndPasswFromMsg(MessageServer* message, std::string &user, std::string &passw);
 		bool validateUserAndPassw(std::string user, std::string passw);
-		bool alreadyLogged(std::string user, std::string passw);
+		bool alreadyOnline(std::string user, std::string passw);
+		bool alreadyLoggedBefore(std::string user, std::string passw);
+		Client* searchForClient(std::string user, std::string passw);
 
-		void sendToClient(Client* client, MessageServer* message);
-		void sendToAllClients(MessageServer* message);
+		bool allClientsOnline();
+		void sendToConnectedClient(Client* client, MessageServer* message);
+		void sendToAllConnectedClients(MessageServer* message);
 		void sendToSocket(int destination_socket, MessageServer* message);
 
 		int getConnectedClients() { return connectedClients.size(); }
@@ -49,16 +53,14 @@ class ServerHandler
 	private:
 
 		int port;
-		uint max_clients;
+		int max_clients;
 
 		struct sockaddr_in server_address;
 		int listening_socket;
 
 		pthread_t accept_connections_thread;
 
-		std::list<Client*> connectedClients;
-		std::list<Client*>::iterator connectedClientsIterator;
-
+		std::vector<Client*> connectedClients;
 		std::queue<MessageServer*> server_recv_msgs_queue;
 };
 

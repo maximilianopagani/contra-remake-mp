@@ -93,7 +93,7 @@ void Game::processMessage(MessageServer* message)
 	char msg[256];
 
 	message->getContent(msg);
-	std::cout<<"Game: handleEvents() - Procesando mensaje: "<<msg<<std::endl;
+	std::cout<<"Game: handleEvents() - Procesando mensaje de player id: "<<message->getPlayerId()<<" y username: "<<message->getUsername()<<" Mensaje: "<<msg<<std::endl;
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
@@ -105,14 +105,15 @@ void Game::processMessage(MessageServer* message)
 			{
 				case KEYS:
 				{
-					int player_id = 0; // chequear si es una posicion válida para acceder al vector de players?
+					int player_id = message->getPlayerId();
+					//std::string username = message->getUsername();
 
 					// IMPORTANTE SOLO PROCESAR UN MENSAJE DE TECLAS POR JUGADOR POR CICLO. SI POR CUALQUIER CAUSA, LLEGARA A DESENCOLAR MAS DE UN MENSAJE DE TECLAS PARA
 					// UN MISMO PLAYER TENGO QUE PROCESAR SOLO UNO Y DESCARTAR EL RESTO
 
 					if(this->isValidPlayerId(player_id))
 					{
-						if(!(players.at(player_id)->alreadyProcessedKeys())) // cuando implementemos lista de jugadores o ids de jugadores, esto bajaría hasta el param1 y sabriamos la ID del pj que es
+						if(!(players.at(player_id)->alreadyProcessedKeys()))
 						{
 							Uint8 player_keys[7];
 
@@ -127,6 +128,31 @@ void Game::processMessage(MessageServer* message)
 							players.at(player_id)->handleKeys(player_keys);
 						}
 					}
+					break;
+				}
+			}
+			break;
+		}
+
+		case INFO:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case DISCONNECT:
+				{
+					int playerid = message->getPlayerId();
+					std::string username = message->getUsername();
+					std::cout<<"Game: Jugador desconectado ID: "<<playerid<<" y Username: "<<username<<std::endl;
+					break;
+				}
+
+				case RECONNECT:
+				{
+					serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, "set1/fondo1.png", "1"));
+					serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, "set1/fondo2.png", "2"));
+					serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, "set1/fondo3.png", "3"));
+					std::cout<<"Envío recarga a todo el mundo por la reconexion, medio negro"<<std::endl;
+					// si no mando a recargar los fondos tira segmentation fault, seguramente pq quiere acceder a sprites nulos que no estan creados en playerview del cliente
 					break;
 				}
 			}
