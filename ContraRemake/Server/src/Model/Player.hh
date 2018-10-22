@@ -39,6 +39,7 @@ class Player : public ICollisional
 
 		void spawn(int x, int y);
 		void freeze();
+		void IsFreezed(bool vertical);
 
 		//ACCIONES
 		void jump();

@@ -234,7 +234,10 @@ void Game::update()
 
 	//----------------------------------------------------------------------
 	//Setea el nuevo border apartir de jugador
-	level->moveForward(players.at(0)->getPosX(), players.at(0)->getPosY()); // FALTA HACER TODO EL TEMA DE SCROLL
+    for(int i = 0; i < max_players; i++) {
+    	level->moveForward(players.at(i)->getPosX(), players.at(0)->getPosY()); // FALTA HACER TODO EL TEMA DE SCROLL
+    	players.at(i)->IsFreezed( currentLevel == LEVEL2 );
+    }
 
 	//----------------------------------------------------------------------
 	//Manejo de Colisiones con las plataformas
@@ -263,7 +266,7 @@ void Game::update()
     {
     	if(cameraLogic->outOfCameraLowerLimit(players.at(i)->getPosY()))
     	{
-    		players.at(i)->spawn(cameraLogic->getCameraPosX()+150,300);
+    		players.at(i)->spawn(cameraLogic->getCameraPosX()+150,cameraLogic->getCameraPosY()+200);
     		//level->restart();
     	}
     }

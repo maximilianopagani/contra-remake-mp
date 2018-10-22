@@ -411,7 +411,7 @@ void Player::spawn(int x, int y)
 
 void Player::freeze()
 {
-//	pos_x = x;
+	//pos_x = cameraLogic->getCameraPosX();
 //	pos_y = y;
 	state = STATE_FREEZED;
 //	aimingAt = AIM_FRONT;
@@ -421,6 +421,15 @@ void Player::freeze()
 	processedKeys = true;
 	lastShotTime = 0;
 	bullets.clear();
+}
+
+void Player::IsFreezed(bool vertical){
+	if(state == STATE_FREEZED && pos_x < cameraLogic->getCameraPosX()&& vertical==false){
+		pos_x = cameraLogic->getCameraPosX();
+	}
+	else if(state == STATE_FREEZED && pos_y > (cameraLogic->getCameraPosY()+600)&& vertical==true){
+		pos_y = (cameraLogic->getCameraPosY()+600 );
+	}
 }
 
 void Player::destroy()
