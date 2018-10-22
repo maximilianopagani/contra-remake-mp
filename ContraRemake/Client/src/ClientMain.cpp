@@ -48,17 +48,17 @@ int ClientMain()
 
 	cout<<"ClientMain: Socket del cliente inicializado."<<endl;
 
-	//if(clientLogin(client))
-	if(true)
+	if(clientLogin(client))
+	//if(true)
 	{
 
-
+/*
 		if (!client->connectToServer("127.0.01", 54000))
 		{
 			std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
 			return false;
 		}
-
+*/
 		GameView* gameView = new GameView();
 
 		cout<<"ClientMain: Vista principal creada."<<endl;

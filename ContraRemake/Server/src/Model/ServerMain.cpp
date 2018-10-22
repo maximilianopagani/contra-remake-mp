@@ -7,8 +7,8 @@
 #include "ServerHandler.hh"
 
 #define GAME_FPS 35
-#define MAX_GAME_PLAYERS 2
-#define SERVER_PORT 54000
+//#define MAX_GAME_PLAYERS 2
+//#define SERVER_PORT 54000
 
 
 pthread_mutex_t server_mutex; // MUTEX GLOBAL PARA SER UTILIZADO EN SERVERHANDLER Y EN GAME CUANDO COMPARTAN ACCESO MEDIANTE DISTINTOS THREADS A LAS COLAS DE MENSAJES
@@ -30,7 +30,6 @@ int ServerMain(int argc, char* argv[])
 
 	ServerParser* serverParser = new ServerParser();
 
-	/*
 	if (!serverParser->loadConfiguration())
 	{
 		std::cout<<"ServerMain: falla en la carga de configuracion del serverParser."<<std::endl;
@@ -38,9 +37,8 @@ int ServerMain(int argc, char* argv[])
 	}
 
 	ServerHandler* server = new ServerHandler(serverParser->getPort(), serverParser->getMaximumquantityclients());
-	*/
 
-	ServerHandler* server = new ServerHandler(SERVER_PORT, MAX_GAME_PLAYERS);
+	//ServerHandler* server = new ServerHandler(SERVER_PORT, MAX_GAME_PLAYERS);
 
 	GameParser* parser = new GameParser();
 
@@ -108,9 +106,9 @@ int ServerMain(int argc, char* argv[])
 		return 0;
 	}
 
-	//Game* synergy = new Game(server, messageHandler, serverParser->getMaximumquantityclients(), parser, GAME_FPS);
+	Game* synergy = new Game(server, messageHandler, serverParser->getMaximumquantityclients(), parser, GAME_FPS);
 
-	Game* synergy = new Game(server, messageHandler, MAX_GAME_PLAYERS, parser, GAME_FPS);
+	//Game* synergy = new Game(server, messageHandler, MAX_GAME_PLAYERS, parser, GAME_FPS);
 
 	cout<<"ServerMain: Juego creado."<<endl;
 

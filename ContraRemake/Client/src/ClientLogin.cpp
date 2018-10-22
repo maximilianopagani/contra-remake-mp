@@ -31,6 +31,7 @@ Texture passwordTexture;
 Texture serverTexture;
 Texture portTexture;
 Texture buttonTexture;
+Texture promptTexture;
 
 Texture::Texture() {
 	texture = NULL;
@@ -202,6 +203,8 @@ void close() {
 	passwordTexture.free();
 	serverTexture.free();
 	portTexture.free();
+	buttonTexture.free();
+	promptTexture.free();
 
 	TTF_CloseFont(font);
 	TTF_CloseFont(passwordFont);
@@ -237,10 +240,12 @@ bool clientLogin(ClientHandler * client) {
 			bool portTextBoxEnabled = false;
 			SDL_Event e;
 			SDL_Color textColor = { 0, 0, 0, 0xFF };
+			SDL_Color promptTextColor = { 255, 0, 0, 0xFF };
 			std::string userText = "";
 			std::string passwordText = "";
 			std::string serverText = clientParser->getIP();
 			std::string portText = clientParser->getPort();
+			std::string promptText = "";
 			SDL_StartTextInput();
 			while (!quit) {
 				bool renderText = true;
@@ -328,13 +333,16 @@ bool clientLogin(ClientHandler * client) {
 							posicionBotonY += 5;
 							if (!client->connectToServer(serverText, atoi(portText.c_str()))) {
 								std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
-								success = false;
+								promptText = "ERROR AL INTENTAR ESTABLECER LA CONEXION";
+								renderText = true;
 							}
 							else {
 								std::cout<<"ClientLogin: Conexión con el servidor establecida. Se inicia ejecución del cliente."<<std::endl;
+								//ACA TENGO QUE VERIFICAR SI EL USUARIO ES CORRECTO, Y SI ES CORRECTO VERIFICO SI YA ESTÁ CONECTADO
+
 								success = true;
+								quit = true;
 							}
-							quit = true;
 						}
 					} else if (e.type == SDL_TEXTINPUT) {
 						if (!((e.text.text[0] == 'c' || e.text.text[0] == 'C')
@@ -445,6 +453,12 @@ bool clientLogin(ClientHandler * client) {
 					else
 						portTexture.loadFromRenderedText(portText.c_str(),
 								textColor, false);
+
+					if (promptText == "")
+						promptTexture.loadFromRenderedText(" ", promptTextColor, false);
+					else
+						promptTexture.loadFromRenderedText(promptText.c_str(),
+								promptTextColor, false);
 				}
 
 				SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -460,6 +474,8 @@ bool clientLogin(ClientHandler * client) {
 						SERVERTEXTBOX_POSITION_Y + 5);
 				portTexture.render(TEXTBOX_POSITION_X + 10,
 						PORTTEXTBOX_POSITION_Y + 5);
+				promptTexture.render(TEXTBOX_POSITION_X,
+						PORTTEXTBOX_POSITION_Y + 50);
 				SDL_RenderPresent(renderer);
 				SDL_UpdateWindowSurface(window);
 			}

@@ -61,5 +61,6 @@ extern Texture passwordTexture;
 extern Texture serverTexture;
 extern Texture portTexture;
 extern Texture buttonTexture;
+extern Texture promptTexture;
 
 #endif /* CLIENT_SRC_CLIENTLOGIN_HH_ */
