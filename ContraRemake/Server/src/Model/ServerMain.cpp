@@ -1,9 +1,9 @@
 
-#include "../Utils/Logger.hh"
-#include "../Utils/Utils.hh"
+#include "../../../Utils/Logger.hh"
+#include "../../../Utils/Utils.hh"
 #include "Game.hh"
-#include "../Utils/ServerParser.hh"
-#include "../Utils/GameParser.hh"
+#include "../../../Utils/ServerParser.hh"
+#include "../../../Utils/GameParser.hh"
 #include "ServerHandler.hh"
 
 #define GAME_FPS 35

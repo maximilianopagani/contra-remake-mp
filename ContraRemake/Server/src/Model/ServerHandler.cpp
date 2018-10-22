@@ -354,7 +354,7 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 		{
 			client->setOffline();
 
-			MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconnect para game.");
+			MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconexion para game");
 			disconnected_msg->setPlayerId(client->getClientId());
 			disconnected_msg->setUsername(client->getUsername());
 			pthread_mutex_lock(&server_mutex);

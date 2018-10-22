@@ -414,7 +414,7 @@ int Player::getLeftLimit()
 
 int Player::getRightLimit()
 {
-	return getPosX() + PlayerStateHandlerServer::getDestinationWidth(state) - 15;
+	return getPosX() + PlayerStateHandler::getDestinationWidth(state) - 15;
 }
 
 int Player::getTopLimit()
@@ -424,5 +424,5 @@ int Player::getTopLimit()
 
 int Player::getBottomLimit()
 {
-	return getTopLimit() + PlayerStateHandlerServer::getDestinationHeight(state);
+	return getTopLimit() + PlayerStateHandler::getDestinationHeight(state);
 }

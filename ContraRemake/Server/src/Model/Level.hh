@@ -8,8 +8,8 @@
 #ifndef MODEL_LEVEL_HH_
 #define MODEL_LEVEL_HH_
 
-#include "../Utils/PlatformParser.hh"
-#include "../Utils/GameParser.hh"
+#include "../../Utils/PlatformParser.hh"
+#include "../../Utils/GameParser.hh"
 #include "Platform.hh"
 #include "Enemy.hh"
 #include "CameraLogic.hh"

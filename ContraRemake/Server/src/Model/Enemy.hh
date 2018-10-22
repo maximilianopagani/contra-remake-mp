@@ -10,7 +10,7 @@
 
 #include "CameraLogic.hh"
 //#include "LogicToViewTransporter.hh"
-#include "../Utils/Logger.hh"
+#include "../../../Utils/Logger.hh"
 
 class Enemy
 {

@@ -1,5 +1,5 @@
 /*
- * PlayerStateHandler.hh
+ * PlayerStateHandlerServer.hh
  *      Author: ldea
  */
 #ifndef PLAYERSTATE_HH_

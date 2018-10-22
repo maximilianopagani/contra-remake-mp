@@ -9,8 +9,8 @@
 #define SERVER_PARSER_HH_
 
 #include <string>
-#include "../data/tinyxml/tinyxml.h"
-#include "../data/tinyxml/tinystr.h"
+#include "../Server/src/data/tinyxml/tinyxml.h"
+#include "../Server/src/data/tinyxml/tinystr.h"
 #include <cstring>
 #include <cstdio>
 #include <stdlib.h>

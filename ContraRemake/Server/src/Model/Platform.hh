@@ -8,8 +8,8 @@
 #ifndef PLATFORM_HH_
 #define PLATFORM_HH_
 
-#include "../Utils/ICollisional.hh"
-#include "../Utils/MessageServer.hh"
+#include "../../Utils/ICollisional.hh"
+#include "../../Utils/MessageServer.hh"
 #include "CameraLogic.hh"
 #include <string>
 #include <strings.h>

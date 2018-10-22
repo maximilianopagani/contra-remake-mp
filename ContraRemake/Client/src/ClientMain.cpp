@@ -53,8 +53,7 @@ int ClientMain()
 	{
 
 
-		//if (!client->connectToServer("25.55.178.95", 54000))
-			if (!client->connectToServer("127.0.01", 54000))
+		if (!client->connectToServer("127.0.01", 54000))
 		{
 			std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
 			return false;

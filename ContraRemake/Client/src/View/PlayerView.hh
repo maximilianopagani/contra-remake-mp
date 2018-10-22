@@ -10,8 +10,7 @@
 
 #include "GameView.hh"
 #include "Sprite.hh"
-#include "../PlayerStateHandler.hh"
-//#include "Server/src/Utils/PlayerStateHandler.hh"
+#include "../../Utils/PlayerStateHandler.hh"
 
 class PlayerView
 {
