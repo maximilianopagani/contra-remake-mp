@@ -37,7 +37,7 @@ PlayerView::PlayerView(GameView* _gameView)
 		sprites[i][STATE_POINTDOWN_BACK] = new Sprite(gameView, "../.images/" + player_i_path + "/pointDownBack.png", 22, 37, 51, 85);
 		sprites[i][STATE_POINTBODYTOGROUND_BACK] = new Sprite(gameView, "../.images/" + player_i_path + "/bodyToGroundBack.png", 32, 38, 74, 87);
 		sprites[i][STATE_POINTUP_BACK] = new Sprite(gameView, "../.images/" + player_i_path + "/pointUpBack.png", 18, 36, 41, 82);
-//	TODO	sprites[i][STATE_POINTUP_BACK] = new Sprite(gameView, "../.images/" + player_i_path + "/pointUpBack.png", 18, 36, 41, 82);
+		sprites[i][STATE_FREEZED] = new Sprite(gameView, "../.images/player/playerDisconnected.png", 16, 38, 39, 87);
 	}
 }
 

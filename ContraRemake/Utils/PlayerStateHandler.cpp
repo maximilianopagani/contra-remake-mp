@@ -46,7 +46,7 @@ string PlayerStateHandler::stateToString(PlayerState aState)
 		case STATE_POINTBODYTOGROUND_BACK:
 			return "STATE_POINTBODYTOGROUND_BACK";
 	}
-	return "SIN ESTADO";
+	return "STATE_FREEZED";
 }
 
 PlayerState PlayerStateHandler::stringToState(string aState)
@@ -87,8 +87,7 @@ PlayerState PlayerStateHandler::stringToState(string aState)
 		return STATE_POINTDOWN_BACK;
 	else if (aState == "STATE_POINT")
 		return STATE_POINTBODYTOGROUND_BACK;
-	// TODO ver respuesta de error
-	return STATE_STANDING;
+	return STATE_FREEZED;
 }
 
 int PlayerStateHandler::getDestinationWidth(PlayerState aState)
@@ -131,6 +130,8 @@ int PlayerStateHandler::getDestinationWidth(PlayerState aState)
 			return 74;
 		case STATE_POINTUP_BACK:
 			return 41;
+		case STATE_FREEZED:
+			return 39;
 	}
 	return 0;
 }
@@ -175,6 +176,8 @@ int PlayerStateHandler::getDestinationHeight(PlayerState aState)
 			return 87;
 		case STATE_POINTUP_BACK:
 			return 82;
+		case STATE_FREEZED:
+			return 87;
 	}
 	return 0;
 }

@@ -62,6 +62,9 @@ void Player::render()
 
 void Player::handleKeys(const Uint8* playerKeyStates)
 {
+	if(state == STATE_FREEZED)
+		return;
+
 	// bug de ambas direcciones
 	if(playerKeyStates[KEYCODE_RIGHT] && playerKeyStates[KEYCODE_LEFT])
 	{
@@ -140,6 +143,9 @@ void Player::handleKeys(const Uint8* playerKeyStates)
 
 void Player::update()
 {
+	if(state == STATE_FREEZED)
+		return;
+
 	if(falling)
 		pos_y += 5;
 
@@ -399,6 +405,20 @@ void Player::spawn(int x, int y)
 	maxDistanceJump = 150;
 	falling = true;
 	processedKeys = false;
+	lastShotTime = 0;
+	bullets.clear();
+}
+
+void Player::freeze()
+{
+//	pos_x = x;
+//	pos_y = y;
+	state = STATE_FREEZED;
+//	aimingAt = AIM_FRONT;
+//	direction = DIRECTION_FRONT;
+	maxDistanceJump = 150;
+	falling = false;
+	processedKeys = true;
 	lastShotTime = 0;
 	bullets.clear();
 }

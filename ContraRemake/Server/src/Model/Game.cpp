@@ -144,16 +144,20 @@ void Game::processMessage(MessageServer* message)
 					int playerid = message->getPlayerId();
 					std::string username = message->getUsername();
 					std::cout<<"Game: Jugador desconectado ID: "<<playerid<<" y Username: "<<username<<std::endl;
+					players.at(playerid)->freeze();
 					break;
 				}
 
 				case RECONNECT:
 				{
+					int playerid = message->getPlayerId();
 					serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, "set1/fondo1.png", "1"));
 					serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, "set1/fondo2.png", "2"));
 					serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, "set1/fondo3.png", "3"));
-					std::cout<<"Envío recarga a todo el mundo por la reconexion, medio negro"<<std::endl;
 					// si no mando a recargar los fondos tira segmentation fault, seguramente pq quiere acceder a sprites nulos que no estan creados en playerview del cliente
+					std::cout<<"Envío recarga a todo el mundo por la reconexion, medio negro"<<std::endl;
+					Player* p = players.at(playerid);
+					p->spawn(p->getPosX(), p->getPosY()-5);
 					break;
 				}
 			}
@@ -255,7 +259,6 @@ void Game::update()
     }
 	//----------------------------------------------------------------------
 	//Logica de reUbicar al personaje despues de caer
-
     for(int i = 0; i < max_players; i++)
     {
     	if(cameraLogic->outOfCameraLowerLimit(players.at(i)->getPosY()))

@@ -28,6 +28,7 @@ enum PlayerState {
 	STATE_POINTUP_BACK,
 	STATE_POINTDOWN_BACK,
 	STATE_POINTBODYTOGROUND_BACK,
+	STATE_FREEZED
 };
 
 class PlayerStateHandler
@@ -39,7 +40,7 @@ class PlayerStateHandler
 		static int getDestinationHeight(PlayerState aState);
 
 		// es necesario que sea const y publico para poder seguir usando array
-		static const int MAX_ANIMATIONS = 18;
+		static const int MAX_ANIMATIONS = 19;
 
 	private:
 };
