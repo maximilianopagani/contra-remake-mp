@@ -19,7 +19,9 @@ class CameraLogic
 		int getCameraPosY() { return camera_y_position; }
 		int getCameraWidth() { return camera_width; }
 		int getCameraHeight() { return camera_height; }
+		int getLevel(){return level ;}
 
+		void setLevel(int _level){level = _level;}
 		void setCameraPosX(int x) { camera_x_position = x; }
 		void setCameraPosY(int y) { camera_y_position = y; }
 		void setCameraPosition(int x, int y) { camera_x_position = x; camera_y_position = y; }
@@ -35,6 +37,7 @@ class CameraLogic
 
 		int camera_x_position, camera_y_position;
 		int camera_width, camera_height;
+		int level ;
 };
 
 #endif /* MODEL_CAMERALOGIC_HH_ */

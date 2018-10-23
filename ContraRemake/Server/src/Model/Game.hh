@@ -44,6 +44,8 @@ class Game
         int currentLevel;
         int max_players;
 
+        bool canScroll ;
+
         GameParser* gameParser;
 
 		std::vector<Player*> players;

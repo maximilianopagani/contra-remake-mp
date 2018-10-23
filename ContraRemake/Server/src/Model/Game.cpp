@@ -12,6 +12,7 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	server = _server;
 	max_players = _max_players;
 	FPS = _FPS;
+	canScroll = true;
 }
 
 Game::~Game()
@@ -24,6 +25,7 @@ void Game::init()
 	enEjecucion = true;
     currentLevel = LEVEL1;
 
+    cameraLogic->setLevel(currentLevel);
     level = new Level(cameraLogic, currentLevel, serverMessageHandler, gameParser);
 
     for(int i = 0; i < max_players; i++)
@@ -233,10 +235,20 @@ void Game::update()
     }
 
 	//----------------------------------------------------------------------
-	//Setea el nuevo border apartir de jugador
+	//Multiscroleo
+    canScroll = true;
+
     for(int i = 0; i < max_players; i++) {
-    	level->moveForward(players.at(i)->getPosX(), players.at(0)->getPosY()); // FALTA HACER TODO EL TEMA DE SCROLL
-    	players.at(i)->IsFreezed( currentLevel == LEVEL2 );
+       if(players.at(i)->getPosX() <= cameraLogic->getCameraPosX() ){
+    	   //18 es estado freezado
+    	   if(players.at(i)->getState() != 18 ) {
+    		   canScroll = false;
+    	   }
+       }
+    }
+    for(int i = 0; i < max_players; i++) {
+    	if(canScroll) level->moveForward(players.at(i)->getPosX(), players.at(i)->getPosY());
+        players.at(i)->IsFreezed( currentLevel == LEVEL2 );
     }
 
 	//----------------------------------------------------------------------
@@ -249,14 +261,14 @@ void Game::update()
     {
 		for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator)
 		{
-			if(CollisionHelper::stands(players.at(i), *platformsIterator))
+			if(CollisionHelper::stands(players.at(i), *platformsIterator) && players.at(i)->getState() != 18 )
 			{
 				players.at(i)->fallingDownStop();
 				break;
 			}
 			else
 			{
-				players.at(i)->fallingDown();
+				if(players.at(i)->getState() != 18 ) players.at(i)->fallingDown();
 			}
 		}
     }
@@ -266,7 +278,7 @@ void Game::update()
     {
     	if(cameraLogic->outOfCameraLowerLimit(players.at(i)->getPosY()))
     	{
-    		players.at(i)->spawn(cameraLogic->getCameraPosX()+150,cameraLogic->getCameraPosY()+200);
+    		if(players.at(i)->getState() != 18 ) players.at(i)->spawn(cameraLogic->getCameraPosX()+150,cameraLogic->getCameraPosY()+200);
     		//level->restart();
     	}
     }

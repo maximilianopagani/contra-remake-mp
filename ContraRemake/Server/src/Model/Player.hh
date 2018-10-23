@@ -36,6 +36,7 @@ class Player : public ICollisional
 
 		int getPosX(){ return pos_x; }
 		int getPosY(){ return pos_y; }
+		int getState(){ return state;}
 
 		void spawn(int x, int y);
 		void freeze();

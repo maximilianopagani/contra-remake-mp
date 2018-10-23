@@ -14,8 +14,8 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 
 	player_id = _player_id;
 
-	pos_x = 600;
-	pos_y = 200;
+	pos_x = 200;
+	pos_y = 3800;
 	maxDistanceJump = 150;
 	falling = true;
 	processedKeys = false;
@@ -27,6 +27,7 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 
 	lastShotTime = 0;
 	shotCooldown = 175;
+
 }
 
 Player::~Player()
@@ -146,7 +147,7 @@ void Player::update()
 	if(state == STATE_FREEZED)
 		return;
 
-	if(falling)
+	if(falling && state != STATE_FREEZED)
 		pos_y += 5;
 
 	//------------------------------------------------------
@@ -244,10 +245,10 @@ void Player::walkLeft()
 void Player::walkRight()
 {
 	direction = DIRECTION_FRONT;
-	if (!cameraLogic->outOfCameraRightLimit(pos_x + 5))
-	{
-		pos_x+=5;
-	}
+	if (!cameraLogic->outOfCameraRightLimit(pos_x+263) && cameraLogic->getLevel() != 1){
+		 pos_x+=5;
+	}else if (!cameraLogic->outOfCameraRightLimit(pos_x + 5) && cameraLogic->getLevel() == 1  )  pos_x+=5;
+
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN)
 	{
 		if(aimingAt==AIM_UP)
@@ -427,8 +428,8 @@ void Player::IsFreezed(bool vertical){
 	if(state == STATE_FREEZED && pos_x < cameraLogic->getCameraPosX()&& vertical==false){
 		pos_x = cameraLogic->getCameraPosX();
 	}
-	else if(state == STATE_FREEZED && pos_y > (cameraLogic->getCameraPosY()+600)&& vertical==true){
-		pos_y = (cameraLogic->getCameraPosY()+600 );
+	if(state == STATE_FREEZED && pos_y+87 > cameraLogic->getCameraPosY()+600 && vertical==true){
+		pos_y = cameraLogic->getCameraPosY()+513 ;
 	}
 }
 
