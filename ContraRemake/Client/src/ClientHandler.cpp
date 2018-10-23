@@ -9,6 +9,8 @@
 
 ClientHandler::ClientHandler(ClientMessageHandler* _clientMessageHandler) // @suppress("Class members should be properly initialized")
 {
+	username = "";
+	password = "";
 	network_socket = -1;
 	server_port = 0;
 	server_ip = "";
@@ -207,4 +209,20 @@ void ClientHandler::processMessages()
 		}
 		client_mutex.unlock();
 	}
+}
+
+void ClientHandler::setUsername(std::string _username) {
+	this->username = _username;
+}
+
+void ClientHandler::setPassword(std::string _password) {
+	this->password = _password;
+}
+
+std::string ClientHandler::getUsername() {
+	return username;
+}
+
+std::string ClientHandler::getPassword() {
+	return password;
 }

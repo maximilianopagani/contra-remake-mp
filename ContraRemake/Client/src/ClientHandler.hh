@@ -42,8 +42,15 @@ class ClientHandler
 		void processMessages();
 		static void* processMessagesThread(void* client);
 
-	private:
+		void setUsername(std::string _username);
+		void setPassword(std::string _password);
 
+		std::string getUsername();
+		std::string getPassword();
+
+	private:
+		std::string username;
+		std::string password;
 		int network_socket, server_port;
 		std::string server_ip;
 

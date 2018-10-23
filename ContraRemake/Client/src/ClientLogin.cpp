@@ -331,17 +331,22 @@ bool clientLogin(ClientHandler * client) {
 							}
 						} else if (e.key.keysym.sym == SDLK_RETURN) {
 							posicionBotonY += 5;
-							if (!client->connectToServer(serverText, atoi(portText.c_str()))) {
-								std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
-								promptText = "ERROR AL INTENTAR ESTABLECER LA CONEXION";
+							if (userText == "" || passwordText == "") {
+								promptText = "DEBE COMPLETAR USUARIO Y CONTRASEÑA";
 								renderText = true;
 							}
 							else {
-								std::cout<<"ClientLogin: Conexión con el servidor establecida. Se inicia ejecución del cliente."<<std::endl;
-								//ACA TENGO QUE VERIFICAR SI EL USUARIO ES CORRECTO, Y SI ES CORRECTO VERIFICO SI YA ESTÁ CONECTADO
-
-								success = true;
-								quit = true;
+								if (!client->connectToServer(serverText, atoi(portText.c_str()))) {
+									std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
+									promptText = "ERROR AL INTENTAR ESTABLECER LA CONEXION";
+									renderText = true;
+								}
+								else {
+									std::cout<<"ClientLogin: Conexión con el servidor establecida. Se inicia ejecución del cliente."<<std::endl;
+									//ACA TENGO QUE VERIFICAR SI EL USUARIO ES CORRECTO, Y SI ES CORRECTO VERIFICO SI YA ESTÁ CONECTADO
+									success = true;
+									quit = true;
+								}
 							}
 						}
 					} else if (e.type == SDL_TEXTINPUT) {
@@ -376,7 +381,23 @@ bool clientLogin(ClientHandler * client) {
 								&& y > BUTTON_POSITION_Y
 								&& y < BUTTON_POSITION_Y + BUTTON_HEIGHT) {
 							posicionBotonY += 5;
-							//aca debería enviar el mensaje al servidor con usuario y contraseña
+							if (userText == "" || passwordText == "") {
+								promptText = "DEBE COMPLETAR USUARIO Y CONTRASEÑA";
+								renderText = true;
+							}
+							else {
+								if (!client->connectToServer(serverText, atoi(portText.c_str()))) {
+									std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
+									promptText = "ERROR AL INTENTAR ESTABLECER LA CONEXION";
+									renderText = true;
+								}
+								else {
+									std::cout<<"ClientLogin: Conexión con el servidor establecida. Se inicia ejecución del cliente."<<std::endl;
+									//ACA TENGO QUE VERIFICAR SI EL USUARIO ES CORRECTO, Y SI ES CORRECTO VERIFICO SI YA ESTÁ CONECTADO
+									success = true;
+									quit = true;
+								}
+							}
 							quit = true;
 						} else if (x > TEXTBOX_POSITION_X
 								&& x < TEXTBOX_POSITION_X + TEXTBOX_WIDTH
@@ -430,16 +451,21 @@ bool clientLogin(ClientHandler * client) {
 				if (renderText) {
 					if (userText == "")
 						userTexture.loadFromRenderedText(" ", textColor, false);
-					else
+					else {
+						client->setUsername(userText);
 						userTexture.loadFromRenderedText(userText.c_str(),
 								textColor, false);
+					}
 
 					if (passwordText == "")
 						passwordTexture.loadFromRenderedText(" ", textColor,
 								true);
-					else
+					else {
+						client->setPassword(passwordText);
 						passwordTexture.loadFromRenderedText(
 								passwordText.c_str(), textColor, true);
+
+					}
 
 					if (serverText == "")
 						serverTexture.loadFromRenderedText(" ", textColor,
