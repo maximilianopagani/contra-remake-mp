@@ -36,17 +36,17 @@ class Player : public ICollisional
 
 		int getPosX(){ return pos_x; }
 		int getPosY(){ return pos_y; }
-		int getState(){ return state;}
 
 		void spawn(int x, int y);
 		void freeze();
-		void IsFreezed(bool vertical);
+		void dragOfflinePlayer();
 
 		//ACCIONES
 		void jump();
 		void goDown();
 		void walkLeft();
 		void walkRight();
+		bool canMoveRight(int pixels_to_move);
 		void pointUP(bool cond);
 		void pointDefault(bool cond);
 		void pointDown(bool cond);
@@ -59,6 +59,14 @@ class Player : public ICollisional
 		void handleKeys(const Uint8* playerKeyStates);
 		bool alreadyProcessedKeys() { return processedKeys; }
 
+		void setOnlineAgain() { state = STATE_STANDING; }
+		bool isOnline() { return state != STATE_FREEZED; }
+		bool isOffline() { return state == STATE_FREEZED; }
+
+		void disableMovementBeyondBorder() { movement_beyond_border = false; }
+		void enableMovementBeyondBorder() { movement_beyond_border = true; }
+		bool canMoveBeyondBorder() { return movement_beyond_border; }
+
 	private:
 
 		int player_id;
@@ -66,6 +74,8 @@ class Player : public ICollisional
 		bool falling;
 
 		Uint32 timeAtIterationStart=0;
+
+		bool movement_beyond_border;
 
 		PlayerState state;
 
@@ -82,7 +92,7 @@ class Player : public ICollisional
 		//Manejo de balas
 		Uint32 lastShotTime;
 		Uint32 shotCooldown;
-		int distanceToTravel = 425;
+		int distanceToTravel = 375;
 
 		// Manejo de balas
 		std::list<Bullet*> bullets;
@@ -98,7 +108,6 @@ class Player : public ICollisional
 			KEYCODE_LEFT,
 			KEYCODE_SPACE,
 			KEYCODE_LCTRL,
-			KEYCODE_N,
 		};
 
 		bool processedKeys = false; // Esto es para evitar procesar 2 mensajes que hayan llegado muy juntos en el mismo frame, y hacer que por ejemplo, el pj avanze el doble.

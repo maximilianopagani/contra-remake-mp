@@ -16,6 +16,7 @@
 #include "ServerMessageHandler.hh"
 
 enum LevelNumber {LEVEL1, LEVEL2, LEVEL3};
+enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
 
 class Level
 {
@@ -26,10 +27,20 @@ class Level
 
 		void render();
 		void destroy();
-		void moveForward(int playerPosX, int playerPosY);
+		void moveForward(int pixels_to_move);
 
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
+
+		int getRespawnPointX() { return playerRespawnX; }
+		int getRespawnPointY() { return playerRespawnY; }
+
+		std::string getBackground1Path() { return background1Path; }
+		std::string getBackground2Path() { return background2Path; }
+		std::string getBackground3Path() { return background3Path; }
+
+		int getBorder() { return border; }
+		int getScrollingType() { return scrolling; }
 
 		list<Platform*>* getPlataformList(){ return &platforms; }
 
@@ -38,15 +49,18 @@ class Level
 	private:
 
 		CameraLogic* cameraLogic;
-		 GameParser* gameParser;
+		GameParser* gameParser;
 
 		int background1PosX, background1PosY, background1Width, background1Height;
-		int background2PosX, background2PosY, background2Width, background2Height; // no seria necesario si todas las capas fuesen del mismo tamaño
+		int background2PosX, background2PosY, background2Width, background2Height;
 		int background3PosX, background3PosY, background3Width, background3Height;
 
-		int playerSpawnX, playerSpawnY, border;
+		std::string background1Path;
+		std::string background2Path;
+		std::string background3Path;
 
-		enum ScrollingType {SCROLLING_VERTICAL, SCROLLING_HORIZONTAL};
+		int playerSpawnX, playerSpawnY, playerRespawnX, playerRespawnY, border;
+
 		ScrollingType scrolling;
 
 		ServerMessageHandler* serverMessageHandler;
@@ -57,7 +71,6 @@ class Level
 		std::list<Platform*>::iterator platformsIterator;
 
         Enemy* enemy;
-
 };
 
 #endif /* MODEL_LEVEL_HH_ */

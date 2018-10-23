@@ -13,6 +13,8 @@ CameraLogic::CameraLogic(int x, int y, int w, int h)
 	camera_y_position = y;
 	camera_width = w;
 	camera_height = h;
+	canMove = true;
+	border = 0;
 }
 
 bool CameraLogic::outOfCameraLimits(int x, int y)

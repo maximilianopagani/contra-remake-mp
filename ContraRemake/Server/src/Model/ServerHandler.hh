@@ -14,9 +14,11 @@
 #include <arpa/inet.h>
 #include <iostream>
 #include <list>
+#include "../../../Utils/Utils.hh"
 #include "Client.hh"
 
 extern pthread_mutex_t server_mutex;
+extern pthread_mutex_t server_clients_mutex;
 
 class ServerHandler
 {
@@ -38,12 +40,14 @@ class ServerHandler
 		bool alreadyLoggedBefore(std::string user, std::string passw);
 		Client* searchForClient(std::string user, std::string passw);
 
+		bool readyToStartGame();
 		bool allClientsOnline();
 		void sendToConnectedClient(Client* client, MessageServer* message);
+		void sendToConnectedClientId(int client_id, MessageServer* message);
 		void sendToAllConnectedClients(MessageServer* message);
 		void sendToSocket(int destination_socket, MessageServer* message);
 
-		int getConnectedClients() { return connectedClients.size(); }
+		int getConnectedClients();
 
 		static void* acceptConnectionsThread(void* server);
 		static void* recieveMessagesFromClientThread(void* client);

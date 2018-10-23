@@ -27,6 +27,8 @@ enum MsgDestHeader {
 enum MsgCmdHeader {
 	NONE,
 	LOGIN,
+	LOGIN_DATA,
+	LOGIN_ALREADY_ON,
 	KEYS,
 	RENDER,
 	LOAD,
@@ -34,7 +36,8 @@ enum MsgCmdHeader {
 	SHOW,
 	GAMEFULL,
 	DISCONNECT,
-	RECONNECT
+	RECONNECT,
+	WAITINGPLAYERS
 };
 
 class MessageServer

@@ -19,6 +19,7 @@ class ServerMessageHandler
 		virtual ~ServerMessageHandler();
 
 		void sendToAllClients(MessageServer* message);
+		void sendToClientId(int client_id, MessageServer* message);
 
 	private:
 

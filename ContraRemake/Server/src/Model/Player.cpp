@@ -14,8 +14,8 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 
 	player_id = _player_id;
 
-	pos_x = 200;
-	pos_y = 3800;
+	pos_x = 600;
+	pos_y = 200;
 	maxDistanceJump = 150;
 	falling = true;
 	processedKeys = false;
@@ -26,8 +26,8 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	aimingAt = AIM_FRONT;
 
 	lastShotTime = 0;
-	shotCooldown = 175;
-
+	shotCooldown = 200;
+	movement_beyond_border = true;
 }
 
 Player::~Player()
@@ -41,7 +41,7 @@ void Player::render()
 	//Mandar Mensaje para dibujar cuando camina
 
 	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN
-			|| state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN){
+			|| state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN){ // ESTO PASARLO A VIEW COMO ANTES, ASI LE AHORRAMOS TRABAJO AL SERVER, Y DE LA OTRA FORMA NO CHEQUEO POR TODOS LOS ESTADOS
 
 		timeAtIterationStart++;
 
@@ -144,10 +144,7 @@ void Player::handleKeys(const Uint8* playerKeyStates)
 
 void Player::update()
 {
-	if(state == STATE_FREEZED)
-		return;
-
-	if(falling && state != STATE_FREEZED)
+	if(falling)
 		pos_y += 5;
 
 	//------------------------------------------------------
@@ -242,12 +239,30 @@ void Player::walkLeft()
 	}
 }
 
+bool Player::canMoveRight(int new_pos_x)
+{
+	if(!cameraLogic->canMoveForward()) // si ya la camara esta bloqueada, es decir llegué al fondo del nivel
+	{
+		if(!cameraLogic->outOfCameraRightLimit(new_pos_x))
+			return true;
+		else
+			return false;
+	}
+	else if(!this->canMoveBeyondBorder() && new_pos_x >= cameraLogic->getBorder())
+	{
+		return false;
+	}
+	else
+		return true;
+}
+
 void Player::walkRight()
 {
 	direction = DIRECTION_FRONT;
-	if (!cameraLogic->outOfCameraRightLimit(pos_x+263) && cameraLogic->getLevel() != 1){
-		 pos_x+=5;
-	}else if (!cameraLogic->outOfCameraRightLimit(pos_x + 5) && cameraLogic->getLevel() == 1  )  pos_x+=5;
+	if(this->canMoveRight(pos_x + 5))
+	{
+		pos_x+=5;
+	}
 
 	if(state != STATE_JUMPINGUP && state != STATE_JUMPINGDOWN)
 	{
@@ -400,11 +415,16 @@ void Player::spawn(int x, int y)
 {
 	pos_x = x;
 	pos_y = y;
-	state = STATE_STANDING;
+
+	if(this->isOnline())
+	{
+		state = STATE_STANDING;
+	}
+
 	aimingAt = AIM_FRONT;
 	direction = DIRECTION_FRONT;
 	maxDistanceJump = 150;
-	falling = true;
+	falling = false;
 	processedKeys = false;
 	lastShotTime = 0;
 	bullets.clear();
@@ -424,18 +444,19 @@ void Player::freeze()
 	bullets.clear();
 }
 
-void Player::IsFreezed(bool vertical){
-	if(state == STATE_FREEZED && pos_x < cameraLogic->getCameraPosX()&& vertical==false){
+void Player::dragOfflinePlayer()
+{
+	if(cameraLogic->outOfCameraLeftLimit(pos_x))
+	{
 		pos_x = cameraLogic->getCameraPosX();
 	}
-	if(state == STATE_FREEZED && pos_y+87 > cameraLogic->getCameraPosY()+600 && vertical==true){
-		pos_y = cameraLogic->getCameraPosY()+513 ;
+	else if(cameraLogic->outOfCameraLowerLimit(pos_y + 90))
+	{
+		pos_y = cameraLogic->getCameraPosY() + cameraLogic->getCameraHeight() - 90;
 	}
 }
 
-void Player::destroy()
-{
-}
+void Player::destroy() {}
 
 int Player::getLeftLimit()
 {

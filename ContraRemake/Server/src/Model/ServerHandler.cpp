@@ -122,39 +122,45 @@ void ServerHandler::acceptConnections()
 
 									Client* reconnectClient = this->searchForClient(user, passw);
 
+									std::cout<<"[ServerHandler] Encuentro cliente anterior para asociar."<<std::endl;
+
 									if(reconnectClient != NULL)
 									{
-										std::cout<<"[ServerHandler] Encuentro cliente anterior para asociar."<<std::endl;
+										if(this->isGameFull())
+										{
+											std::cout<<"[ServerHandler] El juego ya reservó todos los lugares para jugadores disponibles. Es una reconexión estandar con el juego ya comenzado."<<std::endl;
 
-										MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Info de reconnect para game.");
-										reconnect_msg->setPlayerId(reconnectClient->getClientId());
-										reconnect_msg->setUsername(reconnectClient->getUsername());
-										pthread_mutex_lock(&server_mutex);
-										server_recv_msgs_queue.push(reconnect_msg);
-										pthread_mutex_unlock(&server_mutex);
-
-										std::cout<<"[ServerHandler] Mensaje de reconexión enviado a game."<<std::endl;
+											MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Info de reconnect para game.");
+											reconnect_msg->setPlayerId(reconnectClient->getClientId());
+											reconnect_msg->setUsername(reconnectClient->getUsername());
+											pthread_mutex_lock(&server_mutex);
+											server_recv_msgs_queue.push(reconnect_msg);
+											pthread_mutex_unlock(&server_mutex);
+											std::cout<<"[ServerHandler] Mensaje de reconexión enviado a game."<<std::endl;
+										}
+										else
+										{
+											std::cout<<"[ServerHandler] El juego todavía no reservó todos los lugares para jugadores disponibles. Estoy en etapa de espera de conexiones."<<std::endl;
+										}
 
 										reconnectClient->setOnline(new_socket);
-
 										std::cout<<"[ServerHandler] Seteando cliente nuevamente online."<<std::endl;
-										//mandar a cargar las texturas del fondo actual devuelta? mandar mensaje de reconnect a game?
 										struct thread_arg_struct args;
 										args.arg_server = this;
 										args.arg_client = reconnectClient;
-										// ver tema de si se puede sobreescribir el anterior thread o que onda
-										std::cout<<"[ServerHandler] Creando nuevo thread de recepción."<<std::endl;
+										std::cout<<"[ServerHandler] Creando nuevo thread de recepción de mensajes para el cliente."<<std::endl;
 										pthread_create(reconnectClient->getRecieveMessagesThread(), NULL, &ServerHandler::recieveMessagesFromClientThread, (void*) &args);
 									}
 									else
 									{
 										this->sendToSocket(new_socket, new MessageServer(ERROR, RECONNECT, "Error raro al reconectar."));
+										Utils::setDelay(300);
 										shutdown(new_socket, SHUT_RDWR);
 									}
 								}
 								else if(!this->isGameFull())
 								{
-									std::cout<<"[ServerHandler] El juego todavía no está completo."<<std::endl;
+									std::cout<<"[ServerHandler] El juego todavía no reservó todos los lugares para jugadores disponibles."<<std::endl;
 
 									if(!this->alreadyLoggedBefore(user, passw))
 									{
@@ -165,7 +171,11 @@ void ServerHandler::acceptConnections()
 										std::cout<<"[ServerHandler] Creado cliente con ID: "<<new_client->getClientId()<<std::endl;
 
 										// Agrego el cliente a la lista de jugadores conectados
+										pthread_mutex_lock(&server_clients_mutex);
 										connectedClients.push_back(new_client);
+										pthread_mutex_unlock(&server_clients_mutex);
+
+										this->sendToSocket(new_socket, new MessageServer(INFO, WAITINGPLAYERS, "Informo login OK. Esperando."));
 
 										// CREO UN THREAD DEDICADO A ESCUCHAR MENSAJES DE ESE NUEVO CLIENTE (PORQUE RECV ES UNA LLAMADA BLOQUEANTE Y ME BLOQUEARIA TODO SI UN CLIENTE NO MANDA NADA)
 										struct thread_arg_struct args;
@@ -181,37 +191,49 @@ void ServerHandler::acceptConnections()
 									}
 									else
 									{
-										this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN, "Usuario ya logeado."));
+										this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN_ALREADY_ON, "Usuario ya logeado."));
+										Utils::setDelay(300);
 										shutdown(new_socket, SHUT_RDWR);
 									}
+								}
+								else
+								{
+									this->sendToSocket(new_socket, new MessageServer(ERROR, GAMEFULL, "Juego completo."));
+									Utils::setDelay(300);
+									shutdown(new_socket, SHUT_RDWR);
 								}
 							}
 							else
 							{
-								this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN, "Usuario online."));
+								this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN_ALREADY_ON, "Usuario online."));
+								Utils::setDelay(300);
 								shutdown(new_socket, SHUT_RDWR);
 							}
 						}
 						else
 						{
-							this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN, "User y/o clave incorrectos."));
+							this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN_DATA, "User y/o clave incorrectos."));
+							Utils::setDelay(300);
 							shutdown(new_socket, SHUT_RDWR);
 						}
 					}
 					else
 					{
-						this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN, "Mensaje de login incorrecto."));
+						this->sendToSocket(new_socket, new MessageServer(ERROR, LOGIN_DATA, "Mensaje de login incorrecto."));
+						Utils::setDelay(300);
 						shutdown(new_socket, SHUT_RDWR);
 					}
 				}
 				else
 				{
 					std::cout<<"[ServerHandler] Error al leer mensaje de login. Conexión perdida o apagada."<<std::endl;
+					shutdown(new_socket, SHUT_RDWR);
 				}
 			}
 			else
 			{
 				this->sendToSocket(new_socket, new MessageServer(ERROR, GAMEFULL, "Juego completo."));
+				Utils::setDelay(300);
 				shutdown(new_socket, SHUT_RDWR);
 			}
 		}
@@ -220,6 +242,14 @@ void ServerHandler::acceptConnections()
 			std::cout<<"ServerHandler: Error al tratar de aceptar conexión entrante y crear nuevo socket."<<std::endl;
 		}
 	}
+}
+
+bool ServerHandler::readyToStartGame()
+{
+	if(this->isGameFull() && this->allClientsOnline())
+		return true;
+	else
+		return false;
 }
 
 Client* ServerHandler::searchForClient(std::string user, std::string passw)
@@ -232,14 +262,27 @@ Client* ServerHandler::searchForClient(std::string user, std::string passw)
 	return NULL;
 }
 
+int ServerHandler::getConnectedClients()
+{
+	int clients_amount = 0;
+
+	pthread_mutex_lock(&server_clients_mutex);
+	clients_amount = connectedClients.size();
+	pthread_mutex_unlock(&server_clients_mutex);
+
+	return clients_amount;
+}
+
 bool ServerHandler::isGameFull()
 {
-	return (connectedClients.size() >= max_clients);
+	return (this->getConnectedClients() >= max_clients);
 }
 
 bool ServerHandler::allClientsOnline()
 {
-	for(uint i = 0; i < connectedClients.size(); i++)
+	int clients_size = this->getConnectedClients();
+
+	for(uint i = 0; i < clients_size; i++)
 	{
 		if(connectedClients.at(i)->isOffline())
 			return false;
@@ -267,7 +310,7 @@ bool ServerHandler::alreadyOnline(std::string user, std::string passw)
 	return false;
 }
 
-bool ServerHandler::validateUserAndPassw(std::string user, std::string passw) // desp los datos de login sacarlos del parser
+bool ServerHandler::validateUserAndPassw(std::string user, std::string passw) // HAY QUE METER LO DEL PARSER ACA
 {
 	if(user == "maxi" && passw == "maxi")
 		return true;
@@ -354,14 +397,20 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 		{
 			client->setOffline();
 
-			MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconexion para game");
-			disconnected_msg->setPlayerId(client->getClientId());
-			disconnected_msg->setUsername(client->getUsername());
-			pthread_mutex_lock(&server_mutex);
-			server_recv_msgs_queue.push(disconnected_msg); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
-			pthread_mutex_unlock(&server_mutex);
-
-			std::cout<<"Hubo shutdown desde cliente."<<std::endl;
+			if(this->isGameFull())
+			{
+				std::cout<<"Hubo shutdown desde cliente mientras el juego estaba lleno y corriendo."<<std::endl;
+				MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconexion para game");
+				disconnected_msg->setPlayerId(client->getClientId());
+				disconnected_msg->setUsername(client->getUsername());
+				pthread_mutex_lock(&server_mutex);
+				server_recv_msgs_queue.push(disconnected_msg); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
+				pthread_mutex_unlock(&server_mutex);
+			}
+			else
+			{
+				std::cout<<"Hubo shutdown desde cliente mientras el juego estaba en etapa de espera de conexiones."<<std::endl;
+			}
 			break;
 		}
 	}
@@ -409,6 +458,18 @@ void ServerHandler::sendToConnectedClient(Client* client, MessageServer* message
 		message->getContent(msg);
 		std::cout<<"ServerHandler: Mensaje enviado al cliente id "<<client->getClientId()<<" : "<<msg<<std::endl;
 		send(client->getSocket(), msg, sizeof(msg), 0);
+	}
+	delete message;
+}
+
+void ServerHandler::sendToConnectedClientId(int client_id, MessageServer* message)
+{
+	if(connectedClients.at(client_id)->isOnline())
+	{
+		char msg[256];
+		message->getContent(msg);
+		std::cout<<"ServerHandler: Mensaje enviado al cliente id "<<client_id<<" : "<<msg<<std::endl;
+		send(connectedClients.at(client_id)->getSocket(), msg, sizeof(msg), 0);
 	}
 	delete message;
 }

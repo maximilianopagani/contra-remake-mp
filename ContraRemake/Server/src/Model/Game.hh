@@ -32,6 +32,7 @@ class Game
         int getMaxPlayers() { return max_players; }
         bool isValidPlayerId(int player_id) { return (player_id >= 0 && player_id < max_players); }
 
+        void scrollLevel();
         void restartGame();
         void nextLevel();
         void endGame();
@@ -42,9 +43,10 @@ class Game
         int FPS;
 
         int currentLevel;
-        int max_players;
+        int changeLevelNextFrame = false;
+        int changeLevelCooldown = 0;
 
-        bool canScroll ;
+        int max_players;
 
         GameParser* gameParser;
 

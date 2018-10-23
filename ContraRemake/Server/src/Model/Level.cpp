@@ -19,9 +19,13 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set1/fondo1.png","1"));
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set1/fondo2.png","2"));
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set1/fondo3.png","3"));
+			background1Path = "set1/fondo1.png"; // ESTO DEBERIA LEVANTARLO DEL PARSER O NO?
+			background2Path = "set1/fondo2.png";
+			background3Path = "set1/fondo3.png";
+
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background1Path, "1"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background2Path, "2"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background3Path, "3"));
 
 			background1Width = 8000;
 			background1Height = 600;
@@ -38,6 +42,9 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			playerSpawnX = 150;
 			playerSpawnY = 300;
 
+			playerRespawnX = 100; // Relativo a la ventana, donde van a aparecer cuando caigan
+			playerRespawnY = 200;
+
 			enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level1.png", 7800, 200, 95, 111);
 
 			break;
@@ -47,9 +54,13 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		{
 			scrolling = SCROLLING_VERTICAL;
 
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set2/fondo1.png","1"));
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set2/fondo2.png","2"));
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set2/fondo3.png","3"));
+			background1Path = "set2/fondo1.png"; // ESTO DEBERIA LEVANTARLO DEL PARSER O NO?
+			background2Path = "set2/fondo2.png";
+			background3Path = "set2/fondo3.png";
+
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background1Path, "1"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background2Path, "2"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background3Path, "3"));
 
 			background1Width = 800;
 			background1Height = 4000;
@@ -66,6 +77,9 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			playerSpawnX = 150;
 			playerSpawnY = 3800;
 
+			playerRespawnX = 400; // Relativo a la ventana, donde van a aparecer cuando caigan
+			playerRespawnY = 350;
+
 			enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level2.png", 150, 0, 253, 103);
 
 			break;
@@ -75,9 +89,13 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		{
 			scrolling = SCROLLING_HORIZONTAL;
 
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set3/fondo1.png","1"));
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set3/fondo2.png","2"));
-			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,LOAD,"set3/fondo3.png","3"));
+			background1Path = "set3/fondo1.png"; // ESTO DEBERIA LEVANTARLO DEL PARSER O NO?
+			background2Path = "set3/fondo2.png";
+			background3Path = "set3/fondo3.png";
+
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background1Path, "1"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background2Path, "2"));
+			serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, LOAD, background3Path, "3"));
 
 			background1Width = 8000;
 			background1Height = 600;
@@ -92,7 +110,10 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			platformParser = gameParser->getPlataforms3();
 
 			playerSpawnX = 150;
-			playerSpawnY = 400;
+			playerSpawnY = 300;
+
+			playerRespawnX = 100; // Relativo a la ventana, donde van a aparecer cuando caigan
+			playerRespawnY = 200;
 
 			enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level3.png", 7800, 310, 127, 95);
 
@@ -126,7 +147,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 	}
 	else
 	{
-		border = background1Height - cameraLogic->getCameraHeight() * 0.6; // Margen al 60% de la altura
+		border = background1Height - cameraLogic->getCameraHeight() * 0.7; // Margen al 60% de la altura
 
 		background1PosX = 0;
 		background1PosY = background1Height - cameraLogic->getCameraHeight();
@@ -138,6 +159,8 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		background3PosY = background3Height - cameraLogic->getCameraHeight();
 	}
 
+	cameraLogic->enableMovement();
+	cameraLogic->setBorder(border);
 	cameraLogic->setCameraPosition(background1PosX, background1PosY);
 }
 
@@ -146,19 +169,15 @@ Level::~Level()
 	this->destroy();
 }
 
-void Level::render(){
-
-	//----------------------------------------------------------------------
-	//Mandar Mensaje para dibujar fondo
-
+void Level::render()
+{
 	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background3PosX, background3PosY, 3));
 	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background2PosX, background2PosY, 2));
 	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background1PosX, background1PosY, 1));
 
-	//----------------------------------------------------------------------
-	//Mandar Mensaje para dibujar las plataformas
 
-	for(platformsIterator = platforms.begin(); platformsIterator != platforms.end();){
+	for(platformsIterator = platforms.begin(); platformsIterator != platforms.end();)
+	{
 		(*platformsIterator)->render();
 		++platformsIterator;
 	}
@@ -166,7 +185,7 @@ void Level::render(){
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar al enemigo
 
-				/*enemy->sendToDraw();*/
+	/*enemy->sendToDraw();*/
 }
 
 void Level::destroy()
@@ -174,38 +193,42 @@ void Level::destroy()
 	delete enemy;
 }
 
-void Level::moveForward(int playerPosX, int playerPosY)
+void Level::moveForward(int pixels_to_move)
 {
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
 		if((background1PosX + cameraLogic->getCameraWidth()) < background1Width)
 		{
-			if(playerPosX >= border)
-			{
-				background1PosX += (playerPosX - border);
-				background2PosX += (playerPosX - border) * 0.7;
-				background3PosX += (playerPosX - border) * 0.3;
+			background1PosX += pixels_to_move;
+			background2PosX += pixels_to_move * 0.7;
+			background3PosX += pixels_to_move * 0.3;
 
-				border = playerPosX;
+			border += pixels_to_move;
 
-				cameraLogic->setCameraPosX(background1PosX);
-			}
+			cameraLogic->incrementBorder(pixels_to_move);
+			cameraLogic->setCameraPosX(background1PosX);
+		}
+		else
+		{
+			cameraLogic->disableMovement();
 		}
 	}
 	else // Vertical
 	{
 		if(background1PosY > 0)
 		{
-			if(playerPosY <= border)
-			{
-				background1PosY -= (border - playerPosY);
-				background2PosY -= (border - playerPosY) * 0.3;
-				background3PosY -= (border - playerPosY) * 0.2;
+			background1PosY -= pixels_to_move;
+			background2PosY -= pixels_to_move * 0.3;
+			background3PosY -= pixels_to_move * 0.2;
 
-				border = playerPosY;
+			border -= pixels_to_move;
 
-				cameraLogic->setCameraPosY(background1PosY);
-			}
+			cameraLogic->decreaseBorder(pixels_to_move);
+			cameraLogic->setCameraPosY(background1PosY);
+		}
+		else
+		{
+			cameraLogic->disableMovement();
 		}
 	}
 }

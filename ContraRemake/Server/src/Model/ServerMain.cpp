@@ -118,9 +118,9 @@ int ServerMain(int argc, char* argv[])
 
 	cout<<"ServerMain: En espera de conexión de "<<synergy->getMaxPlayers()<<" jugadores."<<endl;
 
-	while(server->getConnectedClients() != synergy->getMaxPlayers())
+	while(!server->readyToStartGame())
 	{
-		// Espero
+		Utils::setDelay(500);
 	}
 
 	//Ciclo del juego. NO DEBERIA EMPEZAR HASTA QUE SE CONECTEN TODOS LOS JUGADORES DE LA PARTIDA

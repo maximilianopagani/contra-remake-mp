@@ -19,9 +19,7 @@ class CameraLogic
 		int getCameraPosY() { return camera_y_position; }
 		int getCameraWidth() { return camera_width; }
 		int getCameraHeight() { return camera_height; }
-		int getLevel(){return level ;}
 
-		void setLevel(int _level){level = _level;}
 		void setCameraPosX(int x) { camera_x_position = x; }
 		void setCameraPosY(int y) { camera_y_position = y; }
 		void setCameraPosition(int x, int y) { camera_x_position = x; camera_y_position = y; }
@@ -32,12 +30,21 @@ class CameraLogic
 		bool outOfCameraLeftLimit(int x) { return ((x - camera_x_position) < 10) ? true : false; } // Idem pero para borde izquierdo
 
 		bool outOfCameraLimits(int x, int y); // Chequea para todas lados (todas las condiciones anteriores juntas). Util para evitar renderizar algo que no salga en la ventana, o para controlar que el movimiento no exceda los limites
+		bool canMoveForward() { return canMove; }
+		void enableMovement() { canMove = true; }
+		void disableMovement() { canMove = false; }
+
+		void setBorder(int pos) { border = pos; }
+		int getBorder() { return border; }
+		void incrementBorder(int inc) { border += inc; }
+		void decreaseBorder(int dec) { border -= dec; }
 
 	private:
 
 		int camera_x_position, camera_y_position;
 		int camera_width, camera_height;
-		int level ;
+		int border;
+		bool canMove; // Flag que me indica si la camara se puede seguir moviendo en ese nivel, o si ya llegó al fondo
 };
 
 #endif /* MODEL_CAMERALOGIC_HH_ */
