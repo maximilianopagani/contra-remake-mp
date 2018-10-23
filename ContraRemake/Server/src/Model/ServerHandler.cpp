@@ -6,12 +6,14 @@
  */
 
 #include "ServerHandler.hh"
+#include "../../Utils/ServerParser.hh"
 
-ServerHandler::ServerHandler(int _port, int _max_clients) // @suppress("Class members should be properly initialized")
+ServerHandler::ServerHandler(int _port, int _max_clients, std::list<UserParser> _users) // @suppress("Class members should be properly initialized")
 {
 	max_clients = _max_clients;
 	port = _port;
 	listening_socket = -1;
+	users = _users;
 }
 
 bool ServerHandler::startServer()
@@ -312,18 +314,11 @@ bool ServerHandler::alreadyOnline(std::string user, std::string passw)
 
 bool ServerHandler::validateUserAndPassw(std::string user, std::string passw) // HAY QUE METER LO DEL PARSER ACA
 {
-	if(user == "maxi" && passw == "maxi")
-		return true;
-	else if(user == "lucas" && passw == "lucas")
-		return true;
-	else if(user == "ignacio" && passw == "ignacio")
-		return true;
-	else if(user == "giovanni" && passw == "giovanni")
-		return true;
-	else if(user == "gino" && passw == "gino")
-		return true;
-	else
-		return false;
+	std::list<UserParser>::iterator it;
+	for (it = users.begin(); it != users.end(); it++) {
+		if (user == it->getName() && passw == it->getPassword()) return true;
+	}
+	return false;
 }
 
 bool ServerHandler::extractUserAndPasswFromMsg(MessageServer* message, std::string &user, std::string &passw)

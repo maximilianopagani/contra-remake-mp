@@ -36,7 +36,7 @@ int ServerMain(int argc, char* argv[])
 		return 1;
 	}
 
-	ServerHandler* server = new ServerHandler(serverParser->getPort(), serverParser->getMaximumquantityclients());
+	ServerHandler* server = new ServerHandler(serverParser->getPort(), serverParser->getMaximumquantityclients(), serverParser->getUsers());
 
 	//ServerHandler* server = new ServerHandler(SERVER_PORT, MAX_GAME_PLAYERS);
 

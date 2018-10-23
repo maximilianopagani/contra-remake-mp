@@ -16,6 +16,7 @@
 #include <list>
 #include "../../../Utils/Utils.hh"
 #include "Client.hh"
+#include "../../Utils/ServerParser.hh"
 
 extern pthread_mutex_t server_mutex;
 extern pthread_mutex_t server_clients_mutex;
@@ -24,7 +25,7 @@ class ServerHandler
 {
 	public:
 
-		ServerHandler(int _port, int _max_clients);
+		ServerHandler(int _port, int _max_clients, std::list<UserParser> users);
 		virtual ~ServerHandler();
 
 		bool startServer();
@@ -58,6 +59,7 @@ class ServerHandler
 
 		int port;
 		int max_clients;
+		std::list<UserParser> users;
 
 		struct sockaddr_in server_address;
 		int listening_socket;
