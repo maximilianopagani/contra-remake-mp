@@ -77,6 +77,9 @@ bool GameView::init()
 		else
 		{
 			//LOGGER_INFO("SDL_Image inicializado con éxito.");
+			SDL_Texture* awaitingConnectionsTexture = textureGenerator("../.images/awaitingConnections.png");
+			SDL_RenderCopy(renderer, awaitingConnectionsTexture, NULL, NULL);
+			SDL_RenderPresent(renderer);
 		}
 	}
 
