@@ -48,12 +48,15 @@ class ServerHandler
 		void sendToAllConnectedClients(MessageServer* message);
 		void sendToSocket(int destination_socket, MessageServer* message);
 
+		void pushReceivedMsgThreadSafe(MessageServer* message);
+		void notifyGameOfDisconnection(Client* client);
+		void processSendError(Client* client);
 		int getConnectedClients();
 
 		static void* acceptConnectionsThread(void* server);
 		static void* recieveMessagesFromClientThread(void* client);
 
-		void getNewReceivedMessages(std::queue<MessageServer*>* store_in_queue);
+		void storeReceivedMsgsInExternalQueue(std::queue<MessageServer*>* store_in_queue);
 
 	private:
 

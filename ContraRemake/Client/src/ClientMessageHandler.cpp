@@ -168,19 +168,16 @@ void ClientMessageHandler::processMessage(Message* message)
 						if(event.type == SDL_QUIT)
 						{
 							client->quit();
-							//client->sendToServer(new Message(INFO, QUIT, 0));
 						}
 					}
 
 					sdl_key_states = SDL_GetKeyboardState(NULL);
 					sdl_key_string = (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_N]));
-					// VER SI MANDAR LA TECLA DE NEXTLEVEL EN MENSAJE APARTE. O SI MANDAR TAMBIEN (EN  MENSAJE APARTE O MISMO STRING) EL EVENTO DE SDL_QUIT
 					client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));
 					break;
 				}
 				case LOGIN:
 				{
-					//client->sendToServer(new Message(INFO, LOGIN, "giovanni", "giovanni"));
 					client->sendToServer(new Message(INFO, LOGIN, client->getUsername(), client->getPassword()));
 					break;
 				}
@@ -194,7 +191,19 @@ void ClientMessageHandler::processMessage(Message* message)
 			{
 				case LOGIN:
 				{
-					//client->quit();
+					client->quit();
+					break;
+				}
+			}
+			break;
+		}
+		case INFO:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case WAITINGPLAYERS:
+				{
+					client->initPulse = true;
 					break;
 				}
 			}

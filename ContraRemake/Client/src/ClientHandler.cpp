@@ -150,6 +150,7 @@ void ClientHandler::sendToServer(Message* message)
 void ClientHandler::quit()
 {
 	continue_flag.store(false);
+	shutdown(network_socket, SHUT_RDWR);
 }
 
 void ClientHandler::run()
@@ -159,8 +160,6 @@ void ClientHandler::run()
 
 	receive_thread.join();
 	process_thread.join();
-
-	//shutdown(network_socket, SHUT_RDWR);
 }
 
 void ClientHandler::recieveMessages()
@@ -175,7 +174,6 @@ void ClientHandler::recieveMessages()
 		if(bytes_received > 0)
 		{
 	        client_mutex.lock();
-			// Encolo mensajes a la cola de mensajes
 			received_messages_queue.push(new Message(buffer));
 			client_mutex.unlock();
 		}
@@ -205,6 +203,21 @@ void ClientHandler::processMessages()
 			clientMessageHandler->processMessage(message);
 		}
 		client_mutex.unlock();
+
+		if(initPulse)
+		{
+			char msg[256];
+			std::strcpy(msg, std::string("LATIDO").c_str());
+			if(send(network_socket, msg, sizeof(msg), MSG_DONTWAIT) == -1)
+			{
+				if(errno == EAGAIN || errno == EWOULDBLOCK)
+				{
+					LOGGER_INFO("SE LLENÓ EL BUFFER DE SEND PARA EL SERVIDOR. SE PERDIO LA CONEXION. APAGANDO SOCKET. ");
+					this->quit();
+				}
+			}
+			Utils::setDelay(5);
+		}
 	}
 }
 

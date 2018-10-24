@@ -79,7 +79,7 @@ void Game::runGame()
 
 void Game::handleEvents()
 {
-	server->getNewReceivedMessages(&game_recv_msgs_queue); // Traspaso los mensajes desde la cola compartida entre Server y Game, a la cola exclusiva de game.
+	server->storeReceivedMsgsInExternalQueue(&game_recv_msgs_queue); // Traspaso los mensajes desde la cola compartida entre Server y Game, a la cola exclusiva de game.
 
 	MessageServer* message;
 

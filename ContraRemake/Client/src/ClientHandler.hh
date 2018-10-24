@@ -49,6 +49,8 @@ class ClientHandler
 		std::string getUsername();
 		std::string getPassword();
 
+		bool initPulse = false;
+
 	private:
 		std::string username;
 		std::string password;

@@ -11,6 +11,7 @@
 #include <string>
 #include <queue>
 #include <thread>
+#include <errno.h>
 
 #include "../../Utils/MessageServer.hh"
 

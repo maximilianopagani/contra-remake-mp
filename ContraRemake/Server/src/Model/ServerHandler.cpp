@@ -312,11 +312,14 @@ bool ServerHandler::alreadyOnline(std::string user, std::string passw)
 	return false;
 }
 
-bool ServerHandler::validateUserAndPassw(std::string user, std::string passw) // HAY QUE METER LO DEL PARSER ACA
+bool ServerHandler::validateUserAndPassw(std::string user, std::string passw)
 {
 	std::list<UserParser>::iterator it;
-	for (it = users.begin(); it != users.end(); it++) {
-		if (user == it->getName() && passw == it->getPassword()) return true;
+
+	for (it = users.begin(); it != users.end(); it++)
+	{
+		if (user == it->getName() && passw == it->getPassword())
+			return true;
 	}
 	return false;
 }
@@ -329,7 +332,7 @@ bool ServerHandler::extractUserAndPasswFromMsg(MessageServer* message, std::stri
 
 	message->getContent(msg);
 	string sep = ": ";
-	LOGGER_DEBUG("handleEvents() - Procesando mensaje" + sep + msg);
+	LOGGER_DEBUG("Procesando mensaje de login: " + sep + msg);
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
@@ -371,23 +374,26 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 	char buffer[256];
 	int bytes_received = 0;
 
-	while(true)
+	while(client->isOnline())
 	{
 		bytes_received = recv(client->getSocket(), buffer, sizeof(buffer), 0); // LLAMADA BLOQUEANTE. NO avanza hasta recibir un mensaje
 
 		if(bytes_received > 0)
 		{
-			MessageServer* received_msg = new MessageServer(buffer);
-			received_msg->setPlayerId(client->getClientId());
-			received_msg->setUsername(client->getUsername());
-			pthread_mutex_lock(&server_mutex);
-			server_recv_msgs_queue.push(received_msg); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
-			pthread_mutex_unlock(&server_mutex);
+			if(std::string(buffer) == "LATIDO") {}
+			else
+			{
+				MessageServer* received_msg = new MessageServer(buffer);
 
+				received_msg->setPlayerId(client->getClientId());
+				received_msg->setUsername(client->getUsername());
+
+				this->pushReceivedMsgThreadSafe(received_msg);
+			}
 		}
 		else if(bytes_received == -1)
 		{
-			LOGGER_ERROR("Falla en recepción de mensaje");
+			LOGGER_ERROR("Falla en recepción de mensaje del cliente ID: " + std::to_string(client->getClientId()) + " - Error: " + strerror(errno));
 		}
 		else if(bytes_received == 0) // solo funciona si cierro la cruz (que invoca al shutdown desde el cliente y esto lo detecta)
 		{
@@ -395,24 +401,17 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 
 			if(this->isGameFull())
 			{
-				LOGGER_INFO("Hubo shutdown desde cliente mientras el juego estaba lleno y corriendo");
-				MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconexion para game");
-				disconnected_msg->setPlayerId(client->getClientId());
-				disconnected_msg->setUsername(client->getUsername());
-				pthread_mutex_lock(&server_mutex);
-				server_recv_msgs_queue.push(disconnected_msg); // PUSHEO EL MENSAJE A LA COLA COMPARTIDA QUE ME SETEÓ GAME
-				pthread_mutex_unlock(&server_mutex);
+				this->notifyGameOfDisconnection(client);
 			}
 			else
 			{
 				LOGGER_INFO("Hubo shutdown desde cliente mientras el juego estaba en etapa de espera de conexiones");
 			}
-			break;
 		}
 	}
 }
 
-void ServerHandler::getNewReceivedMessages(std::queue<MessageServer*>* store_in_queue)
+void ServerHandler::storeReceivedMsgsInExternalQueue(std::queue<MessageServer*>* store_in_queue)
 {
 	pthread_mutex_lock(&server_mutex);
 
@@ -420,15 +419,33 @@ void ServerHandler::getNewReceivedMessages(std::queue<MessageServer*>* store_in_
 
 	while(!server_recv_msgs_queue.empty())
 	{
+		LOGGER_DEBUG("Moviendo mensaje de cola de ServerHandler a cola de Game.");
 		message = server_recv_msgs_queue.front();
 		server_recv_msgs_queue.pop();
-		char msg[256];
-		message->getContent(msg);
-		LOGGER_DEBUG("Moviendo mensaje de cola de ServerHandler a cola de Game");
 		store_in_queue->push(message);
 	}
 
 	pthread_mutex_unlock(&server_mutex);
+}
+
+void ServerHandler::processSendError(Client* client)
+{
+	if(errno == EAGAIN || errno == EWOULDBLOCK)
+	{
+		LOGGER_DEBUG("SE LLENÓ EL BUFFER DE SEND PARA EL CLIENTE ID: " + std::to_string(client->getClientId()));
+
+		shutdown(client->getSocket(), SHUT_RDWR);
+		client->setOffline();
+
+		if(this->isGameFull())
+		{
+			this->notifyGameOfDisconnection(client);
+		}
+		else
+		{
+			LOGGER_INFO("Hubo desconexion desde cliente mientras el juego estaba en etapa de espera de conexiones");
+		}
+	}
 }
 
 void ServerHandler::sendToAllConnectedClients(MessageServer* message)
@@ -440,7 +457,10 @@ void ServerHandler::sendToAllConnectedClients(MessageServer* message)
 			char msg[256];
 			message->getContent(msg);
 			LOGGER_DEBUG("Mensaje enviado al cliente id " + std::to_string(connectedClients.at(i)->getClientId()) + " : " + msg);
-			send(connectedClients.at(i)->getSocket(), msg, sizeof(msg), 0);
+			if(send(connectedClients.at(i)->getSocket(), msg, sizeof(msg), MSG_DONTWAIT) == -1)
+			{
+				this->processSendError(connectedClients.at(i));
+			}
 		}
 	}
 	delete message;
@@ -453,9 +473,31 @@ void ServerHandler::sendToConnectedClient(Client* client, MessageServer* message
 		char msg[256];
 		message->getContent(msg);
 		LOGGER_DEBUG("Mensaje enviado al cliente id " + std::to_string(client->getClientId()) + " : " + msg);
-		send(client->getSocket(), msg, sizeof(msg), 0);
+		if(send(client->getSocket(), msg, sizeof(msg), MSG_DONTWAIT)  == -1)
+		{
+			this->processSendError(client);
+		}
 	}
 	delete message;
+}
+
+void ServerHandler::notifyGameOfDisconnection(Client* client)
+{
+	LOGGER_INFO("Hubo conexión perdida o shutdown de un cliente mientras la partida estaba completa y en ejecución.");
+
+	MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconexion para game");
+
+	disconnected_msg->setPlayerId(client->getClientId());
+	disconnected_msg->setUsername(client->getUsername());
+
+	this->pushReceivedMsgThreadSafe(disconnected_msg); // Encolo el mensaje que después va a levantar y procesar Game, actuando en consecuencia.
+}
+
+void ServerHandler::pushReceivedMsgThreadSafe(MessageServer* message)
+{
+	pthread_mutex_lock(&server_mutex);
+	server_recv_msgs_queue.push(message);
+	pthread_mutex_unlock(&server_mutex);
 }
 
 void ServerHandler::sendToConnectedClientId(int client_id, MessageServer* message)
@@ -465,7 +507,10 @@ void ServerHandler::sendToConnectedClientId(int client_id, MessageServer* messag
 		char msg[256];
 		message->getContent(msg);
 		LOGGER_DEBUG("Mensaje enviado al cliente id " + std::to_string(client_id) + " : " + msg);
-		send(connectedClients.at(client_id)->getSocket(), msg, sizeof(msg), 0);
+		if(send(connectedClients.at(client_id)->getSocket(), msg, sizeof(msg), MSG_DONTWAIT)  == -1)
+		{
+			this->processSendError(connectedClients.at(client_id));
+		}
 	}
 	delete message;
 }
@@ -476,7 +521,16 @@ void ServerHandler::sendToSocket(int destination_socket, MessageServer* message)
 	message->getContent(msg);
 	string sep = ": ";
 	LOGGER_DEBUG("Mensaje enviado al socket" + sep + msg);
-	send(destination_socket, msg, sizeof(msg), 0);
+	if(send(destination_socket, msg, sizeof(msg), MSG_DONTWAIT) == -1)
+	{
+		if(errno == EAGAIN || errno == EWOULDBLOCK)
+		{
+			LOGGER_DEBUG("SE LLENÓ EL BUFFER DE SEND PARA EL SOCKET ID: " + std::to_string(destination_socket));
+			LOGGER_INFO("Hubo desconexion desde cliente mientras el juego estaba en etapa de login.");
+
+			shutdown(destination_socket, SHUT_RDWR);
+		}
+	}
 	delete message;
 }
 
