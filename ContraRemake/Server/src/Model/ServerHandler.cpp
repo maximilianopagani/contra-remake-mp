@@ -24,7 +24,7 @@ bool ServerHandler::startServer()
 	// FALLA LA CREACION DEL SOCKET
 	if(listening_socket == -1)
 	{
-		std::cout<<"ServerHandler: Falla al crear el socket de escucha inicial."<<std::endl;
+		LOGGER_ERROR("Falla al crear el socket de escucha inicial");
 		return false;
 	}
 	// ESTRUCTURA DE INFORMACION QUE DEFINE COMPORTAMIENTO DEL SOCKET PARA ESCUCHAR CONEXIONES "listening_socket"
@@ -36,14 +36,14 @@ bool ServerHandler::startServer()
 	// ASOCIO EL SOCKET QUE CREE PARA ESCUCHAR CONEXIONES CON UNA DIRECCION DE IP, PUERTO Y FAMILIA DE PROTOCOLO DEFINIDO ANTERIORMENTE
 	if(bind(listening_socket, (struct sockaddr*) &server_address, sizeof(server_address)) == -1)
 	{
-		std::cout<<"ServerHandler: Falla al asociar el socket de escucha con la estructura deseada."<<std::endl;
+		LOGGER_ERROR("Falla al asociar el socket de escucha con la estructura deseada");
 		return false;
 	}
 
 	// LE DIJO AL SOCKET QUE SE QUEDE ESCUCHANDO CONEXIONES ENTRANTES (HASTA max_clients CONEXIONES)
 	if(listen(listening_socket, max_clients) == -1)
 	{
-		std::cout<<"ServerHandler: Falla al setear al socket en modo de espera de conexiones."<<std::endl;
+		LOGGER_ERROR("Falla al setear al socket en modo de espera de conexiones");
 		return false;
 	}
 
@@ -58,7 +58,7 @@ void ServerHandler::startListeningThread()
 // Para invocar un thread no se puede con un metodo común de un objeto, hay que llamar una funcion estática, y pasarle los objetos para luego llamar al método de instancia.
 void* ServerHandler::acceptConnectionsThread(void* server)
 {
-	std::cout<<"ServerHandler: Iniciando acceptConnectionsThread."<<std::endl;
+	LOGGER_DEBUG("Iniciando acceptConnectionsThread");
 	((ServerHandler*)server)->acceptConnections();
 	return nullptr;
 }
@@ -78,21 +78,21 @@ void ServerHandler::acceptConnections()
 		struct sockaddr_in client_address; // Estructura que me va a servir para guardar la informacion de la conexion entrante
 		socklen_t address_size = sizeof(client_address);
 
-		std::cout<<"ServerHandler: Invocando llamada bloqueante accept(). En espera de conexiones..."<<std::endl;
+		LOGGER_DEBUG("Invocando llamada bloqueante accept(). En espera de conexiones...");
 
-		// LLAMADA BLOQUEANTE. NO avanza hasta que no recibe y acepta una nueva conexión. Si salió todo OK, me devuelve el archivo
+		// LLAMADA BLOQUEANTE. NO avanza hasta que no recibe y acepta una nueva conexión. Si salió to.do OK, me devuelve el archivo
 		// descriptivo de un NUEVO SOCKET creado exclusivamente para esa conexión (un integer). El socket original de escucha sigue escuchando, no se ve modificado.
 		int new_socket = accept(listening_socket, (struct sockaddr*) &client_address, &address_size);
 		// Guarda los datos de la conexion en la estructura client_address
 
-		if(new_socket != -1) // Si salió todo OK
+		if(new_socket != -1) // Si salió to.do OK
 		{
 			if(!this->isGameFull() || !this->allClientsOnline()) // Todavía no llegué a la cantidad de jugadores seteados para esa partida
 			{
+				string sep = ": ";
 				// Creo nuevo cliente con los datos que obtuve de client_address. Es necesario hacer esas conversiones con las llamadas "inet_ntoa" y "n_tohs" ya que originalmente los datos
 				// vienen en el formato de red estándar (big endian) y en mi maquina los quiero en (little endian)
-
-				std::cout<<"ServerHandler: Conexión establecida con IP: "<<inet_ntoa(client_address.sin_addr)<<" - PUERTO: "<<ntohs(client_address.sin_port)<<std::endl;
+				LOGGER_INFO("Conexión establecida con IP" + sep + inet_ntoa(client_address.sin_addr) + " - PUERTO: " + std::to_string(ntohs(client_address.sin_port)));
 				// Mando un mensaje al cliente recien conectado
 				this->sendToSocket(new_socket, new MessageServer(INFO, NONE, "Te conectaste al servidor."));
 
@@ -101,36 +101,36 @@ void ServerHandler::acceptConnections()
 				char msg[256];
 				if(this->receiveOneMessageFromSocket(new_socket, msg, sizeof(msg)))
 				{
-					std::cout<<"ServerHandler - Recibo mensaje del cliente: "<<msg<<std::endl;
+					LOGGER_DEBUG("Recibo mensaje del cliente" + sep + msg);
 
 					std::string user;
 					std::string passw;
 
 					if(this->extractUserAndPasswFromMsg(new MessageServer(msg), user, passw))
 					{
-						std::cout<<"[ServerHandler] Extraigo User: "<<user<<" - Password: "<<passw<<std::endl;
+						LOGGER_DEBUG("Extraigo User: " + user + " - Password: " + passw);
 
 						if(this->validateUserAndPassw(user, passw)) // si chequeo validacion user y passw es correcto
 						{
-							std::cout<<"[ServerHandler] Datos de login validados."<<std::endl;
+							LOGGER_DEBUG("Datos de login validados");
 
 							if(!this->alreadyOnline(user, passw))
 							{
-								std::cout<<"[ServerHandler] Chequeo si jugador ya está online OK."<<std::endl;
+								LOGGER_DEBUG("Chequeo si jugador ya está online OK");
 
 								if(!this->allClientsOnline() && this->alreadyLoggedBefore(user, passw))
 								{
-									std::cout<<"[ServerHandler] Entro en el caso para reconectar."<<std::endl;
+									LOGGER_DEBUG("Entro en el caso para reconectar");
 
 									Client* reconnectClient = this->searchForClient(user, passw);
 
-									std::cout<<"[ServerHandler] Encuentro cliente anterior para asociar."<<std::endl;
+									LOGGER_DEBUG("Encuentro cliente anterior para asociar");
 
 									if(reconnectClient != NULL)
 									{
 										if(this->isGameFull())
 										{
-											std::cout<<"[ServerHandler] El juego ya reservó todos los lugares para jugadores disponibles. Es una reconexión estandar con el juego ya comenzado."<<std::endl;
+											LOGGER_DEBUG("El juego ya reservó todos los lugares para jugadores disponibles. Es una reconexión estandar con el juego ya comenzado");
 
 											MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Info de reconnect para game.");
 											reconnect_msg->setPlayerId(reconnectClient->getClientId());
@@ -138,19 +138,19 @@ void ServerHandler::acceptConnections()
 											pthread_mutex_lock(&server_mutex);
 											server_recv_msgs_queue.push(reconnect_msg);
 											pthread_mutex_unlock(&server_mutex);
-											std::cout<<"[ServerHandler] Mensaje de reconexión enviado a game."<<std::endl;
+											LOGGER_DEBUG("Mensaje de reconexión enviado a game");
 										}
 										else
 										{
-											std::cout<<"[ServerHandler] El juego todavía no reservó todos los lugares para jugadores disponibles. Estoy en etapa de espera de conexiones."<<std::endl;
+											LOGGER_DEBUG("El juego todavía no reservó todos los lugares para jugadores disponibles. Estoy en etapa de espera de conexiones");
 										}
 
 										reconnectClient->setOnline(new_socket);
-										std::cout<<"[ServerHandler] Seteando cliente nuevamente online."<<std::endl;
+										LOGGER_DEBUG("Seteando cliente nuevamente online");
 										struct thread_arg_struct args;
 										args.arg_server = this;
 										args.arg_client = reconnectClient;
-										std::cout<<"[ServerHandler] Creando nuevo thread de recepción de mensajes para el cliente."<<std::endl;
+										LOGGER_DEBUG("Creando nuevo thread de recepción de mensajes para el cliente");
 										pthread_create(reconnectClient->getRecieveMessagesThread(), NULL, &ServerHandler::recieveMessagesFromClientThread, (void*) &args);
 									}
 									else
@@ -162,15 +162,15 @@ void ServerHandler::acceptConnections()
 								}
 								else if(!this->isGameFull())
 								{
-									std::cout<<"[ServerHandler] El juego todavía no reservó todos los lugares para jugadores disponibles."<<std::endl;
+									LOGGER_DEBUG("El juego todavía no reservó todos los lugares para jugadores disponibles");
 
 									if(!this->alreadyLoggedBefore(user, passw))
 									{
-										std::cout<<"[ServerHandler] El usuario no ha logeado antes."<<std::endl;
+										LOGGER_DEBUG("El usuario no se ha logeado antes");
 
 										Client* new_client = new Client(new_socket, inet_ntoa(client_address.sin_addr), ntohs(client_address.sin_port), user, passw);
 
-										std::cout<<"[ServerHandler] Creado cliente con ID: "<<new_client->getClientId()<<std::endl;
+										LOGGER_INFO("Creado cliente con ID: " + std::to_string(new_client->getClientId()));
 
 										// Agrego el cliente a la lista de jugadores conectados
 										pthread_mutex_lock(&server_clients_mutex);
@@ -179,12 +179,12 @@ void ServerHandler::acceptConnections()
 
 										this->sendToSocket(new_socket, new MessageServer(INFO, WAITINGPLAYERS, "Informo login OK. Esperando."));
 
-										// CREO UN THREAD DEDICADO A ESCUCHAR MENSAJES DE ESE NUEVO CLIENTE (PORQUE RECV ES UNA LLAMADA BLOQUEANTE Y ME BLOQUEARIA TODO SI UN CLIENTE NO MANDA NADA)
+										// CREO UN THREAD DEDICADO A ESCUCHAR MENSAJES DE ESE NUEVO CLIENTE (PORQUE RECV ES UNA LLAMADA BLOQUEANTE Y ME BLOQUEARIA TO.DO SI UN CLIENTE NO MANDA NADA)
 										struct thread_arg_struct args;
 										args.arg_server = this;
 										args.arg_client = new_client;
 
-										std::cout<<"[ServerHandler] Creando nuevo thread de recepción."<<std::endl;
+										LOGGER_DEBUG("Creando nuevo thread de recepción");
 
 										pthread_create(new_client->getRecieveMessagesThread(), NULL, &ServerHandler::recieveMessagesFromClientThread, (void*) &args);
 
@@ -228,7 +228,7 @@ void ServerHandler::acceptConnections()
 				}
 				else
 				{
-					std::cout<<"[ServerHandler] Error al leer mensaje de login. Conexión perdida o apagada."<<std::endl;
+					LOGGER_ERROR("Error al leer mensaje de login. Conexión perdida o apagada");
 					shutdown(new_socket, SHUT_RDWR);
 				}
 			}
@@ -241,7 +241,7 @@ void ServerHandler::acceptConnections()
 		}
 		else
 		{
-			std::cout<<"ServerHandler: Error al tratar de aceptar conexión entrante y crear nuevo socket."<<std::endl;
+			LOGGER_ERROR("Error al tratar de aceptar conexión entrante y crear nuevo socket");
 		}
 	}
 }
@@ -284,7 +284,7 @@ bool ServerHandler::allClientsOnline()
 {
 	int clients_size = this->getConnectedClients();
 
-	for(uint i = 0; i < clients_size; i++)
+	for(int i = 0; i < clients_size; i++)
 	{
 		if(connectedClients.at(i)->isOffline())
 			return false;
@@ -328,7 +328,8 @@ bool ServerHandler::extractUserAndPasswFromMsg(MessageServer* message, std::stri
 	char msg[256];
 
 	message->getContent(msg);
-	std::cout<<"Game: handleEvents() - Procesando mensaje: "<<msg<<std::endl;
+	string sep = ": ";
+	LOGGER_DEBUG("handleEvents() - Procesando mensaje" + sep + msg);
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
@@ -347,7 +348,7 @@ bool ServerHandler::extractUserAndPasswFromMsg(MessageServer* message, std::stri
 void* ServerHandler::recieveMessagesFromClientThread(void* arguments)
 {
 	struct thread_arg_struct* args = (struct thread_arg_struct*) arguments;;
-	std::cout<<"ServerHandler: Iniciando recieveMessagesThread de cliente con IP: "<<(args->arg_client)->getIp()<<" y PUERTO: "<<(args->arg_client)->getPort()<<std::endl;
+	LOGGER_DEBUG("Iniciando recieveMessagesThread de cliente con IP: " + (args->arg_client)->getIp() + " y PUERTO: " + std::to_string((args->arg_client)->getPort()));
 	(args->arg_server)->recieveMessagesFrom((args->arg_client));
 	return nullptr;
 }
@@ -386,7 +387,7 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 		}
 		else if(bytes_received == -1)
 		{
-			std::cout<<"ServerHandler: Falla en recepción de mensaje."<<std::endl;
+			LOGGER_ERROR("Falla en recepción de mensaje");
 		}
 		else if(bytes_received == 0) // solo funciona si cierro la cruz (que invoca al shutdown desde el cliente y esto lo detecta)
 		{
@@ -394,7 +395,7 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 
 			if(this->isGameFull())
 			{
-				std::cout<<"Hubo shutdown desde cliente mientras el juego estaba lleno y corriendo."<<std::endl;
+				LOGGER_INFO("Hubo shutdown desde cliente mientras el juego estaba lleno y corriendo");
 				MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconexion para game");
 				disconnected_msg->setPlayerId(client->getClientId());
 				disconnected_msg->setUsername(client->getUsername());
@@ -404,7 +405,7 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 			}
 			else
 			{
-				std::cout<<"Hubo shutdown desde cliente mientras el juego estaba en etapa de espera de conexiones."<<std::endl;
+				LOGGER_INFO("Hubo shutdown desde cliente mientras el juego estaba en etapa de espera de conexiones");
 			}
 			break;
 		}
@@ -423,7 +424,7 @@ void ServerHandler::getNewReceivedMessages(std::queue<MessageServer*>* store_in_
 		server_recv_msgs_queue.pop();
 		char msg[256];
 		message->getContent(msg);
-		std::cout<<"ServerHandler: Moviendo mensaje de cola de ServerHandler a cola de Game: "<<msg<<std::endl;
+		LOGGER_DEBUG("Moviendo mensaje de cola de ServerHandler a cola de Game");
 		store_in_queue->push(message);
 	}
 
@@ -438,7 +439,7 @@ void ServerHandler::sendToAllConnectedClients(MessageServer* message)
 		{
 			char msg[256];
 			message->getContent(msg);
-			std::cout<<"ServerHandler: Mensaje enviado al cliente id "<<connectedClients.at(i)->getClientId()<<" : "<<msg<<std::endl;
+			LOGGER_DEBUG("Mensaje enviado al cliente id " + std::to_string(connectedClients.at(i)->getClientId()) + " : " + msg);
 			send(connectedClients.at(i)->getSocket(), msg, sizeof(msg), 0);
 		}
 	}
@@ -451,7 +452,7 @@ void ServerHandler::sendToConnectedClient(Client* client, MessageServer* message
 	{
 		char msg[256];
 		message->getContent(msg);
-		std::cout<<"ServerHandler: Mensaje enviado al cliente id "<<client->getClientId()<<" : "<<msg<<std::endl;
+		LOGGER_DEBUG("Mensaje enviado al cliente id " + std::to_string(client->getClientId()) + " : " + msg);
 		send(client->getSocket(), msg, sizeof(msg), 0);
 	}
 	delete message;
@@ -463,7 +464,7 @@ void ServerHandler::sendToConnectedClientId(int client_id, MessageServer* messag
 	{
 		char msg[256];
 		message->getContent(msg);
-		std::cout<<"ServerHandler: Mensaje enviado al cliente id "<<client_id<<" : "<<msg<<std::endl;
+		LOGGER_DEBUG("Mensaje enviado al cliente id " + std::to_string(client_id) + " : " + msg);
 		send(connectedClients.at(client_id)->getSocket(), msg, sizeof(msg), 0);
 	}
 	delete message;
@@ -473,7 +474,8 @@ void ServerHandler::sendToSocket(int destination_socket, MessageServer* message)
 {
 	char msg[256];
 	message->getContent(msg);
-	std::cout<<"ServerHandler: Mensaje enviado al socket: "<<msg<<std::endl;
+	string sep = ": ";
+	LOGGER_DEBUG("Mensaje enviado al socket" + sep + msg);
 	send(destination_socket, msg, sizeof(msg), 0);
 	delete message;
 }

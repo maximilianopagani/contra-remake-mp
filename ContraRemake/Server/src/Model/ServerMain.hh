@@ -8,6 +8,6 @@
 #ifndef MODEL_SERVERMAIN_HH_
 #define MODEL_SERVERMAIN_HH_
 
-int ServerMain(int argc, char* argv[]);
+int ServerMain(GameParser* parser);
 
 #endif /* MODEL_SERVERMAIN_HH_ */

@@ -50,16 +50,16 @@ bool Texture::loadFromFile(std::string path) {
 
 	SDL_Surface* loadedSurface = IMG_Load(path.c_str());
 	if (loadedSurface == NULL) {
-		std::cout << "Unable to load image " << path.c_str()
-				<< "! SDL_image Error: " << IMG_GetError() << std::endl;
+//		std::cout << "Unable to load image " << path.c_str()
+//				<< "! SDL_image Error: " << IMG_GetError() << std::endl;
 	} else {
 		SDL_SetColorKey(loadedSurface, SDL_TRUE,
 				SDL_MapRGB(loadedSurface->format, 0, 0xFF, 0xFF));
 
 		newTexture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
 		if (newTexture == NULL) {
-			std::cout << "Unable to create texture from " << path.c_str()
-					<< "! SDL Error: " << SDL_GetError() << std::endl;
+//			std::cout << "Unable to create texture from " << path.c_str()
+//					<< "! SDL Error: " << SDL_GetError() << std::endl;
 		} else {
 			width = loadedSurface->w;
 			height = loadedSurface->h;
@@ -87,9 +87,9 @@ bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor,
 	if (textSurface != NULL) {
 		texture = SDL_CreateTextureFromSurface(renderer, textSurface);
 		if (texture == NULL) {
-			std::cout
-					<< "Unable to create texture from rendered text! SDL Error: "
-					<< SDL_GetError() << std::endl;
+//			std::cout
+//					<< "Unable to create texture from rendered text! SDL Error: "
+//					<< SDL_GetError() << std::endl;
 		} else {
 			width = textSurface->w;
 			height = textSurface->h;
@@ -97,8 +97,8 @@ bool Texture::loadFromRenderedText(std::string textureText, SDL_Color textColor,
 
 		SDL_FreeSurface(textSurface);
 	} else {
-		std::cout << "Unable to render text surface! SDL_ttf Error: "
-				<< TTF_GetError() << std::endl;
+//		std::cout << "Unable to render text surface! SDL_ttf Error: "
+//				<< TTF_GetError() << std::endl;
 	}
 
 	return texture != NULL;
@@ -129,40 +129,40 @@ void Texture::render(int x, int y, SDL_Rect* clip, double angle,
 bool init() {
 	bool success = true;
 	if (SDL_Init( SDL_INIT_VIDEO) < 0) {
-		std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError()
-				<< std::endl;
+//		std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError()
+//				<< std::endl;
 		success = false;
 	} else {
 		if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
-			std::cout << "Warning: Linear texture filtering not enabled!"
-					<< std::endl;
+//			std::cout << "Warning: Linear texture filtering not enabled!"
+//					<< std::endl;
 		}
 		window = SDL_CreateWindow("Contra Remake", SDL_WINDOWPOS_UNDEFINED,
 				SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,
 				SDL_WINDOW_SHOWN);
 		if (window == NULL) {
-			std::cout << "Window could not be created! SDL Error: "
-					<< SDL_GetError() << std::endl;
+//			std::cout << "Window could not be created! SDL Error: "
+//					<< SDL_GetError() << std::endl;
 			success = false;
 		} else {
 			renderer = SDL_CreateRenderer(window, -1,
 					SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 			if (renderer == NULL) {
-				std::cout << "Renderer could not be created! SDL Error: "
-						<< SDL_GetError() << std::endl;
+//				std::cout << "Renderer could not be created! SDL Error: "
+//						<< SDL_GetError() << std::endl;
 				success = false;
 			} else {
 				SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 				int imgFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(imgFlags) & imgFlags)) {
-					std::cout
-							<< "SDL_image could not initialize! SDL_image Error: "
-							<< IMG_GetError() << std::endl;
+//					std::cout
+//							<< "SDL_image could not initialize! SDL_image Error: "
+//							<< IMG_GetError() << std::endl;
 					success = false;
 				}
 				if (TTF_Init() == -1) {
-					std::cout << "SDL_ttf could not initialize! SDL_ttf Error: "
-							<< TTF_GetError() << std::endl;
+//					std::cout << "SDL_ttf could not initialize! SDL_ttf Error: "
+//							<< TTF_GetError() << std::endl;
 					success = false;
 				}
 			}
@@ -181,15 +181,15 @@ bool loadMedia() {
 
 	font = TTF_OpenFont("../.fonts/Oxygen.ttf", 16);
 	if (font == NULL) {
-		std::cout << "Failed to load Oxygen font! SDL_ttf Error: "
-				<< TTF_GetError() << std::endl;
+//		std::cout << "Failed to load Oxygen font! SDL_ttf Error: "
+//				<< TTF_GetError() << std::endl;
 		success = false;
 	}
 
 	passwordFont = TTF_OpenFont("../.fonts/Password.ttf", 16);
 	if (passwordFont == NULL) {
-		std::cout << "Failed to load Password font! SDL_ttf Error: "
-				<< TTF_GetError() << std::endl;
+//		std::cout << "Failed to load Password font! SDL_ttf Error: "
+//				<< TTF_GetError() << std::endl;
 		success = false;
 	}
 
@@ -224,11 +224,11 @@ void close() {
 bool clientLogin(ClientHandler * client) {
 	bool success = false;
 	if (!init()) {
-		std::cout << "Failed to initialize!" << std::endl;
+//		std::cout << "Failed to initialize!" << std::endl;
 		return success;
 	} else {
 		if (!loadMedia()) {
-			std::cout << "Failed to load media!" << std::endl;
+//			std::cout << "Failed to load media!" << std::endl;
 			return success;
 		} else {
 			ClientParser* clientParser = new ClientParser();
@@ -277,7 +277,7 @@ bool clientLogin(ClientHandler * client) {
 								}
 							}
 						} else if (e.key.keysym.sym
-								== SDLK_c&& SDL_GetModState() & KMOD_CTRL) {
+								== SDLK_c&& (SDL_GetModState() & KMOD_CTRL)) {
 							if (userTextBoxEnabled) {
 								SDL_SetClipboardText(userText.c_str());
 							} else if (passwordTextBoxEnabled) {
@@ -288,7 +288,7 @@ bool clientLogin(ClientHandler * client) {
 								SDL_SetClipboardText(portText.c_str());
 							}
 						} else if (e.key.keysym.sym
-								== SDLK_v&& SDL_GetModState() & KMOD_CTRL) {
+								== SDLK_v&& (SDL_GetModState() & KMOD_CTRL)) {
 							if (userTextBoxEnabled) {
 								userText = SDL_GetClipboardText();
 								renderText = true;
@@ -337,12 +337,12 @@ bool clientLogin(ClientHandler * client) {
 							}
 							else {
 								if (!client->connectToServer(serverText, atoi(portText.c_str()))) {
-									std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
+									LOGGER_ERROR("Falla al intentar establecer la conexión");
 									promptText = "ERROR AL INTENTAR ESTABLECER LA CONEXION";
 									renderText = true;
 								}
 								else {
-									std::cout<<"ClientLogin: Conexión con el servidor establecida. Se inicia ejecución del cliente."<<std::endl;
+									LOGGER_DEBUG("Conexión con el servidor establecida. Se inicia ejecución del cliente");
 									//ACA TENGO QUE VERIFICAR SI EL USUARIO ES CORRECTO, Y SI ES CORRECTO VERIFICO SI YA ESTÁ CONECTADO
 									success = true;
 									quit = true;
@@ -353,7 +353,7 @@ bool clientLogin(ClientHandler * client) {
 						if (!((e.text.text[0] == 'c' || e.text.text[0] == 'C')
 								&& (e.text.text[0] == 'v'
 										|| e.text.text[0] == 'V')
-								&& SDL_GetModState() & KMOD_CTRL)) {
+								&& (SDL_GetModState() & KMOD_CTRL))) {
 							if (userTextBoxEnabled
 									&& userText.length() < MAX_LENGTH) {
 								userText += e.text.text;
@@ -387,12 +387,12 @@ bool clientLogin(ClientHandler * client) {
 							}
 							else {
 								if (!client->connectToServer(serverText, atoi(portText.c_str()))) {
-									std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
+									LOGGER_ERROR("Falla al intentar establecer la conexión");
 									promptText = "ERROR AL INTENTAR ESTABLECER LA CONEXION";
 									renderText = true;
 								}
 								else {
-									std::cout<<"ClientLogin: Conexión con el servidor establecida. Se inicia ejecución del cliente."<<std::endl;
+									LOGGER_DEBUG("Conexión con el servidor establecida. Se inicia ejecución del cliente");
 									//ACA TENGO QUE VERIFICAR SI EL USUARIO ES CORRECTO, Y SI ES CORRECTO VERIFICO SI YA ESTÁ CONECTADO
 									success = true;
 									quit = true;

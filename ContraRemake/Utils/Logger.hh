@@ -41,7 +41,7 @@ private:
     Level level;
 
     // instance of Logger (singleton style)
-	static std::mutex logMutex;
+//	static std::mutex logMutex;
     static Logger instance;
     static const string LEVEL_NAMES[];
     static string getFileAndLine(const char* file, int line);

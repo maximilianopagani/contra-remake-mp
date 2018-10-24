@@ -1,9 +1,6 @@
 //============================================================================
 // Name        : Cliente.cpp
 // Author      : Giova
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
 //============================================================================
 
 #include <iostream>
@@ -21,60 +18,53 @@ using namespace std;
 
 int ClientMain()
 {
-	cout<<"ClientMain: Inicio aplicacion en modo cliente."<<endl;
+	LOGGER_INFO("Inicio aplicacion en modo cliente");
 
 	ClientMessageHandler* clientMessageHandler = new ClientMessageHandler();
 
-	cout<<"ClientMain: Gestionador de mensajes creado."<<endl;
+	LOGGER_DEBUG("Gestionador de mensajes creado");
 
 	ClientHandler* client = new ClientHandler(clientMessageHandler);
 
-	cout<<"ClientMain: Cliente creado."<<endl;
+	LOGGER_DEBUG("Cliente creado");
 
 	if(!clientMessageHandler->setClientHandler(client))
 	{
-		std::cout<<"ClientMain: Falla al asociar ClientHandler con ClientMessageHandler."<<std::endl;
+		LOGGER_ERROR("Falla al asociar ClientHandler con ClientMessageHandler");
 		delete client;
 		delete clientMessageHandler;
+		LOGGER_KILL();
+		return 1;
 	}
 
-	std::cout<<"ClientMain: ClientHandler asociado con ClientMessageHandler."<<std::endl;
+	LOGGER_DEBUG("ClientHandler asociado con ClientMessageHandler");
 
 	if(!client->initSocket())
 	{
-		std::cout<<"ClientMain: Falla al inicializar el socket del cliente."<<std::endl;
+		LOGGER_ERROR("Falla al inicializar el socket del cliente");
 		delete client;
-		return 0;
+		LOGGER_KILL();
+		return 1;
 	}
 
-	cout<<"ClientMain: Socket del cliente inicializado."<<endl;
+	LOGGER_DEBUG("Socket del cliente inicializado");
 
 	if(clientLogin(client))
-	//if(true)
 	{
-
-/*
-		if (!client->connectToServer("127.0.01", 54000))
-		{
-			std::cout<<"ClientLogin: Falla al intentar establecer la conexión."<<std::endl;
-			return false;
-		}
-*/
-
-		LOGGER_INIT(Logger::ERROR);
 
 		GameView* gameView = new GameView();
 
-		cout<<"ClientMain: Vista principal creada."<<endl;
+		LOGGER_DEBUG("Vista principal creada");
 
 		if(!gameView->init())
 		{
-			cout<<"ClientMain: Error al iniciar GameView"<<endl;
+			LOGGER_ERROR("Error al iniciar GameView");
 			gameView->destroy();
-			return 0;
+			LOGGER_KILL();
+			return 1;
 		}
 
-		cout<<"ClientMain: Gameview inicializado."<<endl;
+		LOGGER_DEBUG("Gameview inicializado");
 
 		PlayerView* playerView = new PlayerView(gameView);
 		LevelView* levelView = new LevelView(gameView);
@@ -82,17 +72,18 @@ int ClientMain()
 		BulletView* bulletView = new BulletView(gameView);
 		EnemyView* enemyView = new EnemyView(gameView);
 
-		cout<<"ClientMain: Vistas de los modulos creadas."<<endl;
+		LOGGER_DEBUG("Vistas de los modulos creadas");
 
 		clientMessageHandler->setParams(gameView, playerView, levelView, platformView, bulletView, enemyView);
 
 		client->run();
 
-		cout<<"ClientMain: Cliente cerrado. Se cierra la vista del cliente"<<endl;
+		LOGGER_INFO("Cliente cerrado. Se cierra la vista del cliente");
 
 		delete clientMessageHandler;
 		delete client;
 		gameView->destroy();
 	}
+	LOGGER_KILL();
 	return 0;
 }

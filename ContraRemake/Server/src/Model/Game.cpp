@@ -101,7 +101,6 @@ void Game::processMessage(MessageServer* message)
 	char msg[256];
 
 	message->getContent(msg);
-	std::cout<<"Game: handleEvents() - Procesando mensaje de player id: "<<message->getPlayerId()<<" y username: "<<message->getUsername()<<" Mensaje: "<<msg<<std::endl;
 
 	LOGGER_ERROR("Game: handleEvents() - Procesando mensaje de player id: " + std::to_string(message->getPlayerId()) + " y username: " + message->getUsername() + " Mensaje: " + msg );
 
@@ -161,7 +160,7 @@ void Game::processMessage(MessageServer* message)
 				{
 					int playerid = message->getPlayerId();
 					std::string username = message->getUsername();
-					std::cout<<"Game: Jugador desconectado ID: "<<playerid<<" y Username: "<<username<<std::endl;
+					LOGGER_INFO("Jugador desconectado ID: " + std::to_string(playerid) + " y Username: " + username)
 					players.at(playerid)->freeze();
 					break;
 				}
@@ -173,7 +172,7 @@ void Game::processMessage(MessageServer* message)
 					serverMessageHandler->sendToClientId(playerid, new MessageServer(LEVEL, LOAD, level->getBackground2Path(), "2"));
 					serverMessageHandler->sendToClientId(playerid, new MessageServer(LEVEL, LOAD, level->getBackground3Path(), "3"));
 					// si no mando a recargar los fondos tira segmentation fault, seguramente pq quiere acceder a sprites nulos que no estan creados en playerview del cliente
-					std::cout<<"Envío recarga a todo el mundo por la reconexion, medio negro"<<std::endl;
+					LOGGER_INFO("Envío recarga por reconexion");
 					players.at(playerid)->setOnlineAgain();
 					players.at(playerid)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
 					break;

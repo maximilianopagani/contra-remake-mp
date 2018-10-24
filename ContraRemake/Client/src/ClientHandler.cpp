@@ -1,13 +1,11 @@
 /*
  * ClientHandler.cpp
- *
- *  Created on: Oct 13, 2018
  *      Author: maximiliano
  */
 
 #include "ClientHandler.hh"
 
-ClientHandler::ClientHandler(ClientMessageHandler* _clientMessageHandler) // @suppress("Class members should be properly initialized")
+ClientHandler::ClientHandler(ClientMessageHandler* _clientMessageHandler)
 {
 	username = "";
 	password = "";
@@ -24,7 +22,7 @@ bool ClientHandler::initSocket()
 
 	if(network_socket == -1)
 	{
-		std::cout<<"ClientHandler: Falla al crear el socket de conexion inicial."<<std::endl;
+		LOGGER_ERROR("Falla al crear el socket de conexion inicial");
 		return false;
 	}
 
@@ -35,7 +33,7 @@ bool ClientHandler::connectToServer(std::string _server_ip, int _server_port)
 {
 	if(network_socket == -1)
 	{
-		std::cout<<"ClientHandler: Cliente no ha sido inicializado con initSocket(), o su inicialización ha fallado. Se aborta conexión."<<std::endl;
+		LOGGER_ERROR("Cliente no ha sido inicializado con initSocket(), o su inicialización ha fallado. Se aborta conexión.");
 		return false;
 	}
 
@@ -50,18 +48,16 @@ bool ClientHandler::connectToServer(std::string _server_ip, int _server_port)
 
 	if(connect(network_socket, (struct sockaddr*) &server_address, sizeof(server_address)) == -1 )
 	{
-		std::cout<<"ClientHandler: Falla al intentar conectar con el servidor de IP: "<<server_ip.c_str()<<" y PUERTO: "<<server_port<<std::endl;
+		LOGGER_ERROR("Falla al intentar conectar con el servidor de IP: " + server_ip + " y PUERTO: " + std::to_string(server_port));
 		return false;
 	}
 
-	std::cout<<"ClientHandler: Conexion con el servidor exitosa."<<std::endl;
+	LOGGER_INFO("Conexion con el servidor exitosa");
 	return true;
 }
 
 //============================== IMPLEMENTACION CON THREADS POSIX =================================
-
 /*
-
 void ClientHandler::quit()
 {
 	pthread_mutex_lock(&client_mutex);
@@ -127,14 +123,14 @@ void ClientHandler::processMessages()
 
 void* ClientHandler::recieveMessagesThread(void* client)
 {
-	std::cout<<"ClientHandler: Iniciando recieveMessagesThread."<<std::endl;
+	LOGGER_DEBUG("Iniciando recieveMessagesThread");
 	((ClientHandler*)client)->recieveMessages();
 	return nullptr;
 }
 
 void* ClientHandler::processMessagesThread(void* client)
 {
-	std::cout<<"ClientHandler: Iniciando processMessagesThread."<<std::endl;
+	LOGGER_DEBUG("Iniciando processMessagesThread");
 	((ClientHandler*)client)->processMessages();
 	return nullptr;
 }
@@ -144,8 +140,7 @@ void ClientHandler::sendToServer(Message* message)
 	char msg[256];
 	string sep = ": ";
 	message->getContent(msg);
-//	std::cout<<"ClientHandler: Mensaje enviado al servidor: "<<msg<<std::endl;
-	LOGGER_ERROR("ClientHandler: Mensaje enviado al servidor" + sep + msg);
+	LOGGER_DEBUG("Mensaje enviado al servidor" + sep + msg);
 	send(network_socket, msg, 256, 0);
 	delete message;
 }
@@ -179,18 +174,18 @@ void ClientHandler::recieveMessages()
 
 		if(bytes_received > 0)
 		{
-
 	        client_mutex.lock();
-			received_messages_queue.push(new Message(buffer)); // Encolo mensajes a la cola de mensajes
+			// Encolo mensajes a la cola de mensajes
+			received_messages_queue.push(new Message(buffer));
 			client_mutex.unlock();
 		}
 		else if(bytes_received == -1)
 		{
-			std::cout<<"ClientHandler: Falla en recepción de mensaje."<<std::endl;
+			LOGGER_ERROR("Falla en recepción de mensaje");
 		}
 		else if(bytes_received == 0)
 		{
-			std::cout<<"ClientHandler: Hubo shutdown desde el server, cerrando cliente."<<std::endl;
+			LOGGER_ERROR("Hubo shutdown desde el server, cerrando cliente");
 			this->quit();
 		}
 	}

@@ -46,8 +46,8 @@ void ClientMessageHandler::processMessage(Message* message)
 
 	char msg[256];
 	message->getContent(msg);
-
-	std::cout<<"ClientMessageHandler: Procesando mensaje recibido del servidor: "<<msg<<std::endl;
+	string sep = ": ";
+	LOGGER_DEBUG("Procesando mensaje recibido del servidor" + sep + msg);
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
