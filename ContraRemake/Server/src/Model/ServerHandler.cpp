@@ -131,8 +131,8 @@ void ServerHandler::acceptConnections()
 										if(this->isGameFull())
 										{
 											LOGGER_DEBUG("El juego ya reservó todos los lugares para jugadores disponibles. Es una reconexión estandar con el juego ya comenzado");
+											this->sendToSocket(new_socket, new MessageServer(INFO, RECONNECT, 0)); // el send to socket deletea el msg
 											MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Informo éxito al reconectar.");
-											this->sendToSocket(new_socket, reconnect_msg);
 											reconnect_msg->setPlayerId(reconnectClient->getClientId());
 											reconnect_msg->setUsername(reconnectClient->getUsername());
 											pthread_mutex_lock(&server_mutex);
