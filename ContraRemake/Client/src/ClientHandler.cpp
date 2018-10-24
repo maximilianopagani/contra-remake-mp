@@ -184,6 +184,7 @@ void ClientHandler::recieveMessages()
 		else if(bytes_received == 0)
 		{
 			LOGGER_ERROR("Hubo shutdown desde el server, cerrando cliente");
+			Utils::setDelay(3000);
 			this->quit();
 		}
 	}
@@ -213,7 +214,7 @@ void ClientHandler::processMessages()
 				if(errno == EAGAIN || errno == EWOULDBLOCK)
 				{
 					LOGGER_INFO("SE LLENÓ EL BUFFER DE SEND PARA EL SERVIDOR. SE PERDIO LA CONEXION. APAGANDO SOCKET. ");
-					this->quit();
+					clientMessageHandler->processMessage(new Message(ERROR, LOST_CONNECTION, 0));
 				}
 			}
 			Utils::setDelay(5);

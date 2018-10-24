@@ -33,11 +33,22 @@ class GameView
 
 		Uint32 getTicks() { return SDL_GetTicks(); }
 
+		void showDisconnectedScreen();
+		void showAlreadyConnectedScreen();
+		void showGameFullScreen();
+		void showInvalidLoginScreen();
+		void showWaitingPlayersScreen();
+
 	private:
 
 		SDL_Window* window;
 		SDL_Renderer* renderer;
 		SDL_Texture* invalidTexture;
+		SDL_Texture* waitingPlayersTexture;
+		SDL_Texture* disconnectedTexture;
+		SDL_Texture* invalidLoginTexture;
+		SDL_Texture* gameFullTexture;
+		SDL_Texture* alreadyConnectedTexture;
 };
 
 #endif /* GAMEVIEW_H_ */

@@ -131,8 +131,8 @@ void ServerHandler::acceptConnections()
 										if(this->isGameFull())
 										{
 											LOGGER_DEBUG("El juego ya reservó todos los lugares para jugadores disponibles. Es una reconexión estandar con el juego ya comenzado");
-
-											MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Info de reconnect para game.");
+											MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Informo éxito al reconectar.");
+											this->sendToSocket(new_socket, reconnect_msg);
 											reconnect_msg->setPlayerId(reconnectClient->getClientId());
 											reconnect_msg->setUsername(reconnectClient->getUsername());
 											pthread_mutex_lock(&server_mutex);
@@ -143,6 +143,7 @@ void ServerHandler::acceptConnections()
 										else
 										{
 											LOGGER_DEBUG("El juego todavía no reservó todos los lugares para jugadores disponibles. Estoy en etapa de espera de conexiones");
+											this->sendToSocket(new_socket, new MessageServer(INFO, WAITINGPLAYERS, "Informo login OK. Esperando."));
 										}
 
 										reconnectClient->setOnline(new_socket);

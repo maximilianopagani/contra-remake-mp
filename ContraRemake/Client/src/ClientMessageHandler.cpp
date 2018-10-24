@@ -189,8 +189,31 @@ void ClientMessageHandler::processMessage(Message* message)
 		{
 			switch(MSG_HEADER_2)
 			{
-				case LOGIN:
+				case LOGIN_DATA:
 				{
+					gameView->showInvalidLoginScreen();
+					Utils::setDelay(3000);
+					client->quit();
+					break;
+				}
+				case LOGIN_ALREADY_ON:
+				{
+					gameView->showAlreadyConnectedScreen();
+					Utils::setDelay(3000);
+					client->quit();
+					break;
+				}
+				case GAMEFULL:
+				{
+					gameView->showGameFullScreen();
+					Utils::setDelay(3000);
+					client->quit();
+					break;
+				}
+				case LOST_CONNECTION:
+				{
+					gameView->showDisconnectedScreen();
+					Utils::setDelay(3000);
 					client->quit();
 					break;
 				}
@@ -202,6 +225,12 @@ void ClientMessageHandler::processMessage(Message* message)
 			switch(MSG_HEADER_2)
 			{
 				case WAITINGPLAYERS:
+				{
+					gameView->showWaitingPlayersScreen();
+					client->initPulse = true;
+					break;
+				}
+				case RECONNECT:
 				{
 					client->initPulse = true;
 					break;

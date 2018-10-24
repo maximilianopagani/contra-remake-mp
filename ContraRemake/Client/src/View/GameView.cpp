@@ -15,6 +15,11 @@ GameView::GameView()
 	window = NULL;
 	renderer = NULL;
 	invalidTexture = NULL;
+	waitingPlayersTexture = NULL;
+	disconnectedTexture = NULL;
+	invalidLoginTexture = NULL;
+	gameFullTexture = NULL;
+	alreadyConnectedTexture = NULL;
 }
 
 GameView::~GameView()
@@ -77,19 +82,50 @@ bool GameView::init()
 		else
 		{
 			//LOGGER_INFO("SDL_Image inicializado con éxito.");
-			SDL_Texture* awaitingConnectionsTexture = textureGenerator("../.images/awaitingConnections.png");
-			SDL_RenderCopy(renderer, awaitingConnectionsTexture, NULL, NULL);
-			SDL_RenderPresent(renderer);
 		}
 	}
 
 	invalidTexture = textureGenerator("../.images/ImageNotFound.png");
-	if(invalidTexture == NULL)
-	{
-		//LOGGER_ERROR("Imposible cargar imágen invalida para usar ante eventuales fallas en el generador de textura");
-		// return false; ??? ANULAR EJECUCION DEL JUEGO??
-	}
+	waitingPlayersTexture = textureGenerator("../.images/screens/waitingPlayers.png");
+	disconnectedTexture = textureGenerator("../.images/screens/disconnected.png");
+	invalidLoginTexture = textureGenerator("../.images/screens/invalidLogin.png");
+	gameFullTexture = textureGenerator("../.images/screens/gameFull.png");
+	alreadyConnectedTexture = textureGenerator("../.images/screens/alreadyConnected.png");
+
 	return true;
+}
+
+void GameView::showDisconnectedScreen()
+{
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, disconnectedTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
+}
+
+void GameView::showAlreadyConnectedScreen()
+{
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, alreadyConnectedTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
+}
+void GameView::showGameFullScreen()
+{
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, gameFullTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
+}
+void GameView::showInvalidLoginScreen()
+{
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, invalidLoginTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
+}
+
+void GameView::showWaitingPlayersScreen()
+{
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, waitingPlayersTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
 }
 
 void GameView::clear()
