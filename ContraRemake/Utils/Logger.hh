@@ -8,7 +8,7 @@
 
 #include <fstream>
 #include <string>
-
+#include <mutex>
 #include "Utils.hh"
 
 // MACROS -- USE MACROS
@@ -34,12 +34,14 @@ public:
     static void logs(Level level, const string& message, const char* file, int line);
     static void kill();
 
+
 private:
     bool active;
     ofstream fileStream;
     Level level;
 
     // instance of Logger (singleton style)
+	static std::mutex logMutex;
     static Logger instance;
     static const string LEVEL_NAMES[];
     static string getFileAndLine(const char* file, int line);

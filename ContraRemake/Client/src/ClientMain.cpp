@@ -15,6 +15,7 @@
 #include "ClientLogin.hh"
 #include "ClientHandler.hh"
 #include "ClientMessageHandler.hh"
+#include "../../Utils/Logger.hh"
 
 using namespace std;
 
@@ -59,6 +60,9 @@ int ClientMain()
 			return false;
 		}
 */
+
+		LOGGER_INIT(Logger::ERROR);
+
 		GameView* gameView = new GameView();
 
 		cout<<"ClientMain: Vista principal creada."<<endl;

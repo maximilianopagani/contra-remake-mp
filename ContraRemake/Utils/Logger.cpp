@@ -58,7 +58,12 @@ void Logger::logs(Level aLevel, const string& message, const char* file, int lin
 
 void Logger::logs(const string& aLevel, const string& message, const string& fileAndLine)
 {
+//	std::lock_guard<std::mutex> lock( logMutex ) ;
+//	std::lock_guard<std::mutex> lock(logMutex);
+//	Logger::logMutex.lock();
 	// identify current output stream
 	ostream& stream = instance.fileStream.is_open() ? instance.fileStream : std::cout;
 	stream  << Utils::getTimestamp() << " <" << aLevel << "> " << fileAndLine << message << endl;
+//	logMutex.unlock();
+
 }

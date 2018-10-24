@@ -63,6 +63,8 @@ void Player::render()
 
 void Player::handleKeys(const Uint8* playerKeyStates)
 {
+
+	LOGGER_ERROR("ESTADO: " + PlayerStateHandler::stateToString(state));
 	if(state == STATE_FREEZED)
 		return;
 

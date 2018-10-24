@@ -142,8 +142,10 @@ void* ClientHandler::processMessagesThread(void* client)
 void ClientHandler::sendToServer(Message* message)
 {
 	char msg[256];
+	string sep = ": ";
 	message->getContent(msg);
-	std::cout<<"ClientHandler: Mensaje enviado al servidor: "<<msg<<std::endl;
+//	std::cout<<"ClientHandler: Mensaje enviado al servidor: "<<msg<<std::endl;
+	LOGGER_ERROR("ClientHandler: Mensaje enviado al servidor" + sep + msg);
 	send(network_socket, msg, 256, 0);
 	delete message;
 }

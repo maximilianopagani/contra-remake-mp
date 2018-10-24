@@ -103,6 +103,8 @@ void Game::processMessage(MessageServer* message)
 	message->getContent(msg);
 	std::cout<<"Game: handleEvents() - Procesando mensaje de player id: "<<message->getPlayerId()<<" y username: "<<message->getUsername()<<" Mensaje: "<<msg<<std::endl;
 
+	LOGGER_ERROR("Game: handleEvents() - Procesando mensaje de player id: " + std::to_string(message->getPlayerId()) + " y username: " + message->getUsername() + " Mensaje: " + msg );
+
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
 	switch(MSG_HEADER_1)
