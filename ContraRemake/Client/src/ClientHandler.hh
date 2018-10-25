@@ -37,23 +37,26 @@ class ClientHandler
 		void run();
 		void quit();
 
-		void recieveMessages();
-		static void* recieveMessagesThread(void* client);
+		void pushReceivedMsgThreadSafe(Message* message);
+
+		void receiveMessages();
+		static void* receiveMessagesThread(void* client);
 
 		void processMessages();
 		static void* processMessagesThread(void* client);
 
-		void setUsername(std::string _username);
-		void setPassword(std::string _password);
+		void setUsername(std::string _username) { username = _username; }
+		void setPassword(std::string _password) { password = _password; }
 
-		std::string getUsername();
-		std::string getPassword();
+		std::string getUsername() { return username; }
+		std::string getPassword() { return password; }
 
 		bool initPulse = false;
 
 	private:
 		std::string username;
 		std::string password;
+
 		int network_socket, server_port;
 		std::string server_ip;
 

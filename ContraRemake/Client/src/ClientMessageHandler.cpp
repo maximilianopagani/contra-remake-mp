@@ -235,6 +235,12 @@ void ClientMessageHandler::processMessage(Message* message)
 					client->initPulse = true;
 					break;
 				}
+				case SERVER_CLOSED:
+				{
+					gameView->showServerClosedScreen();
+					Utils::setDelay(3000);
+					client->quit();
+				}
 			}
 			break;
 		}

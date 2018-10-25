@@ -91,8 +91,16 @@ bool GameView::init()
 	invalidLoginTexture = textureGenerator("../.images/screens/invalidLogin.png");
 	gameFullTexture = textureGenerator("../.images/screens/gameFull.png");
 	alreadyConnectedTexture = textureGenerator("../.images/screens/alreadyConnected.png");
+	serverClosedTexture = textureGenerator("../.images/screens/serverClosed.png");
 
 	return true;
+}
+
+void GameView::showServerClosedScreen()
+{
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, serverClosedTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
 }
 
 void GameView::showDisconnectedScreen()

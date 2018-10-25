@@ -38,7 +38,8 @@ enum MsgCmdHeader {
 	DISCONNECT,
 	RECONNECT,
 	WAITINGPLAYERS,
-	LOST_CONNECTION
+	LOST_CONNECTION,
+	SERVER_CLOSED
 };
 
 class MessageServer
@@ -50,10 +51,10 @@ class MessageServer
 		virtual ~MessageServer() {};
 
 		void getContent(char* content) { std::strcpy(content, messageContent); }
-		int getSize() { return messageSize; }
 
 		void setPlayerId(int _player_id) { player_id = _player_id; }
 		void setUsername(std::string _username) { username = _username; }
+
 		int getPlayerId() { return player_id; }
 		std::string getUsername() { return username; }
 
@@ -62,7 +63,6 @@ class MessageServer
 		int player_id = -1;
 		std::string username = "ERROR";
 		char messageContent[256];
-		int messageSize;
 };
 
 #endif /* COMMON_MESSAGE_HH_ */

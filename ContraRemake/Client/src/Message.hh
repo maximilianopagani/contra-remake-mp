@@ -38,7 +38,8 @@ enum MsgCmdHeader {
 	DISCONNECT,
 	RECONNECT,
 	WAITINGPLAYERS,
-	LOST_CONNECTION
+	LOST_CONNECTION,
+	SERVER_CLOSED
 };
 
 class Message
@@ -50,12 +51,10 @@ class Message
 		virtual ~Message() {};
 
 		void getContent(char* content) { std::strcpy(content, messageContent); }
-		int getSize() { return messageSize; }
 
 	private:
 
 		char messageContent[256];
-		int messageSize;
 };
 
 #endif /* COMMON_MESSAGE_HH_ */

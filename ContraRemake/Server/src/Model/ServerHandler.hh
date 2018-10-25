@@ -43,13 +43,14 @@ class ServerHandler
 
 		bool readyToStartGame();
 		bool allClientsOnline();
-		void sendToConnectedClient(Client* client, MessageServer* message);
+		void sendToConnectedClient(Client* client, MessageServer* message, bool delete_message = true);
 		void sendToConnectedClientId(int client_id, MessageServer* message);
 		void sendToAllConnectedClients(MessageServer* message);
 		void sendToSocket(int destination_socket, MessageServer* message);
 
 		void pushReceivedMsgThreadSafe(MessageServer* message);
 		void notifyGameOfDisconnection(Client* client);
+		void notifyGameOfReconnection(Client* client);
 		void processSendError(Client* client);
 		int getConnectedClients();
 

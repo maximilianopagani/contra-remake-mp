@@ -130,28 +130,23 @@ void ServerHandler::acceptConnections()
 									{
 										if(this->isGameFull())
 										{
-											LOGGER_DEBUG("El juego ya reservó todos los lugares para jugadores disponibles. Es una reconexión estandar con el juego ya comenzado");
-											this->sendToSocket(new_socket, new MessageServer(INFO, RECONNECT, 0)); // el send to socket deletea el msg
-											MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Informo éxito al reconectar.");
-											reconnect_msg->setPlayerId(reconnectClient->getClientId());
-											reconnect_msg->setUsername(reconnectClient->getUsername());
-											pthread_mutex_lock(&server_mutex);
-											server_recv_msgs_queue.push(reconnect_msg);
-											pthread_mutex_unlock(&server_mutex);
-											LOGGER_DEBUG("Mensaje de reconexión enviado a game");
+											this->sendToSocket(new_socket, new MessageServer(INFO, RECONNECT, 0)); // el sendToSocket deletea el msg
+											this->notifyGameOfReconnection(reconnectClient);
 										}
 										else
 										{
-											LOGGER_DEBUG("El juego todavía no reservó todos los lugares para jugadores disponibles. Estoy en etapa de espera de conexiones");
+											LOGGER_DEBUG("El juego todavía no reservó todos los lugares para jugadores disponibles. Estoy en etapa de espera de conexiones.");
 											this->sendToSocket(new_socket, new MessageServer(INFO, WAITINGPLAYERS, "Informo login OK. Esperando."));
 										}
 
 										reconnectClient->setOnline(new_socket);
-										LOGGER_DEBUG("Seteando cliente nuevamente online");
+										LOGGER_INFO("Seteando cliente nuevamente online.");
+
 										struct thread_arg_struct args;
 										args.arg_server = this;
 										args.arg_client = reconnectClient;
-										LOGGER_DEBUG("Creando nuevo thread de recepción de mensajes para el cliente");
+
+										LOGGER_DEBUG("Creando nuevo thread de recepción de mensajes para el cliente.");
 										pthread_create(reconnectClient->getRecieveMessagesThread(), NULL, &ServerHandler::recieveMessagesFromClientThread, (void*) &args);
 									}
 									else
@@ -180,17 +175,12 @@ void ServerHandler::acceptConnections()
 
 										this->sendToSocket(new_socket, new MessageServer(INFO, WAITINGPLAYERS, "Informo login OK. Esperando."));
 
-										// CREO UN THREAD DEDICADO A ESCUCHAR MENSAJES DE ESE NUEVO CLIENTE (PORQUE RECV ES UNA LLAMADA BLOQUEANTE Y ME BLOQUEARIA TO.DO SI UN CLIENTE NO MANDA NADA)
 										struct thread_arg_struct args;
 										args.arg_server = this;
 										args.arg_client = new_client;
 
-										LOGGER_DEBUG("Creando nuevo thread de recepción");
-
+										LOGGER_DEBUG("Creando nuevo thread de recepción de mensajes para el cliente.");
 										pthread_create(new_client->getRecieveMessagesThread(), NULL, &ServerHandler::recieveMessagesFromClientThread, (void*) &args);
-
-										// LOG DE EXITO
-										// MANDAR PANTALLA DE ESPERANDO JUGADORES O LO QUE SEA ANTES DE ENTRAR A LA OTRA LLAMADA BLOQUEANTE DE ACCEPT
 									}
 									else
 									{
@@ -249,10 +239,7 @@ void ServerHandler::acceptConnections()
 
 bool ServerHandler::readyToStartGame()
 {
-	if(this->isGameFull() && this->allClientsOnline())
-		return true;
-	else
-		return false;
+	return (this->isGameFull() && this->allClientsOnline());
 }
 
 Client* ServerHandler::searchForClient(std::string user, std::string passw)
@@ -317,9 +304,9 @@ bool ServerHandler::validateUserAndPassw(std::string user, std::string passw)
 {
 	std::list<UserParser>::iterator it;
 
-	for (it = users.begin(); it != users.end(); it++)
+	for(it = users.begin(); it != users.end(); it++)
 	{
-		if (user == it->getName() && passw == it->getPassword())
+		if(user == it->getName() && passw == it->getPassword())
 			return true;
 	}
 	return false;
@@ -406,7 +393,7 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 			}
 			else
 			{
-				LOGGER_INFO("Hubo shutdown desde cliente mientras el juego estaba en etapa de espera de conexiones");
+				LOGGER_INFO("Hubo shutdown desde cliente mientras el juego estaba en etapa de espera de conexiones.");
 			}
 		}
 	}
@@ -433,7 +420,7 @@ void ServerHandler::processSendError(Client* client)
 {
 	if(errno == EAGAIN || errno == EWOULDBLOCK)
 	{
-		LOGGER_DEBUG("SE LLENÓ EL BUFFER DE SEND PARA EL CLIENTE ID: " + std::to_string(client->getClientId()));
+		LOGGER_INFO("SE LLENÓ EL BUFFER DE SEND PARA EL CLIENTE ID: " + std::to_string(client->getClientId()));
 
 		shutdown(client->getSocket(), SHUT_RDWR);
 		client->setOffline();
@@ -453,21 +440,13 @@ void ServerHandler::sendToAllConnectedClients(MessageServer* message)
 {
 	for(int i = 0; i < max_clients; i++)
 	{
-		if(connectedClients.at(i)->isOnline())
-		{
-			char msg[256];
-			message->getContent(msg);
-			LOGGER_DEBUG("Mensaje enviado al cliente id " + std::to_string(connectedClients.at(i)->getClientId()) + " : " + msg);
-			if(send(connectedClients.at(i)->getSocket(), msg, sizeof(msg), MSG_DONTWAIT) == -1)
-			{
-				this->processSendError(connectedClients.at(i));
-			}
-		}
+		this->sendToConnectedClient(connectedClients.at(i), message, false);
 	}
+
 	delete message;
 }
 
-void ServerHandler::sendToConnectedClient(Client* client, MessageServer* message)
+void ServerHandler::sendToConnectedClient(Client* client, MessageServer* message, bool delete_message)
 {
 	if(client->isOnline())
 	{
@@ -479,14 +458,35 @@ void ServerHandler::sendToConnectedClient(Client* client, MessageServer* message
 			this->processSendError(client);
 		}
 	}
-	delete message;
+
+	if(delete_message)
+	{
+		delete message;
+	}
+}
+
+void ServerHandler::sendToConnectedClientId(int client_id, MessageServer* message)
+{
+	this->sendToConnectedClient(connectedClients.at(client_id), message);
+}
+
+void ServerHandler::notifyGameOfReconnection(Client* client)
+{
+	LOGGER_INFO("Hubo reconexión de un cliente mientras la partida estaba en ejecución.");
+
+	MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Info de reconexión para game");
+
+	reconnect_msg->setPlayerId(client->getClientId());
+	reconnect_msg->setUsername(client->getUsername());
+
+	this->pushReceivedMsgThreadSafe(reconnect_msg); // Encolo el mensaje que después va a levantar y procesar Game, actuando en consecuencia.
 }
 
 void ServerHandler::notifyGameOfDisconnection(Client* client)
 {
-	LOGGER_INFO("Hubo conexión perdida o shutdown de un cliente mientras la partida estaba completa y en ejecución.");
+	LOGGER_INFO("Hubo conexión perdida o shutdown de un cliente mientras la partida estaba en ejecución.");
 
-	MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconexion para game");
+	MessageServer* disconnected_msg = new MessageServer(INFO, DISCONNECT, "Info de desconexión para game");
 
 	disconnected_msg->setPlayerId(client->getClientId());
 	disconnected_msg->setUsername(client->getUsername());
@@ -501,37 +501,23 @@ void ServerHandler::pushReceivedMsgThreadSafe(MessageServer* message)
 	pthread_mutex_unlock(&server_mutex);
 }
 
-void ServerHandler::sendToConnectedClientId(int client_id, MessageServer* message)
-{
-	if(connectedClients.at(client_id)->isOnline())
-	{
-		char msg[256];
-		message->getContent(msg);
-		LOGGER_DEBUG("Mensaje enviado al cliente id " + std::to_string(client_id) + " : " + msg);
-		if(send(connectedClients.at(client_id)->getSocket(), msg, sizeof(msg), MSG_DONTWAIT)  == -1)
-		{
-			this->processSendError(connectedClients.at(client_id));
-		}
-	}
-	delete message;
-}
-
 void ServerHandler::sendToSocket(int destination_socket, MessageServer* message)
 {
 	char msg[256];
 	message->getContent(msg);
 	string sep = ": ";
 	LOGGER_DEBUG("Mensaje enviado al socket" + sep + msg);
+
 	if(send(destination_socket, msg, sizeof(msg), MSG_DONTWAIT) == -1)
 	{
 		if(errno == EAGAIN || errno == EWOULDBLOCK)
 		{
-			LOGGER_DEBUG("SE LLENÓ EL BUFFER DE SEND PARA EL SOCKET ID: " + std::to_string(destination_socket));
+			LOGGER_INFO("SE LLENÓ EL BUFFER DE SEND PARA EL SOCKET ID: " + std::to_string(destination_socket));
 			LOGGER_INFO("Hubo desconexion desde cliente mientras el juego estaba en etapa de login.");
-
 			shutdown(destination_socket, SHUT_RDWR);
 		}
 	}
+
 	delete message;
 }
 

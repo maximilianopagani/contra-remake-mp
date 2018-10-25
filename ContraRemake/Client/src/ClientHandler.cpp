@@ -70,14 +70,14 @@ void ClientHandler::run()
 	client_mutex = PTHREAD_MUTEX_INITIALIZER;
 	pthread_mutex_init(&client_mutex, NULL);
 
-	pthread_create(&receive_messages_thread, NULL, &ClientHandler::recieveMessagesThread, this);
+	pthread_create(&receive_messages_thread, NULL, &ClientHandler::receiveMessagesThread, this);
 	pthread_create(&process_messages_thread, NULL, &ClientHandler::processMessagesThread, this);
 
 	pthread_join(receive_messages_thread, NULL);
 	pthread_join(process_messages_thread, NULL);
 }
 
-void ClientHandler::recieveMessages()
+void ClientHandler::receiveMessages()
 {
 	char buffer[256];
 	int bytes_received = 0;
@@ -121,10 +121,10 @@ void ClientHandler::processMessages()
 }
 */
 
-void* ClientHandler::recieveMessagesThread(void* client)
+void* ClientHandler::receiveMessagesThread(void* client)
 {
-	LOGGER_DEBUG("Iniciando recieveMessagesThread");
-	((ClientHandler*)client)->recieveMessages();
+	LOGGER_DEBUG("Iniciando receiveMessagesThread");
+	((ClientHandler*)client)->receiveMessages();
 	return nullptr;
 }
 
@@ -155,40 +155,46 @@ void ClientHandler::quit()
 
 void ClientHandler::run()
 {
-	std::thread receive_thread (ClientHandler::recieveMessagesThread, this);
+	std::thread receive_thread (ClientHandler::receiveMessagesThread, this);
 	std::thread process_thread (ClientHandler::processMessagesThread, this);
 
 	receive_thread.join();
 	process_thread.join();
 }
 
-void ClientHandler::recieveMessages()
+void ClientHandler::pushReceivedMsgThreadSafe(Message* message)
+{
+    client_mutex.lock();
+	received_messages_queue.push(message);
+	client_mutex.unlock();
+}
+
+void ClientHandler::receiveMessages()
 {
 	char buffer[256];
 	int bytes_received = 0;
 
 	while(continue_flag.load())
 	{
-		bytes_received = recv(network_socket, buffer, 256, MSG_WAITALL); // LLAMADA BLOQUEANTE
+		bytes_received = recv(network_socket, buffer, sizeof(buffer), MSG_WAITALL); // LLAMADA BLOQUEANTE
 
 		if(bytes_received > 0)
 		{
-	        client_mutex.lock();
-			received_messages_queue.push(new Message(buffer));
-			client_mutex.unlock();
+			this->pushReceivedMsgThreadSafe(new Message(buffer));
 		}
 		else if(bytes_received == -1)
 		{
-			LOGGER_ERROR("Falla en recepción de mensaje");
+			LOGGER_ERROR("Falla en recepción de mensaje.");
 		}
 		else if(bytes_received == 0)
 		{
-			LOGGER_ERROR("Hubo shutdown desde el server, cerrando cliente");
-			Utils::setDelay(3000);
-			this->quit();
+			LOGGER_INFO("Hubo shutdown desde el server, cerrando cliente");
+			this->pushReceivedMsgThreadSafe(new Message(INFO, SERVER_CLOSED, 0));
 		}
 	}
 }
+
+
 
 void ClientHandler::processMessages()
 {
@@ -220,20 +226,4 @@ void ClientHandler::processMessages()
 			Utils::setDelay(5);
 		}
 	}
-}
-
-void ClientHandler::setUsername(std::string _username) {
-	this->username = _username;
-}
-
-void ClientHandler::setPassword(std::string _password) {
-	this->password = _password;
-}
-
-std::string ClientHandler::getUsername() {
-	return username;
-}
-
-std::string ClientHandler::getPassword() {
-	return password;
 }
