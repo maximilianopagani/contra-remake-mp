@@ -28,6 +28,8 @@ class Level
 		void render();
 		void destroy();
 		void moveForward(int pixels_to_move);
+		void update();
+		void deleteEnemy(Enemy* _enemy);
 
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
@@ -43,6 +45,7 @@ class Level
 		int getScrollingType() { return scrolling; }
 
 		list<Platform*>* getPlataformList(){ return &platforms; }
+		list<Enemy*>* getEnemysList(){ return &enemys; }
 
 		void restart();
 
@@ -70,7 +73,10 @@ class Level
 		std::list<Platform*> platforms;
 		std::list<Platform*>::iterator platformsIterator;
 
-        Enemy* enemy;
+		std::list<Enemy*> enemys;
+		std::list<Enemy*>::iterator enemysIterator;
+
+       // Enemy* enemy;
 };
 
 #endif /* MODEL_LEVEL_HH_ */

@@ -12,7 +12,6 @@ Platform::Platform(CameraLogic* _cameraLogic, std::string _type, int pos_x, int 
 {
 	cameraLogic = _cameraLogic;
 	serverMessageHandler = _serverMessageHandler ;
-	//logicToViewTransporter = _logicToViewTransporter;
 	posX = pos_x;
 	posY = pos_y;
 

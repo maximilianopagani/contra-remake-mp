@@ -35,7 +35,7 @@ class PlayerView
 
 		Sprite** sprites[4];
 
-		int lastState = STATE_STANDING, hasToUpdateCount = 0;
+		//int lastState = STATE_STANDING, hasToUpdateCount = 0;
 };
 
 #endif /* VISTA_PLAYERVIEW_HH_ */

@@ -45,7 +45,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			playerRespawnX = 100; // Relativo a la ventana, donde van a aparecer cuando caigan
 			playerRespawnY = 200;
 
-			enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level1.png", 7800, 200, 95, 111);
+			enemys.push_back(new Enemy(cameraLogic,0,1,3000,100,serverMessageHandler));
 
 			break;
 		}
@@ -80,7 +80,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			playerRespawnX = 400; // Relativo a la ventana, donde van a aparecer cuando caigan
 			playerRespawnY = 350;
 
-			enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level2.png", 150, 0, 253, 103);
+			//enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level2.png", 150, 0, 253, 103);
 
 			break;
 		}
@@ -115,7 +115,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			playerRespawnX = 100; // Relativo a la ventana, donde van a aparecer cuando caigan
 			playerRespawnY = 200;
 
-			enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level3.png", 7800, 310, 127, 95);
+			//enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level3.png", 7800, 310, 127, 95);
 
 			break;
 		}
@@ -185,12 +185,24 @@ void Level::render()
 	//----------------------------------------------------------------------
 	//Mandar Mensaje para dibujar al enemigo
 
-	/*enemy->sendToDraw();*/
+	for(enemysIterator = enemys.begin(); enemysIterator != enemys.end();++enemysIterator){
+			(*enemysIterator)->render();
+	}
+}
+void Level::update(){
+	for(enemysIterator = enemys.begin(); enemysIterator != enemys.end();++enemysIterator){
+		(*enemysIterator)->update();
+	}
+}
+
+void Level::deleteEnemy(Enemy* _enemy){
+	enemys.remove(_enemy);
 }
 
 void Level::destroy()
 {
-	delete enemy;
+	enemys.clear();
+	platforms.clear();
 }
 
 void Level::moveForward(int pixels_to_move)

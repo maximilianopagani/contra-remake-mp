@@ -8,28 +8,43 @@
 #ifndef ENEMY_HH_
 #define ENEMY_HH_
 
+#include "../../Utils/ICollisional.hh"
+#include "../../Utils/MessageServer.hh"
 #include "CameraLogic.hh"
-//#include "LogicToViewTransporter.hh"
 #include "../../../Utils/Logger.hh"
+#include "ServerMessageHandler.hh"
 
-class Enemy
+class Enemy: public ICollisional
 {
 	public:
 
-		Enemy(CameraLogic* _cameraLogic, string spritePath, int _posX, int _posY, int width, int height);
+		Enemy(CameraLogic* _cameraLogic, int _type,int _state, int pos_x, int pos_y,ServerMessageHandler* _serverMessageHandler);
 		virtual ~Enemy();
 
 		int getPosX() { return posX; }
 		int getPosY() { return posY; }
 
-		void sendToDraw();
+		void render();
+		void update();
+		void fallingStop(){falling = false; }
+		void fallingDown(){falling = true;}
+		void wasHit(){ dead = true; };//ANIMACION DE MUERTO O DIRECTAMENTE BORRARLO
+
+
+		//Collisional
+		int getLeftLimit();
+		int getRightLimit();
+		int getTopLimit();
+		int getBottomLimit();
 
 	private:
 
-		CameraLogic* cameraLogic;
-		//LogicToViewTransporter* logicToViewTransporter;
+		ServerMessageHandler* serverMessageHandler;
+		CameraLogic* cameraLogic ;
 
-		int posX, posY;
+		int timeAtIterationStart;
+		int posX, posY ,type ,direction;
+		bool falling ,dead ;
 };
 
 #endif /* ENEMY_HH_ */

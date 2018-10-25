@@ -235,11 +235,29 @@ void ClientMessageHandler::processMessage(Message* message)
 					client->initPulse = true;
 					break;
 				}
-				case SERVER_CLOSED:
+			}
+			break;
+		}
+
+		case ENEMY:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case RENDER:
 				{
-					gameView->showServerClosedScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					int enemy_id = atoi(param1);
+					int state = atoi(param2);
+					int pos_x = atoi(param3);
+					int pos_y = atoi(param4);
+					enemyView->render(enemy_id, state, pos_x, pos_y);
+					break;
+				}
+				case LOAD:
+				{
+					int enemy_id = atoi(param1);
+					int state = atoi(param2);
+					enemyView->update(enemy_id, state);
+					break;
 				}
 			}
 			break;

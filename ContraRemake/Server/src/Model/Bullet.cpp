@@ -40,3 +40,23 @@ void Bullet::render()
 {
 	serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 }
+
+int Bullet::getLeftLimit()
+{
+	return pos_x;
+}
+
+int Bullet::getRightLimit()
+{
+	return pos_x + 8;
+}
+
+int Bullet::getTopLimit()
+{
+	return pos_y;
+}
+
+int Bullet::getBottomLimit()
+{
+	return pos_y + 8;
+}

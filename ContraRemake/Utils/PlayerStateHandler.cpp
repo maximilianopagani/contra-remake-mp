@@ -132,6 +132,8 @@ int PlayerStateHandler::getDestinationWidth(PlayerState aState)
 			return 41;
 		case STATE_FREEZED:
 			return 39;
+		case STATE_DEAD:
+			return 87;
 	}
 	return 0;
 }
@@ -178,6 +180,8 @@ int PlayerStateHandler::getDestinationHeight(PlayerState aState)
 			return 82;
 		case STATE_FREEZED:
 			return 87;
+		case STATE_DEAD:
+			return 28;
 	}
 	return 0;
 }

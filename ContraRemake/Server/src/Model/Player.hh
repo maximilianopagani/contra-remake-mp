@@ -55,6 +55,7 @@ class Player : public ICollisional
 		void shoot();
 		void fallingDownStop(){falling = false ;}
 		void fallingDown(){falling = true ;}
+		void wasHit(){ state = STATE_DEAD;};
 
 		void handleKeys(const Uint8* playerKeyStates);
 		bool alreadyProcessedKeys() { return processedKeys; }
@@ -66,6 +67,8 @@ class Player : public ICollisional
 		void disableMovementBeyondBorder() { movement_beyond_border = false; }
 		void enableMovementBeyondBorder() { movement_beyond_border = true; }
 		bool canMoveBeyondBorder() { return movement_beyond_border; }
+
+		list<Bullet*>* getBulletList(){ return &bullets; }
 
 	private:
 

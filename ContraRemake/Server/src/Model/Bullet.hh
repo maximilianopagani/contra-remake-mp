@@ -11,8 +11,9 @@
 #include "CameraLogic.hh"
 #include <math.h>
 #include "ServerMessageHandler.hh"
+#include "../../../Utils/ICollisional.hh"
 
-class Bullet
+class Bullet : public ICollisional
 {
 	public:
 
@@ -22,6 +23,12 @@ class Bullet
 		void updatePos();
 		bool outOfLimits();
 		void render();
+
+		//Collisional
+		int getLeftLimit();
+		int getRightLimit();
+		int getTopLimit();
+		int getBottomLimit();
 
 	private:
 

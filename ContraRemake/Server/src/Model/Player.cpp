@@ -21,6 +21,7 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	processedKeys = false;
 
 	state = STATE_STANDING;
+
 	direction = DIRECTION_FRONT;
 
 	aimingAt = AIM_FRONT;
@@ -63,7 +64,7 @@ void Player::render()
 
 void Player::handleKeys(const Uint8* playerKeyStates)
 {
-	if(state == STATE_FREEZED)
+	if(state == STATE_FREEZED || state == STATE_DEAD )
 		return;
 
 	// bug de ambas direcciones

@@ -12,6 +12,7 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	server = _server;
 	max_players = _max_players;
 	FPS = _FPS;
+
 }
 
 Game::~Game()
@@ -32,6 +33,9 @@ void Game::init()
     	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 
     }
+
+  //  enemy = new Enemy(cameraLogic,0,1,3000,100,serverMessageHandler);
+
 }
 
 void Game::runGame()
@@ -327,6 +331,9 @@ void Game::scrollLevel()
 
 void Game::update()
 {
+
+	level->update();
+
 	//============================= MANEJO DE ACTUALIZACION DE JUGADORES CONECTADOS ==============================
 
     for(int i = 0; i < max_players; i++)
@@ -358,8 +365,10 @@ void Game::update()
     //============================================================================================================
 
 
-    //=================================== MANEJO DE COLISIONES CON PLATAFORMAS ===================================
+    //=================================== MANEJO DE COLISIONES ===================================
 
+
+    //Jugadores-Plataforma
 	list<Platform*>* platforms = level->getPlataformList();
 	list<Platform*>::iterator platformsIterator;
 
@@ -369,6 +378,7 @@ void Game::update()
     	{
 			for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator)
 			{
+
 				if(CollisionHelper::stands(players.at(i), *platformsIterator))
 				{
 					players.at(i)->fallingDownStop();
@@ -381,6 +391,52 @@ void Game::update()
 			}
     	}
     }
+
+    //Enemigo-Plataforma
+    list<Enemy*>* enemys = level->getEnemysList();
+    list<Enemy*>::iterator enemysIterator;
+
+    for(enemysIterator = enemys->begin(); enemysIterator != enemys->end(); ++enemysIterator){
+    	  for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
+    	    	if(CollisionHelper::stands(*enemysIterator, *platformsIterator)) {
+    	    		(*enemysIterator)->fallingStop();
+    	    		break;
+    	    	}
+    	    	else (*enemysIterator)->fallingDown();
+    	   }
+    }
+
+    //Jugador-Enemigo
+    for(int i = 0; i < max_players; i++){
+    	if(players.at(i)->isOnline()){
+    		for(enemysIterator = enemys->begin(); enemysIterator != enemys->end(); ++enemysIterator){
+    			if(CollisionHelper::stands(players.at(i), *enemysIterator)){
+    			   	players.at(i)->wasHit();
+    			   	break;
+    			}
+    		}
+    	}
+    }
+
+    //Balas-Enemigo
+    list<Bullet*>* bullets;
+    list<Bullet*>::iterator bulletsIterator;
+
+    for(int i = 0; i < max_players; i++){
+       if(players.at(i)->isOnline()){
+        	bullets= players.at(i)->getBulletList();
+
+        	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end(); ++bulletsIterator){
+        		for(enemysIterator = enemys->begin(); enemysIterator != enemys->end(); ++enemysIterator){
+        			if(CollisionHelper::stands(*bulletsIterator,*enemysIterator)){
+        			     level->deleteEnemy(*enemysIterator);
+        			     break;
+        			}
+        		}
+        	}
+       }
+    }
+
 
     //============================================================================================================
 
