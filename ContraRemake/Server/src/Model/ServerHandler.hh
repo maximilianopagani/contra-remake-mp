@@ -43,6 +43,7 @@ class ServerHandler
 
 		bool readyToStartGame();
 		bool allClientsOnline();
+
 		void sendToConnectedClient(Client* client, MessageServer* message, bool delete_message = true);
 		void sendToConnectedClientId(int client_id, MessageServer* message);
 		void sendToAllConnectedClients(MessageServer* message);

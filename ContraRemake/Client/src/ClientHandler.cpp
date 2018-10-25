@@ -189,7 +189,7 @@ void ClientHandler::receiveMessages()
 		else if(bytes_received == 0)
 		{
 			LOGGER_INFO("Hubo shutdown desde el server, cerrando cliente");
-			this->pushReceivedMsgThreadSafe(new Message(INFO, SERVER_CLOSED, 0));
+			clientMessageHandler->processMessage(new Message(INFO, SERVER_CLOSED, 0));
 		}
 	}
 }
