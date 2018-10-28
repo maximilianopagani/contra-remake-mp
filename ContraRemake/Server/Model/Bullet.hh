@@ -11,7 +11,7 @@
 #include "CameraLogic.hh"
 #include <math.h>
 #include "ServerMessageHandler.hh"
-#include "../../../Utils/ICollisional.hh"
+#include "../../Utils/ICollisional.hh"
 
 class Bullet : public ICollisional
 {

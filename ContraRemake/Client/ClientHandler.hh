@@ -18,7 +18,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
-#include "../../Utils/Logger.hh"
+#include "../Utils/Logger.hh"
 
 class ClientMessageHandler;
 

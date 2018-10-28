@@ -86,12 +86,12 @@ bool ClientParser::evaluateTags() {
 bool ClientParser::loadConfiguration() {
 	bool success = true;
 
-	this->tiXmlFileConfig = new TiXmlDocument ("Client/src/data/configurationClient.xml");
+	this->tiXmlFileConfig = new TiXmlDocument ("../xml/configurationClient.xml");
 	if (this->tiXmlFileConfig->LoadFile()) {
 		this->fileConfigLoaded = true;
 		evaluateTags();
 	} else {
-		this->tiXmlDefaultFileConfig = new TiXmlDocument ("Client/src/data/configurationClientDefault.xml");
+		this->tiXmlDefaultFileConfig = new TiXmlDocument ("../xml/.configurationClientDefault.xml");
 		if (this->tiXmlDefaultFileConfig->LoadFile()) {
 			this->tiXmlFileConfig = this->tiXmlDefaultFileConfig;
 			this->defaultfileConfigLoaded = true;

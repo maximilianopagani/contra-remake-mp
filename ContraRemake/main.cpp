@@ -2,8 +2,8 @@
 
 #include "Utils/Logger.hh"
 #include "Utils/GameParser.hh"
-#include "Server/src/Model/ServerMain.hh"
-#include "Client/src/ClientMain.hh"
+#include "Server/Model/ServerMain.hh"
+#include "Client/ClientMain.hh"
 
 using namespace std;
 
@@ -103,7 +103,7 @@ int main(int argc, char** argv)
 			if(std::string(argv[2]) == "CLIENT" || std::string(argv[2]) == "client")
 				return ClientMain();
 			else if(std::string(argv[2]) == "SERVER" || std::string(argv[2]) == "server")
-				return ServerMain(parser);
+				return ServerMain(parser); // @suppress("Invalid arguments")
 			else
 				print_usage();
 		}

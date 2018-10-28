@@ -11,7 +11,7 @@
 #include "../../Utils/ICollisional.hh"
 #include "../../Utils/MessageServer.hh"
 #include "CameraLogic.hh"
-#include "../../../Utils/Logger.hh"
+#include "../../Utils/Logger.hh"
 #include "ServerMessageHandler.hh"
 
 class Enemy: public ICollisional

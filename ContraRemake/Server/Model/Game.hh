@@ -9,8 +9,8 @@
 
 #include "Level.hh"
 #include "Player.hh"
-#include "../../../Utils/GameParser.hh"
-#include "../../../Utils/CollisionHelper.hh"
+#include "../../Utils/GameParser.hh"
+#include "../../Utils/CollisionHelper.hh"
 
 extern pthread_mutex_t server_mutex;
 

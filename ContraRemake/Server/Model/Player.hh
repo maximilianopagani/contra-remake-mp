@@ -10,9 +10,9 @@
 #ifndef PLAYER_HH_
 #define PLAYER_HH_
 
-#include "../../../Utils/PlayerStateHandler.hh"
-#include "../../../Utils/Logger.hh"
-#include "../../../Utils/ICollisional.hh"
+#include "../../Utils/PlayerStateHandler.hh"
+#include "../../Utils/Logger.hh"
+#include "../../Utils/ICollisional.hh"
 #include "Bullet.hh"
 #include "ServerMessageHandler.hh"
 

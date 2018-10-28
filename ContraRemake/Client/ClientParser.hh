@@ -9,12 +9,12 @@
 #define CLIENT_SRC_CLIENTPARSER_HH_
 
 #include <string>
-#include "../../Server/src/data/tinyxml/tinyxml.h"
-#include "../../Server/src/data/tinyxml/tinystr.h"
+#include "../xml/tinyxml/tinyxml.h"
+#include "../xml/tinyxml/tinystr.h"
 #include <cstring>
 #include <cstdio>
 #include <stdlib.h>
-#include "../../Utils/Logger.hh"
+#include "../Utils/Logger.hh"
 #include <list>
 
 #define ZERO "0"

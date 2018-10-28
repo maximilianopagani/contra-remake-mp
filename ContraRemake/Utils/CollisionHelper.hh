@@ -9,7 +9,7 @@
 #define COLLISIONHELPER_HH_
 
 #include "ICollisional.hh"
-#include  "../Server/src/Model/Platform.hh"
+#include  "../Server/Model/Platform.hh"
 
 class CollisionHelper
 {

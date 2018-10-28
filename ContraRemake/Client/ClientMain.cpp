@@ -12,7 +12,7 @@
 #include "ClientLogin.hh"
 #include "ClientHandler.hh"
 #include "ClientMessageHandler.hh"
-#include "../../Utils/Logger.hh"
+#include "../Utils/Logger.hh"
 
 using namespace std;
 
