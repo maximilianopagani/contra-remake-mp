@@ -15,6 +15,9 @@ GameParser::GameParser() {
 	this->fondo1Nivel3 = "";
 	this->fondo2Nivel3 = "";
 	this->fondo3Nivel3 = "";
+	this->quantityEnemiesLevel1 = 0;
+	this->quantityEnemiesLevel2 = 0;
+	this->quantityEnemiesLevel3 = 0;
 }
 
 bool GameParser::evaluateTagDebug(){
@@ -94,6 +97,8 @@ bool GameParser::evaluateTagNivel1(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
+	string strMaximumQuantityEnemies;
+	int maximumQuantityEnemies = 0;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
 	TiXmlNode* tagNivel1Node = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).ToNode();
@@ -151,6 +156,28 @@ bool GameParser::evaluateTagNivel1(){
 		sucess = false;
 	}
 
+    //TAG_MAXIMUMQUANTITYENEMIES
+	TiXmlNode* tagMaximumQuantityEnemiesNode = tagNivel1Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES);
+	if ((tagMaximumQuantityEnemiesNode)&&(tagNivel1Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText())) {
+		strMaximumQuantityEnemies.clear();
+		strMaximumQuantityEnemies.append(tagNivel1Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText());
+	    if (!strMaximumQuantityEnemies.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES es cero");
+	    	sucess = false;
+	    }
+
+	    maximumQuantityEnemies = atoi(strMaximumQuantityEnemies.c_str());
+	    if ((maximumQuantityEnemies>0)&&(maximumQuantityEnemies<1000)) {
+	    	this->quantityEnemiesLevel1 = maximumQuantityEnemies;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE ENEMIGOS RECHAZADA DEL NIVEL 1: " + strMaximumQuantityEnemies);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
 	return sucess;
 }
 
@@ -159,6 +186,9 @@ bool GameParser::evaluateTagNivel2(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
+	string strMaximumQuantityEnemies;
+	int maximumQuantityEnemies = 0;
+
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
 	TiXmlNode* tagNivel2Node = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL2).ToNode();
@@ -216,6 +246,28 @@ bool GameParser::evaluateTagNivel2(){
 		sucess = false;
 	}
 
+    //TAG_MAXIMUMQUANTITYENEMIES
+	TiXmlNode* tagMaximumQuantityEnemiesNode = tagNivel2Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES);
+	if ((tagMaximumQuantityEnemiesNode)&&(tagNivel2Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText())) {
+		strMaximumQuantityEnemies.clear();
+		strMaximumQuantityEnemies.append(tagNivel2Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText());
+	    if (!strMaximumQuantityEnemies.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES es cero");
+	    	sucess = false;
+	    }
+
+	    maximumQuantityEnemies = atoi(strMaximumQuantityEnemies.c_str());
+	    if ((maximumQuantityEnemies>0)&&(maximumQuantityEnemies<1000)) {
+	    	this->quantityEnemiesLevel2 = maximumQuantityEnemies;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE ENEMIGOS RECHAZADA DEL NIVEL 2: " + strMaximumQuantityEnemies);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
 	return sucess;
 }
 
@@ -224,6 +276,8 @@ bool GameParser::evaluateTagNivel3(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
+	string strMaximumQuantityEnemies;
+	int maximumQuantityEnemies = 0;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
 	TiXmlNode* tagNivel3Node = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL3).ToNode();
@@ -280,9 +334,30 @@ bool GameParser::evaluateTagNivel3(){
 		sucess = false;
 	}
 
+    //TAG_MAXIMUMQUANTITYENEMIES
+	TiXmlNode* tagMaximumQuantityEnemiesNode = tagNivel3Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES);
+	if ((tagMaximumQuantityEnemiesNode)&&(tagNivel3Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText())) {
+		strMaximumQuantityEnemies.clear();
+		strMaximumQuantityEnemies.append(tagNivel3Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText());
+	    if (!strMaximumQuantityEnemies.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES es cero");
+	    	sucess = false;
+	    }
+
+	    maximumQuantityEnemies = atoi(strMaximumQuantityEnemies.c_str());
+	    if ((maximumQuantityEnemies>0)&&(maximumQuantityEnemies<1000)) {
+	    	this->quantityEnemiesLevel3 = maximumQuantityEnemies;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE ENEMIGOS RECHAZADA DEL NIVEL 3: " + strMaximumQuantityEnemies);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
 	return sucess;
 }
-
 
 bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 	bool sucess = true;
@@ -589,6 +664,18 @@ const string& GameParser::getFondo3Nivel3() const {
 
 const string& GameParser::getLevel() const {
 	return level;
+}
+
+int GameParser::getQuantityEnemiesLevel1() const {
+	return quantityEnemiesLevel1;
+}
+
+int GameParser::getQuantityEnemiesLevel2() const {
+	return quantityEnemiesLevel2;
+}
+
+int GameParser::getQuantityEnemiesLevel3() const {
+	return quantityEnemiesLevel3;
 }
 
 const std::list<PlataformParser>& GameParser::getPlataforms2() const {

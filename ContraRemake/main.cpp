@@ -64,6 +64,9 @@ int main(int argc, char** argv)
 
 		if (parser->loadConfiguration()) {
 			LOGGER_INFO("Carga de configuracion aceptada");
+			cout << "La cantidad de enemigos del nivel 1 es: " << parser->getQuantityEnemiesLevel1() << endl;
+			cout << "La cantidad de enemigos del nivel 2 es: " << parser->getQuantityEnemiesLevel2() << endl;
+			cout << "La cantidad de enemigos del nivel 3 es: " << parser->getQuantityEnemiesLevel3() << endl;
 		} else {
 			// se mata al primer logger
 			LOGGER_KILL();

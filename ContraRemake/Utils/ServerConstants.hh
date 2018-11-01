@@ -19,6 +19,7 @@
 #define TAG_FONDO1 "fondo1"
 #define TAG_FONDO2 "fondo2"
 #define TAG_FONDO3 "fondo3"
+#define TAG_MAXIMUMQUANTITYENEMIES "maximumquantityenemies"
 
 #define TAG_PLATAFORMAS "plataformas"
 #define TAG_PLATAFORMA "plataforma"

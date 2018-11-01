@@ -29,6 +29,10 @@ private:
 	string fondo2Nivel3;
 	string fondo3Nivel3;
 
+	int quantityEnemiesLevel1;
+	int quantityEnemiesLevel2;
+	int quantityEnemiesLevel3;
+
 	std::list<PlataformParser> plataformas;
 	std::list<PlataformParser> plataforms2;
 	std::list<PlataformParser> plataforms3;
@@ -63,10 +67,13 @@ public:
 	const string& getFondo3Nivel3() const;
 	const string& getLevel() const;
 	const std::list<PlataformParser>& getPlataformas() const;
-
-	virtual ~GameParser();
 	const std::list<PlataformParser>& getPlataforms2() const;
 	const std::list<PlataformParser>& getPlataforms3() const;
+
+	virtual ~GameParser();
+	int getQuantityEnemiesLevel1() const;
+	int getQuantityEnemiesLevel2() const;
+	int getQuantityEnemiesLevel3() const;
 };
 
 #endif /* GAMEPARSER_HH_ */

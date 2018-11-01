@@ -7,6 +7,7 @@
 			<fondo1>images/background/set1/fondo1.png</fondo1>
 			<fondo2>images/background/set1/fondo2.png</fondo2>
 			<fondo3>images/background/set1/fondo3.png</fondo3>
+			<maximumquantityenemies>10</maximumquantityenemies>
 			<plataformas>
 				<plataforma>
 					<id>1</id>				
@@ -196,6 +197,7 @@
 			<fondo1>images/background/set2/fondo1.png</fondo1>
 			<fondo2>images/background/set2/fondo2.png</fondo2>
 			<fondo3>images/background/set2/fondo3.png</fondo3>
+			<maximumquantityenemies>20</maximumquantityenemies>
 			<plataformas>
 				<plataforma>
 					<id>2001</id>
@@ -462,6 +464,7 @@
 			<fondo1>images/background/set3/fondo1.png</fondo1>
 			<fondo2>images/background/set3/fondo2.png</fondo2>
 			<fondo3>images/background/set3/fondo3.png</fondo3>
+			<maximumquantityenemies>30</maximumquantityenemies>
 			<plataformas>
 				<plataforma>
 					<id>3001</id>
