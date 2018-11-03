@@ -21,7 +21,8 @@ enum MsgDestHeader {
 	LEVEL,
 	BULLET,
 	PLATFORM,
-	ENEMY
+	ENEMY,
+	SOUND
 };
 
 enum MsgCmdHeader {

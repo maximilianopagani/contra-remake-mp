@@ -125,6 +125,7 @@ void* ClientHandler::receiveMessagesThread(void* client)
 {
 	LOGGER_DEBUG("Iniciando receiveMessagesThread");
 	((ClientHandler*)client)->receiveMessages();
+	cout<<"Sali del receive messages"<<endl;
 	return nullptr;
 }
 
@@ -132,6 +133,8 @@ void* ClientHandler::processMessagesThread(void* client)
 {
 	LOGGER_DEBUG("Iniciando processMessagesThread");
 	((ClientHandler*)client)->processMessages();
+
+	cout<<"Sali del procces messages"<<endl;
 	return nullptr;
 }
 
@@ -140,7 +143,7 @@ void ClientHandler::sendToServer(Message* message)
 	char msg[256];
 	string sep = ": ";
 	message->getContent(msg);
-	LOGGER_DEBUG("Mensaje enviado al servidor" + sep + msg);
+	//LOGGER_DEBUG("Mensaje enviado al servidor" + sep + msg);
 	send(network_socket, msg, 256, 0);
 	delete message;
 }
@@ -160,6 +163,7 @@ void ClientHandler::run()
 
 	receive_thread.join();
 	process_thread.join();
+
 }
 
 void ClientHandler::pushReceivedMsgThreadSafe(Message* message)
@@ -185,6 +189,8 @@ void ClientHandler::receiveMessages()
 		else if(bytes_received == -1)
 		{
 			LOGGER_ERROR("Falla en recepción de mensaje.");
+			break;
+
 		}
 		else if(bytes_received == 0)
 		{
@@ -192,6 +198,7 @@ void ClientHandler::receiveMessages()
 			clientMessageHandler->processMessage(new Message(INFO, SERVER_CLOSED, 0));
 		}
 	}
+
 }
 
 

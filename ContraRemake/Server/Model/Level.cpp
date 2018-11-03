@@ -17,6 +17,8 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 	{
 		case LEVEL1:
 		{
+			serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,0,1));
+
 			scrolling = SCROLLING_HORIZONTAL;
 
 			background1Path = "set1/fondo1.png"; // ESTO DEBERIA LEVANTARLO DEL PARSER O NO?
@@ -52,6 +54,8 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 
 		case LEVEL2:
 		{
+			serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,0,2));
+
 			scrolling = SCROLLING_VERTICAL;
 
 			background1Path = "set2/fondo1.png"; // ESTO DEBERIA LEVANTARLO DEL PARSER O NO?
@@ -87,6 +91,8 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 
 		case LEVEL3:
 		{
+			serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,0,3));
+
 			scrolling = SCROLLING_HORIZONTAL;
 
 			background1Path = "set3/fondo1.png"; // ESTO DEBERIA LEVANTARLO DEL PARSER O NO?

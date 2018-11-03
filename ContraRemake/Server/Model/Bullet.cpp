@@ -17,6 +17,9 @@ Bullet::Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, 
 	speed_y = _speed_y;
 	traveled_distance = 0;
 	max_travel_distance = distanceToTravel;
+
+	serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,4,0));
+
 }
 
 Bullet::~Bullet() {}

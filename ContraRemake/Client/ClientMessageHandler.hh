@@ -19,6 +19,8 @@
 #include "View/BulletView.hh"
 #include "View/EnemyView.hh"
 
+#include "Sound/Sound.hh"
+
 class ClientHandler;
 
 #include "ClientHandler.hh"
@@ -44,6 +46,8 @@ class ClientMessageHandler
 		PlatformView* platformView;
 		BulletView* bulletView;
 		EnemyView* enemyView;
+
+		Sound* sound;
 };
 
 #endif /* SRC_CLIENTMESSAGEHANDLER_HH_ */

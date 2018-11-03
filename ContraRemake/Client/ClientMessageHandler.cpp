@@ -15,6 +15,8 @@ ClientMessageHandler::ClientMessageHandler()
 	platformView = NULL;
 	bulletView = NULL;
 	enemyView = NULL;
+
+	sound = NULL;
 }
 
 void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView)
@@ -25,6 +27,7 @@ void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerVie
 	platformView = _platformView;
 	bulletView = _bulletView;
 	enemyView = _enemyView;
+	sound = new Sound();
 }
 
 bool ClientMessageHandler::setClientHandler(ClientHandler* _client)
@@ -41,13 +44,14 @@ ClientMessageHandler::~ClientMessageHandler() {}
 
 void ClientMessageHandler::processMessage(Message* message)
 {
+
 	int MSG_HEADER_1, MSG_HEADER_2;
 	char param1[32]; char param2[32]; char param3[32]; char param4[32];
 
 	char msg[256];
 	message->getContent(msg);
 	string sep = ": ";
-	LOGGER_DEBUG("Procesando mensaje recibido del servidor" + sep + msg);
+	//LOGGER_DEBUG("Procesando mensaje recibido del servidor" + sep + msg);
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
@@ -227,6 +231,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				case WAITINGPLAYERS:
 				{
 					gameView->showWaitingPlayersScreen();
+					sound->play(0,0,0, 50);
 					client->initPulse = true;
 					break;
 				}
@@ -260,6 +265,20 @@ void ClientMessageHandler::processMessage(Message* message)
 					break;
 				}
 			}
+			break;
+		}
+		case SOUND:{
+
+			switch(MSG_HEADER_2){
+
+				case LOAD:{
+					int type = atoi(param1);
+					int subtype = atoi(param2);
+					sound->play(type,subtype, 0, 50);
+					break;
+				}
+			}
+
 			break;
 		}
 	}

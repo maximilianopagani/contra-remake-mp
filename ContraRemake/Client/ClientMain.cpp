@@ -76,7 +76,11 @@ int ClientMain()
 
 		clientMessageHandler->setParams(gameView, playerView, levelView, platformView, bulletView, enemyView);
 
+
+
 		client->run();
+
+		cout<<"TERMINO TODO EL HILO MAIN"<<endl;
 
 		LOGGER_INFO("Cliente cerrado. Se cierra la vista del cliente");
 
@@ -84,6 +88,8 @@ int ClientMain()
 		delete client;
 		gameView->destroy();
 	}
+
+
 	LOGGER_KILL();
 	return 0;
 }

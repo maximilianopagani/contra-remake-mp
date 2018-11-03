@@ -430,6 +430,7 @@ void Game::update()
         		for(enemysIterator = enemys->begin(); enemysIterator != enemys->end(); ++enemysIterator){
         			if(CollisionHelper::stands(*bulletsIterator,*enemysIterator)){
         			     level->deleteEnemy(*enemysIterator);
+        			     serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
         			     break;
         			}
         		}
@@ -450,6 +451,7 @@ void Game::update()
 			if(cameraLogic->outOfCameraLowerLimit(players.at(i)->getPosY() + 50))
 			{
 				players.at(i)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
+				serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,3,0));
 			}
     	}
     }
