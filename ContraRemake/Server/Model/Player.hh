@@ -10,10 +10,12 @@
 #ifndef PLAYER_HH_
 #define PLAYER_HH_
 
+#include "../../Utils/BulletTypeHandler.hh"
 #include "../../Utils/PlayerStateHandler.hh"
 #include "../../Utils/Logger.hh"
 #include "../../Utils/ICollisional.hh"
-#include "Bullet.hh"
+//#include "Bullet.hh"
+#include "Gun.hh"
 #include "ServerMessageHandler.hh"
 
 class Player : public ICollisional
@@ -68,7 +70,8 @@ class Player : public ICollisional
 		void enableMovementBeyondBorder() { movement_beyond_border = true; }
 		bool canMoveBeyondBorder() { return movement_beyond_border; }
 
-		list<Bullet*>* getBulletList(){ return &bullets; }
+//		list<Bullet*>* getBulletList(){ return &bullets; }
+		list<Bullet*>* getBulletList(){ return gun->getBullets(); }
 
 	private:
 
@@ -93,13 +96,16 @@ class Player : public ICollisional
 		AimPosition aimingAt;
 
 		//Manejo de balas
-		Uint32 lastShotTime;
-		Uint32 shotCooldown;
-		int distanceToTravel = 375;
+//		Uint32 lastShotTime;
+//		Uint32 shotCooldown;
+//		int distanceToTravel = 375;
+
+		// arma en lugar de manejo de balas?
+		Gun* gun;
 
 		// Manejo de balas
-		std::list<Bullet*> bullets;
-		std::list<Bullet*>::iterator bulletsIterator;
+//		std::list<Bullet*> bullets;
+//		std::list<Bullet*>::iterator bulletsIterator;
 
 		CameraLogic* cameraLogic;
 		ServerMessageHandler* serverMessageHandler;
