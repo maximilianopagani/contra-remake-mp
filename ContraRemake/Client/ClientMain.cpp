@@ -76,8 +76,6 @@ int ClientMain()
 
 		clientMessageHandler->setParams(gameView, playerView, levelView, platformView, bulletView, enemyView);
 
-
-
 		client->run();
 
 		cout<<"TERMINO TODO EL HILO MAIN"<<endl;

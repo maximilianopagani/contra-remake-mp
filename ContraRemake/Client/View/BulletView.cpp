@@ -10,8 +10,8 @@
 BulletView::BulletView(GameView* _gameView)
 {
 	gameView = _gameView;
-	sprite = new Sprite(gameView, "../.images/CharacterSprites.png", 8, 8, 8, 8);
-	sprite->setSourceRectXY(104, 8);
+	sprite = new Sprite(gameView, "../.images/bullet/p1/bullet.png", 8, 8, 8, 8);
+//	sprite->setSourceRectXY(104, 8);
 }
 
 BulletView::~BulletView()
