@@ -18,8 +18,8 @@ class EnemyView
 		EnemyView(GameView* _gameView);
 		virtual ~EnemyView();
 
-		void update(int enemy_id, int state);
-		void render(int enemy_id, int state, int pos_x, int pos_y);
+		void update(int enemy_type, int state);
+		void render(int enemy_type, int state, int pos_x, int pos_y);
 		void destroy();
 
 	private:
@@ -27,11 +27,12 @@ class EnemyView
 		GameView* gameView;
 
 		static const int MAX_ANIMATIONS = 2;
-		static const int MAX_ENEMYS = 1;
+		static const int MAX_ENEMIES = 2;
 
 		Sprite* sprites_e1[MAX_ANIMATIONS];
+		Sprite* sprites_e2[MAX_ANIMATIONS];
 
-		Sprite** sprites[MAX_ENEMYS];
+		Sprite** sprites[MAX_ENEMIES];
 };
 
 #endif /* VISTA_ENEMYVIEW_HH_ */

@@ -38,16 +38,17 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			background3Width = 4608;
 			background3Height = 600;
 
-			// Cargo plataformas del XML
-			platformParser = gameParser->getPlataformas();
+		    //======================================== CARGA DE PLATAFORMAS ==============================================
+
+			this->loadPlatforms(gameParser->getPlatforms1());
+
+		    //============================================================================================================
 
 			playerSpawnX = 150;
 			playerSpawnY = 300;
 
 			playerRespawnX = 100; // Relativo a la ventana, donde van a aparecer cuando caigan
 			playerRespawnY = 200;
-
-			enemys.push_back(new Enemy(cameraLogic,0,1,3000,100,serverMessageHandler));
 
 			break;
 		}
@@ -75,8 +76,11 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			background3Width = 800;
 			background3Height = 1300;
 
-			// Cargo plataformas del XML
-			platformParser = gameParser->getPlataforms2();
+		    //======================================== CARGA DE PLATAFORMAS ==============================================
+
+			this->loadPlatforms(gameParser->getPlatforms2());
+
+		    //============================================================================================================
 
 			playerSpawnX = 150;
 			playerSpawnY = 3800;
@@ -112,8 +116,11 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 			background3Width = 4800;
 			background3Height = 600;
 
-			// Cargo plataformas del XML
-			platformParser = gameParser->getPlataforms3();
+		    //======================================== CARGA DE PLATAFORMAS ==============================================
+
+			this->loadPlatforms(gameParser->getPlatforms3());
+
+		    //============================================================================================================
 
 			playerSpawnX = 150;
 			playerSpawnY = 300;
@@ -127,16 +134,13 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		}
 	}
 
-	// Creo las plataformas desde lo cargado por el parser
-	for (platformParserIterator = platformParser.begin(); platformParserIterator != platformParser.end(); platformParserIterator++)
-	{
-		string platformType = (*platformParserIterator).getTipo();
-		int platformXInitial = (*platformParserIterator).getXInicial();
-		int platformXFinal = (*platformParserIterator).getXFinal();
-		int platformY = (*platformParserIterator).getAltura();
+    //========================================= CARGA DE ENEMIGOS ================================================
 
-		platforms.push_back(new Platform(cameraLogic, platformType, platformXInitial, platformY, platformXFinal - platformXInitial , serverMessageHandler));
-	}
+	this->loadEnemies();
+
+    //============================================================================================================
+
+    //============================== CONFIGURACION DE POSICIONES INICIALES Y BORDE ===============================
 
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
@@ -165,9 +169,15 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		background3PosY = background3Height - cameraLogic->getCameraHeight();
 	}
 
+    //============================================================================================================
+
+	//=============================== CONFIGURACION INICIAL DE LA LOGICA DE CAMARA ===============================
+
 	cameraLogic->enableMovement();
 	cameraLogic->setBorder(border);
 	cameraLogic->setCameraPosition(background1PosX, background1PosY);
+
+	//============================================================================================================
 }
 
 Level::~Level()
@@ -175,39 +185,100 @@ Level::~Level()
 	this->destroy();
 }
 
+void Level::loadPlatforms(std::list<PlataformParser>* platformParser)
+{
+	std::list<PlataformParser>::iterator platformParserIterator;
+
+	for(platformParserIterator = platformParser->begin(); platformParserIterator != platformParser->end(); platformParserIterator++)
+	{
+		string platformType = (*platformParserIterator).getTipo();
+		int platformXInitial = (*platformParserIterator).getXInicial();
+		int platformXFinal = (*platformParserIterator).getXFinal();
+		int platformY = (*platformParserIterator).getAltura();
+
+		platforms.push_back(new Platform(cameraLogic, platformType, platformXInitial, platformY, platformXFinal - platformXInitial , serverMessageHandler));
+	}
+}
+
+void Level::loadEnemies()
+{
+	int standingEnemiesAmount = 5; // Levantarlo del parser
+	int movingEnemiesAmount = 5;
+
+	int platformsAmount = platforms.size();
+	int randomPlatformId;
+
+	for(int i = 0; i < standingEnemiesAmount; i++)
+	{
+		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
+		std::list<Platform*>::iterator it = platforms.begin();
+		std::advance(it, randomPlatformId);
+		enemies.push_back(new Enemy(cameraLogic, TYPE_STANDING_ENEMY, 1, (*it)->getXCentre(), (*it)->getPosY() - 100, serverMessageHandler));
+	}
+
+	for(int i = 0; i < movingEnemiesAmount; i++)
+	{
+		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
+		std::list<Platform*>::iterator it = platforms.begin();
+		std::advance(it, randomPlatformId);
+		enemies.push_back(new Enemy(cameraLogic, TYPE_MOVING_ENEMY, 1, (*it)->getXCentre(), (*it)->getPosY() - 87, serverMessageHandler));
+	}
+}
+
 void Level::render()
 {
-	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background3PosX, background3PosY, 3));
-	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background2PosX, background2PosY, 2));
-	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL,RENDER, background1PosX, background1PosY, 1));
+	//======================================== DIBUJADO DE ESCENARIO =============================================
 
+	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, RENDER, background3PosX, background3PosY, 3));
+	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, RENDER, background2PosX, background2PosY, 2));
+	serverMessageHandler->sendToAllClients(new MessageServer(LEVEL, RENDER, background1PosX, background1PosY, 1));
 
-	for(platformsIterator = platforms.begin(); platformsIterator != platforms.end();)
+    //============================================================================================================
+
+	//======================================== DIBUJADO DE PLATAFORMAS ===========================================
+
+	for(platformsIterator = platforms.begin(); platformsIterator != platforms.end(); ++platformsIterator)
 	{
 		(*platformsIterator)->render();
-		++platformsIterator;
 	}
 
-	//----------------------------------------------------------------------
-	//Mandar Mensaje para dibujar al enemigo
+    //============================================================================================================
 
-	for(enemysIterator = enemys.begin(); enemysIterator != enemys.end();++enemysIterator){
-			(*enemysIterator)->render();
+	//========================================= DIBUJADO DE ENEMIGOS =============================================
+
+	for(enemiesIterator = enemies.begin(); enemiesIterator != enemies.end(); ++enemiesIterator)
+	{
+		if((*enemiesIterator)->isOnScreen()) // Solo mando a dibujar si sale en pantalla
+		{
+			(*enemiesIterator)->render();
+		}
 	}
+
+	//============================================================================================================
 }
-void Level::update(){
-	for(enemysIterator = enemys.begin(); enemysIterator != enemys.end();++enemysIterator){
-		(*enemysIterator)->update();
+void Level::update()
+{
+	//====================================== ACTUALIZACION DE ENEMIGOS ===========================================
+
+	for(enemiesIterator = enemies.begin(); enemiesIterator != enemies.end(); ++enemiesIterator)
+	{
+		if((*enemiesIterator)->isOnScreen()) // Solo actualizo los que salen en pantalla
+		{
+			(*enemiesIterator)->update();
+		}
 	}
+
+    //============================================================================================================
 }
 
-void Level::deleteEnemy(Enemy* _enemy){
-	enemys.remove(_enemy);
+void Level::deleteEnemy(Enemy* _enemy)
+{
+	enemies.remove(_enemy);
 }
 
 void Level::destroy()
 {
-	enemys.clear();
+	enemies.clear();
 	platforms.clear();
 }
 

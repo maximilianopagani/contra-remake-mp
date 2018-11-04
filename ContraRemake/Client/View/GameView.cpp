@@ -20,6 +20,7 @@ GameView::GameView()
 	invalidLoginTexture = NULL;
 	gameFullTexture = NULL;
 	alreadyConnectedTexture = NULL;
+	serverClosedTexture = NULL;
 }
 
 GameView::~GameView()

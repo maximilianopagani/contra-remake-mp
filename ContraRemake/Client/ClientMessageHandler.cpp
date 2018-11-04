@@ -51,7 +51,7 @@ void ClientMessageHandler::processMessage(Message* message)
 	char msg[256];
 	message->getContent(msg);
 	string sep = ": ";
-	//LOGGER_DEBUG("Procesando mensaje recibido del servidor" + sep + msg);
+	LOGGER_DEBUG("Procesando mensaje recibido del servidor" + sep + msg);
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
@@ -207,7 +207,7 @@ void ClientMessageHandler::processMessage(Message* message)
 					client->quit();
 					break;
 				}
-				case GAMEFULL:
+				case GAME_FULL:
 				{
 					gameView->showGameFullScreen();
 					Utils::setDelay(3000);
@@ -224,21 +224,28 @@ void ClientMessageHandler::processMessage(Message* message)
 			}
 			break;
 		}
+
 		case INFO:
 		{
 			switch(MSG_HEADER_2)
 			{
-				case WAITINGPLAYERS:
+				case WAITING_PLAYERS:
 				{
 					gameView->showWaitingPlayersScreen();
 					sound->play(0,0,0, 50);
 					client->initPulse = true;
 					break;
 				}
-				case RECONNECT:
+				case RECONNECT_SUCCESS:
 				{
 					client->initPulse = true;
 					break;
+				}
+				case SERVER_CLOSED:
+				{
+					gameView->showServerClosedScreen();
+					Utils::setDelay(3000);
+					client->quit();
 				}
 			}
 			break;
@@ -250,35 +257,36 @@ void ClientMessageHandler::processMessage(Message* message)
 			{
 				case RENDER:
 				{
-					int enemy_id = atoi(param1);
+					int enemy_type = atoi(param1);
 					int state = atoi(param2);
 					int pos_x = atoi(param3);
 					int pos_y = atoi(param4);
-					enemyView->render(enemy_id, state, pos_x, pos_y);
+					enemyView->render(enemy_type, state, pos_x, pos_y);
 					break;
 				}
 				case LOAD:
 				{
-					int enemy_id = atoi(param1);
+					int enemy_type = atoi(param1);
 					int state = atoi(param2);
-					enemyView->update(enemy_id, state);
+					enemyView->update(enemy_type, state);
 					break;
 				}
 			}
 			break;
 		}
-		case SOUND:{
 
-			switch(MSG_HEADER_2){
-
-				case LOAD:{
+		case SOUND:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case LOAD:
+				{
 					int type = atoi(param1);
 					int subtype = atoi(param2);
 					sound->play(type,subtype, 0, 50);
 					break;
 				}
 			}
-
 			break;
 		}
 	}
