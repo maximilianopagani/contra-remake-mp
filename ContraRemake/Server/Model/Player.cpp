@@ -22,13 +22,9 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	processedKeys = false;
 
 	state = STATE_STANDING;
-
 	direction = DIRECTION_FRONT;
-
 	aimingAt = AIM_FRONT;
 
-//	lastShotTime = 0;
-//	shotCooldown = 200;
 	movement_beyond_border = true;
 }
 
@@ -55,12 +51,6 @@ void Player::render()
 	}
 
 	serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, RENDER, player_id, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
-
-//	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
-//	{
-//		(*bulletsIterator)->render();
-//		++bulletsIterator;
-//	}
 
 	gun->render();
 
@@ -182,20 +172,6 @@ void Player::update()
 
 	//------------------------------------------------------
 	// Actualizacion de posicion de balas
-//	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
-//	{
-//	    (*bulletsIterator)->updatePos();
-//
-//	    if((*bulletsIterator)->outOfLimits())
-//	    {
-//	        delete (*bulletsIterator);
-//	        bullets.erase(bulletsIterator++);
-//	    }
-//	    else
-//	    {
-//	        ++bulletsIterator;
-//	    }
-//	}
 	gun->update();
 
 	processedKeys = false;
@@ -369,53 +345,6 @@ void Player::normalState()
 void Player::shoot()
 {
 	gun->shoot(aimingAt, state, pos_x, pos_y);
-
-//	Uint32 currentShotTime = Utils::getTicks();
-//	if((currentShotTime - lastShotTime) > shotCooldown)
-//	{
-//		switch(aimingAt)
-//		{
-//			case AIM_FRONT:
-//				bullets.push_back(new Bullet(cameraLogic, pos_x+47, pos_y+25, 10, 0, distanceToTravel, serverMessageHandler));
-//				break;
-//
-//			case AIM_BACK:
-//				bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -10, 0, distanceToTravel, serverMessageHandler));
-//				break;
-//
-//			case AIM_UP:
-//				if (state == STATE_WALKINGRIGHTPOINTUP)
-//					bullets.push_back(new Bullet(cameraLogic, pos_x+35, pos_y, 9, -5, distanceToTravel, serverMessageHandler));
-//				else
-//					bullets.push_back(new Bullet(cameraLogic, pos_x+35, pos_y, 7, -7, distanceToTravel, serverMessageHandler));
-//				break;
-//
-//			case AIM_UP_BACK:
-//				if (state == STATE_WALKINGLEFTPOINTUP)
-//					bullets.push_back(new Bullet(cameraLogic, pos_x, pos_y, -9, -5, distanceToTravel, serverMessageHandler));
-//				else
-//				bullets.push_back(new Bullet(cameraLogic, pos_x, pos_y, -7, -7, distanceToTravel, serverMessageHandler));
-//				break;
-//
-//			case AIM_DOWN:
-//				bullets.push_back(new Bullet(cameraLogic, pos_x+40, pos_y+46, 9, 5, distanceToTravel, serverMessageHandler));
-//				break;
-//
-//			case AIM_DOWN_BACK:
-//				bullets.push_back(new Bullet(cameraLogic, pos_x, pos_y+46, -9, 5, distanceToTravel, serverMessageHandler));
-//				break;
-//
-//			case AIM_BODYTOGROUND:
-//				bullets.push_back(new Bullet(cameraLogic, pos_x+90, pos_y+64, 10, 0, distanceToTravel, serverMessageHandler));
-//				break;
-//
-//			case AIM_BODYTOGROUND_BACK:
-//				bullets.push_back(new Bullet(cameraLogic, pos_x, pos_y+64, -10, 0, distanceToTravel, serverMessageHandler));
-//				break;
-//		}
-//
-//		lastShotTime = currentShotTime;
-//	}
 }
 
 void Player::spawn(int x, int y)
@@ -433,8 +362,6 @@ void Player::spawn(int x, int y)
 	maxDistanceJump = 150;
 	falling = false;
 	processedKeys = false;
-//	lastShotTime = 0;
-//	bullets.clear();
 	gun->clear();
 }
 
@@ -448,8 +375,6 @@ void Player::freeze()
 	maxDistanceJump = 150;
 	falling = false;
 	processedKeys = true;
-//	lastShotTime = 0;
-//	bullets.clear();
 	gun->clear();
 }
 

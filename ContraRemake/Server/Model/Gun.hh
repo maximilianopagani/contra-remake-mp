@@ -32,8 +32,8 @@ class Gun
 
 	private:
 
+		// necesarios solo para ser pasado a bullet
 		CameraLogic* cameraLogic;
-		// necesario solo para ser pasado a bullet
 		ServerMessageHandler* serverMessageHandler;
 
 		// Manejo de balas
@@ -46,10 +46,6 @@ class Gun
 		Uint32 shotCooldown;
 		Uint32 lastShotTime;
 
-// -----------------------------------------------------------------------------------------
-
-//		int speed_x, speed_y; // Velocidad que avanza en cada coordenada en cada update
-//		int max_travel_distance, traveled_distance; // Gestion de la vida de la bala segun su distancia viajada
 };
 
 #endif /* MODEL_GUN_HH_ */
