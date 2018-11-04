@@ -44,8 +44,11 @@ class Level
 		int getBorder() { return border; }
 		int getScrollingType() { return scrolling; }
 
-		list<Platform*>* getPlataformList(){ return &platforms; }
-		list<Enemy*>* getEnemysList(){ return &enemys; }
+		void loadPlatforms(std::list<PlataformParser>* platformParser);
+		void loadEnemies();
+
+		list<Platform*>* getPlatformsList(){ return &platforms; }
+		list<Enemy*>* getEnemiesList(){ return &enemies; }
 
 		void restart();
 
@@ -68,15 +71,11 @@ class Level
 
 		ServerMessageHandler* serverMessageHandler;
 
-		std::list<PlataformParser> platformParser;
-		std::list<PlataformParser>::iterator platformParserIterator;
 		std::list<Platform*> platforms;
 		std::list<Platform*>::iterator platformsIterator;
 
-		std::list<Enemy*> enemys;
-		std::list<Enemy*>::iterator enemysIterator;
-
-       // Enemy* enemy;
+		std::list<Enemy*> enemies;
+		std::list<Enemy*>::iterator enemiesIterator;
 };
 
 #endif /* MODEL_LEVEL_HH_ */

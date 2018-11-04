@@ -66,9 +66,10 @@ public:
 	const string& getFondo3Nivel2() const;
 	const string& getFondo3Nivel3() const;
 	const string& getLevel() const;
-	const std::list<PlataformParser>& getPlataformas() const;
-	const std::list<PlataformParser>& getPlataforms2() const;
-	const std::list<PlataformParser>& getPlataforms3() const;
+
+	std::list<PlataformParser>* getPlatforms1() { return &plataformas; }
+	std::list<PlataformParser>* getPlatforms2() { return &plataforms2; }
+	std::list<PlataformParser>* getPlatforms3() { return &plataforms3; }
 
 	virtual ~GameParser();
 	int getQuantityEnemiesLevel1() const;

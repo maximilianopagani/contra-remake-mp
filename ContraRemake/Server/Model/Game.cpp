@@ -72,6 +72,7 @@ void Game::runGame()
 
 		//============= MANEJO DEL FRAMERATE =============
 		iterationTime = Utils::getTicks() - timeAtIterationStart;
+		//std::cout<<"Tiempo de iteracion: "<<iterationTime<<"ms"<<std::endl;
 
 		if(frameDelay > iterationTime) // Si lo que tardó la iteracion es menor a lo que debe tardar un ciclo para mostrarse a la tasa de frames deseada
 		{
@@ -169,7 +170,7 @@ void Game::processMessage(MessageServer* message)
 					break;
 				}
 
-				case RECONNECT:
+				case RECONNECT_SUCCESS:
 				{
 					int playerid = message->getPlayerId();
 					serverMessageHandler->sendToClientId(playerid, new MessageServer(LEVEL, LOAD, level->getBackground1Path(), "1"));
@@ -367,18 +368,22 @@ void Game::update()
 
     //=================================== MANEJO DE COLISIONES ===================================
 
-
-    //Jugadores-Plataforma
-	list<Platform*>* platforms = level->getPlataformList();
+	list<Platform*>* platforms = level->getPlatformsList();
 	list<Platform*>::iterator platformsIterator;
 
+    list<Enemy*>* enemies = level->getEnemiesList();
+    list<Enemy*>::iterator enemiesIterator;
+
+    list<Bullet*>* bullets;
+    list<Bullet*>::iterator bulletsIterator;
+
+    //Jugadores-Plataforma
     for(int i = 0; i < max_players; i++)
     {
     	if(players.at(i)->isOnline())
     	{
 			for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator)
 			{
-
 				if(CollisionHelper::stands(players.at(i), *platformsIterator))
 				{
 					players.at(i)->fallingDownStop();
@@ -393,24 +398,31 @@ void Game::update()
     }
 
     //Enemigo-Plataforma
-    list<Enemy*>* enemys = level->getEnemysList();
-    list<Enemy*>::iterator enemysIterator;
-
-    for(enemysIterator = enemys->begin(); enemysIterator != enemys->end(); ++enemysIterator){
-    	  for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator){
-    	    	if(CollisionHelper::stands(*enemysIterator, *platformsIterator)) {
-    	    		(*enemysIterator)->fallingStop();
+    for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
+    {
+    	  for(platformsIterator = platforms->begin(); platformsIterator != platforms->end(); ++platformsIterator)
+    	  {
+    	    	if(CollisionHelper::stands(*enemiesIterator, *platformsIterator))
+    	    	{
+    	    		(*enemiesIterator)->fallingStop();
     	    		break;
     	    	}
-    	    	else (*enemysIterator)->fallingDown();
+    	    	else
+    	    	{
+    	    		(*enemiesIterator)->fallingDown();
+    	    	}
     	   }
     }
 
     //Jugador-Enemigo
-    for(int i = 0; i < max_players; i++){
-    	if(players.at(i)->isOnline()){
-    		for(enemysIterator = enemys->begin(); enemysIterator != enemys->end(); ++enemysIterator){
-    			if(CollisionHelper::stands(players.at(i), *enemysIterator)){
+    for(int i = 0; i < max_players; i++)
+    {
+    	if(players.at(i)->isOnline())
+    	{
+    		for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
+    		{
+    			if(CollisionHelper::collides(players.at(i), *enemiesIterator))
+    			{
     			   	players.at(i)->wasHit();
     			   	break;
     			}
@@ -418,27 +430,48 @@ void Game::update()
     	}
     }
 
-    //Balas-Enemigo
-    list<Bullet*>* bullets;
-    list<Bullet*>::iterator bulletsIterator;
+    //BalasEnemigo-Jugador
 
-    for(int i = 0; i < max_players; i++){
-       if(players.at(i)->isOnline()){
-        	bullets= players.at(i)->getBulletList();
+    //BalasJugador-Enemigo
+    for(int i = 0; i < max_players; i++)
+    {
+       if(players.at(i)->isOnline())
+       {
+        	bullets = players.at(i)->getBulletList();
 
-        	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end(); ++bulletsIterator){
-        		for(enemysIterator = enemys->begin(); enemysIterator != enemys->end(); ++enemysIterator){
-        			if(CollisionHelper::stands(*bulletsIterator,*enemysIterator)){
-        			     level->deleteEnemy(*enemysIterator);
-        			     serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
-        			     break;
+        	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
+        	{
+        		bool collided = false;
+
+        		for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end();)
+        		{
+        			if(CollisionHelper::stands(*bulletsIterator, *enemiesIterator)) // implementar a bullet como collisional y usar collisionhelper::collides
+        			{
+        				serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
+        			    //level->deleteEnemy(*enemiesIterator); // ver con cuidado esto de borrar cosas mientras se itera una lista que la contiene
+        			    delete (*enemiesIterator);
+        			    enemies->erase(enemiesIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+
+        			    delete (*bulletsIterator);
+        			    bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+
+        			    collided = true;
+
+        			    break;
         			}
+        			else // Si no colisionó, muevo el iterador manualmente (si colisionó ya lo moví al eliminarlo)
+        			{
+        				 ++enemiesIterator;
+        			}
+        		}
+
+        		if(!collided) // Si no colisionó, muevo el iterador manualmente (si colisionó ya lo moví al eliminarlo)
+        		{
+        			++bulletsIterator;
         		}
         	}
        }
     }
-
-
     //============================================================================================================
 
 

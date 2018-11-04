@@ -130,13 +130,13 @@ void ServerHandler::acceptConnections()
 									{
 										if(this->isGameFull())
 										{
-											this->sendToSocket(new_socket, new MessageServer(INFO, RECONNECT, 0)); // el sendToSocket deletea el msg
+											this->sendToSocket(new_socket, new MessageServer(INFO, RECONNECT_SUCCESS, 0)); // el sendToSocket deletea el msg
 											this->notifyGameOfReconnection(reconnectClient);
 										}
 										else
 										{
 											LOGGER_DEBUG("El juego todavía no reservó todos los lugares para jugadores disponibles. Estoy en etapa de espera de conexiones.");
-											this->sendToSocket(new_socket, new MessageServer(INFO, WAITINGPLAYERS, "Informo login OK. Esperando."));
+											this->sendToSocket(new_socket, new MessageServer(INFO, WAITING_PLAYERS, "Informo login OK. Esperando."));
 										}
 
 										reconnectClient->setOnline(new_socket);
@@ -151,7 +151,7 @@ void ServerHandler::acceptConnections()
 									}
 									else
 									{
-										this->sendToSocket(new_socket, new MessageServer(ERROR, RECONNECT, "Error raro al reconectar."));
+										this->sendToSocket(new_socket, new MessageServer(ERROR, RECONNECT_SUCCESS, "Error raro al reconectar."));
 										Utils::setDelay(300);
 										shutdown(new_socket, SHUT_RDWR);
 									}
@@ -173,7 +173,7 @@ void ServerHandler::acceptConnections()
 										connectedClients.push_back(new_client);
 										pthread_mutex_unlock(&server_clients_mutex);
 
-										this->sendToSocket(new_socket, new MessageServer(INFO, WAITINGPLAYERS, "Informo login OK. Esperando."));
+										this->sendToSocket(new_socket, new MessageServer(INFO, WAITING_PLAYERS, "Informo login OK. Esperando."));
 
 										struct thread_arg_struct args;
 										args.arg_server = this;
@@ -191,7 +191,7 @@ void ServerHandler::acceptConnections()
 								}
 								else
 								{
-									this->sendToSocket(new_socket, new MessageServer(ERROR, GAMEFULL, "Juego completo."));
+									this->sendToSocket(new_socket, new MessageServer(ERROR, GAME_FULL, "Juego completo."));
 									Utils::setDelay(300);
 									shutdown(new_socket, SHUT_RDWR);
 								}
@@ -225,7 +225,7 @@ void ServerHandler::acceptConnections()
 			}
 			else
 			{
-				this->sendToSocket(new_socket, new MessageServer(ERROR, GAMEFULL, "Juego completo."));
+				this->sendToSocket(new_socket, new MessageServer(ERROR, GAME_FULL, "Juego completo."));
 				Utils::setDelay(300);
 				shutdown(new_socket, SHUT_RDWR);
 			}
@@ -474,7 +474,7 @@ void ServerHandler::notifyGameOfReconnection(Client* client)
 {
 	LOGGER_INFO("Hubo reconexión de un cliente mientras la partida estaba en ejecución.");
 
-	MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT, "Info de reconexión para game");
+	MessageServer* reconnect_msg = new MessageServer(INFO, RECONNECT_SUCCESS, "Info de reconexión para game");
 
 	reconnect_msg->setPlayerId(client->getClientId());
 	reconnect_msg->setUsername(client->getUsername());

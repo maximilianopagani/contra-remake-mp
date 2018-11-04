@@ -677,15 +677,3 @@ int GameParser::getQuantityEnemiesLevel2() const {
 int GameParser::getQuantityEnemiesLevel3() const {
 	return quantityEnemiesLevel3;
 }
-
-const std::list<PlataformParser>& GameParser::getPlataforms2() const {
-	return plataforms2;
-}
-
-const std::list<PlataformParser>& GameParser::getPlataforms3() const {
-	return plataforms3;
-}
-
-const std::list<PlataformParser>& GameParser::getPlataformas() const {
-	return plataformas;
-}

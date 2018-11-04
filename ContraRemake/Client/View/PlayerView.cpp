@@ -51,9 +51,9 @@ void PlayerView::destroy()
 {
 	for(int player = 0; player < 4; player++)
 	{
-		for(int i = 0 ; i < PlayerStateHandler::MAX_ANIMATIONS ; i++)
+		for(int i = 0 ; i < PlayerStateHandler::MAX_ANIMATIONS; i++)
 		{
-			if (sprites[player][i])
+			if(sprites[player][i])
 			{
 				sprites[player][i]->destroy();
 			}
