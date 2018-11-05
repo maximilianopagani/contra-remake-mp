@@ -36,9 +36,14 @@ class Enemy: public ICollisional
 		void fallingDown(){falling = true;}
 		void wasHit(){ dead = true; };//ANIMACION DE MUERTO O DIRECTAMENTE BORRARLO
 
+		bool hasNoTarget() { return !isTargetingPlayer; }
+		void targetPlayer(int playerId, int playerPosX, int playerPosY);
+		void updateTargetPos(int playerPosX, int playerPosY);
+		int getTarget() { return targetingPlayerId; }
+
 		bool isOnScreen() { return !cameraLogic->outOfCameraLimits(posX, posY); }
 
-		list<Bullet*>* getBulletList(){ return &bullets; }
+		list<Bullet*>* getBulletList() { return &bullets; }
 
 		//Collisional
 		int getLeftLimit();
@@ -55,10 +60,17 @@ class Enemy: public ICollisional
 		std::list<Bullet*> bullets;
 		std::list<Bullet*>::iterator bulletsIterator;
 
+		bool isTargetingPlayer;
+		int targetingPlayerId, targetX, targetY, targetTime;
+
+		Uint32 lastShotTime;
+		int shotCooldown;
+		int distanceToTravel = 375;
+
 		int timeAtIterationStart;
 		ENEMY_TYPE type;
-		int posX, posY, direction;
-		bool falling, dead ;
+		int posX, posY, direction, changeDirectionTime;
+		bool falling, dead;
 };
 
 #endif /* ENEMY_HH_ */

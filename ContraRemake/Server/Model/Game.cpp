@@ -12,7 +12,6 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	server = _server;
 	max_players = _max_players;
 	FPS = _FPS;
-
 }
 
 Game::~Game()
@@ -31,11 +30,7 @@ void Game::init()
     {
     	players.push_back(new Player(cameraLogic, serverMessageHandler, i));
     	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
-
     }
-
-  //  enemy = new Enemy(cameraLogic,0,1,3000,100,serverMessageHandler);
-
 }
 
 void Game::runGame()
@@ -107,7 +102,7 @@ void Game::processMessage(MessageServer* message)
 
 	message->getContent(msg);
 
-	LOGGER_ERROR("Game: handleEvents() - Procesando mensaje de player id: " + std::to_string(message->getPlayerId()) + " y username: " + message->getUsername() + " Mensaje: " + msg );
+	LOGGER_DEBUG("Game: handleEvents() - Procesando mensaje de player id: " + std::to_string(message->getPlayerId()) + " y username: " + message->getUsername() + " Mensaje: " + msg );
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
@@ -129,7 +124,7 @@ void Game::processMessage(MessageServer* message)
 					{
 						if(!(players.at(player_id)->alreadyProcessedKeys()))
 						{
-							Uint8 player_keys[6];
+							Uint8 player_keys[7];
 
 							player_keys[0] = param1[0] - '0';
 							player_keys[1] = param1[1] - '0';
@@ -137,8 +132,9 @@ void Game::processMessage(MessageServer* message)
 							player_keys[3] = param1[3] - '0';
 							player_keys[4] = param1[4] - '0';
 							player_keys[5] = param1[5] - '0';
+							player_keys[6] = param1[6] - '0'; // tecla i de modo inmortal
 
-							if(param1[6] - '0') // tecla corresondiente a la N, avanzar nivel. Esto quizas se debería mandar en un mensaje dedicado desde cliente?
+							if(param1[7] - '0') // tecla corresondiente a la N, avanzar nivel. Esto quizas se debería mandar en un mensaje dedicado desde cliente?
 							{
 								int currentTime = Utils::getTicks();
 								if(changeLevelCooldown + 1000 < currentTime) // pongo un cooldown de 1000 milisecs pq aveces es muy rapido el detectar de la tecla y pasa de a 2 niveles
@@ -264,7 +260,7 @@ void Game::scrollLevel()
 				{
 					player_pos = players.at(i)->getPosX();
 
-					if(players.at(i)->isOnline())
+					if(players.at(i)->isOnline() && !players.at(i)->outOfLives())
 					{
 						if(player_pos - cameraLogic->getCameraPosX() < max_pixels_to_scroll)
 						{
@@ -332,8 +328,37 @@ void Game::scrollLevel()
 
 void Game::update()
 {
+	list<Enemy*>* enemies = level->getEnemiesList();
+	list<Enemy*>::iterator enemiesIterator;
+
+	//============================================= IA DE ENEMIGOS ===============================================
+
+	int pid;
+
+	for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
+	{
+		if((*enemiesIterator)->isOnScreen())
+		{
+			if((*enemiesIterator)->hasNoTarget())
+			{
+				pid = rand() % max_players;
+				(*enemiesIterator)->targetPlayer(pid, players.at(pid)->getPosX(), players.at(pid)->getPosY());
+			}
+			else
+			{
+				pid = (*enemiesIterator)->getTarget(); // @suppress("Method cannot be resolved")
+				(*enemiesIterator)->updateTargetPos(players.at(pid)->getPosX(), players.at(pid)->getPosY());
+			}
+		}
+	}
+
+	//============================================================================================================
+
+	//===================================== ACTUALIZACION DE NIVEL Y ENEMIGOS ====================================
 
 	level->update();
+
+	//============================================================================================================
 
 	//============================= MANEJO DE ACTUALIZACION DE JUGADORES CONECTADOS ==============================
 
@@ -341,9 +366,15 @@ void Game::update()
     {
     	if(players.at(i)->isOnline())
     	{
-    		players.at(i)->update();
+    		if(!players.at(i)->outOfLives())
+    		{
+    			players.at(i)->updatePlayer();
+    		}
+    		players.at(i)->updateGun();
     	}
     }
+
+    //============================================================================================================
 
 
     //============================================ MANEJO DE SCROLLEO ============================================
@@ -370,9 +401,6 @@ void Game::update()
 
 	list<Platform*>* platforms = level->getPlatformsList();
 	list<Platform*>::iterator platformsIterator;
-
-    list<Enemy*>* enemies = level->getEnemiesList();
-    list<Enemy*>::iterator enemiesIterator;
 
     list<Bullet*>* bullets;
     list<Bullet*>::iterator bulletsIterator;
@@ -417,13 +445,13 @@ void Game::update()
     //Jugador-Enemigo
     for(int i = 0; i < max_players; i++)
     {
-    	if(players.at(i)->isOnline())
+    	if(players.at(i)->isOnline() && players.at(i)->isAlive() && !players.at(i)->isImmortal())
     	{
     		for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
     		{
     			if(CollisionHelper::collides(players.at(i), *enemiesIterator))
     			{
-    			   	players.at(i)->wasHit();
+    			   	players.at(i)->kill();
     			   	break;
     			}
     		}
@@ -431,12 +459,44 @@ void Game::update()
     }
 
     //BalasEnemigo-Jugador
+    for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
+	{
+    	bullets = (*enemiesIterator)->getBulletList(); // @suppress("Method cannot be resolved")
+
+    	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
+		{
+			bool collided = false;
+
+			for(int i = 0; i < max_players; i++)
+			{
+				if(players.at(i)->isOnline() && players.at(i)->isAlive() && !players.at(i)->isImmortal())
+				{
+					if(CollisionHelper::collides(*bulletsIterator, players.at(i)))
+				    {
+						players.at(i)->kill();
+
+						delete (*bulletsIterator);
+						bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+
+						collided = true;
+
+						break;
+				    }
+				}
+			}
+
+			if(!collided) // Si no colisionó, muevo el iterador manualmente (si colisionó ya lo moví al eliminarlo)
+			{
+				++bulletsIterator;
+			}
+		}
+	}
 
     //BalasJugador-Enemigo
     for(int i = 0; i < max_players; i++)
     {
-       if(players.at(i)->isOnline())
-       {
+    	if(players.at(i)->isOnline())
+    	{
         	bullets = players.at(i)->getBulletList();
 
         	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
@@ -445,7 +505,7 @@ void Game::update()
 
         		for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end();)
         		{
-        			if(CollisionHelper::stands(*bulletsIterator, *enemiesIterator)) // implementar a bullet como collisional y usar collisionhelper::collides
+        			if(CollisionHelper::collides(*bulletsIterator, *enemiesIterator))
         			{
         				serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
         			    //level->deleteEnemy(*enemiesIterator); // ver con cuidado esto de borrar cosas mientras se itera una lista que la contiene
@@ -470,21 +530,36 @@ void Game::update()
         			++bulletsIterator;
         		}
         	}
-       }
+    	}
     }
+
     //============================================================================================================
 
-
-    //============================================= MANEJO DE CAIDAS =============================================
+    //======================================== MANEJO DE CAIDAS Y MUERTES ========================================
 
     for(int i = 0; i < max_players; i++)
     {
-    	if(players.at(i)->isOnline()) // si yo no pongo esto, tambien va a spawnear a los offline y les cambia el estado y el sprite.
+    	if(players.at(i)->isOnline())
     	{
 			if(cameraLogic->outOfCameraLowerLimit(players.at(i)->getPosY() + 50))
 			{
-				players.at(i)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
-				serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,3,0));
+				if(players.at(i)->isAlive() && !players.at(i)->isImmortal())
+				{
+					serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,3,0));
+					players.at(i)->kill();
+				}
+
+				if(!players.at(i)->outOfLives())
+				{
+					players.at(i)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
+				}
+			}
+			else if(players.at(i)->isDead() && !players.at(i)->isFalling())
+			{
+				if(!players.at(i)->outOfLives())
+				{
+					players.at(i)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
+				}
 			}
     	}
     }
@@ -500,7 +575,11 @@ void Game::render()
 
     for(int i = 0; i < max_players; i++)
     {
-    	players.at(i)->render();
+    	if(!players.at(i)->outOfLives())
+    	{
+    		players.at(i)->renderPlayer();
+    	}
+    	players.at(i)->renderGun();
     }
 
 	serverMessageHandler->sendToAllClients(new MessageServer(VIEW, SHOW, 0));

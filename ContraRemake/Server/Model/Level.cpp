@@ -144,7 +144,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
-		border = cameraLogic->getCameraWidth() * 0.6; // Margen al 60% del ancho
+		border = cameraLogic->getCameraWidth() * 0.5; // Margen al 50% del ancho
 
 		background1PosX = 0;
 		background1PosY = 0;
@@ -157,7 +157,7 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 	}
 	else
 	{
-		border = background1Height - cameraLogic->getCameraHeight() * 0.7; // Margen al 60% de la altura
+		border = background1Height - cameraLogic->getCameraHeight() * 0.7; // Margen al 70% de la altura
 
 		background1PosX = 0;
 		background1PosY = background1Height - cameraLogic->getCameraHeight();
@@ -202,8 +202,8 @@ void Level::loadPlatforms(std::list<PlataformParser>* platformParser)
 
 void Level::loadEnemies()
 {
-	int standingEnemiesAmount = 5; // Levantarlo del parser
-	int movingEnemiesAmount = 5;
+	int standingEnemiesAmount = 10; // Levantarlo del parser
+	int movingEnemiesAmount = 10;
 
 	int platformsAmount = platforms.size();
 	int randomPlatformId;
@@ -248,10 +248,7 @@ void Level::render()
 
 	for(enemiesIterator = enemies.begin(); enemiesIterator != enemies.end(); ++enemiesIterator)
 	{
-		if((*enemiesIterator)->isOnScreen()) // Solo mando a dibujar si sale en pantalla
-		{
-			(*enemiesIterator)->render();
-		}
+		(*enemiesIterator)->render();
 	}
 
 	//============================================================================================================
@@ -262,10 +259,7 @@ void Level::update()
 
 	for(enemiesIterator = enemies.begin(); enemiesIterator != enemies.end(); ++enemiesIterator)
 	{
-		if((*enemiesIterator)->isOnScreen()) // Solo actualizo los que salen en pantalla
-		{
-			(*enemiesIterator)->update();
-		}
+		(*enemiesIterator)->update();
 	}
 
     //============================================================================================================
@@ -328,7 +322,7 @@ void Level::restart()
 {
 	if(scrolling == SCROLLING_HORIZONTAL)
 	{
-		border = cameraLogic->getCameraWidth() * 0.6; // Margen al 60% del ancho
+		border = cameraLogic->getCameraWidth() * 0.5; // Margen al 50% del ancho
 
 		background1PosX = 0;
 		background1PosY = 0;
@@ -338,12 +332,10 @@ void Level::restart()
 
 		background3PosX = 0;
 		background3PosY = 0;
-
-		cameraLogic->setCameraPosition(background1PosX, background1PosY);
 	}
 	else
 	{
-		border = background1Height - cameraLogic->getCameraHeight() * 0.6; // Margen al 60% de la altura
+		border = background1Height - cameraLogic->getCameraHeight() * 0.7; // Margen al 70% de la altura
 
 		background1PosX = 0;
 		background1PosY = background1Height - cameraLogic->getCameraHeight();
@@ -353,7 +345,13 @@ void Level::restart()
 
 		background3PosX = 0;
 		background3PosY = background3Height - cameraLogic->getCameraHeight();
-
-		cameraLogic->setCameraPosition(background1PosX, background1PosY);
 	}
+
+	//=============================== CONFIGURACION INICIAL DE LA LOGICA DE CAMARA ===============================
+
+	cameraLogic->enableMovement();
+	cameraLogic->setBorder(border);
+	cameraLogic->setCameraPosition(background1PosX, background1PosY);
+
+	//============================================================================================================
 }

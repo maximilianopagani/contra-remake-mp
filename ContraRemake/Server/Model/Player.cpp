@@ -19,6 +19,8 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	pos_y = 200;
 	maxDistanceJump = 150;
 	falling = true;
+	lives_remaining = 3;
+	immortal_mode = false;
 	processedKeys = false;
 
 	state = STATE_STANDING;
@@ -33,14 +35,10 @@ Player::~Player()
 	this->destroy();
 }
 
-void Player::render()
+void Player::renderPlayer()
 {
-	//----------------------------------------------------------------------
-	//Mandar Mensaje para dibujar cuando camina
-
-	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN
-			|| state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN){ // ESTO PASARLO A VIEW COMO ANTES, ASI LE AHORRAMOS TRABAJO AL SERVER, Y DE LA OTRA FORMA NO CHEQUEO POR TODOS LOS ESTADOS
-
+	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN || state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN)
+	{ // ESTO PASARLO A VIEW COMO ANTES, ASI LE AHORRAMOS TRABAJO AL SERVER, Y DE LA OTRA FORMA NO CHEQUEO POR TODOS LOS ESTADOS
 		timeAtIterationStart++;
 
 		if(timeAtIterationStart > 3)
@@ -51,14 +49,16 @@ void Player::render()
 	}
 
 	serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, RENDER, player_id, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
+}
 
+void Player::renderGun()
+{
 	gun->render(player_id);
-
 }
 
 void Player::handleKeys(const Uint8* playerKeyStates)
 {
-	if(state == STATE_FREEZED || state == STATE_DEAD )
+	if(this->isOffline() || this->isDead())
 		return;
 
 	// bug de ambas direcciones
@@ -134,47 +134,62 @@ void Player::handleKeys(const Uint8* playerKeyStates)
 		this->shoot();
 	}
 
+	if(playerKeyStates[KEYCODE_I])
+	{
+		if(immortal_mode)
+			immortal_mode = false;
+		else
+			immortal_mode = true;
+	}
+
 	processedKeys = true;
 }
 
-void Player::update()
+void Player::updatePlayer()
 {
 	if(falling)
 		pos_y += 5;
 
-	//------------------------------------------------------
-	//Salto
 	switch(state)
 	{
 		case STATE_JUMPINGUP:
-				pos_y-=10;
-				maxDistanceJump-=5;
-				serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, player_id, state));
-				if(maxDistanceJump == 0)
-					state = STATE_JUMPINGDOWN;
+		{
+			pos_y-=10;
+			maxDistanceJump-=5;
 
-				break;
+			serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, player_id, state));
+
+			if(maxDistanceJump == 0)
+				state = STATE_JUMPINGDOWN;
+
+			break;
+		}
 
 		case STATE_JUMPINGDOWN:
-				maxDistanceJump += 5;
-				serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, player_id, state));
-				if(!falling)
-				{
-					state = STATE_STANDING;
-					maxDistanceJump=150;
-				}
+		{
+			maxDistanceJump += 5;
 
-				break;
+			serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, LOAD, player_id, state));
+
+			if(!falling)
+			{
+				state = STATE_STANDING;
+				maxDistanceJump=150;
+			}
+
+			break;
+		}
 
 		default:
-				break;
+			break;
 	}
 
-	//------------------------------------------------------
-	// Actualizacion de posicion de balas
-	gun->update();
-
 	processedKeys = false;
+}
+
+void Player::updateGun()
+{
+	gun->update();
 }
 
 void Player::jump()
@@ -241,6 +256,7 @@ bool Player::canMoveRight(int new_pos_x)
 void Player::walkRight()
 {
 	direction = DIRECTION_FRONT;
+
 	if(this->canMoveRight(pos_x + 5))
 	{
 		pos_x+=5;
@@ -345,6 +361,12 @@ void Player::normalState()
 void Player::shoot()
 {
 	gun->shoot(aimingAt, state, pos_x, pos_y);
+}
+
+void Player::kill()
+{
+	state = STATE_DEAD;
+	lives_remaining--;
 }
 
 void Player::spawn(int x, int y)

@@ -15,7 +15,6 @@ ClientMessageHandler::ClientMessageHandler()
 	platformView = NULL;
 	bulletView = NULL;
 	enemyView = NULL;
-
 	sound = NULL;
 }
 
@@ -177,7 +176,7 @@ void ClientMessageHandler::processMessage(Message* message)
 					}
 
 					sdl_key_states = SDL_GetKeyboardState(NULL);
-					sdl_key_string = (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_N]));
+					sdl_key_string = (std::to_string(sdl_key_states[SDL_SCANCODE_UP]) + std::to_string(sdl_key_states[SDL_SCANCODE_DOWN]) + std::to_string(sdl_key_states[SDL_SCANCODE_RIGHT]) + std::to_string(sdl_key_states[SDL_SCANCODE_LEFT]) + std::to_string(sdl_key_states[SDL_SCANCODE_SPACE]) + std::to_string(sdl_key_states[SDL_SCANCODE_LCTRL]) + std::to_string(sdl_key_states[SDL_SCANCODE_I]) + std::to_string(sdl_key_states[SDL_SCANCODE_N]));
 					client->sendToServer(new Message(INPUT, KEYS, sdl_key_string));
 					break;
 				}
@@ -197,29 +196,25 @@ void ClientMessageHandler::processMessage(Message* message)
 				case LOGIN_DATA:
 				{
 					gameView->showInvalidLoginScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 					break;
 				}
 				case LOGIN_ALREADY_ON:
 				{
 					gameView->showAlreadyConnectedScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 					break;
 				}
 				case GAME_FULL:
 				{
 					gameView->showGameFullScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 					break;
 				}
 				case LOST_CONNECTION:
 				{
 					gameView->showDisconnectedScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 					break;
 				}
 			}
@@ -245,8 +240,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				case SERVER_CLOSED:
 				{
 					gameView->showServerClosedScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 				}
 			}
 			break;
