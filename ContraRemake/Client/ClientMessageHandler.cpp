@@ -15,7 +15,6 @@ ClientMessageHandler::ClientMessageHandler()
 	platformView = NULL;
 	bulletView = NULL;
 	enemyView = NULL;
-
 	sound = NULL;
 }
 
@@ -196,29 +195,25 @@ void ClientMessageHandler::processMessage(Message* message)
 				case LOGIN_DATA:
 				{
 					gameView->showInvalidLoginScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 					break;
 				}
 				case LOGIN_ALREADY_ON:
 				{
 					gameView->showAlreadyConnectedScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 					break;
 				}
 				case GAME_FULL:
 				{
 					gameView->showGameFullScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 					break;
 				}
 				case LOST_CONNECTION:
 				{
 					gameView->showDisconnectedScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 					break;
 				}
 			}
@@ -244,8 +239,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				case SERVER_CLOSED:
 				{
 					gameView->showServerClosedScreen();
-					Utils::setDelay(3000);
-					client->quit();
+					client->quit(3000);
 				}
 			}
 			break;

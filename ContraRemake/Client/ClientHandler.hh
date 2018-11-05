@@ -35,7 +35,7 @@ class ClientHandler
 		bool connectToServer(std::string _server_ip, int _server_port);
 		void sendToServer(Message* message);
 		void run();
-		void quit();
+		void quit(int delay = 0);
 
 		void pushReceivedMsgThreadSafe(Message* message);
 

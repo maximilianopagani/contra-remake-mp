@@ -33,9 +33,6 @@ void Game::init()
     	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
 
     }
-
-  //  enemy = new Enemy(cameraLogic,0,1,3000,100,serverMessageHandler);
-
 }
 
 void Game::runGame()
@@ -107,7 +104,7 @@ void Game::processMessage(MessageServer* message)
 
 	message->getContent(msg);
 
-	LOGGER_ERROR("Game: handleEvents() - Procesando mensaje de player id: " + std::to_string(message->getPlayerId()) + " y username: " + message->getUsername() + " Mensaje: " + msg );
+	LOGGER_DEBUG("Game: handleEvents() - Procesando mensaje de player id: " + std::to_string(message->getPlayerId()) + " y username: " + message->getUsername() + " Mensaje: " + msg );
 
 	sscanf(msg,"%i,%i,%[^,],%[^,],%[^,],%[^,];", &MSG_HEADER_1, &MSG_HEADER_2, param1, param2, param3, param4);
 
@@ -332,8 +329,38 @@ void Game::scrollLevel()
 
 void Game::update()
 {
+	list<Enemy*>* enemies = level->getEnemiesList();
+	list<Enemy*>::iterator enemiesIterator;
+
+	//============================================= IA DE ENEMIGOS ===============================================
+
+	int pid;
+
+	for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
+	{
+		if((*enemiesIterator)->isOnScreen())
+		{
+			if((*enemiesIterator)->hasNoTarget())
+			{
+				pid = rand() % max_players;
+
+				(*enemiesIterator)->targetPlayer(pid, players.at(pid)->getPosX(), players.at(pid)->getPosY());
+			}
+			else
+			{
+				pid = (*enemiesIterator)->getTarget(); // @suppress("Method cannot be resolved")
+				(*enemiesIterator)->updateTargetPos(players.at(pid)->getPosX(), players.at(pid)->getPosY());
+			}
+		}
+	}
+
+	//============================================================================================================
+
+	//===================================== ACTUALIZACION DE NIVEL Y ENEMIGOS ====================================
 
 	level->update();
+
+	//============================================================================================================
 
 	//============================= MANEJO DE ACTUALIZACION DE JUGADORES CONECTADOS ==============================
 
@@ -344,6 +371,8 @@ void Game::update()
     		players.at(i)->update();
     	}
     }
+
+    //============================================================================================================
 
 
     //============================================ MANEJO DE SCROLLEO ============================================
@@ -370,9 +399,6 @@ void Game::update()
 
 	list<Platform*>* platforms = level->getPlatformsList();
 	list<Platform*>::iterator platformsIterator;
-
-    list<Enemy*>* enemies = level->getEnemiesList();
-    list<Enemy*>::iterator enemiesIterator;
 
     list<Bullet*>* bullets;
     list<Bullet*>::iterator bulletsIterator;
@@ -431,12 +457,44 @@ void Game::update()
     }
 
     //BalasEnemigo-Jugador
+    for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
+	{
+    	bullets = (*enemiesIterator)->getBulletList(); // @suppress("Method cannot be resolved")
+
+    	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
+		{
+			bool collided = false;
+
+			for(int i = 0; i < max_players; i++)
+			{
+				if(players.at(i)->isOnline())
+				{
+					if(CollisionHelper::collides(*bulletsIterator, players.at(i)))
+				    {
+						players.at(i)->wasHit();
+
+						delete (*bulletsIterator);
+						bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+
+						collided = true;
+
+						break;
+				    }
+				}
+			}
+
+			if(!collided) // Si no colisionó, muevo el iterador manualmente (si colisionó ya lo moví al eliminarlo)
+			{
+				++bulletsIterator;
+			}
+		}
+	}
 
     //BalasJugador-Enemigo
     for(int i = 0; i < max_players; i++)
     {
-       if(players.at(i)->isOnline())
-       {
+    	if(players.at(i)->isOnline())
+    	{
         	bullets = players.at(i)->getBulletList();
 
         	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
@@ -445,7 +503,7 @@ void Game::update()
 
         		for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end();)
         		{
-        			if(CollisionHelper::stands(*bulletsIterator, *enemiesIterator)) // implementar a bullet como collisional y usar collisionhelper::collides
+        			if(CollisionHelper::collides(*bulletsIterator, *enemiesIterator))
         			{
         				serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
         			    //level->deleteEnemy(*enemiesIterator); // ver con cuidado esto de borrar cosas mientras se itera una lista que la contiene
@@ -470,10 +528,10 @@ void Game::update()
         			++bulletsIterator;
         		}
         	}
-       }
+    	}
     }
-    //============================================================================================================
 
+    //============================================================================================================
 
     //============================================= MANEJO DE CAIDAS =============================================
 

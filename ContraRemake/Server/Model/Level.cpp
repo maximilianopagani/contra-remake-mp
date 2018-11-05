@@ -248,10 +248,7 @@ void Level::render()
 
 	for(enemiesIterator = enemies.begin(); enemiesIterator != enemies.end(); ++enemiesIterator)
 	{
-		if((*enemiesIterator)->isOnScreen()) // Solo mando a dibujar si sale en pantalla
-		{
-			(*enemiesIterator)->render();
-		}
+		(*enemiesIterator)->render();
 	}
 
 	//============================================================================================================
@@ -262,10 +259,7 @@ void Level::update()
 
 	for(enemiesIterator = enemies.begin(); enemiesIterator != enemies.end(); ++enemiesIterator)
 	{
-		if((*enemiesIterator)->isOnScreen()) // Solo actualizo los que salen en pantalla
-		{
-			(*enemiesIterator)->update();
-		}
+		(*enemiesIterator)->update();
 	}
 
     //============================================================================================================

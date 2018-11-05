@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 			std::cerr << "Logger mode will be defined from configuration file" << std::endl;
 		} else {
 			hasLogMode = true;
-			string arg2 = Utils::toUppercase(string(argv[2]));
+			string arg2 = Utils::toUppercase(string(argv[4]));
 			if (arg2 == "DEBUG")
 				logMode = Logger::DEBUG;
 			else if (arg2 == "INFO")
