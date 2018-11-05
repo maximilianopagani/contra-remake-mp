@@ -31,8 +31,12 @@ class Player : public ICollisional
 		int getBottomLimit();
 
 		// comunes al gameloop
-		void update();
-		void render();
+		void updatePlayer();
+		void renderPlayer();
+
+		void updateGun();
+		void renderGun();
+
 		void destroy();
 
 		int getPosX(){ return pos_x; }
@@ -54,9 +58,16 @@ class Player : public ICollisional
 		void bodyToGround();
 		void normalState();
 		void shoot();
-		void fallingDownStop(){falling = false ;}
-		void fallingDown(){falling = true ;}
-		void wasHit(){ state = STATE_DEAD;};
+
+		void fallingDownStop() { falling = false; }
+		void fallingDown() { falling = true; }
+		bool isFalling() { return falling; }
+
+		bool isAlive() { return state != STATE_DEAD; }
+		bool isDead() { return state == STATE_DEAD; }
+		bool outOfLives() { return lives_remaining <= 0; }
+		void kill();
+		bool isImmortal() { return immortal_mode; }
 
 		void handleKeys(const Uint8* playerKeyStates);
 		bool alreadyProcessedKeys() { return processedKeys; }
@@ -76,6 +87,8 @@ class Player : public ICollisional
 		int player_id;
 		int pos_x, pos_y, maxDistanceJump;
 		bool falling;
+		int lives_remaining;
+		bool immortal_mode;
 
 		Uint32 timeAtIterationStart=0;
 
@@ -106,6 +119,7 @@ class Player : public ICollisional
 			KEYCODE_LEFT,
 			KEYCODE_SPACE,
 			KEYCODE_LCTRL,
+			KEYCODE_I
 		};
 
 		bool processedKeys = false; // Esto es para evitar procesar 2 mensajes que hayan llegado muy juntos en el mismo frame, y hacer que por ejemplo, el pj avanze el doble.

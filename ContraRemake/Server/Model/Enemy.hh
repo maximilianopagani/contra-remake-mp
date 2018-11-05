@@ -69,7 +69,7 @@ class Enemy: public ICollisional
 
 		int timeAtIterationStart;
 		ENEMY_TYPE type;
-		int posX, posY, direction;
+		int posX, posY, direction, changeDirectionTime;
 		bool falling, dead;
 };
 

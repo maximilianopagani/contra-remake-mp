@@ -6,6 +6,7 @@
  */
 
 #include "Enemy.hh"
+#include <math.h>
 
 Enemy::Enemy(CameraLogic* _cameraLogic, ENEMY_TYPE _type , int _direction, int pos_x, int pos_y, ServerMessageHandler* _serverMessageHandler)
 {
@@ -14,10 +15,12 @@ Enemy::Enemy(CameraLogic* _cameraLogic, ENEMY_TYPE _type , int _direction, int p
 	posX = pos_x;
 	posY = pos_y;
 	type = _type;
-	direction = _direction ;
 	timeAtIterationStart= 0;
 	falling = false;
 	dead = false;
+
+	direction = _direction ;
+	changeDirectionTime = 0;
 
 	isTargetingPlayer = false;
 	targetingPlayerId = 0;
@@ -27,7 +30,7 @@ Enemy::Enemy(CameraLogic* _cameraLogic, ENEMY_TYPE _type , int _direction, int p
 
 	//Manejo de balas
 	lastShotTime = 0;
-	shotCooldown = 800;
+	shotCooldown = 1000;
 }
 
 Enemy::~Enemy() {}
@@ -61,22 +64,36 @@ void Enemy::update()
 			isTargetingPlayer = false;
 		}
 
+		changeDirectionTime--;
+
 		switch(type)
 		{
 			case TYPE_MOVING_ENEMY:
 			{
-				if(direction == 0)
-					posX += 5 ;
-				else
-					posX -= 5 ;
-
-				//serverMessageHandler->sendToAllClients(new MessageServer(ENEMY,LOAD,type,direction));
-				timeAtIterationStart++;
-
-				if(timeAtIterationStart > 3)
+				if(isTargetingPlayer)
 				{
-					serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, LOAD, type, direction));
-					timeAtIterationStart = 0;
+					if(changeDirectionTime <= 0)
+					{
+						changeDirectionTime = 80;
+
+						if(posX > targetX - 130)
+							direction = 1;
+						else if(posX < targetX + 130)
+							direction = 0;
+					}
+
+					if(direction)
+						posX -= 5;
+					else
+						posX += 5;
+
+					timeAtIterationStart++;
+
+					if(timeAtIterationStart > 3)
+					{
+						serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, LOAD, type, direction));
+						timeAtIterationStart = 0;
+					}
 				}
 				break;
 			}
@@ -89,13 +106,19 @@ void Enemy::update()
 
 					if((currentShotTime - lastShotTime) > shotCooldown)
 					{
-						int x_dist = targetX - posX;
-						int y_dist = targetY - posY;
+						int velocity_x, velocity_y;
 
-						int magnitude = sqrt(x_dist * x_dist + y_dist * y_dist);
+						float angle = atan2(targetX - posX, targetY - posY) * 180 / 3.14159265;
 
-						int velocity_x = (x_dist * 10) /magnitude;
-						int velocity_y = (y_dist * 10) /magnitude;
+						// no se me ocurrio otra, si hay alguna mas facil avisen y/o cambienlo
+
+						if(angle >= -180 && angle < -112.5) { velocity_x = -7; velocity_y = -7; }
+						else if(angle >= -112.5 && angle < -67.5) { velocity_x = -10; velocity_y = 0; }
+						else if(angle >= -67.5 && angle < 0) { velocity_x = -7; velocity_y = 7; }
+						else if(angle >= 0 && angle < 67.5) { velocity_x = 7; velocity_y = 7; }
+						else if(angle >= 67.5 && angle < 112.5) { velocity_x = 10; velocity_y = 0; }
+						else if(angle >= 112.5 && angle < 180) { velocity_x = 7; velocity_y = -7; }
+
 
 						bullets.push_back(new Bullet(cameraLogic, posX, posY, velocity_x, velocity_y, distanceToTravel, serverMessageHandler));
 						lastShotTime = currentShotTime;
