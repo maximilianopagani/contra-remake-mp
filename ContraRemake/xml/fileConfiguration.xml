@@ -8,6 +8,44 @@
 			<fondo2>images/background/set1/fondo2.png</fondo2>
 			<fondo3>images/background/set1/fondo3.png</fondo3>
 			<maximumquantityenemies>10</maximumquantityenemies>
+			<items>
+				<item>
+					<id>101</id>				
+					<tipo>FireBallFalcon</tipo>
+					<xpos>1</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>102</id>				
+					<tipo>ForceFieldFalcon</tipo>
+					<xpos>1000</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>103</id>				
+					<tipo>LaserFalcon</tipo>
+					<xpos>1500</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>104</id>				
+					<tipo>MachineGunFalcon</tipo>
+					<xpos>2000</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>105</id>				
+					<tipo>RapidFireFalcon</tipo>
+					<xpos>2500</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>106</id>				
+					<tipo>SpreadGunFalcon</tipo>
+					<xpos>7000</xpos>
+					<ypos>200</ypos>
+				</item>
+			</items>
 			<plataformas>
 				<plataforma>
 					<id>1</id>				
@@ -198,6 +236,44 @@
 			<fondo2>images/background/set2/fondo2.png</fondo2>
 			<fondo3>images/background/set2/fondo3.png</fondo3>
 			<maximumquantityenemies>20</maximumquantityenemies>
+			<items>
+				<item>
+					<id>201</id>				
+					<tipo>FireBallFalcon</tipo>
+					<xpos>200</xpos>
+					<ypos>3600</ypos>
+				</item>
+				<item>
+					<id>202</id>				
+					<tipo>ForceFieldFalcon</tipo>
+					<xpos>200</xpos>
+					<ypos>3000</ypos>
+				</item>
+				<item>
+					<id>203</id>				
+					<tipo>LaserFalcon</tipo>
+					<xpos>200</xpos>
+					<ypos>2400</ypos>
+				</item>
+				<item>
+					<id>204</id>				
+					<tipo>MachineGunFalcon</tipo>
+					<xpos>200</xpos>
+					<ypos>1800</ypos>
+				</item>
+				<item>
+					<id>205</id>				
+					<tipo>RapidFireFalcon</tipo>
+					<xpos>200</xpos>
+					<ypos>1200</ypos>
+				</item>
+				<item>
+					<id>206</id>				
+					<tipo>SpreadGunFalcon</tipo>
+					<xpos>200</xpos>
+					<ypos>600</ypos>
+				</item>
+			</items>			
 			<plataformas>
 				<plataforma>
 					<id>2001</id>
@@ -465,6 +541,44 @@
 			<fondo2>images/background/set3/fondo2.png</fondo2>
 			<fondo3>images/background/set3/fondo3.png</fondo3>
 			<maximumquantityenemies>30</maximumquantityenemies>
+			<items>
+				<item>
+					<id>301</id>				
+					<tipo>FireBallFalcon</tipo>
+					<xpos>1</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>302</id>				
+					<tipo>ForceFieldFalcon</tipo>
+					<xpos>1000</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>303</id>				
+					<tipo>LaserFalcon</tipo>
+					<xpos>1500</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>304</id>				
+					<tipo>MachineGunFalcon</tipo>
+					<xpos>2000</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>305</id>				
+					<tipo>RapidFireFalcon</tipo>
+					<xpos>2500</xpos>
+					<ypos>200</ypos>
+				</item>
+				<item>
+					<id>306</id>				
+					<tipo>SpreadGunFalcon</tipo>
+					<xpos>7000</xpos>
+					<ypos>200</ypos>
+				</item>
+			</items>
 			<plataformas>
 				<plataforma>
 					<id>3001</id>

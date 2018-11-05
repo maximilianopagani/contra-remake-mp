@@ -524,6 +524,137 @@ bool GameParser::evaluateTagPlataformas(const char * tagNivel){
 	return sucess;
 }
 
+bool GameParser::evaluateTagItems(const char * tagNivel){
+	bool sucess = true;
+	TiXmlNode* tagIDNode = NULL;
+	TiXmlNode* tagTipoNode = NULL;
+	TiXmlNode* tagXPosNode = NULL;
+	TiXmlNode* tagYPosNode = NULL;
+	string strID = ZERO;
+	int id;
+	string strTipo = VALUE_EMPTY;
+	string strXPos = ZERO;
+	int x_pos;
+	string strYPos = ZERO;
+	int y_pos;
+
+	ItemParser itemParser;
+
+	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
+	TiXmlElement* tagItemElement = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(tagNivel).FirstChild(TAG_ITEMS).FirstChild(TAG_ITEM).ToElement();
+
+	for (tagItemElement; tagItemElement; tagItemElement = tagItemElement->NextSiblingElement()) {
+		sucess = true;
+		id = -1;
+		x_pos = -1;
+		y_pos = -1;
+
+		//TAG_ID
+		tagIDNode = tagItemElement->FirstChildElement(TAG_ID);
+		if ((tagIDNode)&&(tagItemElement->FirstChildElement(TAG_ID)->GetText())) {
+			strID.clear();
+			strID.append(tagItemElement->FirstChildElement(TAG_ID)->GetText());
+		    if (!strID.compare(ZERO)) {
+		    	LOGGER_DEBUG("TAG_ID es cero");
+		    	sucess = false;
+		    }
+		    id = atoi(strID.c_str());
+		    if ((id>0)&&(id<=100000)) {
+		    	itemParser.setId(id);
+			}else {
+				LOGGER_DEBUG("ID DESCONOCIDO: " + strID + ", para este item");
+				sucess = false;
+			}
+		} else {
+			LOGGER_DEBUG("TAG_ID no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+		//TAG_TIPO
+		tagTipoNode = tagItemElement->FirstChildElement(TAG_TIPO);
+		if ((tagTipoNode)&&(tagItemElement->FirstChildElement(TAG_TIPO)->GetText())) {
+			strTipo.clear();
+			strTipo.append(tagItemElement->FirstChildElement(TAG_TIPO)->GetText());
+		    if (!strTipo.compare(VALUE_EMPTY)) {
+		    	LOGGER_DEBUG("TAG_TIPO esta vacio");
+		    	sucess = false;
+		    }
+			itemParser.setTipo(strTipo);
+		} else {
+			LOGGER_ERROR("TAG_TIPO no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+	    //TAG_XPOS
+		tagXPosNode = tagItemElement->FirstChildElement(TAG_XPOS);
+		if ((tagXPosNode)&&(tagItemElement->FirstChildElement(TAG_XPOS)->GetText())) {
+			strXPos.clear();
+			strXPos.append(tagItemElement->FirstChildElement(TAG_XPOS)->GetText());
+		    if (!strXPos.compare(ZERO)) {
+		    	LOGGER_DEBUG("TAG_XPOS es cero");
+		    	sucess = false;
+		    }
+		    x_pos = atoi(strXPos.c_str());
+		    if ((x_pos>0)&&(x_pos<=100000)) {
+		    	itemParser.setPosX(x_pos);
+			}else {
+				LOGGER_ERROR("XPOS DESCONOCIDO: " + strXPos + ", su id de item es: " + strID);
+				sucess = false;
+			}
+		} else {
+			LOGGER_ERROR("TAG_XPOS no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+	    //TAG_YPOS
+		tagYPosNode = tagItemElement->FirstChildElement(TAG_YPOS);
+		if ((tagYPosNode)&&(tagItemElement->FirstChildElement(TAG_YPOS)->GetText())) {
+			strYPos.clear();
+			strYPos.append(tagItemElement->FirstChildElement(TAG_YPOS)->GetText());
+		    if (!strYPos.compare(ZERO)) {
+		    	LOGGER_DEBUG("TAG_YPOS es cero");
+		    	sucess = false;
+		    }
+		    y_pos = atoi(strYPos.c_str());
+		    if ((y_pos>0)&&(y_pos<=100000)) {
+	    		itemParser.setPosY(y_pos);
+			}else {
+				LOGGER_DEBUG("YPOS DESCONOCIDO: " + strYPos + ", su id de item es: " + strID);
+				sucess = false;
+			}
+		} else {
+			LOGGER_DEBUG("TAG_YPOS no existe o tiene valores invalidos");
+			sucess = false;
+		}
+
+		if (sucess) {
+			if (tagNivel==TAG_NIVEL1){
+				this->items1.push_back(itemParser);
+				LOGGER_DEBUG("Se ha cargado exitosamente el item cuyo ID es: " + strID);
+				LOGGER_DEBUG("Este item es de tipo: " + strTipo);
+				LOGGER_DEBUG("Este item tiene x_pos: " + strXPos);
+				LOGGER_DEBUG("Este item tiene y_pos: " + strYPos);
+			}
+			if (tagNivel==TAG_NIVEL2){
+				this->items2.push_back(itemParser);
+				LOGGER_DEBUG("Se ha cargado exitosamente el item cuyo ID es: " + strID);
+				LOGGER_DEBUG("Este item es de tipo: " + strTipo);
+				LOGGER_DEBUG("Este item tiene x_pos: " + strXPos);
+				LOGGER_DEBUG("Este item tiene y_pos: " + strYPos);
+			}
+			if (tagNivel==TAG_NIVEL3){
+				this->items3.push_back(itemParser);
+				LOGGER_DEBUG("Se ha cargado exitosamente el item cuyo ID es: " + strID);
+				LOGGER_DEBUG("Este item es de tipo: " + strTipo);
+				LOGGER_DEBUG("Este item tiene x_pos: " + strXPos);
+				LOGGER_DEBUG("Este item tiene y_pos: " + strYPos);
+			}
+		}
+	}
+
+	return sucess;
+}
+
 bool GameParser::evaluateDataXML (){
 	bool sucess = true;
 
@@ -550,6 +681,17 @@ bool GameParser::evaluateDataXML (){
     	return false;
 	}
 
+	TiXmlNode* tagItem1 = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).FirstChild(TAG_ITEMS).FirstChild(TAG_ITEM).ToNode();
+	if (tagItem1) {
+		sucess = this->evaluateTagItems(TAG_NIVEL1);
+		if (sucess) {
+			LOGGER_DEBUG("TAG_ITEMS del nivel 1, evaluacion aprobada");
+		}
+	} else {
+		LOGGER_DEBUG("TAG_ITEMS del nivel 1 no existe");
+    	return false;
+	}
+
 	sucess = this->evaluateTagNivel2();
 	if (sucess) {
 		LOGGER_DEBUG("TAG_NIVEL2, evaluacion aprobada");
@@ -566,6 +708,17 @@ bool GameParser::evaluateDataXML (){
     	return false;
 	}
 
+	TiXmlNode* tagItem2 = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL2).FirstChild(TAG_ITEMS).FirstChild(TAG_ITEM).ToNode();
+	if (tagItem2) {
+		sucess = this->evaluateTagItems(TAG_NIVEL2);
+		if (sucess) {
+			LOGGER_DEBUG("TAG_ITEMS del nivel 2, evaluacion aprobada");
+		}
+	} else {
+		LOGGER_DEBUG("TAG_ITEMS del nivel 2 no existe");
+    	return false;
+	}
+
 	sucess = this->evaluateTagNivel3();
 	if (sucess) {
 		LOGGER_DEBUG("TAG_NIVEL3, evaluacion aprobada");
@@ -579,6 +732,17 @@ bool GameParser::evaluateDataXML (){
 		}
 	} else {
 		LOGGER_DEBUG("TAG_PLATAFORMAS  del nivel 3 no existe");
+    	return false;
+	}
+
+	TiXmlNode* tagItem3 = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL3).FirstChild(TAG_ITEMS).FirstChild(TAG_ITEM).ToNode();
+	if (tagItem3) {
+		sucess = this->evaluateTagItems(TAG_NIVEL3);
+		if (sucess) {
+			LOGGER_DEBUG("TAG_ITEMS del nivel 3, evaluacion aprobada");
+		}
+	} else {
+		LOGGER_DEBUG("TAG_ITEMS del nivel 3 no existe");
     	return false;
 	}
 
@@ -676,4 +840,28 @@ int GameParser::getQuantityEnemiesLevel2() const {
 
 int GameParser::getQuantityEnemiesLevel3() const {
 	return quantityEnemiesLevel3;
+}
+
+//const std::list<PlataformParser>& GameParser::getPlatforms1() const {
+//	return plataformas;
+//}
+//
+//const std::list<PlataformParser>& GameParser::getPlatforms2() const {
+//	return plataforms2;
+//}
+//
+//const std::list<PlataformParser>& GameParser::getPlatforms3() const {
+//	return plataforms3;
+//}
+
+const std::list<ItemParser>& GameParser::getItems1() const {
+	return items1;
+}
+
+const std::list<ItemParser>& GameParser::getItems2() const {
+	return items2;
+}
+
+const std::list<ItemParser>& GameParser::getItems3() const {
+	return items3;
 }

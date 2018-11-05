@@ -24,6 +24,12 @@
 #define TAG_PLATAFORMAS "plataformas"
 #define TAG_PLATAFORMA "plataforma"
 
+#define TAG_ITEMS "items"
+#define TAG_ITEM "item"
+
+#define TAG_XPOS "xpos"
+#define TAG_YPOS "ypos"
+
 #define TAG_ID "id"
 #define TAG_TIPO "tipo"
 #define TAG_XINICIAL "xinicial"

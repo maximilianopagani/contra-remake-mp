@@ -12,6 +12,7 @@
 #include <list>
 
 #include "PlatformParser.hh"
+#include "ItemParser.hh"
 
 using namespace std;
 
@@ -37,6 +38,10 @@ private:
 	std::list<PlataformParser> plataforms2;
 	std::list<PlataformParser> plataforms3;
 
+	std::list<ItemParser> items1;
+	std::list<ItemParser> items2;
+	std::list<ItemParser> items3;
+
 	//Others attributes
 	bool fileConfigLoaded;
 	bool defaultfileConfigLoaded;
@@ -46,11 +51,10 @@ public:
 	GameParser();
 	bool evaluateTagDebug();
 	bool evaluateTagNivel1();
-	bool evaluateTagPlataformas(const char * tagNivel);
-	bool evaluateTagPlataforma1Nivel1();
-	bool evaluateTagPlataforma2Nivel1();
 	bool evaluateTagNivel2();
 	bool evaluateTagNivel3();
+	bool evaluateTagPlataformas(const char * tagNivel);
+	bool evaluateTagItems(const char * tagNivel);
 	bool evaluateTagConfiguration();
 	bool evaluateDataXML();
 	bool loadConfiguration();
@@ -75,6 +79,12 @@ public:
 	int getQuantityEnemiesLevel1() const;
 	int getQuantityEnemiesLevel2() const;
 	int getQuantityEnemiesLevel3() const;
+//	const std::list<PlataformParser>& getPlatforms1() const;
+//	const std::list<PlataformParser>& getPlatforms2() const;
+//	const std::list<PlataformParser>& getPlatforms3() const;
+	const std::list<ItemParser>& getItems1() const;
+	const std::list<ItemParser>& getItems2() const;
+	const std::list<ItemParser>& getItems3() const;
 };
 
 #endif /* GAMEPARSER_HH_ */
