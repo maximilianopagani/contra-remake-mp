@@ -22,7 +22,7 @@ class Gun
 		virtual ~Gun();
 
 		void shoot(int aimingAt, int state, int pos_x, int pos_y);
-		void render();
+		void render(int player_id);
 		void update();
 		void clear();
 

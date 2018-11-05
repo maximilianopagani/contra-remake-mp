@@ -52,7 +52,7 @@ void Player::render()
 
 	serverMessageHandler->sendToAllClients(new MessageServer(PLAYER, RENDER, player_id, state, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 
-	gun->render();
+	gun->render(player_id);
 
 }
 

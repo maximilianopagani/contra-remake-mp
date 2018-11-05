@@ -10,8 +10,10 @@
 BulletView::BulletView(GameView* _gameView)
 {
 	gameView = _gameView;
-	sprite = new Sprite(gameView, "../.images/bullet/p1/bullet.png", 8, 8, 8, 8);
-//	sprite->setSourceRectXY(104, 8);
+
+	for(int i = 0; i < 4; i++)
+		sprites[i] = new Sprite(gameView, "../.images/bullet/p" + std::to_string(i+1) + "/bullet.png", 8, 8, 8, 8);
+
 }
 
 BulletView::~BulletView()
@@ -19,15 +21,13 @@ BulletView::~BulletView()
 	this->destroy();
 }
 
-void BulletView::render(int pos_x, int pos_y)
+void BulletView::render(int player_id, int pos_x, int pos_y)
 {
-	// El ajuste de desfasaje lo haria el servidor que ya le manda las posiciones a dibujar respecto a la ventana o se debería hacer aca y que el servidor mande el offset a ajustar?
-	sprite->render(pos_x, pos_y);
+	sprites[player_id]->render(pos_x, pos_y);
 }
 
 void BulletView::destroy()
 {
-	sprite->destroy();
-	sprite = NULL;
+	for(int player = 0; player < 4; player++)
+		sprites[player]->destroy();
 }
-

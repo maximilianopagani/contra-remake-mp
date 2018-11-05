@@ -148,9 +148,10 @@ void ClientMessageHandler::processMessage(Message* message)
 			{
 				case RENDER:
 				{
-					int posX = atoi(param1);
-					int posY = atoi(param2);
-					bulletView->render(posX, posY);
+					int player_id = atoi(param1);
+					int posX = atoi(param2);
+					int posY = atoi(param3);
+					bulletView->render(player_id, posX, posY);
 					break;
 				}
 			}

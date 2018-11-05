@@ -23,11 +23,11 @@ void Gun::clear()
 	lastShotTime = 0;
 }
 
-void Gun::render()
+void Gun::render(int player_id)
 {
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
 	{
-		(*bulletsIterator)->render();
+		(*bulletsIterator)->render(player_id);
 		++bulletsIterator;
 	}
 }

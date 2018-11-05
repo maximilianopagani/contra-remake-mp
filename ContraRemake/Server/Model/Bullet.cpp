@@ -39,9 +39,9 @@ bool Bullet::outOfLimits()
 		return false;
 }
 
-void Bullet::render()
+void Bullet::render(int player_id)
 {
-	serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
+	serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 }
 
 int Bullet::getLeftLimit()
