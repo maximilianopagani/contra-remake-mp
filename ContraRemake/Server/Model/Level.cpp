@@ -44,6 +44,12 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 
 		    //============================================================================================================
 
+		    //======================================== CARGA DE ITEMS ==============================================
+
+			this->loadItems(gameParser->getItems1());
+
+		    //============================================================================================================
+
 			playerSpawnX = 150;
 			playerSpawnY = 300;
 
@@ -79,6 +85,12 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		    //======================================== CARGA DE PLATAFORMAS ==============================================
 
 			this->loadPlatforms(gameParser->getPlatforms2());
+
+		    //============================================================================================================
+
+		    //======================================== CARGA DE ITEMS ==============================================
+
+			this->loadItems(gameParser->getItems2());
 
 		    //============================================================================================================
 
@@ -119,6 +131,12 @@ Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serve
 		    //======================================== CARGA DE PLATAFORMAS ==============================================
 
 			this->loadPlatforms(gameParser->getPlatforms3());
+
+		    //============================================================================================================
+
+		    //======================================== CARGA DE ITEMS ==============================================
+
+			this->loadItems(gameParser->getItems3());
 
 		    //============================================================================================================
 
@@ -200,6 +218,20 @@ void Level::loadPlatforms(std::list<PlataformParser>* platformParser)
 	}
 }
 
+void Level::loadItems(std::list<ItemParser>* itemParser)
+{
+	std::list<ItemParser>::iterator itemParserIterator;
+
+	for(itemParserIterator = itemParser->begin(); itemParserIterator != itemParser->end(); itemParserIterator++)
+	{
+		string itemType = (*itemParserIterator).getTipo();
+		int itemXPos = (*itemParserIterator).getPosX();
+		int itemYPos = (*itemParserIterator).getPosY();
+
+		items.push_back(new Item(cameraLogic, itemType, itemXPos, 15, 24 , serverMessageHandler));
+	}
+}
+
 void Level::loadEnemies()
 {
 	int standingEnemiesAmount = 10; // Levantarlo del parser
@@ -242,6 +274,13 @@ void Level::render()
 		(*platformsIterator)->render();
 	}
 
+	//======================================== DIBUJADO DE ITEMS ===========================================
+
+	for(itemsIterator = items.begin(); itemsIterator != items.end(); ++itemsIterator)
+	{
+		(*itemsIterator)->render();
+	}
+
     //============================================================================================================
 
 	//========================================= DIBUJADO DE ENEMIGOS =============================================
@@ -273,6 +312,7 @@ void Level::deleteEnemy(Enemy* _enemy)
 void Level::destroy()
 {
 	enemies.clear();
+	items.clear();
 	platforms.clear();
 }
 

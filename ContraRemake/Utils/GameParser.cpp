@@ -842,17 +842,17 @@ int GameParser::getQuantityEnemiesLevel3() const {
 	return quantityEnemiesLevel3;
 }
 
-//const std::list<PlataformParser>& GameParser::getPlatforms1() const {
-//	return plataformas;
-//}
-//
-//const std::list<PlataformParser>& GameParser::getPlatforms2() const {
-//	return plataforms2;
-//}
-//
-//const std::list<PlataformParser>& GameParser::getPlatforms3() const {
-//	return plataforms3;
-//}
+const std::list<PlataformParser>& GameParser::getPlatforms1() const {
+	return plataformas;
+}
+
+const std::list<PlataformParser>& GameParser::getPlatforms2() const {
+	return plataforms2;
+}
+
+const std::list<PlataformParser>& GameParser::getPlatforms3() const {
+	return plataforms3;
+}
 
 const std::list<ItemParser>& GameParser::getItems1() const {
 	return items1;

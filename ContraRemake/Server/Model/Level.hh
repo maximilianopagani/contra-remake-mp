@@ -11,6 +11,7 @@
 #include "../../Utils/PlatformParser.hh"
 #include "../../Utils/GameParser.hh"
 #include "Platform.hh"
+#include "Item.hh"
 #include "Enemy.hh"
 #include "CameraLogic.hh"
 #include "ServerMessageHandler.hh"
@@ -45,6 +46,7 @@ class Level
 		int getScrollingType() { return scrolling; }
 
 		void loadPlatforms(std::list<PlataformParser>* platformParser);
+		void loadItems(std::list<ItemParser>* itemParser);
 		void loadEnemies();
 
 		list<Platform*>* getPlatformsList(){ return &platforms; }
@@ -73,6 +75,9 @@ class Level
 
 		std::list<Platform*> platforms;
 		std::list<Platform*>::iterator platformsIterator;
+
+		std::list<Item*> items;
+		std::list<Item*>::iterator itemsIterator;
 
 		std::list<Enemy*> enemies;
 		std::list<Enemy*>::iterator enemiesIterator;

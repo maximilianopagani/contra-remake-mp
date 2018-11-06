@@ -74,14 +74,17 @@ public:
 	std::list<PlataformParser>* getPlatforms1() { return &plataformas; }
 	std::list<PlataformParser>* getPlatforms2() { return &plataforms2; }
 	std::list<PlataformParser>* getPlatforms3() { return &plataforms3; }
+	std::list<ItemParser>* getItems1() { return &items1; }
+	std::list<ItemParser>* getItems2() { return &items2; }
+	std::list<ItemParser>* getItems3() { return &items3; }
 
 	virtual ~GameParser();
 	int getQuantityEnemiesLevel1() const;
 	int getQuantityEnemiesLevel2() const;
 	int getQuantityEnemiesLevel3() const;
-//	const std::list<PlataformParser>& getPlatforms1() const;
-//	const std::list<PlataformParser>& getPlatforms2() const;
-//	const std::list<PlataformParser>& getPlatforms3() const;
+	const std::list<PlataformParser>& getPlatforms1() const;
+	const std::list<PlataformParser>& getPlatforms2() const;
+	const std::list<PlataformParser>& getPlatforms3() const;
 	const std::list<ItemParser>& getItems1() const;
 	const std::list<ItemParser>& getItems2() const;
 	const std::list<ItemParser>& getItems3() const;

@@ -8,6 +8,7 @@ enum MsgHeader {
 	LEVEL,
 	BULLET,
 	PLATFORM,
+	ITEM,
 	ENEMY,
 	SOUND,
 	NONE,

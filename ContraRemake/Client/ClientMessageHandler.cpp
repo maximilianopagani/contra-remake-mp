@@ -13,17 +13,19 @@ ClientMessageHandler::ClientMessageHandler()
 	playerView = NULL;
 	levelView = NULL;
 	platformView = NULL;
+	itemView = NULL;
 	bulletView = NULL;
 	enemyView = NULL;
 	sound = NULL;
 }
 
-void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, BulletView* _bulletView, EnemyView* _enemyView)
+void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView)
 {
 	gameView = _gameView;
 	playerView = _playerView;
 	levelView = _levelView;
 	platformView = _platformView;
+	itemView = _itemView;
 	bulletView = _bulletView;
 	enemyView = _enemyView;
 	sound = new Sound();
@@ -135,6 +137,23 @@ void ClientMessageHandler::processMessage(Message* message)
 					int tileAmount = atoi(param3);
 					int typeCode = atoi(param4);
 					platformView->render(posX, posY, tileAmount, typeCode);
+					break;
+				}
+			}
+			break;
+		}
+
+		case ITEM:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case RENDER:
+				{
+					int posX = atoi(param1);
+					int posY = atoi(param2);
+					int tileAmount = atoi(param3);
+					int typeCode = atoi(param4);
+					itemView->render(posX, posY, tileAmount, typeCode);
 					break;
 				}
 			}
