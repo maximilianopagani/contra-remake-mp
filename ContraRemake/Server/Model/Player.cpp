@@ -37,6 +37,8 @@ Player::~Player()
 
 void Player::renderPlayer()
 {
+	serverMessageHandler->sendToAllClients(new MessageServer(LIFES, RENDER, player_id, lives_remaining));
+
 	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN || state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN)
 	{ // ESTO PASARLO A VIEW COMO ANTES, ASI LE AHORRAMOS TRABAJO AL SERVER, Y DE LA OTRA FORMA NO CHEQUEO POR TODOS LOS ESTADOS
 		timeAtIterationStart++;

@@ -16,10 +16,11 @@ ClientMessageHandler::ClientMessageHandler()
 	itemView = NULL;
 	bulletView = NULL;
 	enemyView = NULL;
+	livesView = NULL;
 	sound = NULL;
 }
 
-void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView)
+void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView)
 {
 	gameView = _gameView;
 	playerView = _playerView;
@@ -28,6 +29,7 @@ void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerVie
 	itemView = _itemView;
 	bulletView = _bulletView;
 	enemyView = _enemyView;
+	livesView = _livesView;
 	sound = new Sound();
 }
 
@@ -289,6 +291,20 @@ void ClientMessageHandler::processMessage(Message* message)
 			break;
 		}
 
+		case LIFES:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case RENDER:
+				{
+					int player_id = atoi(param1);
+					int amount = atoi(param2);
+					livesView->render(player_id, amount);
+					break;
+				}
+			}
+			break;
+		}
 		case SOUND:
 		{
 			switch(MSG_HEADER_2)
