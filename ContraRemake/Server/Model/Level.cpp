@@ -228,7 +228,7 @@ void Level::loadItems(std::list<ItemParser>* itemParser)
 		int itemXPos = (*itemParserIterator).getPosX();
 		int itemYPos = (*itemParserIterator).getPosY();
 
-		items.push_back(new Item(cameraLogic, itemType, itemXPos, 15, 24 , serverMessageHandler));
+		items.push_back(new Item(cameraLogic, itemType, itemXPos, itemYPos, 40 , serverMessageHandler));
 	}
 }
 

@@ -32,12 +32,13 @@ Item::Item(CameraLogic* _cameraLogic, std::string _type, int pos_x, int pos_y, i
 		typeCode = TYPE_ERROR;
 
 	// TODO revisar width hardcodeado
-	tileHeight = 15;
-	tileWidth = 24;
+	tileHeight = 25;
+	tileWidth = 40;
 
-	tileAmount = pixels/tileWidth;
-	if (tileAmount * tileWidth < pixels)
-		++tileAmount;
+	tileAmount = 1;
+//	tileAmount = pixels/tileWidth;
+//	if (tileAmount * tileWidth < pixels)
+//		++tileAmount;
 }
 
 Item::~Item() {}

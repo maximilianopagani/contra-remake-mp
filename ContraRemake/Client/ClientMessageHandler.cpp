@@ -153,9 +153,8 @@ void ClientMessageHandler::processMessage(Message* message)
 				{
 					int posX = atoi(param1);
 					int posY = atoi(param2);
-					int tileAmount = atoi(param3);
-					int typeCode = atoi(param4);
-					itemView->render(posX, posY, tileAmount, typeCode);
+					int typeCode = atoi(param3);
+					itemView->render(posX, posY, typeCode);
 					break;
 				}
 			}

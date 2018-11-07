@@ -27,7 +27,7 @@ public:
 	ItemView(GameView* _gameView);
 	virtual ~ItemView();
 
-	void render(int posX, int posY, int tileAmount, int typeCode);
+	void render(int posX, int posY, int typeCode);
 	void destroy();
 
 private:

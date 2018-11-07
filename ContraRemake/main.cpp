@@ -70,34 +70,51 @@ int main(int argc, char** argv)
 			cout << "La cantidad de enemigos del nivel 2 es: " << parser->getQuantityEnemiesLevel2() << endl;
 			cout << "La cantidad de enemigos del nivel 3 es: " << parser->getQuantityEnemiesLevel3() << endl;
 
-//			cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 1 --------------------------" << endl;
-//			std::list<ItemParser>::iterator it1;
-//			std::list<ItemParser> lista1;
-//
-//			lista1 = parser->getItems1();
-//		    for (it1=lista1.begin(); it1 != lista1.end();it1++){
-//		        int dato = (*it1).getId();
-//		        std::string s = std::to_string(dato);
-//				cout << "El id del item de la lista 1 es: " <<  std::to_string(dato) << endl;
-//		    }
-//
-//		    cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 2 --------------------------" << endl;
-//		    std::list<ItemParser>::iterator it2;
-//		    std::list<ItemParser> lista2;
-//			lista2 = parser->getItems2();
-//		    for (it2=lista2.begin(); it2 != lista2.end();it2++){
-//		        int dato = (*it2).getId();
-//				cout << "El id del item de la lista 2 es: " <<  std::to_string(dato) << endl;
-//		    }
-//
-//		    cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 3 --------------------------" << endl;
-//		    std::list<ItemParser>::iterator it3;
-//		    std::list<ItemParser> lista3;
-//			lista3 = parser->getItems3();
-//		    for (it3=lista3.begin(); it3 != lista3.end();it3++){
-//		        int dato = (*it3).getId();
-//				cout << "El id del item de la lista 3 es: " <<  std::to_string(dato) << endl;
-//		    }
+			cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 1 --------------------------" << endl;
+			std::list<ItemParser>::iterator it1;
+			std::list<ItemParser>* lista1;
+
+			lista1 = parser->getItems1();
+		    for (it1=lista1->begin(); it1 != lista1->end();it1++){
+		        int ID = (*it1).getId();
+		        int posX = (*it1).getPosX();
+		        int posY = (*it1).getPosY();
+		        string tipo = (*it1).getTipo();
+				cout << "El ID del item de la lista 1 es: " <<  std::to_string(ID) << endl;
+				cout << "El TIPO del item de la lista 1 es: " <<  tipo << endl;
+				cout << "El POSX del item de la lista 1 es: " <<  std::to_string(posX) << endl;
+				cout << "El POSY del item de la lista 1 es: " <<  std::to_string(posY) << endl << endl;
+		    }
+
+		    cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 2 --------------------------" << endl;
+		    std::list<ItemParser>::iterator it2;
+		    std::list<ItemParser>* lista2;
+			lista2 = parser->getItems2();
+		    for (it2=lista2->begin(); it2 != lista2->end();it2++){
+		        int id = (*it2).getId();
+		        int posX = (*it2).getPosX();
+		        int posY = (*it2).getPosY();
+		        string tipo = (*it2).getTipo();
+				cout << "El ID del item de la lista 2 es: " <<  std::to_string(id) << endl;
+				cout << "El TIPO del item de la lista 2 es: " <<  tipo << endl;
+				cout << "El POSX del item de la lista 2 es: " <<  std::to_string(posX) << endl;
+				cout << "El POSY del item de la lista 2 es: " <<  std::to_string(posY) << endl << endl;
+		    }
+
+		    cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 3 --------------------------" << endl;
+		    std::list<ItemParser>::iterator it3;
+		    std::list<ItemParser>* lista3;
+			lista3 = parser->getItems3();
+		    for (it3=lista3->begin(); it3 != lista3->end();it3++){
+		        int ID = (*it3).getId();
+		        int posX = (*it3).getPosX();
+		        int posY = (*it3).getPosY();
+		        string tipo = (*it3).getTipo();
+				cout << "El ID del item de la lista 3 es: " <<  std::to_string(ID) << endl;
+				cout << "El TIPO del item de la lista 3 es: " <<  tipo << endl;
+				cout << "El POSX del item de la lista 3 es: " <<  std::to_string(posX) << endl;
+				cout << "El POSY del item de la lista 3 es: " <<  std::to_string(posY) << endl << endl;
+		    }
 
 		} else {
 			// se mata al primer logger

@@ -12,13 +12,13 @@ ItemView::ItemView(GameView* _gameView) {
 
 	// TODO ver lo hardcodeado
 
-	sprites[TYPE_FIREBALLFALCON] = new Sprite(gameView, "../.images/items/FireBallFalcon.png", 24, 15, 24, 15);
-	sprites[TYPE_FIREFIELDFALCON] = new Sprite(gameView, "../.images/items/ForceFieldFalcon.png", 24, 15, 24, 15);
-	sprites[TYPE_LASERFALCON] = new Sprite(gameView, "../.images/items/LaserFalcon.png", 24, 15, 24, 15);
-	sprites[TYPE_MACHINEGUNFALCON] = new Sprite(gameView, "../.images/items/MachineGunFalcon.png", 24, 15, 24, 15);
-	sprites[TYPE_RAPIDFIREFALCON] = new Sprite(gameView, "../.images/items/RapidFireFalcon.png", 24, 15, 24, 15);
-	sprites[TYPE_SPREADGUNFALCON] = new Sprite(gameView, "../.images/items/SpreadGunFalcon.png", 24, 15, 24, 15);
-	sprites[TYPE_ERROR] = new Sprite(gameView, "", 24, 15, 24, 15);
+	sprites[TYPE_FIREBALLFALCON] = new Sprite(gameView, "../.images/items/FireBallFalcon.png", 40, 25, 40, 25);
+	sprites[TYPE_FIREFIELDFALCON] = new Sprite(gameView, "../.images/items/ForceFieldFalcon.png", 40, 25, 40, 25);
+	sprites[TYPE_LASERFALCON] = new Sprite(gameView, "../.images/items/LaserFalcon.png", 40, 25, 40, 25);
+	sprites[TYPE_MACHINEGUNFALCON] = new Sprite(gameView, "../.images/items/MachineGunFalcon.png", 40, 25, 40, 25);
+	sprites[TYPE_RAPIDFIREFALCON] = new Sprite(gameView, "../.images/items/RapidFireFalcon.png", 40, 25, 40, 25);
+	sprites[TYPE_SPREADGUNFALCON] = new Sprite(gameView, "../.images/items/SpreadGunFalcon.png", 40, 25, 40, 25);
+	sprites[TYPE_ERROR] = new Sprite(gameView, "", 40, 25, 40, 25);
 }
 
 ItemView::~ItemView()
@@ -26,12 +26,10 @@ ItemView::~ItemView()
 	this->destroy();
 }
 
-void ItemView::render(int pos_x, int pos_y, int tileAmount, int typeCode)
+void ItemView::render(int pos_x, int pos_y, int typeCode)
 {
-	for(int i = 0; i < tileAmount; i++)
-	{
-		sprites[typeCode]->render(pos_x + i * 24, pos_y);
-	}
+		sprites[typeCode]->render(pos_x, pos_y);
+
 }
 
 void ItemView::destroy()
