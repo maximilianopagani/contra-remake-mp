@@ -10,7 +10,7 @@ Gun::Gun(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler)
 	cameraLogic = _cameraLogic;
 	serverMessageHandler = _serverMessageHandler;
 
-	setType(BulletType::TRIPLE);
+	setType(BulletType::NORMAL);
 
 	lastShotTime = 0;
 }

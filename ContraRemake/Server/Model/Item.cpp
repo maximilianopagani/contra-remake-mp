@@ -19,8 +19,8 @@ Item::Item(CameraLogic* _cameraLogic, std::string _type, int pos_x, int pos_y, S
 
 	if(typeString == "FIREBALLFALCON")
 		typeCode = TYPE_FIREBALLFALCON;
-	else if(typeString == "FIREFIELDFALCON")
-		typeCode = TYPE_FIREFIELDFALCON;
+	else if(typeString == "FORCEFIELDFALCON")
+		typeCode = TYPE_FORCEFIELDFALCON;
 	else if(typeString == "LASERFALCON")
 		typeCode = TYPE_LASERFALCON;
 	else if(typeString == "MACHINEGUNFALCON")

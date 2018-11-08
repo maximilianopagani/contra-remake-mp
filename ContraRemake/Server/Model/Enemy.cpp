@@ -15,7 +15,7 @@ Enemy::Enemy(CameraLogic* _cameraLogic, ENEMY_TYPE _type , int _direction, int p
 	posX = pos_x;
 	posY = pos_y;
 	type = _type;
-	timeAtIterationStart= 0;
+	timeAtIterationStart = 0;
 	falling = false;
 	dead = false;
 
@@ -122,6 +122,7 @@ void Enemy::update()
 
 						bullets.push_back(new Bullet(cameraLogic, posX, posY, velocity_x, velocity_y, distanceToTravel, serverMessageHandler));
 						lastShotTime = currentShotTime;
+						shotCooldown = 1000 + rand() % 1500; // Cierta incertudimbre sobre cuan seguido dispara, para que no sea tan predecible
 					}
 				}
 				break;

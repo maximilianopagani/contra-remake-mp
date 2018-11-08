@@ -16,8 +16,8 @@ EnemyView::EnemyView(GameView* _gameView){
 
 	for(int i = 0; i < MAX_ENEMIES; i++)
 	{
-		sprites[i][0] = new Sprite(gameView, "../.images/enemies/e1/enemy1Right.png", 16, 32, 44, 87);
-		sprites[i][1] = new Sprite(gameView, "../.images/enemies/e1/enemy1Left.png", 16, 32, 44, 87);
+		sprites[i][0] = new Sprite(gameView, "../.images/enemies/e1/enemy1Right.png", 16, 32, 42, 84);
+		sprites[i][1] = new Sprite(gameView, "../.images/enemies/e1/enemy1Left.png", 16, 32, 42, 84);
 	}
 }
 

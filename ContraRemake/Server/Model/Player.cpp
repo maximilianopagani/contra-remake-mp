@@ -35,6 +35,29 @@ Player::~Player()
 	this->destroy();
 }
 
+void Player::pickupItem(Item* item)
+{
+	ItemType item_type = item->getType();
+
+	switch(item_type)
+	{
+		case TYPE_MACHINEGUNFALCON:
+		{
+			gun->setType(MACHINEGUN);
+			break;
+		}
+		case TYPE_SPREADGUNFALCON:
+		{
+			gun->setType(TRIPLE);
+			break;
+		}
+		default:
+		{
+			break;
+		}
+	}
+}
+
 void Player::renderPlayer()
 {
 	serverMessageHandler->sendToAllClients(new MessageServer(LIVES, RENDER, player_id, lives_remaining));
@@ -387,6 +410,7 @@ void Player::spawn(int x, int y)
 	falling = false;
 	processedKeys = false;
 	gun->clear();
+	gun->setType(NORMAL);
 }
 
 void Player::freeze()

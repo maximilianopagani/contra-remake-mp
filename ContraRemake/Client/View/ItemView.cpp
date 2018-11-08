@@ -12,7 +12,7 @@ ItemView::ItemView(GameView* _gameView)
 	gameView = _gameView;
 
 	sprites[TYPE_FIREBALLFALCON] = new Sprite(gameView, "../.images/items/FireBallFalcon.png", 40, 25, 40, 25);
-	sprites[TYPE_FIREFIELDFALCON] = new Sprite(gameView, "../.images/items/ForceFieldFalcon.png", 40, 25, 40, 25);
+	sprites[TYPE_FORCEFIELDFALCON] = new Sprite(gameView, "../.images/items/ForceFieldFalcon.png", 40, 25, 40, 25);
 	sprites[TYPE_LASERFALCON] = new Sprite(gameView, "../.images/items/LaserFalcon.png", 40, 25, 40, 25);
 	sprites[TYPE_MACHINEGUNFALCON] = new Sprite(gameView, "../.images/items/MachineGunFalcon.png", 40, 25, 40, 25);
 	sprites[TYPE_RAPIDFIREFALCON] = new Sprite(gameView, "../.images/items/RapidFireFalcon.png", 40, 25, 40, 25);
@@ -33,7 +33,7 @@ void ItemView::render(int pos_x, int pos_y, int type)
 void ItemView::destroy()
 {
 	sprites[TYPE_FIREBALLFALCON]->destroy();
-	sprites[TYPE_FIREFIELDFALCON]->destroy();
+	sprites[TYPE_FORCEFIELDFALCON]->destroy();
 	sprites[TYPE_LASERFALCON]->destroy();
 	sprites[TYPE_MACHINEGUNFALCON]->destroy();
 	sprites[TYPE_RAPIDFIREFALCON]->destroy();
@@ -41,7 +41,7 @@ void ItemView::destroy()
 	sprites[TYPE_ERROR]->destroy();
 
 	sprites[TYPE_FIREBALLFALCON] = NULL;
-	sprites[TYPE_FIREFIELDFALCON] = NULL;
+	sprites[TYPE_FORCEFIELDFALCON] = NULL;
 	sprites[TYPE_LASERFALCON] = NULL;
 	sprites[TYPE_MACHINEGUNFALCON] = NULL;
 	sprites[TYPE_RAPIDFIREFALCON] = NULL;

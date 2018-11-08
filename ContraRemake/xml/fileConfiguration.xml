@@ -11,36 +11,30 @@
 			<items>
 				<item>
 					<id>101</id>				
-					<tipo>FIREBALLFALCON</tipo>
-					<xpos>1</xpos>
-					<ypos>300</ypos>
-				</item>
-				<item>
-					<id>102</id>				
-					<tipo>FORCEFIELDFALCON</tipo>
+					<tipo>SPREADGUNFALCON</tipo>
 					<xpos>1000</xpos>
 					<ypos>300</ypos>
 				</item>
 				<item>
-					<id>103</id>				
+					<id>102</id>				
 					<tipo>LASERFALCON</tipo>
 					<xpos>1500</xpos>
 					<ypos>300</ypos>
 				</item>
 				<item>
-					<id>104</id>				
+					<id>103</id>				
 					<tipo>MACHINEGUNFALCON</tipo>
 					<xpos>2000</xpos>
 					<ypos>300</ypos>
 				</item>
 				<item>
-					<id>105</id>				
+					<id>104</id>				
 					<tipo>RAPIDFIREFALCON</tipo>
 					<xpos>2500</xpos>
 					<ypos>300</ypos>
 				</item>
 				<item>
-					<id>106</id>				
+					<id>105</id>				
 					<tipo>SPREADGUNFALCON</tipo>
 					<xpos>7000</xpos>
 					<ypos>300</ypos>

@@ -405,6 +405,32 @@ void Game::update()
     list<Bullet*>* bullets;
     list<Bullet*>::iterator bulletsIterator;
 
+    list<Item*>* items = level->getItemsList();
+    list<Item*>::iterator itemsIterator;
+
+    //Jugadores-Items
+    for(int i = 0; i < max_players; i++)
+	{
+		if(players.at(i)->isOnline() && players.at(i)->isAlive())
+		{
+			for(itemsIterator = items->begin(); itemsIterator != items->end();)
+			{
+				if(CollisionHelper::collides(players.at(i), *itemsIterator))
+				{
+					players.at(i)->pickupItem(*itemsIterator);
+					delete (*itemsIterator);
+					items->erase(itemsIterator++);
+
+					break;
+				}
+				else
+				{
+					++itemsIterator;
+				}
+			}
+		}
+	}
+
     //Jugadores-Plataforma
     for(int i = 0; i < max_players; i++)
     {

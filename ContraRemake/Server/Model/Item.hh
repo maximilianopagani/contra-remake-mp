@@ -24,8 +24,10 @@ class Item: public ICollisional
 		virtual ~Item();
 
 		void render();
+
 		int getPosX() { return posX; }
 		int getPosY() { return posY; }
+		ItemType getType() { return typeCode; }
 
 		//Collisional
 		int getLeftLimit();

@@ -15,6 +15,7 @@
 #include "../../Utils/Logger.hh"
 #include "../../Utils/ICollisional.hh"
 #include "Gun.hh"
+#include "Item.hh"
 #include "ServerMessageHandler.hh"
 
 class Player : public ICollisional
@@ -33,6 +34,8 @@ class Player : public ICollisional
 		// comunes al gameloop
 		void updatePlayer();
 		void renderPlayer();
+
+		void pickupItem(Item* item);
 
 		void updateGun();
 		void renderGun();
