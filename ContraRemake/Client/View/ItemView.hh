@@ -10,30 +10,22 @@
 
 #include "GameView.hh"
 #include "Sprite.hh"
+#include "../../Utils/ItemTypes.hh"
 
-class ItemView {
+class ItemView
+{
+	public:
 
-	enum ItemType {
-		TYPE_FIREBALLFALCON,
-		TYPE_FIREFIELDFALCON,
-		TYPE_LASERFALCON,
-		TYPE_MACHINEGUNFALCON,
-		TYPE_RAPIDFIREFALCON,
-		TYPE_SPREADGUNFALCON,
-		TYPE_ERROR
-	};
+		ItemView(GameView* _gameView);
+		virtual ~ItemView();
 
-public:
-	ItemView(GameView* _gameView);
-	virtual ~ItemView();
+		void render(int posX, int posY, int type);
+		void destroy();
 
-	void render(int posX, int posY, int typeCode);
-	void destroy();
+	private:
 
-private:
-
-	GameView* gameView;
-	Sprite* sprites[7];
+		GameView* gameView;
+		Sprite* sprites[MAX_ITEMS_TYPES];
 };
 
 #endif /* CLIENT_VIEW_ITEMVIEW_HH_ */

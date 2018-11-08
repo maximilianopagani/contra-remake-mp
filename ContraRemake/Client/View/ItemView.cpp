@@ -7,10 +7,9 @@
 
 #include "ItemView.hh"
 
-ItemView::ItemView(GameView* _gameView) {
+ItemView::ItemView(GameView* _gameView)
+{
 	gameView = _gameView;
-
-	// TODO ver lo hardcodeado
 
 	sprites[TYPE_FIREBALLFALCON] = new Sprite(gameView, "../.images/items/FireBallFalcon.png", 40, 25, 40, 25);
 	sprites[TYPE_FIREFIELDFALCON] = new Sprite(gameView, "../.images/items/ForceFieldFalcon.png", 40, 25, 40, 25);
@@ -26,10 +25,9 @@ ItemView::~ItemView()
 	this->destroy();
 }
 
-void ItemView::render(int pos_x, int pos_y, int typeCode)
+void ItemView::render(int pos_x, int pos_y, int type)
 {
-		sprites[typeCode]->render(pos_x, pos_y);
-
+	sprites[type]->render(pos_x, pos_y);
 }
 
 void ItemView::destroy()

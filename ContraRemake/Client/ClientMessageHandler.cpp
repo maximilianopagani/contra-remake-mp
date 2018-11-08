@@ -153,8 +153,8 @@ void ClientMessageHandler::processMessage(Message* message)
 				{
 					int posX = atoi(param1);
 					int posY = atoi(param2);
-					int typeCode = atoi(param3);
-					itemView->render(posX, posY, typeCode);
+					int type = atoi(param3);
+					itemView->render(posX, posY, type);
 					break;
 				}
 			}
@@ -290,7 +290,7 @@ void ClientMessageHandler::processMessage(Message* message)
 			break;
 		}
 
-		case LIFES:
+		case LIVES:
 		{
 			switch(MSG_HEADER_2)
 			{

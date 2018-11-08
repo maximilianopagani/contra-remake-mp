@@ -23,7 +23,7 @@ class Level
 {
 	public:
 
-		Level( CameraLogic* _cameraLogic, int _level , ServerMessageHandler* _serverMessageHandler,GameParser* _gameParser);
+		Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serverMessageHandler, GameParser* _gameParser);
 		virtual ~Level();
 
 		void render();
@@ -47,10 +47,11 @@ class Level
 
 		void loadPlatforms(std::list<PlataformParser>* platformParser);
 		void loadItems(std::list<ItemParser>* itemParser);
-		void loadEnemies();
+		void loadEnemies(int runner_amount = 10, int rifleman_amount = 10);
 
-		list<Platform*>* getPlatformsList(){ return &platforms; }
-		list<Enemy*>* getEnemiesList(){ return &enemies; }
+		list<Platform*>* getPlatformsList() { return &platforms; }
+		list<Enemy*>* getEnemiesList() { return &enemies; }
+		list<Item*>* getItemsList() { return &items; }
 
 		void restart();
 

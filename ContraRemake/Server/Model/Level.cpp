@@ -7,7 +7,7 @@
 
 #include "Level.hh"
 
-Level::Level( CameraLogic* _cameraLogic, int _level,ServerMessageHandler* _serverMessageHandler,GameParser* _gameParser)
+Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serverMessageHandler, GameParser* _gameParser)
 {
 	cameraLogic = _cameraLogic;
 	gameParser = _gameParser ;
@@ -227,28 +227,24 @@ void Level::loadItems(std::list<ItemParser>* itemParser)
 		string itemType = (*itemParserIterator).getTipo();
 		int itemXPos = (*itemParserIterator).getPosX();
 		int itemYPos = (*itemParserIterator).getPosY();
-
-		items.push_back(new Item(cameraLogic, itemType, itemXPos, itemYPos, 40 , serverMessageHandler));
+		items.push_back(new Item(cameraLogic, itemType, itemXPos, itemYPos, serverMessageHandler));
 	}
 }
 
-void Level::loadEnemies()
+void Level::loadEnemies(int runner_amount, int rifleman_amount)
 {
-	int standingEnemiesAmount = 10; // Levantarlo del parser
-	int movingEnemiesAmount = 10;
-
 	int platformsAmount = platforms.size();
 	int randomPlatformId;
 
-	for(int i = 0; i < standingEnemiesAmount; i++)
+	for(int i = 0; i < rifleman_amount; i++)
 	{
 		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 		std::list<Platform*>::iterator it = platforms.begin();
 		std::advance(it, randomPlatformId);
-		enemies.push_back(new Enemy(cameraLogic, TYPE_STANDING_ENEMY, 1, (*it)->getXCentre(), (*it)->getPosY() - 100, serverMessageHandler));
+		enemies.push_back(new Enemy(cameraLogic, TYPE_STANDING_ENEMY, 1, (*it)->getXCentre(), (*it)->getPosY() - 87, serverMessageHandler));
 	}
 
-	for(int i = 0; i < movingEnemiesAmount; i++)
+	for(int i = 0; i < runner_amount; i++)
 	{
 		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 		std::list<Platform*>::iterator it = platforms.begin();

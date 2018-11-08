@@ -14,42 +14,34 @@
 #include <string>
 #include <strings.h>
 #include "ServerMessageHandler.hh"
+#include "../../Utils/ItemTypes.hh"
 
-class Item: public ICollisional {
-public:
-	Item(CameraLogic* _cameraLogic, std::string type, int pos_x, int pos_y, int pixels,ServerMessageHandler* _serverMessageHandler);
-	virtual ~Item();
+class Item: public ICollisional
+{
+	public:
 
-	void render();
-	int getPosX() { return posX; }
-	int getPosY() { return posY; }
-	int getXCentre() { return posX + (tileWidth * tileAmount / 2); }
+		Item(CameraLogic* _cameraLogic, std::string type, int pos_x, int pos_y, ServerMessageHandler* _serverMessageHandler);
+		virtual ~Item();
 
-	//Collisional
-	int getLeftLimit();
-	int getRightLimit();
-	int getTopLimit();
-	int getBottomLimit();
+		void render();
+		int getPosX() { return posX; }
+		int getPosY() { return posY; }
 
-private:
+		//Collisional
+		int getLeftLimit();
+		int getRightLimit();
+		int getTopLimit();
+		int getBottomLimit();
 
-	enum ItemType {
-		TYPE_FIREBALLFALCON,
-		TYPE_FIREFIELDFALCON,
-		TYPE_LASERFALCON,
-		TYPE_MACHINEGUNFALCON,
-		TYPE_RAPIDFIREFALCON,
-		TYPE_SPREADGUNFALCON,
-		TYPE_ERROR
-	};
+	private:
 
-	CameraLogic* cameraLogic;
-	ServerMessageHandler* serverMessageHandler;
+		CameraLogic* cameraLogic;
+		ServerMessageHandler* serverMessageHandler;
 
-	std::string typeString;
-	ItemType typeCode;
+		std::string typeString;
+		ItemType typeCode;
 
-	int tileAmount, tileWidth, tileHeight, posX, posY;
+		int posX, posY;
 };
 
 #endif /* SERVER_MODEL_ITEM_HH_ */
