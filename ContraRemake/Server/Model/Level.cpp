@@ -38,15 +38,13 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 			background3Width = 4608;
 			background3Height = 600;
 
-		    //======================================== CARGA DE PLATAFORMAS ==============================================
+		    //================================= CARGA DE ENTIDADES DEL NIVEL ============================================
 
 			this->loadPlatforms(gameParser->getPlatforms1());
 
-		    //============================================================================================================
-
-		    //======================================== CARGA DE ITEMS ==============================================
-
 			this->loadItems(gameParser->getItems1());
+
+			//this->loadEnemies(gameParser->getRunners1(), gameParser->getRiflemans1())
 
 		    //============================================================================================================
 
@@ -82,15 +80,13 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 			background3Width = 800;
 			background3Height = 1300;
 
-		    //======================================== CARGA DE PLATAFORMAS ==============================================
+			//================================= CARGA DE ENTIDADES DEL NIVEL ============================================
 
 			this->loadPlatforms(gameParser->getPlatforms2());
 
-		    //============================================================================================================
-
-		    //======================================== CARGA DE ITEMS ==============================================
-
 			this->loadItems(gameParser->getItems2());
+
+			//this->loadEnemies(gameParser->getRunners2(), gameParser->getRiflemans2())
 
 		    //============================================================================================================
 
@@ -128,15 +124,13 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 			background3Width = 4800;
 			background3Height = 600;
 
-		    //======================================== CARGA DE PLATAFORMAS ==============================================
+			//================================= CARGA DE ENTIDADES DEL NIVEL ============================================
 
 			this->loadPlatforms(gameParser->getPlatforms3());
 
-		    //============================================================================================================
-
-		    //======================================== CARGA DE ITEMS ==============================================
-
 			this->loadItems(gameParser->getItems3());
+
+			//this->loadEnemies(gameParser->getRunners3(), gameParser->getRiflemans3())
 
 		    //============================================================================================================
 
