@@ -242,6 +242,18 @@ bool ServerHandler::readyToStartGame()
 	return (this->isGameFull() && this->allClientsOnline());
 }
 
+std::vector<string> ServerHandler::getClientsUsernames()
+{
+	std::vector<string> usernames;
+
+	for(int i = 0; i < max_clients; i++)
+	{
+		usernames.push_back(connectedClients.at(i)->getUsername());
+	}
+
+	return usernames;
+}
+
 Client* ServerHandler::searchForClient(std::string user, std::string passw)
 {
 	for(uint i = 0; i < connectedClients.size(); i++)

@@ -7,11 +7,12 @@
 
 #include "Player.hh"
 
-Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, int _player_id)
+Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, int _player_id, string _username)
 {
 	cameraLogic = _cameraLogic;
 	serverMessageHandler = _serverMessageHandler;
 	player_id = _player_id;
+	username = _username;
 
 	gun = new Gun(_cameraLogic, _serverMessageHandler);
 
@@ -28,6 +29,8 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	aimingAt = AIM_FRONT;
 
 	movement_beyond_border = true;
+
+	std::cout<<"CREADO PLAYER CON ID Y USERNAME "<<player_id<<" "<<username<<std::endl;
 }
 
 Player::~Player()
@@ -58,10 +61,13 @@ void Player::pickupItem(Item* item)
 	}
 }
 
-void Player::renderPlayer()
+void Player::renderLives()
 {
 	serverMessageHandler->sendToAllClients(new MessageServer(LIVES, RENDER, player_id, lives_remaining));
+}
 
+void Player::renderPlayer()
+{
 	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN || state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN)
 	{ // ESTO PASARLO A VIEW COMO ANTES, ASI LE AHORRAMOS TRABAJO AL SERVER, Y DE LA OTRA FORMA NO CHEQUEO POR TODOS LOS ESTADOS
 		timeAtIterationStart++;
@@ -159,13 +165,23 @@ void Player::handleKeys(const Uint8* playerKeyStates)
 		this->shoot();
 	}
 
+	//================================ MODO INMORTAL ================================
 	if(playerKeyStates[KEYCODE_I])
 	{
-		if(immortal_mode)
-			immortal_mode = false;
-		else
-			immortal_mode = true;
+		Uint32 currentTime = Utils::getTicks();
+
+		if(last_immortal_mode + 1000 < currentTime)
+		{
+			if(immortal_mode)
+				immortal_mode = false;
+			else
+				immortal_mode = true;
+
+			last_immortal_mode = currentTime;
+		}
+
 	}
+	//===============================================================================
 
 	processedKeys = true;
 }
@@ -415,13 +431,7 @@ void Player::spawn(int x, int y)
 
 void Player::freeze()
 {
-	//pos_x = cameraLogic->getCameraPosX();
-//	pos_y = y;
 	state = STATE_FREEZED;
-//	aimingAt = AIM_FRONT;
-//	direction = DIRECTION_FRONT;
-	maxDistanceJump = 150;
-	falling = false;
 	processedKeys = true;
 	gun->clear();
 }
@@ -435,6 +445,18 @@ void Player::dragOfflinePlayer()
 	else if(cameraLogic->outOfCameraLowerLimit(pos_y + 90))
 	{
 		pos_y = cameraLogic->getCameraPosY() + cameraLogic->getCameraHeight() - 90;
+	}
+}
+
+void Player::setOnlineAgain()
+{
+	if(this->outOfLives())
+	{
+		state = STATE_DEAD;
+	}
+	else
+	{
+		state = STATE_STANDING;
 	}
 }
 

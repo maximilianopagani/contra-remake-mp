@@ -22,7 +22,7 @@ class Player : public ICollisional
 {
 	public:
 
-		Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, int _player_id);
+		Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, int _player_id, string _username);
 		virtual ~Player();
 
 		//Collisional
@@ -31,19 +31,19 @@ class Player : public ICollisional
 		int getTopLimit();
 		int getBottomLimit();
 
-		// comunes al gameloop
 		void updatePlayer();
-		void renderPlayer();
-
-		void pickupItem(Item* item);
-
 		void updateGun();
+
+		void renderPlayer();
+		void renderLives();
 		void renderGun();
 
 		void destroy();
 
 		int getPosX(){ return pos_x; }
 		int getPosY(){ return pos_y; }
+
+		void pickupItem(Item* item);
 
 		void spawn(int x, int y);
 		void freeze();
@@ -75,7 +75,7 @@ class Player : public ICollisional
 		void handleKeys(const Uint8* playerKeyStates);
 		bool alreadyProcessedKeys() { return processedKeys; }
 
-		void setOnlineAgain() { state = STATE_STANDING; }
+		void setOnlineAgain();
 		bool isOnline() { return state != STATE_FREEZED; }
 		bool isOffline() { return state == STATE_FREEZED; }
 
@@ -83,15 +83,23 @@ class Player : public ICollisional
 		void enableMovementBeyondBorder() { movement_beyond_border = true; }
 		bool canMoveBeyondBorder() { return movement_beyond_border; }
 
+		void increaseScore(int score_points) { level_score += score_points; total_score += score_points; }
+		int getLevelScore() { return level_score; }
+		int getTotalScore() { return total_score; }
+		void resetLevelScore() { level_score = 0; }
+
 		list<Bullet*>* getBulletList(){ return gun->getBullets(); }
 
 	private:
 
 		int player_id;
+		string username;
 		int pos_x, pos_y, maxDistanceJump;
 		bool falling;
 		int lives_remaining;
+
 		bool immortal_mode;
+		Uint32 last_immortal_mode = 0;
 
 		Uint32 timeAtIterationStart=0;
 
@@ -126,6 +134,9 @@ class Player : public ICollisional
 		};
 
 		bool processedKeys = false; // Esto es para evitar procesar 2 mensajes que hayan llegado muy juntos en el mismo frame, y hacer que por ejemplo, el pj avanze el doble.
+
+		int level_score = 0;
+		int total_score = 0;
 };
 
 #endif /* PLAYER_HH_ */

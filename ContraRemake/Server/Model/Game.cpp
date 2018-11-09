@@ -26,9 +26,11 @@ void Game::init()
 
     level = new Level(cameraLogic, currentLevel, serverMessageHandler, gameParser);
 
+    std::vector<string> usernames = server->getClientsUsernames();
+
     for(int i = 0; i < max_players; i++)
     {
-    	players.push_back(new Player(cameraLogic, serverMessageHandler, i));
+    	players.push_back(new Player(cameraLogic, serverMessageHandler, i, usernames.at(i)));
     	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
     }
 }
@@ -36,7 +38,7 @@ void Game::init()
 void Game::runGame()
 {
 	//============= MANEJO DEL FRAMERATE =============
-	const int frameDelay = 1000 / FPS ;
+	const int frameDelay = 1000 / FPS;
 	Uint32 timeAtIterationStart;
 	int iterationTime;
 	//================================================
@@ -172,10 +174,14 @@ void Game::processMessage(MessageServer* message)
 					serverMessageHandler->sendToClientId(playerid, new MessageServer(LEVEL, LOAD, level->getBackground1Path(), "1"));
 					serverMessageHandler->sendToClientId(playerid, new MessageServer(LEVEL, LOAD, level->getBackground2Path(), "2"));
 					serverMessageHandler->sendToClientId(playerid, new MessageServer(LEVEL, LOAD, level->getBackground3Path(), "3"));
+					//mandar audio de musica de nivel
 					// si no mando a recargar los fondos tira segmentation fault, seguramente pq quiere acceder a sprites nulos que no estan creados en playerview del cliente
 					LOGGER_INFO("Envío recarga por reconexion");
 					players.at(playerid)->setOnlineAgain();
-					players.at(playerid)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
+					if(!players.at(playerid)->outOfLives())
+					{
+						players.at(playerid)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
+					}
 					break;
 				}
 			}
@@ -212,6 +218,7 @@ void Game::nextLevel()
 		    for(int i = 0; i < max_players; i++)
 		    {
 		    	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
+		    	players.at(i)->resetLevelScore();
 		    }
 			break;
 
@@ -222,6 +229,7 @@ void Game::nextLevel()
 		    for(int i = 0; i < max_players; i++)
 		    {
 		    	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
+		    	players.at(i)->resetLevelScore();
 		    }
 			break;
 
@@ -535,6 +543,9 @@ void Game::update()
         			{
         				serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
         			    //level->deleteEnemy(*enemiesIterator); // ver con cuidado esto de borrar cosas mientras se itera una lista que la contiene
+
+        				players.at(i)->increaseScore(50);
+
         			    delete (*enemiesIterator);
         			    enemies->erase(enemiesIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
 
@@ -601,10 +612,13 @@ void Game::render()
 
     for(int i = 0; i < max_players; i++)
     {
+    	players.at(i)->renderLives();
+
     	if(!players.at(i)->outOfLives())
     	{
     		players.at(i)->renderPlayer();
     	}
+
     	players.at(i)->renderGun();
     }
 

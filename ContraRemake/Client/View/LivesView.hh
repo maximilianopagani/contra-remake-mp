@@ -24,7 +24,10 @@ class LivesView
 	private:
 
 		GameView* gameView;
-		Sprite* sprites[4];
+
+		Sprite* lives_sprites[4];
+		Sprite* game_over_sprites[4];
+
 		int sprites_pos_x[4] = {10, 160, 310, 460};
 		int sprites_pos_y = 10;
 };
