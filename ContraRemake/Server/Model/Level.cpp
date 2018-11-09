@@ -235,7 +235,7 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 		std::list<Platform*>::iterator it = platforms.begin();
 		std::advance(it, randomPlatformId);
-		enemies.push_back(new Enemy(cameraLogic, TYPE_STANDING_ENEMY, 1, (*it)->getXCentre(), (*it)->getPosY() - 87, serverMessageHandler));
+		enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RIFLEMAN, (*it)->getXCentre(), (*it)->getPosY() - 87));
 	}
 
 	for(int i = 0; i < runner_amount; i++)
@@ -243,7 +243,7 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 		std::list<Platform*>::iterator it = platforms.begin();
 		std::advance(it, randomPlatformId);
-		enemies.push_back(new Enemy(cameraLogic, TYPE_MOVING_ENEMY, 1, (*it)->getXCentre(), (*it)->getPosY() - 87, serverMessageHandler));
+		enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RUNNER, (*it)->getXCentre(), (*it)->getPosY() - 87));
 	}
 }
 

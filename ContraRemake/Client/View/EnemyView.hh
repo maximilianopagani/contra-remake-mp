@@ -8,6 +8,7 @@
 #ifndef VISTA_ENEMYVIEW_HH_
 #define VISTA_ENEMYVIEW_HH_
 
+#include "../../Utils/EnemyTypesAndStates.hh"
 #include "GameView.hh"
 #include "Sprite.hh"
 
@@ -26,13 +27,10 @@ class EnemyView
 
 		GameView* gameView;
 
-		static const int MAX_ANIMATIONS = 2;
-		static const int MAX_ENEMIES = 2;
+		Sprite* sprites_runner[MAX_RUNNER_STATES];
+		Sprite* sprites_rifleman[MAX_RIFLEMAN_STATES];
 
-		Sprite* sprites_e1[MAX_ANIMATIONS];
-		Sprite* sprites_e2[MAX_ANIMATIONS];
-
-		Sprite** sprites[MAX_ENEMIES];
+		Sprite** sprites[MAX_ENEMY_TYPES];
 };
 
 #endif /* VISTA_ENEMYVIEW_HH_ */

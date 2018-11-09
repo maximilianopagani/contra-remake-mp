@@ -10,13 +10,15 @@
 
 class ICollisional
 {
-public:
-	virtual ~ICollisional(){};
-	virtual int getLeftLimit() = 0;
-	virtual int getRightLimit() = 0;
-	virtual int getTopLimit() = 0;
-	virtual int getBottomLimit() = 0;
-private:
+	public:
+
+		virtual ~ICollisional(){};
+		virtual int getLeftLimit() = 0;
+		virtual int getRightLimit() = 0;
+		virtual int getTopLimit() = 0;
+		virtual int getBottomLimit() = 0;
+
+	private:
 };
 
 #endif /* ICOLLISIONAL_HH_ */

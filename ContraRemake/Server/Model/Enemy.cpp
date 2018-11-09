@@ -8,7 +8,7 @@
 #include "Enemy.hh"
 #include <math.h>
 
-Enemy::Enemy(CameraLogic* _cameraLogic, ENEMY_TYPE _type , int _direction, int pos_x, int pos_y, ServerMessageHandler* _serverMessageHandler)
+Enemy::Enemy(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, EnemyType _type, int pos_x, int pos_y)
 {
 	serverMessageHandler = _serverMessageHandler;
 	cameraLogic = _cameraLogic;
@@ -19,7 +19,23 @@ Enemy::Enemy(CameraLogic* _cameraLogic, ENEMY_TYPE _type , int _direction, int p
 	falling = false;
 	dead = false;
 
-	direction = _direction ;
+	// Default states por enemigo
+	switch(_type)
+	{
+		case EnemyType::ENEMY_TYPE_RUNNER:
+		{
+			state = EnemyRunnerStates::RUNNER_STATE_RUNNING_LEFT;
+			break;
+		}
+		case EnemyType::ENEMY_TYPE_RIFLEMAN:
+		{
+			state = EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_FRONT;
+			break;
+		}
+		default:
+			break;
+	}
+
 	changeDirectionTime = 0;
 
 	isTargetingPlayer = false;
@@ -68,7 +84,7 @@ void Enemy::update()
 
 		switch(type)
 		{
-			case TYPE_MOVING_ENEMY:
+			case EnemyType::ENEMY_TYPE_RUNNER:
 			{
 				if(isTargetingPlayer)
 				{
@@ -77,28 +93,28 @@ void Enemy::update()
 						changeDirectionTime = 80;
 
 						if(posX > targetX - 130)
-							direction = 1;
+							state = EnemyRunnerStates::RUNNER_STATE_RUNNING_LEFT;
 						else if(posX < targetX + 130)
-							direction = 0;
+							state = EnemyRunnerStates::RUNNER_STATE_RUNNING_RIGHT;
 					}
 
-					if(direction)
+					if(state == EnemyRunnerStates::RUNNER_STATE_RUNNING_LEFT)
 						posX -= 5;
-					else
+					else if(EnemyRunnerStates::RUNNER_STATE_RUNNING_RIGHT)
 						posX += 5;
 
 					timeAtIterationStart++;
 
 					if(timeAtIterationStart > 3)
 					{
-						serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, LOAD, type, direction));
+						serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, LOAD, type, state));
 						timeAtIterationStart = 0;
 					}
 				}
 				break;
 			}
 
-			case TYPE_STANDING_ENEMY:
+			case EnemyType::ENEMY_TYPE_RIFLEMAN:
 			{
 				if(isTargetingPlayer)
 				{
@@ -106,27 +122,30 @@ void Enemy::update()
 
 					if((currentShotTime - lastShotTime) > shotCooldown)
 					{
-						int velocity_x, velocity_y;
+						int velocity_x, velocity_y, bullet_offset_x, bullet_offset_y;
 
 						float angle = atan2(targetX - posX, targetY - posY) * 180 / 3.14159265;
 
 						// no se me ocurrio otra, si hay alguna mas facil avisen y/o cambienlo
 
-						if(angle >= -180 && angle < -112.5) { velocity_x = -7; velocity_y = -7; }
-						else if(angle >= -112.5 && angle < -67.5) { velocity_x = -10; velocity_y = 0; }
-						else if(angle >= -67.5 && angle < 0) { velocity_x = -7; velocity_y = 7; }
-						else if(angle >= 0 && angle < 67.5) { velocity_x = 7; velocity_y = 7; }
-						else if(angle >= 67.5 && angle < 112.5) { velocity_x = 10; velocity_y = 0; }
-						else if(angle >= 112.5 && angle < 180) { velocity_x = 7; velocity_y = -7; }
+						if(angle >= -180 && angle < -112.5) { velocity_x = -7; velocity_y = -7; bullet_offset_x = 0; bullet_offset_y = 0; state = EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_UP; }
+						else if(angle >= -112.5 && angle < -67.5) { velocity_x = -10; velocity_y = 0; bullet_offset_x = 0; bullet_offset_y = 22; state = EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_FRONT; }
+						else if(angle >= -67.5 && angle < 0) { velocity_x = -7; velocity_y = 7; bullet_offset_x = 0; bullet_offset_y = 56; state = EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_DOWN; }
+						else if(angle >= 0 && angle < 67.5) { velocity_x = 7; velocity_y = 7; bullet_offset_x = 51; bullet_offset_y = 56; state = EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_DOWN; }
+						else if(angle >= 67.5 && angle < 112.5) { velocity_x = 10; velocity_y = 0; bullet_offset_x = 56; bullet_offset_y = 22; state = EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_FRONT; }
+						else if(angle >= 112.5 && angle < 180) { velocity_x = 7; velocity_y = -7; bullet_offset_x = 37; bullet_offset_y = 0; state = EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_UP; }
 
 
-						bullets.push_back(new Bullet(cameraLogic, posX, posY, velocity_x, velocity_y, distanceToTravel, serverMessageHandler));
+						bullets.push_back(new Bullet(cameraLogic, posX + bullet_offset_x, posY + bullet_offset_y, velocity_x, velocity_y, distanceToTravel, serverMessageHandler));
 						lastShotTime = currentShotTime;
 						shotCooldown = 1000 + rand() % 1500; // Cierta incertudimbre sobre cuan seguido dispara, para que no sea tan predecible
 					}
 				}
 				break;
 			}
+
+			default:
+				break;
 		}
 	}
 }
@@ -150,7 +169,7 @@ void Enemy::render()
 {
 	if(!dead && this->isOnScreen())
 	{
-		serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, RENDER, type, direction, posX - cameraLogic->getCameraPosX(), posY - cameraLogic->getCameraPosY()));
+		serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, RENDER, type, state, posX - cameraLogic->getCameraPosX(), posY - cameraLogic->getCameraPosY()));
 	}
 
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end(); ++bulletsIterator)

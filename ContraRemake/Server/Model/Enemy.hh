@@ -14,17 +14,13 @@
 #include "../../Utils/Logger.hh"
 #include "ServerMessageHandler.hh"
 #include "Bullet.hh"
-
-enum ENEMY_TYPE {
-	TYPE_MOVING_ENEMY,
-	TYPE_STANDING_ENEMY
-};
+#include "../../Utils/EnemyTypesAndStates.hh"
 
 class Enemy: public ICollisional
 {
 	public:
 
-		Enemy(CameraLogic* _cameraLogic, ENEMY_TYPE _type, int _direction, int pos_x, int pos_y, ServerMessageHandler* _serverMessageHandler);
+		Enemy(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, EnemyType _type, int pos_x, int pos_y);
 		virtual ~Enemy();
 
 		int getPosX() { return posX; }
@@ -32,9 +28,9 @@ class Enemy: public ICollisional
 
 		void render();
 		void update();
-		void fallingStop(){falling = false; }
-		void fallingDown(){falling = true;}
-		void wasHit(){ dead = true; };//ANIMACION DE MUERTO O DIRECTAMENTE BORRARLO
+		void fallingStop() { falling = false; }
+		void fallingDown() { falling = true;}
+		void wasHit() { dead = true; }; //ANIMACION DE MUERTO O DIRECTAMENTE BORRARLO
 
 		bool hasNoTarget() { return !isTargetingPlayer; }
 		void targetPlayer(int playerId, int playerPosX, int playerPosY);
@@ -68,8 +64,8 @@ class Enemy: public ICollisional
 		int distanceToTravel = 375;
 
 		int timeAtIterationStart;
-		ENEMY_TYPE type;
-		int posX, posY, direction, changeDirectionTime;
+		EnemyType type;
+		int posX, posY, state, changeDirectionTime;
 		bool falling, dead;
 };
 
