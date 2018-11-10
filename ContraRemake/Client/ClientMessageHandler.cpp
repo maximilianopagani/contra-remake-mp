@@ -18,9 +18,10 @@ ClientMessageHandler::ClientMessageHandler()
 	enemyView = NULL;
 	livesView = NULL;
 	sound = NULL;
+	levelTransitionView = NULL;
 }
 
-void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView)
+void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView)
 {
 	gameView = _gameView;
 	playerView = _playerView;
@@ -31,6 +32,7 @@ void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerVie
 	enemyView = _enemyView;
 	livesView = _livesView;
 	sound = new Sound();
+	levelTransitionView = _levelTransitionView;
 }
 
 bool ClientMessageHandler::setClientHandler(ClientHandler* _client)
@@ -317,6 +319,25 @@ void ClientMessageHandler::processMessage(Message* message)
 				}
 			}
 			break;
+		}
+		case LEVELTRANSITION:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case LOAD:
+				{
+					int level_id = atoi(param1);
+					int player_id = atoi(param2);
+					int score = atoi(param3);
+					levelTransitionView->loadScore(level_id, player_id, score);
+					break;
+				}
+				case RENDER:
+				{
+					levelTransitionView->render();
+					break;
+				}
+			}
 		}
 	}
 

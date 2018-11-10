@@ -17,6 +17,10 @@ LevelTransitionView::~LevelTransitionView() {
 	this->destroy();
 }
 
+void LevelTransitionView::loadScore(int level_id, int player_id, int score) {
+
+}
+
 void LevelTransitionView::render() {
 
 }

@@ -73,10 +73,11 @@ int ClientMain()
 		BulletView* bulletView = new BulletView(gameView);
 		EnemyView* enemyView = new EnemyView(gameView);
 		LivesView* livesView = new LivesView(gameView);
+		LevelTransitionView* levelTransitionView = new LevelTransitionView(gameView);
 
 		LOGGER_DEBUG("Vistas de los modulos creadas");
 
-		clientMessageHandler->setParams(gameView, playerView, levelView, platformView, itemView, bulletView, enemyView, livesView);
+		clientMessageHandler->setParams(gameView, playerView, levelView, platformView, itemView, bulletView, enemyView, livesView, levelTransitionView);
 
 		client->run();
 

@@ -12,6 +12,7 @@ enum MsgHeader {
 	ITEM,
 	ENEMY,
 	SOUND,
+	LEVELTRANSITION,
 	NONE,
 	LOGIN,
 	LOGIN_DATA,

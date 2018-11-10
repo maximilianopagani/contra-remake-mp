@@ -34,21 +34,27 @@ void LevelTransition::updateScore(int currentLevel) {
 		case 1: {
 			for (unsigned int i = 0; i < players.size(); i++) {
 				level1Score[i] = players[i]->getLevelScore();
+				serverMessageHandler->sendToAllClients(new MessageServer(LEVELTRANSITION, LOAD, currentLevel, i, level1Score[i]));
 				totalScore[i] = level1Score[i] + level2Score[i] + level3Score[i];
+				serverMessageHandler->sendToAllClients(new MessageServer(LEVELTRANSITION, LOAD, 4, i, totalScore[i]));
 			}
 			break;
 		}
 		case 2: {
 			for (unsigned int i = 0; i < players.size(); i++) {
 				level2Score[i] = players[i]->getLevelScore();
+				serverMessageHandler->sendToAllClients(new MessageServer(LEVELTRANSITION, LOAD, currentLevel, i, level2Score[i]));
 				totalScore[i] = level1Score[i] + level2Score[i] + level3Score[i];
+				serverMessageHandler->sendToAllClients(new MessageServer(LEVELTRANSITION, LOAD, 4, i, totalScore[i]));
 			}
 			break;
 		}
 		case 3: {
 			for (unsigned int i = 0; i < players.size(); i++) {
 				level3Score[i] = players[i]->getLevelScore();
+				serverMessageHandler->sendToAllClients(new MessageServer(LEVELTRANSITION, LOAD, currentLevel, i, level3Score[i]));
 				totalScore[i] = level1Score[i] + level2Score[i] + level3Score[i];
+				serverMessageHandler->sendToAllClients(new MessageServer(LEVELTRANSITION, LOAD, 4, i, totalScore[i]));
 			}
 			break;
 		}
@@ -57,6 +63,7 @@ void LevelTransition::updateScore(int currentLevel) {
 
 void LevelTransition::render() {
 
+	serverMessageHandler->sendToAllClients(new MessageServer(LEVELTRANSITION, RENDER, 0));
 }
 
 void LevelTransition::destroy() {
