@@ -199,6 +199,8 @@ Level::~Level()
 
 void Level::loadPlatforms(std::list<PlataformParser>* platformParser)
 {
+	LOGGER_DEBUG("Iniciando carga en level y creación de plataformas.");
+
 	std::list<PlataformParser>::iterator platformParserIterator;
 
 	for(platformParserIterator = platformParser->begin(); platformParserIterator != platformParser->end(); platformParserIterator++)
@@ -214,6 +216,8 @@ void Level::loadPlatforms(std::list<PlataformParser>* platformParser)
 
 void Level::loadItems(std::list<ItemParser>* itemParser)
 {
+	LOGGER_DEBUG("Iniciando carga en level y creación de items.");
+
 	std::list<ItemParser>::iterator itemParserIterator;
 
 	for(itemParserIterator = itemParser->begin(); itemParserIterator != itemParser->end(); itemParserIterator++)
@@ -227,6 +231,8 @@ void Level::loadItems(std::list<ItemParser>* itemParser)
 
 void Level::loadEnemies(int runner_amount, int rifleman_amount)
 {
+	LOGGER_DEBUG("Iniciando carga en level y creación de enemigos.");
+
 	int platformsAmount = platforms.size();
 	int randomPlatformId, alreadySpawnedAmount, initialSpawnX;
 	bool spawned;
@@ -238,13 +244,16 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 		platforms_spawns.push_back(0);
 	}
 
+	LOGGER_DEBUG("Iniciando creación de " + std::to_string(rifleman_amount) + " riflemans.");
+
 	for(int i = 0; i < rifleman_amount; i++)
 	{
-		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 		spawned = false;
 
 		while(!spawned)
 		{
+			randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
+
 			// Busco esa plataforma y extraigo información
 			std::list<Platform*>::iterator it = platforms.begin();
 			std::advance(it, randomPlatformId);
@@ -271,13 +280,18 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 		}
 	}
 
+	LOGGER_DEBUG("Finalizada la creación de riflemans.");
+
+	LOGGER_DEBUG("Iniciando creación de " + std::to_string(runner_amount) + " runner.");
+
 	for(int i = 0; i < runner_amount; i++)
 	{
-		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 		spawned = false;
 
 		while(!spawned)
 		{
+			randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
+
 			// Busco esa plataforma y extraigo información
 			std::list<Platform*>::iterator it = platforms.begin();
 			std::advance(it, randomPlatformId);
@@ -302,6 +316,8 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 			}
 		}
 	}
+
+	LOGGER_DEBUG("Finalizada la creación de runners.");
 }
 
 void Level::render()
