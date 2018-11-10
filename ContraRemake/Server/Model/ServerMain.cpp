@@ -5,7 +5,7 @@
 #include "../../Utils/Logger.hh"
 //#include "../../Utils/Utils.hh"
 
-#define GAME_FPS 35
+#define GAME_FPS 1
 
 pthread_mutex_t server_mutex; // MUTEX GLOBAL PARA SER UTILIZADO EN SERVERHANDLER Y EN GAME CUANDO COMPARTAN ACCESO MEDIANTE DISTINTOS THREADS A LAS COLAS DE MENSAJES
 pthread_mutex_t server_clients_mutex;

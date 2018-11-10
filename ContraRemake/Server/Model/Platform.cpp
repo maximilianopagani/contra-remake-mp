@@ -28,7 +28,6 @@ Platform::Platform(CameraLogic* _cameraLogic, std::string _type, int pos_x, int 
 	else
 		typeCode = TYPE_ERROR;
 
-	// TODO revisar width hardcodeado
 	tileHeight = 48;
 	tileWidth = 48;
 

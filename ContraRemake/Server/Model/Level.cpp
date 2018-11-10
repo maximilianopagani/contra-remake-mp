@@ -228,22 +228,79 @@ void Level::loadItems(std::list<ItemParser>* itemParser)
 void Level::loadEnemies(int runner_amount, int rifleman_amount)
 {
 	int platformsAmount = platforms.size();
-	int randomPlatformId;
+	int randomPlatformId, alreadySpawnedAmount, initialSpawnX;
+	bool spawned;
+
+	std::vector<int> platforms_spawns;
+
+	for(int i = 0; i < platformsAmount; i++)
+	{
+		platforms_spawns.push_back(0);
+	}
 
 	for(int i = 0; i < rifleman_amount; i++)
 	{
 		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
-		std::list<Platform*>::iterator it = platforms.begin();
-		std::advance(it, randomPlatformId);
-		enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RIFLEMAN, (*it)->getXCentre(), (*it)->getPosY() - 87));
+		spawned = false;
+
+		while(!spawned)
+		{
+			// Busco esa plataforma y extraigo información
+			std::list<Platform*>::iterator it = platforms.begin();
+			std::advance(it, randomPlatformId);
+			alreadySpawnedAmount = platforms_spawns.at(randomPlatformId);
+
+			if((*it)->getPosX() + 60 > (*it)->getXCentre()) // @suppress("Method cannot be resolved")
+			{
+				initialSpawnX = (*it)->getXCentre(); // @suppress("Method cannot be resolved")
+			}
+			else
+			{
+				initialSpawnX = (*it)->getPosX(); // @suppress("Method cannot be resolved")
+			}
+
+
+			// Calculo cuanto mas a la derecha lo tengo que spawnear, si me paso del limite de la plataforma busco otra
+			if((initialSpawnX + alreadySpawnedAmount * 120) < ((*it)->getRightLimit() - 60)) // @suppress("Method cannot be resolved")
+			{
+				// Spawneo
+				enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RIFLEMAN, initialSpawnX + alreadySpawnedAmount * 120, (*it)->getPosY() - 100));
+				platforms_spawns.at(randomPlatformId) = alreadySpawnedAmount + 1;
+				spawned = true;
+			}
+		}
 	}
 
 	for(int i = 0; i < runner_amount; i++)
 	{
 		randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
-		std::list<Platform*>::iterator it = platforms.begin();
-		std::advance(it, randomPlatformId);
-		enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RUNNER, (*it)->getXCentre(), (*it)->getPosY() - 87));
+		spawned = false;
+
+		while(!spawned)
+		{
+			// Busco esa plataforma y extraigo información
+			std::list<Platform*>::iterator it = platforms.begin();
+			std::advance(it, randomPlatformId);
+			alreadySpawnedAmount = platforms_spawns.at(randomPlatformId);
+
+			if((*it)->getPosX() + 60 > (*it)->getXCentre()) // @suppress("Method cannot be resolved")
+			{
+				initialSpawnX = (*it)->getXCentre(); // @suppress("Method cannot be resolved")
+			}
+			else
+			{
+				initialSpawnX = (*it)->getPosX(); // @suppress("Method cannot be resolved")
+			}
+
+			// Calculo cuanto mas a la derecha lo tengo que spawnear, si me paso del limite de la plataforma busco otra
+			if((initialSpawnX + alreadySpawnedAmount * 120) < ((*it)->getRightLimit() - 60)) // @suppress("Method cannot be resolved")
+			{
+				// Spawneo
+				enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RUNNER, initialSpawnX + alreadySpawnedAmount * 120, (*it)->getPosY() - 90));
+				platforms_spawns.at(randomPlatformId) = alreadySpawnedAmount + 1;
+				spawned = true;
+			}
+		}
 	}
 }
 
