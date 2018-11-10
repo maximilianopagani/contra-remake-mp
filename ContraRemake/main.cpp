@@ -65,12 +65,44 @@ int main(int argc, char** argv)
 		if (parser->loadConfiguration()) {
 			LOGGER_INFO("Carga de configuracion aceptada");
 
-			cout << "---------------------- CANTIDADES MAXIMA DE ENEMIGOS -------------------------" << endl;
-			cout << "La cantidad de enemigos del nivel 1 es: " << parser->getQuantityEnemiesLevel1() << endl;
-			cout << "La cantidad de enemigos del nivel 2 es: " << parser->getQuantityEnemiesLevel2() << endl;
-			cout << "La cantidad de enemigos del nivel 3 es: " << parser->getQuantityEnemiesLevel3() << endl;
+			cout << "---------------------- CANTIDADES MAXIMA DE ENEMIGOS -------------------------" << endl << endl;
+			cout << "NIVEL 1" << endl;
+			cout << "La cantidad de SOLDIERS del nivel 1 es: " << parser->getQuantitySoldiersLevel1() << endl;
+			cout << "La cantidad de SNIPERS del nivel 1 es: " << parser->getQuantitySnipersLevel1() << endl;
+			cout << "La cantidad de GUNNERS del nivel 1 es: " << parser->getQuantityGunnersLevel1() << endl;
+			cout << "La cantidad de SCUBASOLDIERS del nivel 1 es: " << parser->getQuantityScubaSoldiersLevel1() << endl;
+			cout << "La cantidad de WALLTURRETS del nivel 1 es: " << parser->getQuantityWallTurretsLevel1() << endl;
+			cout << "La cantidad de CANNONS del nivel 1 es: " << parser->getQuantityCannonsLevel1() << endl;
+			cout << "La cantidad de FLOATERS del nivel 1 es: " << parser->getQuantityFloatersLevel1() << endl;
+			cout << "La cantidad de SPORES del nivel 1 es: " << parser->getQuantitySporesLevel1() << endl;
+			cout << "La cantidad de CRAWLERS del nivel 1 es: " << parser->getQuantityCrawlersLevel1() << endl;
+			cout << "La cantidad de enemigos del nivel 1 con el Boss es: " << parser->getQuantityEnemiesLevel1() << endl << endl;
 
-			cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 1 --------------------------" << endl;
+			cout << "NIVEL 2" << endl;
+			cout << "La cantidad de SOLDIERS del nivel 2 es: " << parser->getQuantitySoldiersLevel2() << endl;
+			cout << "La cantidad de SNIPERS del nivel 2 es: " << parser->getQuantitySnipersLevel2() << endl;
+			cout << "La cantidad de GUNNERS del nivel 2 es: " << parser->getQuantityGunnersLevel2() << endl;
+			cout << "La cantidad de SCUBASOLDIERS del nivel 2 es: " << parser->getQuantityScubaSoldiersLevel2() << endl;
+			cout << "La cantidad de WALLTURRETS del nivel 2 es: " << parser->getQuantityWallTurretsLevel2() << endl;
+			cout << "La cantidad de CANNONS del nivel 2 es: " << parser->getQuantityCannonsLevel2() << endl;
+			cout << "La cantidad de FLOATERS del nivel 2 es: " << parser->getQuantityFloatersLevel2() << endl;
+			cout << "La cantidad de SPORES del nivel 2 es: " << parser->getQuantitySporesLevel2() << endl;
+			cout << "La cantidad de CRAWLERS del nivel 2 es: " << parser->getQuantityCrawlersLevel2() << endl;
+			cout << "La cantidad de enemigos del nivel 2 con el Boss es: " << parser->getQuantityEnemiesLevel2() << endl << endl;
+
+			cout << "NIVEL 3" << endl;
+			cout << "La cantidad de SOLDIERS del nivel 3 es: " << parser->getQuantitySoldiersLevel3() << endl;
+			cout << "La cantidad de SNIPERS del nivel 3 es: " << parser->getQuantitySnipersLevel3() << endl;
+			cout << "La cantidad de GUNNERS del nivel 3 es: " << parser->getQuantityGunnersLevel3() << endl;
+			cout << "La cantidad de SCUBASOLDIERS del nivel 3 es: " << parser->getQuantityScubaSoldiersLevel3() << endl;
+			cout << "La cantidad de WALLTURRETS del nivel 3 es: " << parser->getQuantityWallTurretsLevel3() << endl;
+			cout << "La cantidad de CANNONS del nivel 3 es: " << parser->getQuantityCannonsLevel3() << endl;
+			cout << "La cantidad de FLOATERS del nivel 3 es: " << parser->getQuantityFloatersLevel3() << endl;
+			cout << "La cantidad de SPORES del nivel 3 es: " << parser->getQuantitySporesLevel3() << endl;
+			cout << "La cantidad de CRAWLERS del nivel 3 es: " << parser->getQuantityCrawlersLevel3() << endl;
+			cout << "La cantidad de enemigos del nivel 3 con el Boss es: " << parser->getQuantityEnemiesLevel3() << endl << endl;
+
+			cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 1 --------------------------" << endl << endl;
 			std::list<ItemParser>::iterator it1;
 			std::list<ItemParser>* lista1;
 
@@ -86,7 +118,7 @@ int main(int argc, char** argv)
 				cout << "El POSY del item de la lista 1 es: " <<  std::to_string(posY) << endl << endl;
 		    }
 
-		    cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 2 --------------------------" << endl;
+		    cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 2 --------------------------" << endl << endl;
 		    std::list<ItemParser>::iterator it2;
 		    std::list<ItemParser>* lista2;
 			lista2 = parser->getItems2();
@@ -101,7 +133,7 @@ int main(int argc, char** argv)
 				cout << "El POSY del item de la lista 2 es: " <<  std::to_string(posY) << endl << endl;
 		    }
 
-		    cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 3 --------------------------" << endl;
+		    cout << "---------------------- LISTADO DE ITEMS DEL NIVEL 3 --------------------------" << endl << endl;
 		    std::list<ItemParser>::iterator it3;
 		    std::list<ItemParser>* lista3;
 			lista3 = parser->getItems3();
@@ -115,7 +147,6 @@ int main(int argc, char** argv)
 				cout << "El POSX del item de la lista 3 es: " <<  std::to_string(posX) << endl;
 				cout << "El POSY del item de la lista 3 es: " <<  std::to_string(posY) << endl << endl;
 		    }
-
 		} else {
 			// se mata al primer logger
 			LOGGER_KILL();

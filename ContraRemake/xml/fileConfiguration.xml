@@ -7,7 +7,17 @@
 			<fondo1>images/background/set1/fondo1.png</fondo1>
 			<fondo2>images/background/set1/fondo2.png</fondo2>
 			<fondo3>images/background/set1/fondo3.png</fondo3>
-			<maximumquantityenemies>10</maximumquantityenemies>
+
+			<quantitysoldiers>1</quantitysoldiers>
+			<quantitysnipers>2</quantitysnipers>
+			<quantitygunners>3</quantitygunners>
+			<quantityscubasoldiers>4</quantityscubasoldiers>
+			<quantitywallturrets>5</quantitywallturrets>
+			<quantitycannons>6</quantitycannons>
+			<quantityfloaters>7</quantityfloaters>
+			<quantityspores>8</quantityspores>
+			<quantitycrawlers>9</quantitycrawlers>
+
 			<items>
 				<item>
 					<id>101</id>				
@@ -229,7 +239,17 @@
 			<fondo1>images/background/set2/fondo1.png</fondo1>
 			<fondo2>images/background/set2/fondo2.png</fondo2>
 			<fondo3>images/background/set2/fondo3.png</fondo3>
-			<maximumquantityenemies>20</maximumquantityenemies>
+			
+			<quantitysoldiers>1</quantitysoldiers>
+			<quantitysnipers>2</quantitysnipers>
+			<quantitygunners>3</quantitygunners>
+			<quantityscubasoldiers>4</quantityscubasoldiers>
+			<quantitywallturrets>5</quantitywallturrets>
+			<quantitycannons>6</quantitycannons>
+			<quantityfloaters>7</quantityfloaters>
+			<quantityspores>8</quantityspores>
+			<quantitycrawlers>9</quantitycrawlers>
+			
 			<items>
 				<item>
 					<id>201</id>				
@@ -534,7 +554,17 @@
 			<fondo1>images/background/set3/fondo1.png</fondo1>
 			<fondo2>images/background/set3/fondo2.png</fondo2>
 			<fondo3>images/background/set3/fondo3.png</fondo3>
-			<maximumquantityenemies>30</maximumquantityenemies>
+
+			<quantitysoldiers>1</quantitysoldiers>
+			<quantitysnipers>2</quantitysnipers>
+			<quantitygunners>3</quantitygunners>
+			<quantityscubasoldiers>4</quantityscubasoldiers>
+			<quantitywallturrets>5</quantitywallturrets>
+			<quantitycannons>6</quantitycannons>
+			<quantityfloaters>7</quantityfloaters>
+			<quantityspores>8</quantityspores>
+			<quantitycrawlers>9</quantitycrawlers>
+
 			<items>
 				<item>
 					<id>301</id>				

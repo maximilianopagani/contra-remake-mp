@@ -18,6 +18,36 @@ GameParser::GameParser() {
 	this->quantityEnemiesLevel1 = 0;
 	this->quantityEnemiesLevel2 = 0;
 	this->quantityEnemiesLevel3 = 0;
+
+	this->quantitySoldiersLevel1 = 0;
+	this->quantitySnipersLevel1 = 0;
+	this->quantityGunnersLevel1 = 0;
+	this->quantityScubaSoldiersLevel1 = 0;
+	this->quantityWallTurretsLevel1 = 0;
+	this->quantityCannonsLevel1 = 0;
+	this->quantityFloatersLevel1 = 0;
+	this->quantitySporesLevel1 = 0;
+	this->quantityCrawlersLevel1 = 0;
+
+	this->quantitySoldiersLevel2 = 0;
+	this->quantitySnipersLevel2 = 0;
+	this->quantityGunnersLevel2 = 0;
+	this->quantityScubaSoldiersLevel2 = 0;
+	this->quantityWallTurretsLevel2 = 0;
+	this->quantityCannonsLevel2 = 0;
+	this->quantityFloatersLevel2 = 0;
+	this->quantitySporesLevel2 = 0;
+	this->quantityCrawlersLevel2 = 0;
+
+	this->quantitySoldiersLevel3 = 0;
+	this->quantitySnipersLevel3 = 0;
+	this->quantityGunnersLevel3 = 0;
+	this->quantityScubaSoldiersLevel3 = 0;
+	this->quantityWallTurretsLevel3 = 0;
+	this->quantityCannonsLevel3 = 0;
+	this->quantityFloatersLevel3 = 0;
+	this->quantitySporesLevel3 = 0;
+	this->quantityCrawlersLevel3 = 0;
 }
 
 bool GameParser::evaluateTagDebug(){
@@ -97,8 +127,24 @@ bool GameParser::evaluateTagNivel1(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
-	string strMaximumQuantityEnemies;
-	int maximumQuantityEnemies = 0;
+	string strQuantitySoldiers;
+	int quantitySoldiers = 0;
+	string strQuantitySnipers;
+	int quantitySnipers = 0;
+	string strQuantityGunners;
+	int quantityGunners = 0;
+	string strQuantityScubaSoldiers;
+	int quantityScubaSoldiers = 0;
+	string strQuantityWallTurrets;
+	int quantityWallTurrets = 0;
+	string strQuantityCannons;
+	int quantityCannons = 0;
+	string strQuantityFloaters;
+	int quantityFloaters = 0;
+	string strQuantitySpores;
+	int quantitySpores = 0;
+	string strQuantityCrawlers;
+	int quantityCrawlers = 0;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
 	TiXmlNode* tagNivel1Node = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL1).ToNode();
@@ -156,25 +202,201 @@ bool GameParser::evaluateTagNivel1(){
 		sucess = false;
 	}
 
-    //TAG_MAXIMUMQUANTITYENEMIES
-	TiXmlNode* tagMaximumQuantityEnemiesNode = tagNivel1Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES);
-	if ((tagMaximumQuantityEnemiesNode)&&(tagNivel1Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText())) {
-		strMaximumQuantityEnemies.clear();
-		strMaximumQuantityEnemies.append(tagNivel1Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText());
-	    if (!strMaximumQuantityEnemies.compare(ZERO)) {
-	    	LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES es cero");
+    //TAG_QUANTITYSOLDIERS
+	TiXmlNode* tagQuantitySoldiersNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYSOLDIERS);
+	if ((tagQuantitySoldiersNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText())) {
+		strQuantitySoldiers.clear();
+		strQuantitySoldiers.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText());
+	    if (!strQuantitySoldiers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 1 es cero");
 	    	sucess = false;
 	    }
 
-	    maximumQuantityEnemies = atoi(strMaximumQuantityEnemies.c_str());
-	    if ((maximumQuantityEnemies>0)&&(maximumQuantityEnemies<1000)) {
-	    	this->quantityEnemiesLevel1 = maximumQuantityEnemies;
+	    quantitySoldiers = atoi(strQuantitySoldiers.c_str());
+	    if ((quantitySoldiers>0)&&(quantitySoldiers<1000)) {
+	    	this->quantitySoldiersLevel1 = quantitySoldiers;
 		}else {
-			LOGGER_DEBUG("MAXIMA CANTIDAD DE ENEMIGOS RECHAZADA DEL NIVEL 1: " + strMaximumQuantityEnemies);
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SOLDIERS RECHAZADA del nivel 1: " + strQuantitySoldiers);
 			sucess = false;
 		}
 	} else {
-		LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES no existe o tiene valores invalidos");
+		LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSNIPERS
+	TiXmlNode* tagQuantitySnipersNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYSNIPERS);
+	if ((tagQuantitySnipersNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYSNIPERS)->GetText())) {
+		strQuantitySnipers.clear();
+		strQuantitySnipers.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYSNIPERS)->GetText());
+	    if (!strQuantitySnipers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSNIPERS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantitySnipers = atoi(strQuantitySnipers.c_str());
+	    if ((quantitySnipers>0)&&(quantitySnipers<1000)) {
+	    	this->quantitySnipersLevel1 = quantitySnipers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SNIPERS RECHAZADA del nivel 1 " + strQuantitySnipers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYGUNNERS
+	TiXmlNode* tagQuantityGunnersNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYGUNNERS);
+	if ((tagQuantityGunnersNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYGUNNERS)->GetText())) {
+		strQuantityGunners.clear();
+		strQuantityGunners.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYGUNNERS)->GetText());
+	    if (!strQuantityGunners.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYGUNNERS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityGunners = atoi(strQuantityGunners.c_str());
+	    if ((quantityGunners>0)&&(quantityGunners<1000)) {
+	    	this->quantityGunnersLevel1 = quantityGunners;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE GUNNERS RECHAZADA del nivel 1: " + strQuantityGunners);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYGUNNERS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSCUBASOLDIERS
+	TiXmlNode* tagQuantityScubaSoldiersNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS);
+	if ((tagQuantityScubaSoldiersNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS)->GetText())) {
+		strQuantityScubaSoldiers.clear();
+		strQuantityScubaSoldiers.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS)->GetText());
+	    if (!strQuantityScubaSoldiers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSCUBASOLDIERS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityScubaSoldiers = atoi(strQuantityScubaSoldiers.c_str());
+	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<1000)) {
+	    	this->quantityScubaSoldiersLevel1 = quantityScubaSoldiers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SCUBASOLDIERS RECHAZADA del nivel 1: " + strQuantityScubaSoldiers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSCUBASOLDIERS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYWALLTURRETS
+	TiXmlNode* tagQuantityWallTurretsNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYWALLTURRETS);
+	if ((tagQuantityWallTurretsNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYWALLTURRETS)->GetText())) {
+		strQuantityWallTurrets.clear();
+		strQuantityWallTurrets.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYWALLTURRETS)->GetText());
+	    if (!strQuantityWallTurrets.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYWALLTURRETS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityWallTurrets = atoi(strQuantityWallTurrets.c_str());
+	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<1000)) {
+	    	this->quantityWallTurretsLevel1 = quantityWallTurrets;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE WALLTURRETS RECHAZADA del nivel 1: " + strQuantityWallTurrets);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYWALLTURRETS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYCANNONS
+	TiXmlNode* tagQuantityCannonsNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYCANNONS);
+	if ((tagQuantityCannonsNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYCANNONS)->GetText())) {
+		strQuantityCannons.clear();
+		strQuantityCannons.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYCANNONS)->GetText());
+	    if (!strQuantityCannons.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYCANNONS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityCannons = atoi(strQuantityCannons.c_str());
+	    if ((quantityCannons>0)&&(quantityCannons<1000)) {
+	    	this->quantityCannonsLevel1 = quantityCannons;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE CANNONS RECHAZADA del nivel 1: " + strQuantityCannons);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYCANNONS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYFLOATERS
+	TiXmlNode* tagQuantityFloatersNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYFLOATERS);
+	if ((tagQuantityFloatersNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYFLOATERS)->GetText())) {
+		strQuantityFloaters.clear();
+		strQuantityFloaters.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYFLOATERS)->GetText());
+	    if (!strQuantityFloaters.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYFLOATERS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityFloaters = atoi(strQuantityFloaters.c_str());
+	    if ((quantityFloaters>0)&&(quantityFloaters<1000)) {
+	    	this->quantityFloatersLevel1 = quantityFloaters;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE FLOATERS RECHAZADA del nivel 1: " + strQuantityFloaters);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYFLOATERS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSPORES
+	TiXmlNode* tagQuantitySporesNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYSPORES);
+	if ((tagQuantitySporesNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYSPORES)->GetText())) {
+		strQuantitySpores.clear();
+		strQuantitySpores.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYSPORES)->GetText());
+	    if (!strQuantitySpores.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSPORES del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantitySpores = atoi(strQuantitySpores.c_str());
+	    if ((quantitySpores>0)&&(quantitySpores<1000)) {
+	    	this->quantitySporesLevel1 = quantitySpores;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SPORES RECHAZADA del nivel 1: " + strQuantitySpores);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSPORES del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYCRAWLERS
+	TiXmlNode* tagQuantityCrawlersNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYCRAWLERS);
+	if ((tagQuantityCrawlersNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYCRAWLERS)->GetText())) {
+		strQuantityCrawlers.clear();
+		strQuantityCrawlers.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYCRAWLERS)->GetText());
+	    if (!strQuantityCrawlers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYCRAWLERS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityCrawlers = atoi(strQuantityCrawlers.c_str());
+	    if ((quantityCrawlers>0)&&(quantityCrawlers<1000)) {
+	    	this->quantityCrawlersLevel1 = quantityCrawlers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE CRAWLERS RECHAZADA del nivel 1: " + strQuantityCrawlers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYCRAWLERS del nivel 1 no existe o tiene valores invalidos");
 		sucess = false;
 	}
 
@@ -186,9 +408,24 @@ bool GameParser::evaluateTagNivel2(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
-	string strMaximumQuantityEnemies;
-	int maximumQuantityEnemies = 0;
-
+	string strQuantitySoldiers;
+	int quantitySoldiers = 0;
+	string strQuantitySnipers;
+	int quantitySnipers = 0;
+	string strQuantityGunners;
+	int quantityGunners = 0;
+	string strQuantityScubaSoldiers;
+	int quantityScubaSoldiers = 0;
+	string strQuantityWallTurrets;
+	int quantityWallTurrets = 0;
+	string strQuantityCannons;
+	int quantityCannons = 0;
+	string strQuantityFloaters;
+	int quantityFloaters = 0;
+	string strQuantitySpores;
+	int quantitySpores = 0;
+	string strQuantityCrawlers;
+	int quantityCrawlers = 0;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
 	TiXmlNode* tagNivel2Node = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL2).ToNode();
@@ -246,25 +483,201 @@ bool GameParser::evaluateTagNivel2(){
 		sucess = false;
 	}
 
-    //TAG_MAXIMUMQUANTITYENEMIES
-	TiXmlNode* tagMaximumQuantityEnemiesNode = tagNivel2Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES);
-	if ((tagMaximumQuantityEnemiesNode)&&(tagNivel2Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText())) {
-		strMaximumQuantityEnemies.clear();
-		strMaximumQuantityEnemies.append(tagNivel2Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText());
-	    if (!strMaximumQuantityEnemies.compare(ZERO)) {
-	    	LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES es cero");
+    //TAG_QUANTITYSOLDIERS
+	TiXmlNode* tagQuantitySoldiersNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYSOLDIERS);
+	if ((tagQuantitySoldiersNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText())) {
+		strQuantitySoldiers.clear();
+		strQuantitySoldiers.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText());
+	    if (!strQuantitySoldiers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 2 es cero");
 	    	sucess = false;
 	    }
 
-	    maximumQuantityEnemies = atoi(strMaximumQuantityEnemies.c_str());
-	    if ((maximumQuantityEnemies>0)&&(maximumQuantityEnemies<1000)) {
-	    	this->quantityEnemiesLevel2 = maximumQuantityEnemies;
+	    quantitySoldiers = atoi(strQuantitySoldiers.c_str());
+	    if ((quantitySoldiers>0)&&(quantitySoldiers<1000)) {
+	    	this->quantitySoldiersLevel2 = quantitySoldiers;
 		}else {
-			LOGGER_DEBUG("MAXIMA CANTIDAD DE ENEMIGOS RECHAZADA DEL NIVEL 2: " + strMaximumQuantityEnemies);
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SOLDIERS RECHAZADA del nivel 2: " + strQuantitySoldiers);
 			sucess = false;
 		}
 	} else {
-		LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES no existe o tiene valores invalidos");
+		LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSNIPERS
+	TiXmlNode* tagQuantitySnipersNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYSNIPERS);
+	if ((tagQuantitySnipersNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYSNIPERS)->GetText())) {
+		strQuantitySnipers.clear();
+		strQuantitySnipers.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYSNIPERS)->GetText());
+	    if (!strQuantitySnipers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSNIPERS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantitySnipers = atoi(strQuantitySnipers.c_str());
+	    if ((quantitySnipers>0)&&(quantitySnipers<1000)) {
+	    	this->quantitySnipersLevel2 = quantitySnipers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SNIPERS RECHAZADA del nivel 2 " + strQuantitySnipers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYGUNNERS
+	TiXmlNode* tagQuantityGunnersNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYGUNNERS);
+	if ((tagQuantityGunnersNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYGUNNERS)->GetText())) {
+		strQuantityGunners.clear();
+		strQuantityGunners.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYGUNNERS)->GetText());
+	    if (!strQuantityGunners.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYGUNNERS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityGunners = atoi(strQuantityGunners.c_str());
+	    if ((quantityGunners>0)&&(quantityGunners<1000)) {
+	    	this->quantityGunnersLevel2 = quantityGunners;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE GUNNERS RECHAZADA del nivel 2: " + strQuantityGunners);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYGUNNERS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSCUBASOLDIERS
+	TiXmlNode* tagQuantityScubaSoldiersNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS);
+	if ((tagQuantityScubaSoldiersNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS)->GetText())) {
+		strQuantityScubaSoldiers.clear();
+		strQuantityScubaSoldiers.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS)->GetText());
+	    if (!strQuantityScubaSoldiers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSCUBASOLDIERS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityScubaSoldiers = atoi(strQuantityScubaSoldiers.c_str());
+	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<1000)) {
+	    	this->quantityScubaSoldiersLevel2 = quantityScubaSoldiers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SCUBASOLDIERS RECHAZADA del nivel 2: " + strQuantityScubaSoldiers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSCUBASOLDIERS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYWALLTURRETS
+	TiXmlNode* tagQuantityWallTurretsNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYWALLTURRETS);
+	if ((tagQuantityWallTurretsNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYWALLTURRETS)->GetText())) {
+		strQuantityWallTurrets.clear();
+		strQuantityWallTurrets.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYWALLTURRETS)->GetText());
+	    if (!strQuantityWallTurrets.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYWALLTURRETS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityWallTurrets = atoi(strQuantityWallTurrets.c_str());
+	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<1000)) {
+	    	this->quantityWallTurretsLevel2 = quantityWallTurrets;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE WALLTURRETS RECHAZADA del nivel 2: " + strQuantityWallTurrets);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYWALLTURRETS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYCANNONS
+	TiXmlNode* tagQuantityCannonsNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYCANNONS);
+	if ((tagQuantityCannonsNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYCANNONS)->GetText())) {
+		strQuantityCannons.clear();
+		strQuantityCannons.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYCANNONS)->GetText());
+	    if (!strQuantityCannons.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYCANNONS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityCannons = atoi(strQuantityCannons.c_str());
+	    if ((quantityCannons>0)&&(quantityCannons<1000)) {
+	    	this->quantityCannonsLevel2 = quantityCannons;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE CANNONS RECHAZADA del nivel 2: " + strQuantityCannons);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYCANNONS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYFLOATERS
+	TiXmlNode* tagQuantityFloatersNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYFLOATERS);
+	if ((tagQuantityFloatersNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYFLOATERS)->GetText())) {
+		strQuantityFloaters.clear();
+		strQuantityFloaters.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYFLOATERS)->GetText());
+	    if (!strQuantityFloaters.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYFLOATERS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityFloaters = atoi(strQuantityFloaters.c_str());
+	    if ((quantityFloaters>0)&&(quantityFloaters<1000)) {
+	    	this->quantityFloatersLevel2 = quantityFloaters;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE FLOATERS RECHAZADA del nivel 2: " + strQuantityFloaters);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYFLOATERS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSPORES
+	TiXmlNode* tagQuantitySporesNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYSPORES);
+	if ((tagQuantitySporesNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYSPORES)->GetText())) {
+		strQuantitySpores.clear();
+		strQuantitySpores.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYSPORES)->GetText());
+	    if (!strQuantitySpores.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSPORES del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantitySpores = atoi(strQuantitySpores.c_str());
+	    if ((quantitySpores>0)&&(quantitySpores<1000)) {
+	    	this->quantitySporesLevel2 = quantitySpores;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SPORES RECHAZADA del nivel 2: " + strQuantitySpores);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSPORES del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYCRAWLERS
+	TiXmlNode* tagQuantityCrawlersNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYCRAWLERS);
+	if ((tagQuantityCrawlersNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYCRAWLERS)->GetText())) {
+		strQuantityCrawlers.clear();
+		strQuantityCrawlers.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYCRAWLERS)->GetText());
+	    if (!strQuantityCrawlers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYCRAWLERS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityCrawlers = atoi(strQuantityCrawlers.c_str());
+	    if ((quantityCrawlers>0)&&(quantityCrawlers<1000)) {
+	    	this->quantityCrawlersLevel2 = quantityCrawlers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE CRAWLERS RECHAZADA del nivel 2: " + strQuantityCrawlers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYCRAWLERS del nivel 2 no existe o tiene valores invalidos");
 		sucess = false;
 	}
 
@@ -276,8 +689,24 @@ bool GameParser::evaluateTagNivel3(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
-	string strMaximumQuantityEnemies;
-	int maximumQuantityEnemies = 0;
+	string strQuantitySoldiers;
+	int quantitySoldiers = 0;
+	string strQuantitySnipers;
+	int quantitySnipers = 0;
+	string strQuantityGunners;
+	int quantityGunners = 0;
+	string strQuantityScubaSoldiers;
+	int quantityScubaSoldiers = 0;
+	string strQuantityWallTurrets;
+	int quantityWallTurrets = 0;
+	string strQuantityCannons;
+	int quantityCannons = 0;
+	string strQuantityFloaters;
+	int quantityFloaters = 0;
+	string strQuantitySpores;
+	int quantitySpores = 0;
+	string strQuantityCrawlers;
+	int quantityCrawlers = 0;
 
 	TiXmlHandle tiXmlHandle(this->tiXmlFileConfig);
 	TiXmlNode* tagNivel3Node = tiXmlHandle.FirstChild(TAG_CONFIGURATION).FirstChild(TAG_ESCENARIOS).FirstChild(TAG_NIVEL3).ToNode();
@@ -334,25 +763,201 @@ bool GameParser::evaluateTagNivel3(){
 		sucess = false;
 	}
 
-    //TAG_MAXIMUMQUANTITYENEMIES
-	TiXmlNode* tagMaximumQuantityEnemiesNode = tagNivel3Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES);
-	if ((tagMaximumQuantityEnemiesNode)&&(tagNivel3Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText())) {
-		strMaximumQuantityEnemies.clear();
-		strMaximumQuantityEnemies.append(tagNivel3Node->FirstChildElement(TAG_MAXIMUMQUANTITYENEMIES)->GetText());
-	    if (!strMaximumQuantityEnemies.compare(ZERO)) {
-	    	LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES es cero");
+    //TAG_QUANTITYSOLDIERS
+	TiXmlNode* tagQuantitySoldiersNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYSOLDIERS);
+	if ((tagQuantitySoldiersNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText())) {
+		strQuantitySoldiers.clear();
+		strQuantitySoldiers.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText());
+	    if (!strQuantitySoldiers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 3 es cero");
 	    	sucess = false;
 	    }
 
-	    maximumQuantityEnemies = atoi(strMaximumQuantityEnemies.c_str());
-	    if ((maximumQuantityEnemies>0)&&(maximumQuantityEnemies<1000)) {
-	    	this->quantityEnemiesLevel3 = maximumQuantityEnemies;
+	    quantitySoldiers = atoi(strQuantitySoldiers.c_str());
+	    if ((quantitySoldiers>0)&&(quantitySoldiers<1000)) {
+	    	this->quantitySoldiersLevel3 = quantitySoldiers;
 		}else {
-			LOGGER_DEBUG("MAXIMA CANTIDAD DE ENEMIGOS RECHAZADA DEL NIVEL 3: " + strMaximumQuantityEnemies);
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SOLDIERS RECHAZADA del nivel 3: " + strQuantitySoldiers);
 			sucess = false;
 		}
 	} else {
-		LOGGER_DEBUG("TAG_MAXIMUMQUANTITYENEMIES no existe o tiene valores invalidos");
+		LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSNIPERS
+	TiXmlNode* tagQuantitySnipersNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYSNIPERS);
+	if ((tagQuantitySnipersNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYSNIPERS)->GetText())) {
+		strQuantitySnipers.clear();
+		strQuantitySnipers.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYSNIPERS)->GetText());
+	    if (!strQuantitySnipers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSNIPERS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantitySnipers = atoi(strQuantitySnipers.c_str());
+	    if ((quantitySnipers>0)&&(quantitySnipers<1000)) {
+	    	this->quantitySnipersLevel3 = quantitySnipers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SNIPERS RECHAZADA del nivel 3 " + strQuantitySnipers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSOLDIERS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYGUNNERS
+	TiXmlNode* tagQuantityGunnersNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYGUNNERS);
+	if ((tagQuantityGunnersNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYGUNNERS)->GetText())) {
+		strQuantityGunners.clear();
+		strQuantityGunners.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYGUNNERS)->GetText());
+	    if (!strQuantityGunners.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYGUNNERS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityGunners = atoi(strQuantityGunners.c_str());
+	    if ((quantityGunners>0)&&(quantityGunners<1000)) {
+	    	this->quantityGunnersLevel3 = quantityGunners;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE GUNNERS RECHAZADA del nivel 3: " + strQuantityGunners);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYGUNNERS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSCUBASOLDIERS
+	TiXmlNode* tagQuantityScubaSoldiersNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS);
+	if ((tagQuantityScubaSoldiersNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS)->GetText())) {
+		strQuantityScubaSoldiers.clear();
+		strQuantityScubaSoldiers.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYSCUBASOLDIERS)->GetText());
+	    if (!strQuantityScubaSoldiers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSCUBASOLDIERS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityScubaSoldiers = atoi(strQuantityScubaSoldiers.c_str());
+	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<1000)) {
+	    	this->quantityScubaSoldiersLevel3 = quantityScubaSoldiers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SCUBASOLDIERS RECHAZADA del nivel 3: " + strQuantityScubaSoldiers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSCUBASOLDIERS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYWALLTURRETS
+	TiXmlNode* tagQuantityWallTurretsNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYWALLTURRETS);
+	if ((tagQuantityWallTurretsNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYWALLTURRETS)->GetText())) {
+		strQuantityWallTurrets.clear();
+		strQuantityWallTurrets.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYWALLTURRETS)->GetText());
+	    if (!strQuantityWallTurrets.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYWALLTURRETS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityWallTurrets = atoi(strQuantityWallTurrets.c_str());
+	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<1000)) {
+	    	this->quantityWallTurretsLevel3 = quantityWallTurrets;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE WALLTURRETS RECHAZADA del nivel 3: " + strQuantityWallTurrets);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYWALLTURRETS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYCANNONS
+	TiXmlNode* tagQuantityCannonsNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYCANNONS);
+	if ((tagQuantityCannonsNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYCANNONS)->GetText())) {
+		strQuantityCannons.clear();
+		strQuantityCannons.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYCANNONS)->GetText());
+	    if (!strQuantityCannons.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYCANNONS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityCannons = atoi(strQuantityCannons.c_str());
+	    if ((quantityCannons>0)&&(quantityCannons<1000)) {
+	    	this->quantityCannonsLevel3 = quantityCannons;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE CANNONS RECHAZADA del nivel 3: " + strQuantityCannons);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYCANNONS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYFLOATERS
+	TiXmlNode* tagQuantityFloatersNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYFLOATERS);
+	if ((tagQuantityFloatersNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYFLOATERS)->GetText())) {
+		strQuantityFloaters.clear();
+		strQuantityFloaters.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYFLOATERS)->GetText());
+	    if (!strQuantityFloaters.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYFLOATERS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityFloaters = atoi(strQuantityFloaters.c_str());
+	    if ((quantityFloaters>0)&&(quantityFloaters<1000)) {
+	    	this->quantityFloatersLevel3 = quantityFloaters;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE FLOATERS RECHAZADA del nivel 3: " + strQuantityFloaters);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYFLOATERS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYSPORES
+	TiXmlNode* tagQuantitySporesNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYSPORES);
+	if ((tagQuantitySporesNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYSPORES)->GetText())) {
+		strQuantitySpores.clear();
+		strQuantitySpores.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYSPORES)->GetText());
+	    if (!strQuantitySpores.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYSPORES del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantitySpores = atoi(strQuantitySpores.c_str());
+	    if ((quantitySpores>0)&&(quantitySpores<1000)) {
+	    	this->quantitySporesLevel3 = quantitySpores;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE SPORES RECHAZADA del nivel 3: " + strQuantitySpores);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYSPORES del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYCRAWLERS
+	TiXmlNode* tagQuantityCrawlersNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYCRAWLERS);
+	if ((tagQuantityCrawlersNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYCRAWLERS)->GetText())) {
+		strQuantityCrawlers.clear();
+		strQuantityCrawlers.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYCRAWLERS)->GetText());
+	    if (!strQuantityCrawlers.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYCRAWLERS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityCrawlers = atoi(strQuantityCrawlers.c_str());
+	    if ((quantityCrawlers>0)&&(quantityCrawlers<1000)) {
+	    	this->quantityCrawlersLevel3 = quantityCrawlers;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE CRAWLERS RECHAZADA del nivel 3: " + strQuantityCrawlers);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYCRAWLERS del nivel 3 no existe o tiene valores invalidos");
 		sucess = false;
 	}
 
@@ -830,15 +1435,30 @@ const string& GameParser::getLevel() const {
 	return level;
 }
 
-int GameParser::getQuantityEnemiesLevel1() const {
+int GameParser::getQuantityEnemiesLevel1() {
+	int totalEnemies = 0;
+	totalEnemies = this->getQuantityCannonsLevel1()+this->getQuantityCrawlersLevel1()+this->getQuantityFloatersLevel1()+
+				   this->getQuantityGunnersLevel1()+this->getQuantityScubaSoldiersLevel1()+this->getQuantitySnipersLevel1()+
+				   this->getQuantitySoldiersLevel1()+this->getQuantitySporesLevel1()+this->getQuantityWallTurretsLevel1();
+	this->quantityEnemiesLevel1 = totalEnemies+1;//Tomando en cuenta al BOSS del nivel 1.
 	return quantityEnemiesLevel1;
 }
 
-int GameParser::getQuantityEnemiesLevel2() const {
+int GameParser::getQuantityEnemiesLevel2(){
+	int totalEnemies = 0;
+	totalEnemies = this->getQuantityCannonsLevel2()+this->getQuantityCrawlersLevel2()+this->getQuantityFloatersLevel2()+
+				   this->getQuantityGunnersLevel2()+this->getQuantityScubaSoldiersLevel2()+this->getQuantitySnipersLevel2()+
+				   this->getQuantitySoldiersLevel2()+this->getQuantitySporesLevel2()+this->getQuantityWallTurretsLevel2();
+	this->quantityEnemiesLevel2 = totalEnemies+1;//Tomando en cuenta al BOSS del nivel 2.
 	return quantityEnemiesLevel2;
 }
 
-int GameParser::getQuantityEnemiesLevel3() const {
+int GameParser::getQuantityEnemiesLevel3(){
+	int totalEnemies = 0;
+	totalEnemies = this->getQuantityCannonsLevel3()+this->getQuantityCrawlersLevel3()+this->getQuantityFloatersLevel3()+
+				   this->getQuantityGunnersLevel3()+this->getQuantityScubaSoldiersLevel3()+this->getQuantitySnipersLevel3()+
+				   this->getQuantitySoldiersLevel3()+this->getQuantitySporesLevel3()+this->getQuantityWallTurretsLevel3();
+	this->quantityEnemiesLevel3 = totalEnemies+1;//Tomando en cuenta al BOSS del nivel 3.
 	return quantityEnemiesLevel3;
 }
 
@@ -864,4 +1484,112 @@ const std::list<ItemParser>& GameParser::getItems2() const {
 
 const std::list<ItemParser>& GameParser::getItems3() const {
 	return items3;
+}
+
+int GameParser::getQuantityCannonsLevel1() const {
+	return quantityCannonsLevel1;
+}
+
+int GameParser::getQuantityCannonsLevel2() const {
+	return quantityCannonsLevel2;
+}
+
+int GameParser::getQuantityCannonsLevel3() const {
+	return quantityCannonsLevel3;
+}
+
+int GameParser::getQuantityCrawlersLevel1() const {
+	return quantityCrawlersLevel1;
+}
+
+int GameParser::getQuantityCrawlersLevel2() const {
+	return quantityCrawlersLevel2;
+}
+
+int GameParser::getQuantityCrawlersLevel3() const {
+	return quantityCrawlersLevel3;
+}
+
+int GameParser::getQuantityFloatersLevel1() const {
+	return quantityFloatersLevel1;
+}
+
+int GameParser::getQuantityFloatersLevel2() const {
+	return quantityFloatersLevel2;
+}
+
+int GameParser::getQuantityFloatersLevel3() const {
+	return quantityFloatersLevel3;
+}
+
+int GameParser::getQuantityGunnersLevel1() const {
+	return quantityGunnersLevel1;
+}
+
+int GameParser::getQuantityGunnersLevel2() const {
+	return quantityGunnersLevel2;
+}
+
+int GameParser::getQuantityGunnersLevel3() const {
+	return quantityGunnersLevel3;
+}
+
+int GameParser::getQuantityScubaSoldiersLevel1() const {
+	return quantityScubaSoldiersLevel1;
+}
+
+int GameParser::getQuantityScubaSoldiersLevel2() const {
+	return quantityScubaSoldiersLevel2;
+}
+
+int GameParser::getQuantityScubaSoldiersLevel3() const {
+	return quantityScubaSoldiersLevel3;
+}
+
+int GameParser::getQuantitySnipersLevel1() const {
+	return quantitySnipersLevel1;
+}
+
+int GameParser::getQuantitySnipersLevel2() const {
+	return quantitySnipersLevel2;
+}
+
+int GameParser::getQuantitySnipersLevel3() const {
+	return quantitySnipersLevel3;
+}
+
+int GameParser::getQuantitySoldiersLevel1() const {
+	return quantitySoldiersLevel1;
+}
+
+int GameParser::getQuantitySoldiersLevel2() const {
+	return quantitySoldiersLevel2;
+}
+
+int GameParser::getQuantitySoldiersLevel3() const {
+	return quantitySoldiersLevel3;
+}
+
+int GameParser::getQuantitySporesLevel1() const {
+	return quantitySporesLevel1;
+}
+
+int GameParser::getQuantitySporesLevel2() const {
+	return quantitySporesLevel2;
+}
+
+int GameParser::getQuantitySporesLevel3() const {
+	return quantitySporesLevel3;
+}
+
+int GameParser::getQuantityWallTurretsLevel1() const {
+	return quantityWallTurretsLevel1;
+}
+
+int GameParser::getQuantityWallTurretsLevel2() const {
+	return quantityWallTurretsLevel2;
+}
+
+int GameParser::getQuantityWallTurretsLevel3() const {
+	return quantityWallTurretsLevel3;
 }
