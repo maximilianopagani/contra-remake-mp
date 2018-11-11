@@ -274,6 +274,12 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 			{
 				// Spawneo
 				enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RIFLEMAN, initialSpawnX + alreadySpawnedAmount * 120, (*it)->getPosY() - 100));
+
+				// TODO quitar desp de hacerlos random
+				int pox = initialSpawnX + alreadySpawnedAmount * 120;
+				int poy = (*it)->getPosY() - 100;
+				cout << "posX: " << pox << " posY: " << poy << endl;
+
 				platforms_spawns.at(randomPlatformId) = alreadySpawnedAmount + 1;
 				spawned = true;
 			}

@@ -1,7 +1,5 @@
 /*
  * ServerParser.cpp
- *
- *  Created on: Oct 2, 2018
  *      Author: synergy
  */
 
@@ -10,10 +8,8 @@
 namespace std {
 
 ServerParser::ServerParser() {
-	// TODO Auto-generated constructor stub
 	this->maximumquantityclients = 0;
 	this->port = 0;
-
 	this->fileConfigLoaded = false;
 	this->defaultfileConfigLoaded = false;
 	this->tiXmlFileConfig = NULL;
@@ -227,41 +223,39 @@ bool ServerParser::loadConfiguration() {
 	return sucess;
 }
 
-void ServerParser::testDataServerParser() {
-
-	int maxClients = this->maximumquantityclients;
-	cout << "La cantidad maxima de clientes es: ";
-	cout << maxClients << endl;
-
-	int puerto = this->port;
-	cout << "El puerto de conexion del servidor es: ";
-	cout << puerto << endl;
-
-	cout << "LISTADO DE TODOS LOS CLIENTES" << endl;
-	std::list<UserParser>::iterator it;
-	std::list<UserParser> lista;
-
-	lista = this->getUsers();
-    for (it=lista.begin(); it != lista.end();it++){
-        int id = (*it).getId();
-        string name = (*it).getName();
-        string password = (*it).getName();
-
-    	cout << "El id del usuario es: ";
-    	cout << id << endl;
-    	cout << "El nombre del usuario es: ";
-    	cout << name << endl;
-    	cout << "El password del usuario es: ";
-    	cout << password << endl;
-    }
-}
+//void ServerParser::testDataServerParser() {
+//
+//	int maxClients = this->maximumquantityclients;
+//	cout << "La cantidad maxima de clientes es: ";
+//	cout << maxClients << endl;
+//
+//	int puerto = this->port;
+//	cout << "El puerto de conexion del servidor es: ";
+//	cout << puerto << endl;
+//
+//	cout << "LISTADO DE TODOS LOS CLIENTES" << endl;
+//	std::list<UserParser>::iterator it;
+//	std::list<UserParser> lista;
+//
+//	lista = this->getUsers();
+//    for (it=lista.begin(); it != lista.end();it++){
+//        int id = (*it).getId();
+//        string name = (*it).getName();
+//        string password = (*it).getName();
+//
+//    	cout << "El id del usuario es: ";
+//    	cout << id << endl;
+//    	cout << "El nombre del usuario es: ";
+//    	cout << name << endl;
+//    	cout << "El password del usuario es: ";
+//    	cout << password << endl;
+//    }
+//}
 
 const list<UserParser>& ServerParser::getUsers() const {
 	return users;
 }
 
-ServerParser::~ServerParser() {
-	// TODO Auto-generated destructor stub
-}
+ServerParser::~ServerParser() {}
 
-} /* namespace std */
+}

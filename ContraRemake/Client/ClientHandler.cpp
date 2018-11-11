@@ -60,7 +60,7 @@ void* ClientHandler::receiveMessagesThread(void* client)
 {
 	LOGGER_DEBUG("Iniciando receiveMessagesThread");
 	((ClientHandler*)client)->receiveMessages();
-	cout<<"Sali del receive messages"<<endl;
+	LOGGER_DEBUG("Finalizado receiveMessagesThread");
 	return nullptr;
 }
 
@@ -68,8 +68,7 @@ void* ClientHandler::processMessagesThread(void* client)
 {
 	LOGGER_DEBUG("Iniciando processMessagesThread");
 	((ClientHandler*)client)->processMessages();
-
-	cout<<"Sali del procces messages"<<endl;
+	LOGGER_DEBUG("Finalizado processMessagesThread");
 	return nullptr;
 }
 
@@ -78,7 +77,7 @@ void ClientHandler::sendToServer(Message* message)
 	char msg[256];
 	string sep = ": ";
 	message->getContent(msg);
-	//LOGGER_DEBUG("Mensaje enviado al servidor" + sep + msg);
+//	LOGGER_DEBUG("Mensaje enviado al servidor" + sep + msg);
 	send(network_socket, msg, 256, 0);
 	delete message;
 }

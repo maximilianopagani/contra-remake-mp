@@ -61,7 +61,7 @@ class Enemy: public ICollisional
 
 		Uint32 lastShotTime;
 		int shotCooldown;
-		int distanceToTravel = 375;
+		int distanceToTravel = 325;
 
 		int timeAtIterationStart;
 		EnemyType type;

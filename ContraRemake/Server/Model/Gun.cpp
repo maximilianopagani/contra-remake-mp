@@ -84,7 +84,7 @@ void Gun::shoot(int aimingAt, int state, int pos_x, int pos_y)
 				bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -10, 0, distanceToTravel, serverMessageHandler));
 				if (bulletType == BulletType::TRIPLE)
 				{
-					if (state == STATE_WALKINGRIGHT)
+					if (state == STATE_WALKINGLEFT)
 					{
 						bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -9, -5, distanceToTravel, serverMessageHandler));
 						bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -9, 5, distanceToTravel, serverMessageHandler));

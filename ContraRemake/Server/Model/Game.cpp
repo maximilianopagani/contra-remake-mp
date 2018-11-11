@@ -60,7 +60,7 @@ void Game::runGame()
 		this->handleEvents();
 
 		//----------------------------------------------------------------------
-		//Actualizo todo lo que vaya pasando acorde a los eventos
+		//Actualizo to.do lo que vaya pasando acorde a los eventos
 		this->update();
 
 		//----------------------------------------------------------------------
@@ -492,40 +492,6 @@ void Game::update()
     	}
     }
 
-    //BalasEnemigo-Jugador
-    for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
-	{
-    	bullets = (*enemiesIterator)->getBulletList(); // @suppress("Method cannot be resolved")
-
-    	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
-		{
-			bool collided = false;
-
-			for(int i = 0; i < max_players; i++)
-			{
-				if(players.at(i)->isOnline() && players.at(i)->isAlive() && !players.at(i)->isImmortal())
-				{
-					if(CollisionHelper::collides(*bulletsIterator, players.at(i)))
-				    {
-						players.at(i)->kill();
-
-						delete (*bulletsIterator);
-						bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
-
-						collided = true;
-
-						break;
-				    }
-				}
-			}
-
-			if(!collided) // Si no colisionó, muevo el iterador manualmente (si colisionó ya lo moví al eliminarlo)
-			{
-				++bulletsIterator;
-			}
-		}
-	}
-
     //BalasJugador-Enemigo
     for(int i = 0; i < max_players; i++)
     {
@@ -569,6 +535,40 @@ void Game::update()
         	}
     	}
     }
+
+    //BalasEnemigo-Jugador
+    for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
+	{
+    	bullets = (*enemiesIterator)->getBulletList(); // @suppress("Method cannot be resolved")
+
+    	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
+		{
+			bool collided = false;
+
+			for(int i = 0; i < max_players; i++)
+			{
+				if(players.at(i)->isOnline() && players.at(i)->isAlive() && !players.at(i)->isImmortal())
+				{
+					if(CollisionHelper::collides(*bulletsIterator, players.at(i)))
+				    {
+						players.at(i)->kill();
+
+						delete (*bulletsIterator);
+						bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+
+						collided = true;
+
+						break;
+				    }
+				}
+			}
+
+			if(!collided) // Si no colisionó, muevo el iterador manualmente (si colisionó ya lo moví al eliminarlo)
+			{
+				++bulletsIterator;
+			}
+		}
+	}
 
     //============================================================================================================
 
