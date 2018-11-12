@@ -254,14 +254,12 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 
 		while(!spawned)
 		{
-			randomPlatformId = (rand() % (platformsAmount-1)) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
+			randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 
 			// Busco esa plataforma y extraigo información
 			std::list<Platform*>::iterator it = platforms.begin();
 			std::advance(it, randomPlatformId);
 			alreadySpawnedAmount = platforms_spawns.at(randomPlatformId);
-
-			cout << "plataforma random id " << randomPlatformId<< endl;
 
 			if((*it)->getPosX() + 60 > (*it)->getXCentre()) // @suppress("Method cannot be resolved")
 			{

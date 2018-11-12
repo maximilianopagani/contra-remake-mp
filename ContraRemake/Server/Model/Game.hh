@@ -25,6 +25,8 @@ class Game
         void runGame();
         void handleEvents();
         void processMessage(MessageServer* message);
+        void handleGameFPS();
+        void handleLevelChange();
         void update();
         void render();
         void destroy();
@@ -40,7 +42,12 @@ class Game
     private:
 
         bool enEjecucion;
-        int FPS;
+
+        //========== Manejo de la velocidad del juego =============
+        int game_FPS, frame_max_ms_duration;
+        int frame_ms_duration = 0;
+        Uint32 time_at_frame_start = 0;
+        //=========================================================
 
         int currentLevel;
         int changeLevelNextFrame = false;

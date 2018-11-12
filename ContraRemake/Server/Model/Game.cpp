@@ -11,7 +11,11 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	serverMessageHandler = _serverMessageHandler;
 	server = _server;
 	max_players = _max_players;
-	FPS = _FPS;
+
+	//========== Manejo de la velocidad del juego =============
+	game_FPS = _FPS;
+	frame_max_ms_duration = 1000 / game_FPS;
+	//=========================================================
 }
 
 Game::~Game()
@@ -35,47 +39,43 @@ void Game::init()
     }
 }
 
+void Game::handleGameFPS()
+{
+    frame_ms_duration = Utils::getTicks() - time_at_frame_start;
+	//std::cout<<"Tiempo de iteracion: "<<frame_ms_duration<<"ms"<<std::endl;
+
+	if(frame_ms_duration < frame_max_ms_duration)
+	{
+		Utils::setDelay(frame_max_ms_duration - frame_ms_duration);
+	}
+
+	time_at_frame_start = Utils::getTicks();
+}
+
+void Game::handleLevelChange()
+{
+	if(changeLevelNextFrame)
+	{
+		this->nextLevel();
+		changeLevelNextFrame = false;
+	}
+}
+
 void Game::runGame()
 {
-	//============= MANEJO DEL FRAMERATE =============
-	const int frameDelay = 1000 / FPS;
-	Uint32 timeAtIterationStart;
-	int iterationTime;
-	//================================================
-
 	while(enEjecucion)
 	{
-		//============= MANEJO DEL FRAMERATE =============
-		timeAtIterationStart = Utils::getTicks();
-		//================================================
+		//========== Manejo de la velocidad del juego =============
+		this->handleGameFPS();
+		//=========================================================
 
-		if(changeLevelNextFrame)
-		{
-			this->nextLevel();
-			changeLevelNextFrame = false;
-		}
+		this->handleLevelChange();
 
-		//----------------------------------------------------------------------
-		//Aca tengo que poner algo que reciba mensaje y los pushee
 		this->handleEvents();
 
-		//----------------------------------------------------------------------
-		//Actualizo to.do lo que vaya pasando acorde a los eventos
 		this->update();
 
-		//----------------------------------------------------------------------
-		//Dibujo toda la escena
 		this->render();
-
-		//============= MANEJO DEL FRAMERATE =============
-		iterationTime = Utils::getTicks() - timeAtIterationStart;
-		//std::cout<<"Tiempo de iteracion: "<<iterationTime<<"ms"<<std::endl;
-
-		if(frameDelay > iterationTime) // Si lo que tardó la iteracion es menor a lo que debe tardar un ciclo para mostrarse a la tasa de frames deseada
-		{
-			Utils::setDelay(frameDelay - iterationTime);
-		}
-		//================================================
 	}
 }
 
