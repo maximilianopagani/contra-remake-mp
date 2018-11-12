@@ -244,6 +244,8 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 		platforms_spawns.push_back(0);
 	}
 
+	srand(time(0)); // Cambio la semilla del generador de aleatorios para que no se repitan en distintas ejecuciones del juego
+
 	LOGGER_DEBUG("Iniciando creación de " + std::to_string(rifleman_amount) + " riflemans.");
 
 	for(int i = 0; i < rifleman_amount; i++)
@@ -252,12 +254,14 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 
 		while(!spawned)
 		{
-			randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
+			randomPlatformId = (rand() % (platformsAmount-1)) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 
 			// Busco esa plataforma y extraigo información
 			std::list<Platform*>::iterator it = platforms.begin();
 			std::advance(it, randomPlatformId);
 			alreadySpawnedAmount = platforms_spawns.at(randomPlatformId);
+
+			cout << "plataforma random id " << randomPlatformId<< endl;
 
 			if((*it)->getPosX() + 60 > (*it)->getXCentre()) // @suppress("Method cannot be resolved")
 			{
