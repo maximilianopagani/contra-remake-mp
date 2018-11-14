@@ -426,6 +426,7 @@ void Game::update()
 				if(CollisionHelper::collides(players.at(i), *itemsIterator))
 				{
 					players.at(i)->pickupItem(*itemsIterator);
+					serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,1,0));
 					delete (*itemsIterator);
 					items->erase(itemsIterator++);
 

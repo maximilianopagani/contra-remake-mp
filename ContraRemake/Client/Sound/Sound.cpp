@@ -17,12 +17,16 @@ Sound::Sound() {
 	musicLevel1= Mix_LoadMUS("../Sonidos/musica/Stage1.mp3");
 	musicLevel2= Mix_LoadMUS("../Sonidos/musica/Stage2.mp3");
 	musicLevel3= Mix_LoadMUS("../Sonidos/musica/megadeth.mp3");
+	gameover= Mix_LoadMUS("../Sonidos/musica/gameOver.mp3");
+
+	item= Mix_LoadWAV("../Sonidos/effects/item.wav");
 
 	dead =  Mix_LoadWAV("../Sonidos/player/dead.wav");
 
 	enemy_dead =  Mix_LoadWAV("../Sonidos/enemys/enemyDead.wav");
 
-	bullet1 = Mix_LoadWAV("../Sonidos/bullet/bullet1.wav");
+	bullet1 = Mix_LoadWAV("../Sonidos/bullet/bulletNormal.wav");
+	bullet2 = Mix_LoadWAV("../Sonidos/bullet/bulletTriple.wav");
 
 }
 void Sound::init(){
@@ -52,6 +56,14 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 			}
 
 		case 1:{
+					if(subtype == 0){
+						Mix_PlayChannel(2,item,loops);
+						Mix_VolumeChunk(item, volumen+10);
+					}
+					if(subtype == 1){
+						Mix_HaltMusic();
+						Mix_PlayMusic(gameover,0);
+					}
 
 					break;
 			}
@@ -76,7 +88,15 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 
 		case 4:{
 					if(subtype == 0){
-						Mix_PlayChannel(2,bullet1, loops);
+						Mix_PlayChannel(3,bullet1, loops);
+						Mix_VolumeChunk(bullet1, volumen+10);
+					}
+					if(subtype == 1){
+						Mix_PlayChannel(3,bullet2, loops);
+						Mix_VolumeChunk(bullet2, volumen+10);
+					}
+					if(subtype == 2){
+						Mix_PlayChannel(3,bullet1, loops);
 						Mix_VolumeChunk(bullet1, volumen+10);
 					}
 
@@ -87,9 +107,6 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 		Mix_VolumeMusic(volumen);
 }
 
-void Sound::playMusic(Music_Types type , int loops , int volumen){
-
-}
 
 void Sound::stopMustic(){
 	Mix_HaltMusic();

@@ -171,5 +171,7 @@ void Gun::shoot(int aimingAt, int state, int pos_x, int pos_y)
 		}
 
 		lastShotTime = currentShotTime;
+
+		serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,4,bulletType));
 	}
 }

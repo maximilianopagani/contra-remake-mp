@@ -301,6 +301,11 @@ void ClientMessageHandler::processMessage(Message* message)
 					int player_id = atoi(param1);
 					int amount = atoi(param2);
 					livesView->render(player_id, amount);
+					if(amount == 0 && oneTime) {
+						sound->play(1,1,0,50);
+						oneTime = false ;
+					}
+
 					break;
 				}
 			}
@@ -314,7 +319,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				{
 					int type = atoi(param1);
 					int subtype = atoi(param2);
-					sound->play(type,subtype, 0, 50);
+					sound->play(type,subtype,0, 50);
 					break;
 				}
 			}

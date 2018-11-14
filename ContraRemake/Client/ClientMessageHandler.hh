@@ -40,6 +40,8 @@ class ClientMessageHandler
 
 	private:
 
+		bool oneTime=true;
+
 		ClientHandler* client = NULL;
 
 		GameView* gameView;
