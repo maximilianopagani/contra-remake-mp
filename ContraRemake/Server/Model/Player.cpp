@@ -63,7 +63,7 @@ void Player::pickupItem(Item* item)
 
 void Player::renderLives()
 {
-	serverMessageHandler->sendToAllClients(new MessageServer(LIVES, RENDER, player_id, lives_remaining));
+	serverMessageHandler->sendToAllClients(new MessageServer(LIVES, RENDER, player_id, lives_remaining, immortal_mode));
 }
 
 void Player::renderPlayer()
@@ -170,7 +170,7 @@ void Player::handleKeys(const Uint8* playerKeyStates)
 	{
 		Uint32 currentTime = Utils::getTicks();
 
-		if(last_immortal_mode + 1000 < currentTime)
+		if(last_immortal_mode + 500 < currentTime)
 		{
 			if(immortal_mode)
 				immortal_mode = false;
@@ -476,11 +476,9 @@ void Player::updateCollisionBox()
 	else if(state == STATE_JUMPINGUP || state == STATE_JUMPINGDOWN)
 	{
 		col_box_xi = pos_x + 15;
-		col_box_yi = pos_y + 27; // Esto es lo que se ajusta para el col box
+		col_box_yi = pos_y + 41; // Esto es lo que se ajusta para el col box
 		col_box_xf = pos_x + 46 - 15;
-		col_box_yf = pos_y + 87; // Pongo esto y no le da abajo porque sino me queda un rectangulo de alto menor al de la textura y al venir de un estado anterior
-		// con altura mayor, la posxy es distinta y no colisiona bien, la solucion seria rehacer los sprites de salto, haciendo que el player girando quede bien abajo en la sprite
-		//col_box_yf = col_box_yi + 46; // Esto es lo que se ajusta para el col box
+		col_box_yf = col_box_yi + 46; // Esto es lo que se ajusta para el col box
 	}
 	else
 	{

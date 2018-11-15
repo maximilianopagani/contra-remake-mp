@@ -300,7 +300,8 @@ void ClientMessageHandler::processMessage(Message* message)
 				{
 					int player_id = atoi(param1);
 					int amount = atoi(param2);
-					livesView->render(player_id, amount);
+					int immortal = atoi(param3);
+					livesView->render(player_id, amount, immortal);
 					if(amount == 0 && oneTime) {
 						sound->play(1,1,0,50);
 						oneTime = false ;
