@@ -171,6 +171,7 @@ void Game::processMessage(MessageServer* message)
 					serverMessageHandler->sendToClientId(playerid, new MessageServer(LEVEL, LOAD, level->getBackground2Path(), "2"));
 					serverMessageHandler->sendToClientId(playerid, new MessageServer(LEVEL, LOAD, level->getBackground3Path(), "3"));
 					//mandar audio de musica de nivel
+					serverMessageHandler->sendToClientId(playerid, new MessageServer(SOUND, LOAD, 0, currentLevel + 1));
 					// si no mando a recargar los fondos tira segmentation fault, seguramente pq quiere acceder a sprites nulos que no estan creados en playerview del cliente
 					LOGGER_INFO("Envío recarga por reconexion");
 					players.at(playerid)->setOnlineAgain();
@@ -422,7 +423,8 @@ void Game::update()
 				if(CollisionHelper::collides(players.at(i), *itemsIterator))
 				{
 					players.at(i)->pickupItem(*itemsIterator);
-					serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,1,0));
+					serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 1, 0));
+
 					delete (*itemsIterator);
 					items->erase(itemsIterator++);
 
@@ -504,10 +506,8 @@ void Game::update()
         		{
         			if(CollisionHelper::collides(*bulletsIterator, *enemiesIterator))
         			{
-        				serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
-        			    //level->deleteEnemy(*enemiesIterator); // ver con cuidado esto de borrar cosas mientras se itera una lista que la contiene
-
         				players.at(i)->increaseScore(50);
+        				serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 2,0));
 
         			    delete (*enemiesIterator);
         			    enemies->erase(enemiesIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
@@ -579,7 +579,6 @@ void Game::update()
 			{
 				if(players.at(i)->isAlive() && !players.at(i)->isImmortal())
 				{
-					serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,3,0));
 					players.at(i)->kill();
 				}
 

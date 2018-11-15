@@ -139,6 +139,7 @@ void Enemy::update()
 						bullets.push_back(new Bullet(cameraLogic, posX + bullet_offset_x, posY + bullet_offset_y, velocity_x, velocity_y, distanceToTravel, serverMessageHandler));
 						lastShotTime = currentShotTime;
 						shotCooldown = 1000 + rand() % 1500; // Cierta incertudimbre sobre cuan seguido dispara, para que no sea tan predecible
+						serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 4, 2));
 					}
 				}
 				break;

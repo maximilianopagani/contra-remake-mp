@@ -410,6 +410,15 @@ void Player::kill()
 {
 	state = STATE_DEAD;
 	lives_remaining--;
+
+	if(this->outOfLives())
+	{
+		serverMessageHandler->sendToClientId(player_id, new MessageServer(SOUND, LOAD, 1, 1)); // Musica de gameover solo al que pierde
+	}
+	else
+	{
+		serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 3, 0));
+	}
 }
 
 void Player::spawn(int x, int y)

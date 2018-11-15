@@ -9,7 +9,7 @@
 
 Sound::Sound() {
 
-	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 8192)<0){
+	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 8192) < 0){
 			LOGGER_ERROR("Falló al iniciar SDL_Mixer");
 	}
 
