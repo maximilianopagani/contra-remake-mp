@@ -117,10 +117,6 @@ void Game::processMessage(MessageServer* message)
 				case KEYS:
 				{
 					int player_id = message->getPlayerId();
-					//std::string username = message->getUsername();
-
-					// IMPORTANTE SOLO PROCESAR UN MENSAJE DE TECLAS POR JUGADOR POR CICLO. SI POR CUALQUIER CAUSA, LLEGARA A DESENCOLAR MAS DE UN MENSAJE DE TECLAS PARA
-					// UN MISMO PLAYER TENGO QUE PROCESAR SOLO UNO Y DESCARTAR EL RESTO
 
 					if(this->isValidPlayerId(player_id))
 					{
@@ -349,7 +345,7 @@ void Game::update()
 		{
 			if((*enemiesIterator)->hasNoTarget())
 			{
-				pid = rand() % max_players;
+				pid = rand() % max_players; // ver de hacer random solo con gente online y viva
 				(*enemiesIterator)->targetPlayer(pid, players.at(pid)->getPosX(), players.at(pid)->getPosY());
 			}
 			else

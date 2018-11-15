@@ -26,12 +26,13 @@ class Player : public ICollisional
 		virtual ~Player();
 
 		//Collisional
-		int getLeftLimit();
-		int getRightLimit();
-		int getTopLimit();
-		int getBottomLimit();
+		int getLeftLimit() { return col_box_xi; }
+		int getRightLimit() { return col_box_xf; }
+		int getTopLimit() { return col_box_yi; }
+		int getBottomLimit() { return col_box_yf; }
 
 		void updatePlayer();
+		void updateCollisionBox();
 		void updateGun();
 
 		void renderPlayer();
@@ -40,8 +41,8 @@ class Player : public ICollisional
 
 		void destroy();
 
-		int getPosX(){ return pos_x; }
-		int getPosY(){ return pos_y; }
+		int getPosX() { return pos_x; }
+		int getPosY() { return pos_y; }
 
 		void pickupItem(Item* item);
 
@@ -88,7 +89,7 @@ class Player : public ICollisional
 		int getTotalScore() { return total_score; }
 		void resetLevelScore() { level_score = 0; }
 
-		list<Bullet*>* getBulletList(){ return gun->getBullets(); }
+		list<Bullet*>* getBulletList() { return gun->getBullets(); }
 
 	private:
 
@@ -112,6 +113,8 @@ class Player : public ICollisional
 			DIRECTION_BACK
 		};
 		PlayerDirection direction;
+
+		int col_box_xi, col_box_yi, col_box_xf, col_box_yf;
 
 		// manejo de disparo
 		enum AimPosition {AIM_UP,AIM_FRONT,AIM_DOWN,AIM_BODYTOGROUND,AIM_BACK,AIM_UP_BACK,AIM_DOWN_BACK,AIM_BODYTOGROUND_BACK};

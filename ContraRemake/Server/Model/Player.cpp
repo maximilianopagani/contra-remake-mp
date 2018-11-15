@@ -7,7 +7,7 @@
 
 #include "Player.hh"
 
-Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, int _player_id, string _username)
+Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, int _player_id, string _username) // @suppress("Class members should be properly initialized")
 {
 	cameraLogic = _cameraLogic;
 	serverMessageHandler = _serverMessageHandler;
@@ -68,7 +68,7 @@ void Player::renderLives()
 
 void Player::renderPlayer()
 {
-	if(state == STATE_WALKINGRIGHT ||state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN || state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN)
+	if(state == STATE_WALKINGRIGHT || state == STATE_WALKINGRIGHTPOINTUP || state == STATE_WALKINGRIGHTPOITNDOWN || state == STATE_WALKINGLEFT ||state == STATE_WALKINGLEFTPOINTUP || state == STATE_WALKINGLEFTPOINTDOWN)
 	{ // ESTO PASARLO A VIEW COMO ANTES, ASI LE AHORRAMOS TRABAJO AL SERVER, Y DE LA OTRA FORMA NO CHEQUEO POR TODOS LOS ESTADOS
 		timeAtIterationStart++;
 
@@ -225,6 +225,8 @@ void Player::updatePlayer()
 			break;
 	}
 
+	this->updateCollisionBox();
+
 	processedKeys = false;
 }
 
@@ -330,9 +332,9 @@ void Player::pointUP(bool cond)
 	if(cond)
 	{
 		if(direction == DIRECTION_BACK)
-			state=STATE_POINTUP_BACK;
+			state = STATE_POINTUP_BACK;
 		else
-			state=STATE_POINTUP;
+			state = STATE_POINTUP;
 	}
 }
 
@@ -462,22 +464,29 @@ void Player::setOnlineAgain()
 
 void Player::destroy() {}
 
-int Player::getLeftLimit()
+void Player::updateCollisionBox()
 {
-	return getPosX() + 15;
-}
-
-int Player::getRightLimit()
-{
-	return getPosX() + PlayerStateHandler::getDestinationWidth(state) - 15;
-}
-
-int Player::getTopLimit()
-{
-	return getPosY();
-}
-
-int Player::getBottomLimit()
-{
-	return getTopLimit() + PlayerStateHandler::getDestinationHeight(state);
+	if(state == STATE_POINTBODYTOGROUND_BACK || state == STATE_POINTBODYTOGROUND)
+	{
+		col_box_xi = pos_x + 15;
+		col_box_yi = pos_y + 53; // Esto es lo que se ajusta para el col box
+		col_box_xf = pos_x + 74 - 15;
+		col_box_yf = col_box_yi + 34; // Esto es lo que se ajusta para el col box
+	}
+	else if(state == STATE_JUMPINGUP || state == STATE_JUMPINGDOWN)
+	{
+		col_box_xi = pos_x + 15;
+		col_box_yi = pos_y + 27; // Esto es lo que se ajusta para el col box
+		col_box_xf = pos_x + 46 - 15;
+		col_box_yf = pos_y + 87; // Pongo esto y no le da abajo porque sino me queda un rectangulo de alto menor al de la textura y al venir de un estado anterior
+		// con altura mayor, la posxy es distinta y no colisiona bien, la solucion seria rehacer los sprites de salto, haciendo que el player girando quede bien abajo en la sprite
+		//col_box_yf = col_box_yi + 46; // Esto es lo que se ajusta para el col box
+	}
+	else
+	{
+		col_box_xi = pos_x + 15;
+		col_box_yi = pos_y;
+		col_box_xf = pos_x + PlayerStateHandler::getDestinationWidth(state) - 15;
+		col_box_yf = pos_y + PlayerStateHandler::getDestinationHeight(state);
+	}
 }

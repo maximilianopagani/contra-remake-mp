@@ -27,7 +27,7 @@ PlayerView::PlayerView(GameView* _gameView)
 		sprites[i][STATE_WALKINGLEFTPOINTDOWN] = new Sprite(gameView, "../.images/" + player_i_path + "/walkingLeftPointingDown.png", 21, 38, 48, 87);
 		sprites[i][STATE_STANDING] = new Sprite(gameView, "../.images/" + player_i_path + "/standing.png", 16, 38, 39, 87);
 		sprites[i][STATE_STANDING_BACK] = new Sprite(gameView, "../.images/" + player_i_path + "/standingBack.png", 16, 38, 39, 87);
-		sprites[i][STATE_JUMPINGUP] = new Sprite(gameView, "../.images/" + player_i_path + "/jumping.png", 20, 38, 46, 114);
+		sprites[i][STATE_JUMPINGUP] = new Sprite(gameView, "../.images/" + player_i_path + "/jumping.png", 20, 38, 46, 87);
 		sprites[i][STATE_JUMPINGDOWN] = new Sprite(gameView, "../.images/" + player_i_path + "/jumping.png", 20, 38, 46, 87);
 		sprites[i][STATE_POINTUP] = new Sprite(gameView, "../.images/" + player_i_path + "/pointUp.png", 18, 36, 41, 82);
 		sprites[i][STATE_POINTFRONT] = new Sprite(gameView, "../.images/" + player_i_path + "/pointFront.png", 25, 36, 58, 84);

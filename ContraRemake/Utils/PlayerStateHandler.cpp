@@ -159,7 +159,7 @@ int PlayerStateHandler::getDestinationHeight(PlayerState aState)
 		case STATE_STANDING_BACK:
 			return 87;
 		case STATE_JUMPINGUP:
-			return 114;
+			return 87;
 		case STATE_JUMPINGDOWN:
 			return 87;
 		case STATE_POINTUP:
