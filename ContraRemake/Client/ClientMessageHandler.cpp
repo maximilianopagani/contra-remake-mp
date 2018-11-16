@@ -285,7 +285,8 @@ void ClientMessageHandler::processMessage(Message* message)
 				{
 					int enemy_type = atoi(param1);
 					int state = atoi(param2);
-					enemyView->update(enemy_type, state);
+					int animation = atoi(param3);
+					enemyView->update(enemy_type, state, animation);
 					break;
 				}
 			}

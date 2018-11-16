@@ -270,18 +270,11 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 				initialSpawnX = (*it)->getPosX(); // @suppress("Method cannot be resolved")
 			}
 
-
 			// Calculo cuanto mas a la derecha lo tengo que spawnear, si me paso del limite de la plataforma busco otra
 			if((initialSpawnX + alreadySpawnedAmount * 120) < ((*it)->getRightLimit() - 60)) // @suppress("Method cannot be resolved")
 			{
 				// Spawneo
 				enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RIFLEMAN, initialSpawnX + alreadySpawnedAmount * 120, (*it)->getPosY() - 100));
-
-				// TODO quitar desp de hacerlos random
-				int pox = initialSpawnX + alreadySpawnedAmount * 120;
-				int poy = (*it)->getPosY() - 100;
-				cout << "posX: " << pox << " posY: " << poy << endl;
-
 				platforms_spawns.at(randomPlatformId) = alreadySpawnedAmount + 1;
 				spawned = true;
 			}

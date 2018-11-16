@@ -107,7 +107,13 @@ void Enemy::update()
 
 					if(timeAtIterationStart > 3)
 					{
-						serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, LOAD, type, state));
+						serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, LOAD, type, state, animation));
+
+						animation++;
+
+						if(animation > 5) // para avisarle cual foto de la animacion de walk dibujar
+							animation = 0;
+
 						timeAtIterationStart = 0;
 					}
 				}

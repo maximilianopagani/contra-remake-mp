@@ -30,9 +30,9 @@ EnemyView::~EnemyView()
 	this->destroy();
 }
 
-void EnemyView::update(int enemy_type, int state)
+void EnemyView::update(int enemy_type, int state, int animation)
 {
-	sprites[enemy_type][state]->update();
+	sprites[enemy_type][state]->moveToPos(animation);
 }
 
 void EnemyView::render(int enemy_type, int state, int pos_x, int pos_y)

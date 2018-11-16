@@ -29,8 +29,6 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	aimingAt = AIM_FRONT;
 
 	movement_beyond_border = true;
-
-	std::cout<<"CREADO PLAYER CON ID Y USERNAME "<<player_id<<" "<<username<<std::endl;
 }
 
 Player::~Player()

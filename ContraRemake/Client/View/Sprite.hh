@@ -25,6 +25,7 @@ class Sprite
 
 		void render(int x , int y);
 		void update();
+		void moveToPos(int pos);
 		void destroy();
 
 		int getSourceRectX() { return src.x; }

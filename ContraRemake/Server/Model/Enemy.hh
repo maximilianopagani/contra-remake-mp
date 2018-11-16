@@ -64,6 +64,7 @@ class Enemy: public ICollisional
 		int distanceToTravel = 325;
 
 		int timeAtIterationStart;
+		int animation = 0;
 		EnemyType type;
 		int posX, posY, state, changeDirectionTime;
 		bool falling, dead;

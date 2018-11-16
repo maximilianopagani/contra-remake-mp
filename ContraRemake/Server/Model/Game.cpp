@@ -346,8 +346,22 @@ void Game::update()
 		{
 			if((*enemiesIterator)->hasNoTarget())
 			{
-				pid = rand() % max_players; // ver de hacer random solo con gente online y viva
-				(*enemiesIterator)->targetPlayer(pid, players.at(pid)->getPosX(), players.at(pid)->getPosY());
+				int alive_players_id[4], alive_players = 0;
+
+			    for(int i = 0; i < max_players; i++)
+			    {
+			    	if(players.at(i)->isOnline() && players.at(i)->isAlive())
+			    	{
+			    	  	alive_players_id[alive_players] = i;
+			    	  	alive_players++;
+			    	}
+			    }
+
+			    if(alive_players)
+			    {
+					pid = alive_players_id[rand() % alive_players];
+					(*enemiesIterator)->targetPlayer(pid, players.at(pid)->getPosX(), players.at(pid)->getPosY());
+			    }
 			}
 			else
 			{

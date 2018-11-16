@@ -42,6 +42,14 @@ void Sprite::update()
 		src.x = 0;
 }
 
+void Sprite::moveToPos(int pos)
+{
+	src.x = src.w * pos;
+
+	if(src.x >= textureWidth)
+		src.x = 0;
+}
+
 void Sprite::destroy()
 {
 	SDL_DestroyTexture(texture);

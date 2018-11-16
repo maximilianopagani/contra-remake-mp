@@ -19,7 +19,7 @@ class EnemyView
 		EnemyView(GameView* _gameView);
 		virtual ~EnemyView();
 
-		void update(int enemy_type, int state);
+		void update(int enemy_type, int state, int animation);
 		void render(int enemy_type, int state, int pos_x, int pos_y);
 		void destroy();
 
