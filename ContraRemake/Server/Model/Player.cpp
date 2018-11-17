@@ -168,14 +168,14 @@ void Player::handleKeys(const Uint8* playerKeyStates)
 	{
 		Uint32 currentTime = Utils::getTicks();
 
-		if(last_immortal_mode + 500 < currentTime)
+		if(immortal_mode_time + immortal_mode_cooldown < currentTime)
 		{
 			if(immortal_mode)
 				immortal_mode = false;
 			else
 				immortal_mode = true;
 
-			last_immortal_mode = currentTime;
+			immortal_mode_time = currentTime;
 		}
 
 	}

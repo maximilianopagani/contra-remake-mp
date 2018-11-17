@@ -85,10 +85,9 @@ class Player : public ICollisional
 		void enableMovementBeyondBorder() { movement_beyond_border = true; }
 		bool canMoveBeyondBorder() { return movement_beyond_border; }
 
-		void increaseScore(int score_points) { level_score += score_points; total_score += score_points; }
-		int getLevelScore() { return level_score; }
-		int getTotalScore() { return total_score; }
-		void resetLevelScore() { level_score = 0; }
+		void increaseLevelScore(int level, int score_points) { level_score[level] += score_points; }
+		int getLevelScore(int level) { return level_score[level]; }
+		int getTotalScore() { return (level_score[0] + level_score[1] + level_score[2]); }
 
 		list<Bullet*>* getBulletList() { return gun->getBullets(); }
 
@@ -100,11 +99,15 @@ class Player : public ICollisional
 		bool falling;
 
 		int lives_remaining;
-		int death_time = 0; // Tiempo en ticks cuando murió
-		int revive_cooldown = 1500; // En milisegundos, cuanto espero hasta que pueda respawnear luego de morir
 
+		// Manejo de tiempo desde que muere hasta que revive
+		Uint32 death_time = 0; // Tiempo en ticks cuando murió
+		static const Uint32 revive_cooldown = 1500; // En milisegundos, cuanto espero hasta que pueda respawnear luego de morir
+
+		// Manejo del modo inmortal
 		bool immortal_mode;
-		Uint32 last_immortal_mode = 0;
+		Uint32 immortal_mode_time = 0; // Tiempo en ticks cuando activó o desactivo último modo inmortal
+		static const Uint32 immortal_mode_cooldown = 500; // En milisegundos, cuanto espero hasta que pueda procesar nuevamente tecla de modo inmortal
 
 		Uint32 timeAtIterationStart=0;
 
@@ -142,8 +145,7 @@ class Player : public ICollisional
 
 		bool processedKeys = false; // Esto es para evitar procesar 2 mensajes que hayan llegado muy juntos en el mismo frame, y hacer que por ejemplo, el pj avanze el doble.
 
-		int level_score = 0;
-		int total_score = 0;
+		int level_score[3] = {0, 0, 0};
 };
 
 #endif /* PLAYER_HH_ */

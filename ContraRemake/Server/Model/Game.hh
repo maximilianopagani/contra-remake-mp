@@ -50,8 +50,12 @@ class Game
         //=========================================================
 
         int currentLevel;
-        int changeLevelNextFrame = false;
-        int changeLevelCooldown = 0;
+
+        //============= Manejo del cambio de nivel ================
+        bool changeLevelNextFrame = false;
+        Uint32 changeLevelTime = 0; // Tiempo en ticks cuando se hizo el ultimo cambio de nivel
+        static const Uint32 changeLevelCooldown = 1000;  // En milisegundos, cuanto espero hasta que pueda procesar nuevamente tecla de cambio de nive,
+        //=========================================================
 
         int max_players;
 

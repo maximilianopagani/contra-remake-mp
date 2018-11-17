@@ -132,15 +132,18 @@ void Game::processMessage(MessageServer* message)
 							player_keys[5] = param1[5] - '0';
 							player_keys[6] = param1[6] - '0'; // tecla i de modo inmortal
 
+							//=============== Cambio de nivel ===============
 							if(param1[7] - '0') // tecla corresondiente a la N, avanzar nivel. Esto quizas se debería mandar en un mensaje dedicado desde cliente?
 							{
-								int currentTime = Utils::getTicks();
-								if(changeLevelCooldown + 1000 < currentTime) // pongo un cooldown de 1000 milisecs pq aveces es muy rapido el detectar de la tecla y pasa de a 2 niveles
+								Uint32 currentTime = Utils::getTicks();
+
+								if(changeLevelTime + changeLevelCooldown < currentTime) // pongo un cooldown de 1000 milisecs pq aveces es muy rapido el detectar de la tecla y pasa de a 2 niveles
 								{
 									changeLevelNextFrame = true;
-									changeLevelCooldown = currentTime;
+									changeLevelTime = currentTime;
 								}
 							}
+							//===============================================
 
 							players.at(player_id)->handleKeys(player_keys);
 						}
@@ -215,7 +218,6 @@ void Game::nextLevel()
 		    for(int i = 0; i < max_players; i++)
 		    {
 		    	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
-		    	players.at(i)->resetLevelScore();
 		    }
 			break;
 
@@ -226,7 +228,6 @@ void Game::nextLevel()
 		    for(int i = 0; i < max_players; i++)
 		    {
 		    	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
-		    	players.at(i)->resetLevelScore();
 		    }
 			break;
 
@@ -520,7 +521,7 @@ void Game::update()
         		{
         			if(CollisionHelper::collides(*bulletsIterator, *enemiesIterator))
         			{
-        				players.at(i)->increaseScore(50);
+        				players.at(i)->increaseLevelScore(currentLevel, 50);
         				serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 2,0));
 
         			    delete (*enemiesIterator);
