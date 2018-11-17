@@ -71,6 +71,7 @@ class Player : public ICollisional
 		bool isDead() { return state == STATE_DEAD; }
 		bool outOfLives() { return lives_remaining <= 0; }
 		void kill();
+		bool canRevive();
 		bool isImmortal() { return immortal_mode; }
 
 		void handleKeys(const Uint8* playerKeyStates);
@@ -97,7 +98,10 @@ class Player : public ICollisional
 		string username;
 		int pos_x, pos_y, maxDistanceJump;
 		bool falling;
+
 		int lives_remaining;
+		int death_time = 0; // Tiempo en ticks cuando murió
+		int revive_cooldown = 1500; // En milisegundos, cuanto espero hasta que pueda respawnear luego de morir
 
 		bool immortal_mode;
 		Uint32 last_immortal_mode = 0;

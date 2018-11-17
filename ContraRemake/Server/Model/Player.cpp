@@ -408,6 +408,7 @@ void Player::kill()
 {
 	state = STATE_DEAD;
 	lives_remaining--;
+	death_time = Utils::getTicks();
 
 	if(this->outOfLives())
 	{
@@ -417,6 +418,14 @@ void Player::kill()
 	{
 		serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 3, 0));
 	}
+}
+
+bool Player::canRevive()
+{
+	if(death_time + revive_cooldown > Utils::getTicks())
+		return false;
+	else
+		return true;
 }
 
 void Player::spawn(int x, int y)

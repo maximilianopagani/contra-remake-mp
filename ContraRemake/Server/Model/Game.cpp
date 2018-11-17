@@ -596,14 +596,14 @@ void Game::update()
 					players.at(i)->kill();
 				}
 
-				if(!players.at(i)->outOfLives())
+				if(!players.at(i)->outOfLives() && players.at(i)->canRevive())
 				{
 					players.at(i)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
 				}
 			}
 			else if(players.at(i)->isDead() && !players.at(i)->isFalling())
 			{
-				if(!players.at(i)->outOfLives())
+				if(!players.at(i)->outOfLives() && players.at(i)->canRevive())
 				{
 					players.at(i)->spawn(cameraLogic->getCameraPosX() + level->getRespawnPointX(), cameraLogic->getCameraPosY() + level->getRespawnPointY());
 				}
