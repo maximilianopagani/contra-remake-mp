@@ -38,7 +38,7 @@ private:
 	int height;
 };
 
-bool clientLogin(ClientHandler * client);
+bool clientLogin(ClientHandler* client, Sound* sound);
 
 bool init();
 

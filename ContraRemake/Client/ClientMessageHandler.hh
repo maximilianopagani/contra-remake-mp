@@ -34,7 +34,7 @@ class ClientMessageHandler
 		ClientMessageHandler();
 		virtual ~ClientMessageHandler();
 
-		void setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView);
+		void setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView, Sound* _sound);
 		bool setClientHandler(ClientHandler* _client);
 		void processMessage(Message* message);
 

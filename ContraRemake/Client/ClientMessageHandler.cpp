@@ -21,7 +21,7 @@ ClientMessageHandler::ClientMessageHandler()
 	levelTransitionView = NULL;
 }
 
-void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView)
+void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView, Sound* _sound)
 {
 	gameView = _gameView;
 	playerView = _playerView;
@@ -31,7 +31,7 @@ void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerVie
 	bulletView = _bulletView;
 	enemyView = _enemyView;
 	livesView = _livesView;
-	sound = new Sound();
+	sound = _sound;
 	levelTransitionView = _levelTransitionView;
 }
 
@@ -250,7 +250,6 @@ void ClientMessageHandler::processMessage(Message* message)
 				case WAITING_PLAYERS:
 				{
 					gameView->showWaitingPlayersScreen();
-					sound->play(0,0,0, 50);
 					client->initPulse = true;
 					break;
 				}

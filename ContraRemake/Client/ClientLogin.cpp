@@ -126,53 +126,54 @@ void Texture::render(int x, int y, SDL_Rect* clip, double angle,
 	SDL_RenderCopyEx(renderer, texture, clip, &renderQuad, angle, center, flip);
 }
 
-bool init() {
+bool init()
+{
 	bool success = true;
-	if (SDL_Init( SDL_INIT_VIDEO) < 0) {
+//	if (SDL_Init( SDL_INIT_VIDEO) < 0) {
 //		std::cout << "SDL could not initialize! SDL Error: " << SDL_GetError()
 //				<< std::endl;
-		success = false;
-	} else {
-		if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
+//		success = false;
+//	} else {
+	if (!SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1")) {
 //			std::cout << "Warning: Linear texture filtering not enabled!"
 //					<< std::endl;
-		}
-		window = SDL_CreateWindow("Contra Remake", SDL_WINDOWPOS_UNDEFINED,
-				SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,
-				SDL_WINDOW_SHOWN);
-		if (window == NULL) {
+	}
+	window = SDL_CreateWindow("Contra Remake", SDL_WINDOWPOS_UNDEFINED,
+			SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,
+			SDL_WINDOW_SHOWN);
+	if (window == NULL) {
 //			std::cout << "Window could not be created! SDL Error: "
 //					<< SDL_GetError() << std::endl;
-			success = false;
-		} else {
-			renderer = SDL_CreateRenderer(window, -1,
-					SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-			if (renderer == NULL) {
+		success = false;
+	} else {
+		renderer = SDL_CreateRenderer(window, -1,
+				SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+		if (renderer == NULL) {
 //				std::cout << "Renderer could not be created! SDL Error: "
 //						<< SDL_GetError() << std::endl;
-				success = false;
-			} else {
-				SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-				int imgFlags = IMG_INIT_PNG;
-				if (!(IMG_Init(imgFlags) & imgFlags)) {
+			success = false;
+		} else {
+			SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+			int imgFlags = IMG_INIT_PNG;
+			if (!(IMG_Init(imgFlags) & imgFlags)) {
 //					std::cout
 //							<< "SDL_image could not initialize! SDL_image Error: "
 //							<< IMG_GetError() << std::endl;
-					success = false;
-				}
-				if (TTF_Init() == -1) {
+				success = false;
+			}
+			if (TTF_Init() == -1) {
 //					std::cout << "SDL_ttf could not initialize! SDL_ttf Error: "
 //							<< TTF_GetError() << std::endl;
-					success = false;
-				}
+				success = false;
 			}
 		}
 	}
-
+//	}
 	return success;
 }
 
-bool loadMedia() {
+bool loadMedia()
+{
 	bool success = true;
 
 	splashTexture.loadFromFile("../.images/login/Contra_Splash.png");
@@ -217,22 +218,35 @@ void close() {
 	renderer = NULL;
 
 	TTF_Quit();
-	IMG_Quit();
-	SDL_Quit();
+//	IMG_Quit();
+//	SDL_Quit();
 }
 
-bool clientLogin(ClientHandler * client) {
+bool clientLogin(ClientHandler* client, Sound* sound)
+{
 	bool success = false;
-	if (!init()) {
-//		std::cout << "Failed to initialize!" << std::endl;
+
+	if (!init())
+	{
+		//std::cout << "Failed to initialize!" << std::endl;
 		return success;
-	} else {
-		if (!loadMedia()) {
-//			std::cout << "Failed to load media!" << std::endl;
+	}
+	else
+	{
+		if(!loadMedia())
+		{
+			//std::cout << "Failed to load media!" << std::endl;
 			return success;
-		} else {
+		}
+		else
+		{
 			ClientParser* clientParser = new ClientParser();
-			if (!clientParser->loadConfiguration()) return success;
+
+			if(!clientParser->loadConfiguration())
+				return success;
+
+			sound->play(0, 0, 0, 50); // Musica de login y espera de jugadores
+
 			bool quit = false;
 			bool userTextBoxEnabled = false;
 			bool passwordTextBoxEnabled = false;
