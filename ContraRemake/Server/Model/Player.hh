@@ -72,6 +72,7 @@ class Player : public ICollisional
 		bool outOfLives() { return lives_remaining <= 0; }
 		void kill();
 		bool canRevive();
+		void handleSpawnImmortality();
 		bool isImmortal() { return immortal_mode; }
 
 		void handleKeys(const Uint8* playerKeyStates);
@@ -105,9 +106,14 @@ class Player : public ICollisional
 		static const Uint32 revive_cooldown = 1500; // En milisegundos, cuanto espero hasta que pueda respawnear luego de morir
 
 		// Manejo del modo inmortal
-		bool immortal_mode;
+		bool immortal_mode = false;
+		bool immortal_player_activated = false;
 		Uint32 immortal_mode_time = 0; // Tiempo en ticks cuando activó o desactivo último modo inmortal
 		static const Uint32 immortal_mode_cooldown = 500; // En milisegundos, cuanto espero hasta que pueda procesar nuevamente tecla de modo inmortal
+
+		// Manejo de modo inmortal temporal tras un spawm
+		static const Uint32 spawn_immortality_cooldown = 2500;
+		Uint32 spawn_time = 0;
 
 		Uint32 timeAtIterationStart=0;
 
