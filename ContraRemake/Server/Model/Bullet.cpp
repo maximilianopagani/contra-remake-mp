@@ -7,7 +7,7 @@
 
 #include "Bullet.hh"
 
-Bullet::Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel, ServerMessageHandler* _serverMessageHandler)
+Bullet::Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel, bool _oneShot, ServerMessageHandler* _serverMessageHandler)
 {
 	cameraLogic = _cameraLogic;
 	serverMessageHandler = _serverMessageHandler;
@@ -17,6 +17,7 @@ Bullet::Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, 
 	speed_y = _speed_y;
 	traveled_distance = 0;
 	max_travel_distance = distanceToTravel;
+	oneShot = _oneShot;
 
 	//serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,4,2));
 
@@ -39,9 +40,18 @@ bool Bullet::outOfLimits()
 		return false;
 }
 
-void Bullet::render(int player_id)
+void Bullet::render(int player_id, BulletType type)
 {
-	serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
+	switch (type)
+	{
+		case LASER:
+		{
+			serverMessageHandler->sendToAllClients(new MessageServer(BULLET_LASER, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY(), 1));
+			break;
+		}
+		default:
+			serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
+	}
 }
 
 int Bullet::getLeftLimit()

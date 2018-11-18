@@ -7,6 +7,7 @@ enum MsgHeader {
 	PLAYER,
 	LEVEL,
 	BULLET,
+	BULLET_LASER,
 	LIVES,
 	PLATFORM,
 	ITEM,

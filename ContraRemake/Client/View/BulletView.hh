@@ -19,12 +19,14 @@ class BulletView
 		virtual ~BulletView();
 
 		void render(int player_id, int posX, int posY);
+		void renderLaser(int player_id, int posX, int posY, int direction);
 		void destroy();
 
 	private:
 
 		GameView* gameView;
 		Sprite* sprites[4];
+		Sprite* laserSprites[6];
 };
 
 #endif /* VISTA_BULLETVIEW_HH_ */

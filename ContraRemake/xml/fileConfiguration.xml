@@ -1,6 +1,6 @@
 <configuration>
 	<debug>
-		<level>DEBUG</level>
+		<level>ERROR</level>
 	</debug>
 	<escenarios>
 		<nivel1>
@@ -162,13 +162,6 @@
 					<xinicial>5300</xinicial>
 					<xfinal>5600</xfinal>
 					<altura>452</altura>
-				</plataforma>
-				<plataforma>
-					<id>24</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>5400</xinicial>
-					<xfinal>5600</xfinal>
-					<altura>340</altura>
 				</plataforma>
 				<plataforma>
 					<id>25</id>				

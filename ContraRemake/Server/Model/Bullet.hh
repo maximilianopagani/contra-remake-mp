@@ -11,18 +11,21 @@
 #include "CameraLogic.hh"
 #include <math.h>
 #include "ServerMessageHandler.hh"
+#include "../../Utils/BulletTypeHandler.hh"
 #include "../../Utils/ICollisional.hh"
 
 class Bullet : public ICollisional
 {
 	public:
 
-		Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel, ServerMessageHandler* _serverMessageHandler);
+		Bullet(CameraLogic* _cameraLogic, int _pos_x, int _pos_y, int _speed_x, int _speed_y, int distanceToTravel, bool _oneShot, ServerMessageHandler* _serverMessageHandler);
 		virtual ~Bullet();
 
 		void updatePos();
 		bool outOfLimits();
-		void render(int player_id);
+		void render(int player_id, BulletType type);
+
+		bool isOneShot(){return oneShot;}
 
 		//Collisional
 		int getLeftLimit();
@@ -35,6 +38,7 @@ class Bullet : public ICollisional
 		CameraLogic* cameraLogic;
 		ServerMessageHandler* serverMessageHandler;
 
+		bool oneShot;
 		int pos_x, pos_y; // Posicion absoluta con respecto al mapa gigante.
 		int speed_x, speed_y; // Velocidad que avanza en cada coordenada en cada update
 		int max_travel_distance, traveled_distance; // Gestion de la vida de la bala segun su distancia viajada

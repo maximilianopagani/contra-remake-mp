@@ -142,7 +142,7 @@ void Enemy::update()
 						else if(angle >= 112.5 && angle < 180) { velocity_x = 7; velocity_y = -7; bullet_offset_x = 37; bullet_offset_y = 0; state = EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_UP; }
 
 
-						bullets.push_back(new Bullet(cameraLogic, posX + bullet_offset_x, posY + bullet_offset_y, velocity_x, velocity_y, distanceToTravel, serverMessageHandler));
+						bullets.push_back(new Bullet(cameraLogic, posX + bullet_offset_x, posY + bullet_offset_y, velocity_x, velocity_y, distanceToTravel, true, serverMessageHandler));
 						lastShotTime = currentShotTime;
 						shotCooldown = 1000 + rand() % 1500; // Cierta incertudimbre sobre cuan seguido dispara, para que no sea tan predecible
 						serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 4, 2));
@@ -181,7 +181,7 @@ void Enemy::render()
 
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end(); ++bulletsIterator)
 	{
-		(*bulletsIterator)->render(2);
+		(*bulletsIterator)->render(2, RIFLE);
 	}
 }
 

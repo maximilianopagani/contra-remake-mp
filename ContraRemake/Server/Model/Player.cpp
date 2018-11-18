@@ -49,7 +49,17 @@ void Player::pickupItem(Item* item)
 		}
 		case TYPE_SPREADGUNFALCON:
 		{
-			gun->setType(TRIPLE);
+			gun->setType(SPREAD);
+			break;
+		}
+		case TYPE_LASERFALCON:
+		{
+			gun->setType(LASER);
+			break;
+		}
+		case TYPE_RAPIDFIREFALCON:
+		{
+			gun->setType(RIFLE);
 			break;
 		}
 		default:
@@ -444,7 +454,7 @@ void Player::spawn(int x, int y)
 	falling = false;
 	processedKeys = false;
 	gun->clear();
-	gun->setType(NORMAL);
+	gun->setType(RIFLE);
 }
 
 void Player::freeze()

@@ -179,6 +179,23 @@ void ClientMessageHandler::processMessage(Message* message)
 			break;
 		}
 
+		case BULLET_LASER:
+		{
+			switch(MSG_HEADER_2)
+			{
+				case RENDER:
+				{
+					int player_id = atoi(param1);
+					int posX = atoi(param2);
+					int posY = atoi(param3);
+					int direction = atoi(param4);
+					bulletView->renderLaser(player_id, posX, posY, direction);
+					break;
+				}
+			}
+			break;
+		}
+
 		case REQUEST:
 		{
 			switch(MSG_HEADER_2)

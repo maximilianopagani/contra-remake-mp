@@ -11,8 +11,9 @@ using namespace std;
 
 enum BulletType {
 	MACHINEGUN,
-	TRIPLE,
-	NORMAL
+	SPREAD,
+	RIFLE,
+	LASER
 };
 
 class BulletTypeHandler

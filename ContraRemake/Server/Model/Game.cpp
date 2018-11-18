@@ -527,8 +527,11 @@ void Game::update()
         			    delete (*enemiesIterator);
         			    enemies->erase(enemiesIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
 
-        			    delete (*bulletsIterator);
-        			    bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+        			    if ((*bulletsIterator)->isOneShot())
+        			    {
+							delete (*bulletsIterator);
+							bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+        			    }
 
         			    collided = true;
 

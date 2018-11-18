@@ -9,12 +9,14 @@ int BulletTypeHandler::getCooldown(BulletType type)
 {
 	switch(type)
 	{
-		case NORMAL:
-			return 250;
+		case RIFLE:
+			return 500;
 		case MACHINEGUN:
 			return 125;
-		case TRIPLE:
+		case SPREAD:
 			return 250;
+		case LASER:
+			return 350;
 	}
 	return 0;
 }
@@ -23,12 +25,14 @@ int BulletTypeHandler::getDistance(BulletType type)
 {
 	switch(type)
 	{
-		case NORMAL:
+		case RIFLE:
 			return 375;
 		case MACHINEGUN:
 			return 425;
-		case TRIPLE:
+		case SPREAD:
 			return 400;
+		case LASER:
+			return 350;
 	}
 	return 0;
 }

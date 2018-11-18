@@ -6,7 +6,6 @@
 #ifndef MODEL_GUN_HH_
 #define MODEL_GUN_HH_
 
-#include "../../Utils/BulletTypeHandler.hh"
 #include "../../Utils/AimHandler.hh"
 #include "../../Utils/PlayerStateHandler.hh"
 #include "Bullet.hh"
