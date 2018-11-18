@@ -7,9 +7,9 @@
 
 #include "Text.hh"
 
-Text::Text(GameView* _gameView, std::string text) {
+Text::Text(GameView* _gameView, std::string text, SDL_Color _textColor) {
 	gameView = _gameView;
-	texture = gameView->textTextureGenerator(text.c_str());
+	texture = gameView->textTextureGenerator(text.c_str(), _textColor);
 	gameView->queryTexture(texture, &width, &height);
 }
 

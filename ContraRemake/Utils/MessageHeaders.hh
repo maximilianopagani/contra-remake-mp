@@ -21,6 +21,7 @@ enum MsgHeader {
 	KEYS,
 	RENDER,
 	LOAD,
+	LOADNAMES,
 	PLAY,
 	CLEAR,
 	SHOW,
