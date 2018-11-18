@@ -45,6 +45,7 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 			this->loadItems(gameParser->getItems1());
 
 			//this->loadEnemies(gameParser->getRunners1(), gameParser->getRiflemans1())
+			//this->loadEnemies(gameParser->getQuantityRunnersLevel1(), gameParser->getQuantityRiflemansLevel1());
 
 		    //============================================================================================================
 
@@ -87,6 +88,7 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 			this->loadItems(gameParser->getItems2());
 
 			//this->loadEnemies(gameParser->getRunners2(), gameParser->getRiflemans2())
+			//this->loadEnemies(gameParser->getQuantityRunnersLevel2(), gameParser->getQuantityRiflemansLevel2());
 
 		    //============================================================================================================
 
@@ -131,6 +133,7 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 			this->loadItems(gameParser->getItems3());
 
 			//this->loadEnemies(gameParser->getRunners3(), gameParser->getRiflemans3())
+			//this->loadEnemies(gameParser->getQuantityRunnersLevel3(), gameParser->getQuantityRiflemansLevel3());
 
 		    //============================================================================================================
 

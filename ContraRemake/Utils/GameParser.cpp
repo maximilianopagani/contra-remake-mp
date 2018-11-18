@@ -19,6 +19,8 @@ GameParser::GameParser() {
 	this->quantityEnemiesLevel2 = 0;
 	this->quantityEnemiesLevel3 = 0;
 
+	this->quantityRunnersLevel1 = 0;
+	this->quantityRiflemansLevel1 = 0;
 	this->quantitySoldiersLevel1 = 0;
 	this->quantitySnipersLevel1 = 0;
 	this->quantityGunnersLevel1 = 0;
@@ -29,6 +31,8 @@ GameParser::GameParser() {
 	this->quantitySporesLevel1 = 0;
 	this->quantityCrawlersLevel1 = 0;
 
+	this->quantityRunnersLevel2 = 0;
+	this->quantityRiflemansLevel2 = 0;
 	this->quantitySoldiersLevel2 = 0;
 	this->quantitySnipersLevel2 = 0;
 	this->quantityGunnersLevel2 = 0;
@@ -39,6 +43,8 @@ GameParser::GameParser() {
 	this->quantitySporesLevel2 = 0;
 	this->quantityCrawlersLevel2 = 0;
 
+	this->quantityRunnersLevel3 = 0;
+	this->quantityRiflemansLevel3 = 0;
 	this->quantitySoldiersLevel3 = 0;
 	this->quantitySnipersLevel3 = 0;
 	this->quantityGunnersLevel3 = 0;
@@ -127,6 +133,10 @@ bool GameParser::evaluateTagNivel1(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
+	string strQuantityRiflemans;
+	int quantityRiflemans = 0;
+	string strQuantityRunners;
+	int quantityRunners = 0;
 	string strQuantitySoldiers;
 	int quantitySoldiers = 0;
 	string strQuantitySnipers;
@@ -202,7 +212,51 @@ bool GameParser::evaluateTagNivel1(){
 		sucess = false;
 	}
 
-    //TAG_QUANTITYSOLDIERS
+    //TAG_QUANTITYRUNNERS
+	TiXmlNode* tagQuantityRunnersNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYRUNNERS);
+	if ((tagQuantityRunnersNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYRUNNERS)->GetText())) {
+		strQuantityRunners.clear();
+		strQuantityRunners.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYRUNNERS)->GetText());
+	    if (!strQuantityRunners.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYRUNNERS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityRunners = atoi(strQuantityRunners.c_str());
+	    if ((quantityRunners>0)&&(quantityRunners<=MAX_QUANTITYENEMIES_TYPE)) {
+	    	this->quantityRunnersLevel1 = quantityRunners;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE RUNNERS RECHAZADA del nivel 1: " + strQuantityRunners);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYRUNNERS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYRIFLEMANS
+	TiXmlNode* tagQuantityRiflemansNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYRIFLEMANS);
+	if ((tagQuantityRiflemansNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYRIFLEMANS)->GetText())) {
+		strQuantityRiflemans.clear();
+		strQuantityRiflemans.append(tagNivel1Node->FirstChildElement(TAG_QUANTITYRIFLEMANS)->GetText());
+	    if (!strQuantityRiflemans.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYRIFLEMANS del nivel 1 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityRiflemans = atoi(strQuantityRiflemans.c_str());
+	    if ((quantityRiflemans>0)&&(quantityRiflemans<=MAX_QUANTITYENEMIES_TYPE)) {
+	    	this->quantityRiflemansLevel1 = quantityRiflemans;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE QUANTITYRIFLEMANS RECHAZADA del nivel 1 " + strQuantityRiflemans);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYRIFLEMANS del nivel 1 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+	//TAG_QUANTITYSOLDIERS
 	TiXmlNode* tagQuantitySoldiersNode = tagNivel1Node->FirstChildElement(TAG_QUANTITYSOLDIERS);
 	if ((tagQuantitySoldiersNode)&&(tagNivel1Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText())) {
 		strQuantitySoldiers.clear();
@@ -213,7 +267,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantitySoldiers = atoi(strQuantitySoldiers.c_str());
-	    if ((quantitySoldiers>0)&&(quantitySoldiers<1000)) {
+	    if ((quantitySoldiers>0)&&(quantitySoldiers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySoldiersLevel1 = quantitySoldiers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SOLDIERS RECHAZADA del nivel 1: " + strQuantitySoldiers);
@@ -235,7 +289,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantitySnipers = atoi(strQuantitySnipers.c_str());
-	    if ((quantitySnipers>0)&&(quantitySnipers<1000)) {
+	    if ((quantitySnipers>0)&&(quantitySnipers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySnipersLevel1 = quantitySnipers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SNIPERS RECHAZADA del nivel 1 " + strQuantitySnipers);
@@ -257,7 +311,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantityGunners = atoi(strQuantityGunners.c_str());
-	    if ((quantityGunners>0)&&(quantityGunners<1000)) {
+	    if ((quantityGunners>0)&&(quantityGunners<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityGunnersLevel1 = quantityGunners;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE GUNNERS RECHAZADA del nivel 1: " + strQuantityGunners);
@@ -279,7 +333,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantityScubaSoldiers = atoi(strQuantityScubaSoldiers.c_str());
-	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<1000)) {
+	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityScubaSoldiersLevel1 = quantityScubaSoldiers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SCUBASOLDIERS RECHAZADA del nivel 1: " + strQuantityScubaSoldiers);
@@ -301,7 +355,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantityWallTurrets = atoi(strQuantityWallTurrets.c_str());
-	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<1000)) {
+	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityWallTurretsLevel1 = quantityWallTurrets;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE WALLTURRETS RECHAZADA del nivel 1: " + strQuantityWallTurrets);
@@ -323,7 +377,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantityCannons = atoi(strQuantityCannons.c_str());
-	    if ((quantityCannons>0)&&(quantityCannons<1000)) {
+	    if ((quantityCannons>0)&&(quantityCannons<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityCannonsLevel1 = quantityCannons;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE CANNONS RECHAZADA del nivel 1: " + strQuantityCannons);
@@ -345,7 +399,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantityFloaters = atoi(strQuantityFloaters.c_str());
-	    if ((quantityFloaters>0)&&(quantityFloaters<1000)) {
+	    if ((quantityFloaters>0)&&(quantityFloaters<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityFloatersLevel1 = quantityFloaters;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE FLOATERS RECHAZADA del nivel 1: " + strQuantityFloaters);
@@ -367,7 +421,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantitySpores = atoi(strQuantitySpores.c_str());
-	    if ((quantitySpores>0)&&(quantitySpores<1000)) {
+	    if ((quantitySpores>0)&&(quantitySpores<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySporesLevel1 = quantitySpores;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SPORES RECHAZADA del nivel 1: " + strQuantitySpores);
@@ -389,7 +443,7 @@ bool GameParser::evaluateTagNivel1(){
 	    }
 
 	    quantityCrawlers = atoi(strQuantityCrawlers.c_str());
-	    if ((quantityCrawlers>0)&&(quantityCrawlers<1000)) {
+	    if ((quantityCrawlers>0)&&(quantityCrawlers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityCrawlersLevel1 = quantityCrawlers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE CRAWLERS RECHAZADA del nivel 1: " + strQuantityCrawlers);
@@ -408,6 +462,10 @@ bool GameParser::evaluateTagNivel2(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
+	string strQuantityRiflemans;
+	int quantityRiflemans = 0;
+	string strQuantityRunners;
+	int quantityRunners = 0;
 	string strQuantitySoldiers;
 	int quantitySoldiers = 0;
 	string strQuantitySnipers;
@@ -483,6 +541,50 @@ bool GameParser::evaluateTagNivel2(){
 		sucess = false;
 	}
 
+    //TAG_QUANTITYRUNNERS
+	TiXmlNode* tagQuantityRunnersNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYRUNNERS);
+	if ((tagQuantityRunnersNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYRUNNERS)->GetText())) {
+		strQuantityRunners.clear();
+		strQuantityRunners.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYRUNNERS)->GetText());
+	    if (!strQuantityRunners.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYRUNNERS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityRunners = atoi(strQuantityRunners.c_str());
+	    if ((quantityRunners>0)&&(quantityRunners<=MAX_QUANTITYENEMIES_TYPE)) {
+	    	this->quantityRunnersLevel2 = quantityRunners;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE RUNNERS RECHAZADA del nivel 2: " + strQuantityRunners);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYRUNNERS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYRIFLEMANS
+	TiXmlNode* tagQuantityRiflemansNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYRIFLEMANS);
+	if ((tagQuantityRiflemansNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYRIFLEMANS)->GetText())) {
+		strQuantityRiflemans.clear();
+		strQuantityRiflemans.append(tagNivel2Node->FirstChildElement(TAG_QUANTITYRIFLEMANS)->GetText());
+	    if (!strQuantityRiflemans.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYRIFLEMANS del nivel 2 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityRiflemans = atoi(strQuantityRiflemans.c_str());
+	    if ((quantityRiflemans>0)&&(quantityRiflemans<=MAX_QUANTITYENEMIES_TYPE)) {
+	    	this->quantityRiflemansLevel2 = quantityRiflemans;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE QUANTITYRIFLEMANS RECHAZADA del nivel 2 " + strQuantityRiflemans);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYRIFLEMANS del nivel 2 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
     //TAG_QUANTITYSOLDIERS
 	TiXmlNode* tagQuantitySoldiersNode = tagNivel2Node->FirstChildElement(TAG_QUANTITYSOLDIERS);
 	if ((tagQuantitySoldiersNode)&&(tagNivel2Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText())) {
@@ -494,7 +596,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantitySoldiers = atoi(strQuantitySoldiers.c_str());
-	    if ((quantitySoldiers>0)&&(quantitySoldiers<1000)) {
+	    if ((quantitySoldiers>0)&&(quantitySoldiers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySoldiersLevel2 = quantitySoldiers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SOLDIERS RECHAZADA del nivel 2: " + strQuantitySoldiers);
@@ -516,7 +618,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantitySnipers = atoi(strQuantitySnipers.c_str());
-	    if ((quantitySnipers>0)&&(quantitySnipers<1000)) {
+	    if ((quantitySnipers>0)&&(quantitySnipers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySnipersLevel2 = quantitySnipers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SNIPERS RECHAZADA del nivel 2 " + strQuantitySnipers);
@@ -538,7 +640,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantityGunners = atoi(strQuantityGunners.c_str());
-	    if ((quantityGunners>0)&&(quantityGunners<1000)) {
+	    if ((quantityGunners>0)&&(quantityGunners<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityGunnersLevel2 = quantityGunners;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE GUNNERS RECHAZADA del nivel 2: " + strQuantityGunners);
@@ -560,7 +662,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantityScubaSoldiers = atoi(strQuantityScubaSoldiers.c_str());
-	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<1000)) {
+	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityScubaSoldiersLevel2 = quantityScubaSoldiers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SCUBASOLDIERS RECHAZADA del nivel 2: " + strQuantityScubaSoldiers);
@@ -582,7 +684,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantityWallTurrets = atoi(strQuantityWallTurrets.c_str());
-	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<1000)) {
+	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityWallTurretsLevel2 = quantityWallTurrets;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE WALLTURRETS RECHAZADA del nivel 2: " + strQuantityWallTurrets);
@@ -604,7 +706,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantityCannons = atoi(strQuantityCannons.c_str());
-	    if ((quantityCannons>0)&&(quantityCannons<1000)) {
+	    if ((quantityCannons>0)&&(quantityCannons<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityCannonsLevel2 = quantityCannons;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE CANNONS RECHAZADA del nivel 2: " + strQuantityCannons);
@@ -626,7 +728,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantityFloaters = atoi(strQuantityFloaters.c_str());
-	    if ((quantityFloaters>0)&&(quantityFloaters<1000)) {
+	    if ((quantityFloaters>0)&&(quantityFloaters<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityFloatersLevel2 = quantityFloaters;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE FLOATERS RECHAZADA del nivel 2: " + strQuantityFloaters);
@@ -648,7 +750,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantitySpores = atoi(strQuantitySpores.c_str());
-	    if ((quantitySpores>0)&&(quantitySpores<1000)) {
+	    if ((quantitySpores>0)&&(quantitySpores<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySporesLevel2 = quantitySpores;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SPORES RECHAZADA del nivel 2: " + strQuantitySpores);
@@ -670,7 +772,7 @@ bool GameParser::evaluateTagNivel2(){
 	    }
 
 	    quantityCrawlers = atoi(strQuantityCrawlers.c_str());
-	    if ((quantityCrawlers>0)&&(quantityCrawlers<1000)) {
+	    if ((quantityCrawlers>0)&&(quantityCrawlers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityCrawlersLevel2 = quantityCrawlers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE CRAWLERS RECHAZADA del nivel 2: " + strQuantityCrawlers);
@@ -689,6 +791,10 @@ bool GameParser::evaluateTagNivel3(){
 	string strFondo1;
 	string strFondo2;
 	string strFondo3;
+	string strQuantityRiflemans;
+	int quantityRiflemans = 0;
+	string strQuantityRunners;
+	int quantityRunners = 0;
 	string strQuantitySoldiers;
 	int quantitySoldiers = 0;
 	string strQuantitySnipers;
@@ -763,6 +869,50 @@ bool GameParser::evaluateTagNivel3(){
 		sucess = false;
 	}
 
+    //TAG_QUANTITYRUNNERS
+	TiXmlNode* tagQuantityRunnersNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYRUNNERS);
+	if ((tagQuantityRunnersNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYRUNNERS)->GetText())) {
+		strQuantityRunners.clear();
+		strQuantityRunners.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYRUNNERS)->GetText());
+	    if (!strQuantityRunners.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYRUNNERS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityRunners = atoi(strQuantityRunners.c_str());
+	    if ((quantityRunners>0)&&(quantityRunners<=MAX_QUANTITYENEMIES_TYPE)) {
+	    	this->quantityRunnersLevel3 = quantityRunners;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE RUNNERS RECHAZADA del nivel 3: " + strQuantityRunners);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYRUNNERS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
+    //TAG_QUANTITYRIFLEMANS
+	TiXmlNode* tagQuantityRiflemansNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYRIFLEMANS);
+	if ((tagQuantityRiflemansNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYRIFLEMANS)->GetText())) {
+		strQuantityRiflemans.clear();
+		strQuantityRiflemans.append(tagNivel3Node->FirstChildElement(TAG_QUANTITYRIFLEMANS)->GetText());
+	    if (!strQuantityRiflemans.compare(ZERO)) {
+	    	LOGGER_DEBUG("TAG_QUANTITYRIFLEMANS del nivel 3 es cero");
+	    	sucess = false;
+	    }
+
+	    quantityRiflemans = atoi(strQuantityRiflemans.c_str());
+	    if ((quantityRiflemans>0)&&(quantityRiflemans<=MAX_QUANTITYENEMIES_TYPE)) {
+	    	this->quantityRiflemansLevel3 = quantityRiflemans;
+		}else {
+			LOGGER_DEBUG("MAXIMA CANTIDAD DE QUANTITYRIFLEMANS RECHAZADA del nivel 3 " + strQuantityRiflemans);
+			sucess = false;
+		}
+	} else {
+		LOGGER_DEBUG("TAG_QUANTITYRIFLEMANS del nivel 3 no existe o tiene valores invalidos");
+		sucess = false;
+	}
+
     //TAG_QUANTITYSOLDIERS
 	TiXmlNode* tagQuantitySoldiersNode = tagNivel3Node->FirstChildElement(TAG_QUANTITYSOLDIERS);
 	if ((tagQuantitySoldiersNode)&&(tagNivel3Node->FirstChildElement(TAG_QUANTITYSOLDIERS)->GetText())) {
@@ -774,7 +924,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantitySoldiers = atoi(strQuantitySoldiers.c_str());
-	    if ((quantitySoldiers>0)&&(quantitySoldiers<1000)) {
+	    if ((quantitySoldiers>0)&&(quantitySoldiers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySoldiersLevel3 = quantitySoldiers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SOLDIERS RECHAZADA del nivel 3: " + strQuantitySoldiers);
@@ -796,7 +946,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantitySnipers = atoi(strQuantitySnipers.c_str());
-	    if ((quantitySnipers>0)&&(quantitySnipers<1000)) {
+	    if ((quantitySnipers>0)&&(quantitySnipers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySnipersLevel3 = quantitySnipers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SNIPERS RECHAZADA del nivel 3 " + strQuantitySnipers);
@@ -818,7 +968,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantityGunners = atoi(strQuantityGunners.c_str());
-	    if ((quantityGunners>0)&&(quantityGunners<1000)) {
+	    if ((quantityGunners>0)&&(quantityGunners<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityGunnersLevel3 = quantityGunners;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE GUNNERS RECHAZADA del nivel 3: " + strQuantityGunners);
@@ -840,7 +990,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantityScubaSoldiers = atoi(strQuantityScubaSoldiers.c_str());
-	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<1000)) {
+	    if ((quantityScubaSoldiers>0)&&(quantityScubaSoldiers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityScubaSoldiersLevel3 = quantityScubaSoldiers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SCUBASOLDIERS RECHAZADA del nivel 3: " + strQuantityScubaSoldiers);
@@ -862,7 +1012,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantityWallTurrets = atoi(strQuantityWallTurrets.c_str());
-	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<1000)) {
+	    if ((quantityWallTurrets>0)&&(quantityWallTurrets<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityWallTurretsLevel3 = quantityWallTurrets;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE WALLTURRETS RECHAZADA del nivel 3: " + strQuantityWallTurrets);
@@ -884,7 +1034,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantityCannons = atoi(strQuantityCannons.c_str());
-	    if ((quantityCannons>0)&&(quantityCannons<1000)) {
+	    if ((quantityCannons>0)&&(quantityCannons<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityCannonsLevel3 = quantityCannons;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE CANNONS RECHAZADA del nivel 3: " + strQuantityCannons);
@@ -906,7 +1056,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantityFloaters = atoi(strQuantityFloaters.c_str());
-	    if ((quantityFloaters>0)&&(quantityFloaters<1000)) {
+	    if ((quantityFloaters>0)&&(quantityFloaters<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityFloatersLevel3 = quantityFloaters;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE FLOATERS RECHAZADA del nivel 3: " + strQuantityFloaters);
@@ -928,7 +1078,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantitySpores = atoi(strQuantitySpores.c_str());
-	    if ((quantitySpores>0)&&(quantitySpores<1000)) {
+	    if ((quantitySpores>0)&&(quantitySpores<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantitySporesLevel3 = quantitySpores;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE SPORES RECHAZADA del nivel 3: " + strQuantitySpores);
@@ -950,7 +1100,7 @@ bool GameParser::evaluateTagNivel3(){
 	    }
 
 	    quantityCrawlers = atoi(strQuantityCrawlers.c_str());
-	    if ((quantityCrawlers>0)&&(quantityCrawlers<1000)) {
+	    if ((quantityCrawlers>0)&&(quantityCrawlers<=MAX_QUANTITYENEMIES_TYPE)) {
 	    	this->quantityCrawlersLevel3 = quantityCrawlers;
 		}else {
 			LOGGER_DEBUG("MAXIMA CANTIDAD DE CRAWLERS RECHAZADA del nivel 3: " + strQuantityCrawlers);
@@ -1438,8 +1588,8 @@ const string& GameParser::getLevel() const {
 int GameParser::getQuantityEnemiesLevel1() {
 	int totalEnemies = 0;
 	totalEnemies = this->getQuantityCannonsLevel1()+this->getQuantityCrawlersLevel1()+this->getQuantityFloatersLevel1()+
-				   this->getQuantityGunnersLevel1()+this->getQuantityScubaSoldiersLevel1()+this->getQuantitySnipersLevel1()+
-				   this->getQuantitySoldiersLevel1()+this->getQuantitySporesLevel1()+this->getQuantityWallTurretsLevel1();
+				   this->getQuantityGunnersLevel1()+this->getQuantityScubaSoldiersLevel1()+this->getQuantityRiflemansLevel1()+
+				   this->getQuantityRunnersLevel1()+this->getQuantitySporesLevel1()+this->getQuantityWallTurretsLevel1();
 	this->quantityEnemiesLevel1 = totalEnemies+1;//Tomando en cuenta al BOSS del nivel 1.
 	return quantityEnemiesLevel1;
 }
@@ -1447,8 +1597,8 @@ int GameParser::getQuantityEnemiesLevel1() {
 int GameParser::getQuantityEnemiesLevel2(){
 	int totalEnemies = 0;
 	totalEnemies = this->getQuantityCannonsLevel2()+this->getQuantityCrawlersLevel2()+this->getQuantityFloatersLevel2()+
-				   this->getQuantityGunnersLevel2()+this->getQuantityScubaSoldiersLevel2()+this->getQuantitySnipersLevel2()+
-				   this->getQuantitySoldiersLevel2()+this->getQuantitySporesLevel2()+this->getQuantityWallTurretsLevel2();
+				   this->getQuantityGunnersLevel2()+this->getQuantityScubaSoldiersLevel2()+this->getQuantityRiflemansLevel2()+
+				   this->getQuantityRunnersLevel2()+this->getQuantitySporesLevel2()+this->getQuantityWallTurretsLevel2();
 	this->quantityEnemiesLevel2 = totalEnemies+1;//Tomando en cuenta al BOSS del nivel 2.
 	return quantityEnemiesLevel2;
 }
@@ -1456,8 +1606,8 @@ int GameParser::getQuantityEnemiesLevel2(){
 int GameParser::getQuantityEnemiesLevel3(){
 	int totalEnemies = 0;
 	totalEnemies = this->getQuantityCannonsLevel3()+this->getQuantityCrawlersLevel3()+this->getQuantityFloatersLevel3()+
-				   this->getQuantityGunnersLevel3()+this->getQuantityScubaSoldiersLevel3()+this->getQuantitySnipersLevel3()+
-				   this->getQuantitySoldiersLevel3()+this->getQuantitySporesLevel3()+this->getQuantityWallTurretsLevel3();
+				   this->getQuantityGunnersLevel3()+this->getQuantityScubaSoldiersLevel3()+this->getQuantityRiflemansLevel3()+
+				   this->getQuantityRunnersLevel3()+this->getQuantitySporesLevel3()+this->getQuantityWallTurretsLevel3();
 	this->quantityEnemiesLevel3 = totalEnemies+1;//Tomando en cuenta al BOSS del nivel 3.
 	return quantityEnemiesLevel3;
 }
@@ -1592,4 +1742,28 @@ int GameParser::getQuantityWallTurretsLevel2() const {
 
 int GameParser::getQuantityWallTurretsLevel3() const {
 	return quantityWallTurretsLevel3;
+}
+
+int GameParser::getQuantityRiflemansLevel1() const {
+	return quantityRiflemansLevel1;
+}
+
+int GameParser::getQuantityRiflemansLevel2() const {
+	return quantityRiflemansLevel2;
+}
+
+int GameParser::getQuantityRiflemansLevel3() const {
+	return quantityRiflemansLevel3;
+}
+
+int GameParser::getQuantityRunnersLevel1() const {
+	return quantityRunnersLevel1;
+}
+
+int GameParser::getQuantityRunnersLevel2() const {
+	return quantityRunnersLevel2;
+}
+
+int GameParser::getQuantityRunnersLevel3() const {
+	return quantityRunnersLevel3;
 }

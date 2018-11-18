@@ -19,6 +19,10 @@
 #define TAG_FONDO1 "fondo1"
 #define TAG_FONDO2 "fondo2"
 #define TAG_FONDO3 "fondo3"
+
+#define MAX_QUANTITYENEMIES_TYPE 25
+#define TAG_QUANTITYRUNNERS "quantityrunners"
+#define TAG_QUANTITYRIFLEMANS "quantityriflemans"
 #define TAG_QUANTITYSOLDIERS "quantitysoldiers"
 #define TAG_QUANTITYSNIPERS "quantitysnipers"
 #define TAG_QUANTITYGUNNERS "quantitygunners"
