@@ -27,7 +27,7 @@ void Gun::render(int player_id)
 {
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end();)
 	{
-		(*bulletsIterator)->render(player_id, bulletType);
+		(*bulletsIterator)->render(player_id);
 		++bulletsIterator;
 	}
 }
@@ -64,13 +64,19 @@ void Gun::shoot(int aimingAt, int state, int pos_x, int pos_y)
 	if((currentShotTime - lastShotTime) > shotCooldown)
 	{
 		bool oneShot = true;
+		int ajusteX = 0;
+		int ajusteY = 0;
 		if (bulletType == BulletType::LASER)
+		{
 			oneShot = false;
+			ajusteX = 3;
+			ajusteY = 2;
+		}
 
 		switch(aimingAt)
 		{
 			case AIM_FRONT:
-				bullets.push_back(new Bullet(cameraLogic, pos_x+47, pos_y+25, 10, 0, distanceToTravel, oneShot, serverMessageHandler));
+				bullets.push_back(new Bullet(cameraLogic, pos_x+47+ajusteX, pos_y+25-ajusteY, 10, 0, distanceToTravel, oneShot, serverMessageHandler));
 				if (bulletType == BulletType::SPREAD)
 				{
 					if (state == STATE_WALKINGRIGHT)
@@ -85,16 +91,16 @@ void Gun::shoot(int aimingAt, int state, int pos_x, int pos_y)
 				break;
 
 			case AIM_BACK:
-				bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -10, 0, distanceToTravel, oneShot, serverMessageHandler));
+				bullets.push_back(new Bullet(cameraLogic, pos_x-2-(2*ajusteX), pos_y+25-ajusteY, -10, 0, distanceToTravel, oneShot, serverMessageHandler));
 				if (bulletType == BulletType::SPREAD)
 				{
 					if (state == STATE_WALKINGLEFT)
 					{
-						bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -9, -5, distanceToTravel, oneShot, serverMessageHandler));
-						bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -9, 5, distanceToTravel, oneShot, serverMessageHandler));
+						bullets.push_back(new Bullet(cameraLogic, pos_x-2, pos_y+25, -9, -5, distanceToTravel, oneShot, serverMessageHandler));
+						bullets.push_back(new Bullet(cameraLogic, pos_x-2, pos_y+25, -9, 5, distanceToTravel, oneShot, serverMessageHandler));
 					} else {
-						bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -7, -7, distanceToTravel, oneShot, serverMessageHandler));
-						bullets.push_back(new Bullet(cameraLogic, pos_x-1, pos_y+25, -7, 7, distanceToTravel, oneShot, serverMessageHandler));
+						bullets.push_back(new Bullet(cameraLogic, pos_x-2, pos_y+25, -7, -7, distanceToTravel, oneShot, serverMessageHandler));
+						bullets.push_back(new Bullet(cameraLogic, pos_x-2, pos_y+25, -7, 7, distanceToTravel, oneShot, serverMessageHandler));
 					}
 				}
 				break;
@@ -156,7 +162,7 @@ void Gun::shoot(int aimingAt, int state, int pos_x, int pos_y)
 				break;
 
 			case AIM_BODYTOGROUND:
-				bullets.push_back(new Bullet(cameraLogic, pos_x+70, pos_y+64, 10, 0, distanceToTravel, oneShot, serverMessageHandler));
+				bullets.push_back(new Bullet(cameraLogic, pos_x+70, pos_y+64-ajusteY, 10, 0, distanceToTravel, oneShot, serverMessageHandler));
 				if (bulletType == BulletType::SPREAD)
 				{
 					bullets.push_back(new Bullet(cameraLogic, pos_x+70, pos_y+64, 7, -7, distanceToTravel, oneShot, serverMessageHandler));
@@ -165,7 +171,7 @@ void Gun::shoot(int aimingAt, int state, int pos_x, int pos_y)
 				break;
 
 			case AIM_BODYTOGROUND_BACK:
-				bullets.push_back(new Bullet(cameraLogic, pos_x-5, pos_y+64, -10, 0, distanceToTravel, oneShot, serverMessageHandler));
+				bullets.push_back(new Bullet(cameraLogic, pos_x-5-(2*ajusteX), pos_y+64-ajusteY, -10, 0, distanceToTravel, oneShot, serverMessageHandler));
 				if (bulletType == BulletType::SPREAD)
 				{
 					bullets.push_back(new Bullet(cameraLogic, pos_x-5, pos_y+64, -7, -7, distanceToTravel, oneShot, serverMessageHandler));

@@ -181,7 +181,7 @@ void Enemy::render()
 
 	for(bulletsIterator = bullets.begin(); bulletsIterator != bullets.end(); ++bulletsIterator)
 	{
-		(*bulletsIterator)->render(2, RIFLE);
+		(*bulletsIterator)->render(2);
 	}
 }
 

@@ -40,17 +40,36 @@ bool Bullet::outOfLimits()
 		return false;
 }
 
-void Bullet::render(int player_id, BulletType type)
+void Bullet::render(int player_id)
 {
-	switch (type)
+	if (oneShot)
+		serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
+	else
+		serverMessageHandler->sendToAllClients(new MessageServer(BULLET_LASER, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY(), getDirection()));
+}
+
+int Bullet::getDirection()
+{
+	if (speed_y == 0) // => tiro recto
 	{
-		case LASER:
-		{
-			serverMessageHandler->sendToAllClients(new MessageServer(BULLET_LASER, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY(), 1));
-			break;
-		}
-		default:
-			serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
+		if (speed_x > 0)
+			return 4; //FRONT
+		else
+			return 1; //BACK
+	}
+	else if (speed_y > 0) // => tiro hacia abajo
+	{
+		if (speed_x > 0)
+			return 3; //FRONT
+		else
+			return 2; //BACK
+	}
+	else // => speed_y < 0 => tiro hacia arriba
+	{
+		if (speed_x > 0)
+			return 5; //FRONT
+		else
+			return 0; //BACK
 	}
 }
 

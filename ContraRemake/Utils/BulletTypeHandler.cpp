@@ -16,7 +16,7 @@ int BulletTypeHandler::getCooldown(BulletType type)
 		case SPREAD:
 			return 250;
 		case LASER:
-			return 350;
+			return 750;
 	}
 	return 0;
 }
@@ -32,7 +32,7 @@ int BulletTypeHandler::getDistance(BulletType type)
 		case SPREAD:
 			return 400;
 		case LASER:
-			return 350;
+			return 525;
 	}
 	return 0;
 }

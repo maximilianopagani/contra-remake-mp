@@ -23,9 +23,10 @@ class Bullet : public ICollisional
 
 		void updatePos();
 		bool outOfLimits();
-		void render(int player_id, BulletType type);
+		void render(int player_id);
 
 		bool isOneShot(){return oneShot;}
+		int getDirection();
 
 		//Collisional
 		int getLeftLimit();

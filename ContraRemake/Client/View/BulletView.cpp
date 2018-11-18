@@ -14,15 +14,14 @@ BulletView::BulletView(GameView* _gameView)
 	for(int i = 0; i < 4; i++)
 	{
 		sprites[i] = new Sprite(gameView, "../.images/bullet/p" + std::to_string(i+1) + "/bullet.png", 8, 8, 8, 8);
+		for(int j = 0; j<6; j++)
+		{
+			if (j==1 || j==4) //tiro recto
+				laserSprites[i][j] = new Sprite(gameView, "../.images/bullet/p" + std::to_string(i+1) + "/laser" + std::to_string(j) + ".png", 19, 7, 28, 11);
+			else
+				laserSprites[i][j] = new Sprite(gameView, "../.images/bullet/p" + std::to_string(i+1) + "/laser" + std::to_string(j) + ".png", 15, 16, 21, 29);
+		}
 	}
-
-	laserSprites[1] = new Sprite(gameView, "../.images/bullet/p1/laserBack.png", 19, 7, 28, 11);
-	laserSprites[2] = new Sprite(gameView, "../.images/bullet/p1/laserBackDW.png", 8, 8, 8, 8);
-	laserSprites[3] = new Sprite(gameView, "../.images/bullet/p1/laserBackUP.png", 8, 8, 8, 8);
-	laserSprites[4] = new Sprite(gameView, "../.images/bullet/p1/laserFront.png", 8, 8, 8, 8);
-	laserSprites[5] = new Sprite(gameView, "../.images/bullet/p1/laserFrontDW.png", 8, 8, 8, 8);
-	laserSprites[6] = new Sprite(gameView, "../.images/bullet/p1/laserFrontUP.png", 8, 8, 8, 8);
-
 }
 
 BulletView::~BulletView()
@@ -32,7 +31,7 @@ BulletView::~BulletView()
 
 void BulletView::renderLaser(int player_id, int pos_x, int pos_y, int direction)
 {
-	laserSprites[direction]->render(pos_x, pos_y);
+	laserSprites[player_id][direction]->render(pos_x, pos_y);
 }
 
 void BulletView::render(int player_id, int pos_x, int pos_y)

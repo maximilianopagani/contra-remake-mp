@@ -26,7 +26,7 @@ class BulletView
 
 		GameView* gameView;
 		Sprite* sprites[4];
-		Sprite* laserSprites[6];
+		Sprite* laserSprites[4][6];
 };
 
 #endif /* VISTA_BULLETVIEW_HH_ */
