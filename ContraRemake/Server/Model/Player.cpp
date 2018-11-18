@@ -21,8 +21,6 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 	maxDistanceJump = 150;
 	falling = true;
 	lives_remaining = 3;
-	immortal_mode = false;
-	processedKeys = false;
 
 	state = STATE_STANDING;
 	direction = DIRECTION_FRONT;
@@ -181,9 +179,15 @@ void Player::handleKeys(const Uint8* playerKeyStates)
 		if(immortal_mode_time + immortal_mode_cooldown < currentTime)
 		{
 			if(immortal_mode)
+			{
 				immortal_mode = false;
+				immortal_player_activated = false;
+			}
 			else
+			{
 				immortal_mode = true;
+				immortal_player_activated = true;
+			}
 
 			immortal_mode_time = currentTime;
 		}
@@ -234,6 +238,8 @@ void Player::updatePlayer()
 	}
 
 	this->updateCollisionBox();
+
+	this->handleSpawnImmortality();
 
 	processedKeys = false;
 }
@@ -418,15 +424,12 @@ void Player::kill()
 {
 	state = STATE_DEAD;
 	lives_remaining--;
-	death_time = Utils::getTicks();
+	death_time = Utils::getTicks(); // Para manejo del ratito que tarda en respawnear
+	serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 3, 0)); // Sonido de muerte común y vida perdida
 
 	if(this->outOfLives())
 	{
 		serverMessageHandler->sendToClientId(player_id, new MessageServer(SOUND, LOAD, 1, 1)); // Musica de gameover solo al que pierde
-	}
-	else
-	{
-		serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 3, 0));
 	}
 }
 
@@ -455,6 +458,20 @@ void Player::spawn(int x, int y)
 	processedKeys = false;
 	gun->clear();
 	gun->setType(RIFLE);
+
+	spawn_time = Utils::getTicks();
+	immortal_mode = true;
+}
+
+void Player::handleSpawnImmortality()
+{
+	if(immortal_mode && !immortal_player_activated)
+	{
+		if(spawn_time + spawn_immortality_cooldown < Utils::getTicks())
+		{
+			immortal_mode = false;
+		}
+	}
 }
 
 void Player::freeze()
