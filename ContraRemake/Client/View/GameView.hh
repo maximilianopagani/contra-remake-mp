@@ -5,6 +5,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "../../Utils/Logger.hh"
 
 using namespace std;
@@ -26,6 +27,7 @@ class GameView
 		void show();
 
 		SDL_Texture* textureGenerator(std::string path);
+		SDL_Texture* textTextureGenerator(std::string text);
 
 		void destroy();
 		void queryTexture(SDL_Texture* texture, int* widthResponse, int* heightResponse);

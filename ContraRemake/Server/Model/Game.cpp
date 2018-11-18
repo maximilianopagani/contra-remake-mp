@@ -6,6 +6,7 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	enEjecucion = false;
 	gameParser = _gameParser;
 	level = NULL;
+	levelTransition = NULL;
 	currentLevel = 0;
 	cameraLogic = new CameraLogic(0, 0, 800, 600);
 	serverMessageHandler = _serverMessageHandler;
@@ -37,6 +38,8 @@ void Game::init()
     	players.push_back(new Player(cameraLogic, serverMessageHandler, i, usernames.at(i)));
     	players.at(i)->spawn(level->getSpawnPointX(), level->getSpawnPointY());
     }
+
+    levelTransition = new LevelTransition(serverMessageHandler, players);
 }
 
 void Game::handleGameFPS()

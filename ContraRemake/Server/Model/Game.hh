@@ -8,6 +8,7 @@
 #define GAME_HH_
 
 #include "Level.hh"
+#include "LevelTransition.hh"
 #include "Player.hh"
 #include "../../Utils/GameParser.hh"
 #include "../../Utils/CollisionHelper.hh"
@@ -64,6 +65,7 @@ class Game
 		std::vector<Player*> players;
 
         Level* level;
+        LevelTransition* levelTransition;
 
         CameraLogic* cameraLogic;
         ServerMessageHandler* serverMessageHandler;

@@ -79,6 +79,14 @@ bool GameView::init()
 		{
 			LOGGER_INFO("SDL_Image inicializado con éxito.");
 		}
+		if (TTF_Init() == -1) {
+			error_desc = TTF_GetError();
+			LOGGER_ERROR("Imposible inicializar SDL_TTF - SDL_TTF_Error: " + error_desc);
+			return false;
+		}
+		else {
+			LOGGER_INFO("SDL_TTF inicializado con éxito.");
+		}
 	}
 
 	invalidTexture = textureGenerator("../.images/ImageNotFound.png");
@@ -195,6 +203,20 @@ SDL_Texture* GameView::textureGenerator(std::string path)
 		}
 	}
 
+	return texture;
+}
+
+SDL_Texture* GameView::textTextureGenerator(std::string text)
+{
+	TTF_Font* font = TTF_OpenFont("../.fonts/8bit.ttf", 16);
+	SDL_Color textColor = { 255, 255, 255, 0xFF };
+	SDL_Texture* texture = NULL;
+	SDL_Surface* textSurface = NULL;
+	textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+	if (textSurface != NULL) {
+		texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+		SDL_FreeSurface(textSurface);
+	}
 	return texture;
 }
 
