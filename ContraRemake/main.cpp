@@ -67,8 +67,8 @@ int main(int argc, char** argv)
 
 //			cout << "---------------------- CANTIDADES MAXIMA DE ENEMIGOS -------------------------" << endl << endl;
 //			cout << "NIVEL 1" << endl;
-//			cout << "La cantidad de SOLDIERS del nivel 1 es: " << parser->getQuantitySoldiersLevel1() << endl;
-//			cout << "La cantidad de SNIPERS del nivel 1 es: " << parser->getQuantitySnipersLevel1() << endl;
+//			cout << "La cantidad de RUNNERS del nivel 1 es: " << parser->getQuantityRunnersLevel1() << endl;
+//			cout << "La cantidad de RIFLEMANS del nivel 1 es: " << parser->getQuantityRiflemansLevel1() << endl;
 //			cout << "La cantidad de GUNNERS del nivel 1 es: " << parser->getQuantityGunnersLevel1() << endl;
 //			cout << "La cantidad de SCUBASOLDIERS del nivel 1 es: " << parser->getQuantityScubaSoldiersLevel1() << endl;
 //			cout << "La cantidad de WALLTURRETS del nivel 1 es: " << parser->getQuantityWallTurretsLevel1() << endl;
@@ -79,8 +79,8 @@ int main(int argc, char** argv)
 //			cout << "La cantidad de enemigos del nivel 1 con el Boss es: " << parser->getQuantityEnemiesLevel1() << endl << endl;
 //
 //			cout << "NIVEL 2" << endl;
-//			cout << "La cantidad de SOLDIERS del nivel 2 es: " << parser->getQuantitySoldiersLevel2() << endl;
-//			cout << "La cantidad de SNIPERS del nivel 2 es: " << parser->getQuantitySnipersLevel2() << endl;
+//			cout << "La cantidad de RUNNERS del nivel 2 es: " << parser->getQuantityRunnersLevel2() << endl;
+//			cout << "La cantidad de RIFLEMANS del nivel 2 es: " << parser->getQuantityRiflemansLevel2() << endl;
 //			cout << "La cantidad de GUNNERS del nivel 2 es: " << parser->getQuantityGunnersLevel2() << endl;
 //			cout << "La cantidad de SCUBASOLDIERS del nivel 2 es: " << parser->getQuantityScubaSoldiersLevel2() << endl;
 //			cout << "La cantidad de WALLTURRETS del nivel 2 es: " << parser->getQuantityWallTurretsLevel2() << endl;
@@ -91,8 +91,8 @@ int main(int argc, char** argv)
 //			cout << "La cantidad de enemigos del nivel 2 con el Boss es: " << parser->getQuantityEnemiesLevel2() << endl << endl;
 //
 //			cout << "NIVEL 3" << endl;
-//			cout << "La cantidad de SOLDIERS del nivel 3 es: " << parser->getQuantitySoldiersLevel3() << endl;
-//			cout << "La cantidad de SNIPERS del nivel 3 es: " << parser->getQuantitySnipersLevel3() << endl;
+//			cout << "La cantidad de RUNNERS del nivel 3 es: " << parser->getQuantityRunnersLevel3() << endl;
+//			cout << "La cantidad de RIFLEMANS del nivel 3 es: " << parser->getQuantityRiflemansLevel3() << endl;
 //			cout << "La cantidad de GUNNERS del nivel 3 es: " << parser->getQuantityGunnersLevel3() << endl;
 //			cout << "La cantidad de SCUBASOLDIERS del nivel 3 es: " << parser->getQuantityScubaSoldiersLevel3() << endl;
 //			cout << "La cantidad de WALLTURRETS del nivel 3 es: " << parser->getQuantityWallTurretsLevel3() << endl;

@@ -8,15 +8,16 @@
 			<fondo2>images/background/set1/fondo2.png</fondo2>
 			<fondo3>images/background/set1/fondo3.png</fondo3>
 
-			<quantitysoldiers>1</quantitysoldiers>
-			<quantitysnipers>2</quantitysnipers>
-			<quantitygunners>3</quantitygunners>
-			<quantityscubasoldiers>4</quantityscubasoldiers>
-			<quantitywallturrets>5</quantitywallturrets>
-			<quantitycannons>6</quantitycannons>
-			<quantityfloaters>7</quantityfloaters>
-			<quantityspores>8</quantityspores>
-			<quantitycrawlers>9</quantitycrawlers>
+
+			<quantityrunners>10</quantityrunners>
+			<quantityriflemans>10</quantityriflemans>
+			<quantitygunners>0</quantitygunners>
+			<quantityscubasoldiers>0</quantityscubasoldiers>
+			<quantitywallturrets>0</quantitywallturrets>
+			<quantitycannons>0</quantitycannons>
+			<quantityfloaters>0</quantityfloaters>
+			<quantityspores>0</quantityspores>
+			<quantitycrawlers>0</quantitycrawlers>
 
 			<items>
 				<item>
@@ -233,15 +234,15 @@
 			<fondo2>images/background/set2/fondo2.png</fondo2>
 			<fondo3>images/background/set2/fondo3.png</fondo3>
 			
-			<quantitysoldiers>1</quantitysoldiers>
-			<quantitysnipers>2</quantitysnipers>
-			<quantitygunners>3</quantitygunners>
-			<quantityscubasoldiers>4</quantityscubasoldiers>
-			<quantitywallturrets>5</quantitywallturrets>
-			<quantitycannons>6</quantitycannons>
-			<quantityfloaters>7</quantityfloaters>
-			<quantityspores>8</quantityspores>
-			<quantitycrawlers>9</quantitycrawlers>
+			<quantityrunners>10</quantityrunners>
+			<quantityriflemans>15</quantityriflemans>
+			<quantitygunners>0</quantitygunners>
+			<quantityscubasoldiers>0</quantityscubasoldiers>
+			<quantitywallturrets>0</quantitywallturrets>
+			<quantitycannons>0</quantitycannons>
+			<quantityfloaters>0</quantityfloaters>
+			<quantityspores>0</quantityspores>
+			<quantitycrawlers>0</quantitycrawlers>
 			
 			<items>
 				<item>
@@ -548,15 +549,15 @@
 			<fondo2>images/background/set3/fondo2.png</fondo2>
 			<fondo3>images/background/set3/fondo3.png</fondo3>
 
-			<quantitysoldiers>1</quantitysoldiers>
-			<quantitysnipers>2</quantitysnipers>
-			<quantitygunners>3</quantitygunners>
-			<quantityscubasoldiers>4</quantityscubasoldiers>
-			<quantitywallturrets>5</quantitywallturrets>
-			<quantitycannons>6</quantitycannons>
-			<quantityfloaters>7</quantityfloaters>
-			<quantityspores>8</quantityspores>
-			<quantitycrawlers>9</quantitycrawlers>
+			<quantityrunners>15</quantityrunners>
+			<quantityriflemans>15</quantityriflemans>
+			<quantitygunners>0</quantitygunners>
+			<quantityscubasoldiers>0</quantityscubasoldiers>
+			<quantitywallturrets>0</quantitywallturrets>
+			<quantitycannons>0</quantitycannons>
+			<quantityfloaters>0</quantityfloaters>
+			<quantityspores>0</quantityspores>
+			<quantitycrawlers>0</quantitycrawlers>
 
 			<items>
 				<item>

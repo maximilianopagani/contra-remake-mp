@@ -32,6 +32,9 @@ private:
 
 	int quantityEnemiesLevel1;
 
+	int quantityRunnersLevel1;
+	int quantityRiflemansLevel1;
+
 	int quantitySoldiersLevel1;
 	int quantitySnipersLevel1;
 	int	quantityGunnersLevel1;
@@ -45,6 +48,9 @@ private:
 
 	int quantityEnemiesLevel2;
 
+	int quantityRunnersLevel2;
+	int quantityRiflemansLevel2;
+
 	int quantitySoldiersLevel2;
 	int quantitySnipersLevel2;
 	int	quantityGunnersLevel2;
@@ -57,6 +63,9 @@ private:
 
 
 	int quantityEnemiesLevel3;
+
+	int quantityRunnersLevel3;
+	int quantityRiflemansLevel3;
 
 	int quantitySoldiersLevel3;
 	int quantitySnipersLevel3;
@@ -150,6 +159,12 @@ public:
 	int getQuantityWallTurretsLevel1() const;
 	int getQuantityWallTurretsLevel2() const;
 	int getQuantityWallTurretsLevel3() const;
+	int getQuantityRiflemansLevel1() const;
+	int getQuantityRiflemansLevel2() const;
+	int getQuantityRiflemansLevel3() const;
+	int getQuantityRunnersLevel1() const;
+	int getQuantityRunnersLevel2() const;
+	int getQuantityRunnersLevel3() const;
 };
 
 #endif /* GAMEPARSER_HH_ */
