@@ -16,7 +16,7 @@ int BulletTypeHandler::getCooldown(BulletType type)
 		case SPREAD:
 			return 250;
 		case LASER:
-			return 750;
+			return 1200;
 	}
 	return 0;
 }
