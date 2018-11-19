@@ -34,6 +34,7 @@ private:
 	Text *level2Texture;
 	Text *level3Texture;
 	Text *totalTexture;
+	Text *pressKeyToContinueTexture;
 	std::vector<Text*> playerNames;
 	std::vector<Text*> playersLevel1Scores;
 	std::vector<Text*> playersLevel2Scores;

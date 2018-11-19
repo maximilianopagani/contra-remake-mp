@@ -15,6 +15,7 @@ const int LEVEL1_POSITION_Y = PLAYERNAMES_POSITION_Y + PADDING;
 const int LEVEL2_POSITION_Y = LEVEL1_POSITION_Y + PADDING;
 const int LEVEL3_POSITION_Y = LEVEL2_POSITION_Y + PADDING;
 const int TOTAL_POSITION_Y = LEVEL3_POSITION_Y + PADDING;
+const int PRESSKEYTOCONTINUE_POSITION_Y = TOTAL_POSITION_Y + PADDING;
 
 LevelTransitionView::LevelTransitionView(GameView* _gameView) {
 
@@ -25,6 +26,8 @@ LevelTransitionView::LevelTransitionView(GameView* _gameView) {
 	level2Texture = new Text(gameView, "LEVEL 2", textColor);
 	level3Texture = new Text(gameView, "LEVEL 3", textColor);
 	totalTexture = new Text(gameView, "TOTAL", textColor);
+	pressKeyToContinueTexture = new Text(gameView, "Presione la tecla N para continuar", textColor);
+	/*
 	/////////////////////////////////
 	// CARGA DE NOMBRES DE EJEMPLO //
 	/////////////////////////////////
@@ -58,6 +61,7 @@ LevelTransitionView::LevelTransitionView(GameView* _gameView) {
 	////////////////////////////////////
 	// FIN CARGA DE SCORES DE EJEMPLO //
 	////////////////////////////////////
+	*/
 }
 
 LevelTransitionView::~LevelTransitionView() {
@@ -69,35 +73,36 @@ void LevelTransitionView::loadPlayerNames(const char* player_name) {
 
 	SDL_Color textColor = { 255, 255, 255, 0xFF };
 	playerNames.push_back(new Text(gameView, player_name, textColor));
+	playersTotalScores.push_back(new Text(gameView, std::string("0").c_str(), textColor));
 }
 
 void LevelTransitionView::loadScore(int level_id, int player_id, int score) {
 
-	SDL_Color textColor = { 255, 255, 255, 0xFF };
+	SDL_Color textColor = { 255, 255, 0, 0xFF };
 
 	switch(level_id) {
-		case 1:
+		case 0:
 		{
 			level1Score.push_back(score);
 			playersLevel1Scores.push_back(new Text(gameView, std::to_string(score).c_str(), textColor));
 			break;
 		}
-		case 2:
+		case 1:
 		{
 			level2Score.push_back(score);
 			playersLevel2Scores.push_back(new Text(gameView, std::to_string(score).c_str(), textColor));
 			break;
 		}
-		case 3:
+		case 2:
 		{
 			level3Score.push_back(score);
 			playersLevel3Scores.push_back(new Text(gameView, std::to_string(score).c_str(), textColor));
 			break;
 		}
-		case 4:
+		case 3:
 		{
-			totalScore.push_back(score);
-			playersTotalScores.push_back(new Text(gameView, std::to_string(score).c_str(), textColor));
+			playersTotalScores[player_id]->destroy();
+			playersTotalScores[player_id] = new Text(gameView, std::to_string(score).c_str(), textColor);
 			break;
 		}
 	}
@@ -109,6 +114,7 @@ void LevelTransitionView::render() {
 	level2Texture->render(CAPTIONS_POSITION_X, LEVEL2_POSITION_Y);
 	level3Texture->render(CAPTIONS_POSITION_X, LEVEL3_POSITION_Y);
 	totalTexture->render(CAPTIONS_POSITION_X, TOTAL_POSITION_Y);
+	pressKeyToContinueTexture->render(CAPTIONS_POSITION_X, PRESSKEYTOCONTINUE_POSITION_Y);
 	int i = PLAYER1_POSITION_X;
 	for (vector<Text*>::iterator it = playerNames.begin(); it != playerNames.end(); it++) {
 		(*it)->render(i, PLAYERNAMES_POSITION_Y);
