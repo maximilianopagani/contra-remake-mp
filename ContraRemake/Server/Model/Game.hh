@@ -43,6 +43,7 @@ class Game
     private:
 
         bool enEjecucion;
+        bool loadTransition;
 
         //========== Manejo de la velocidad del juego =============
         int game_FPS, frame_max_ms_duration;

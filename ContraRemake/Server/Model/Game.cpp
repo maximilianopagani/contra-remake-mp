@@ -13,6 +13,7 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	server = _server;
 	max_players = _max_players;
 	oneTime = true;
+	loadTransition = false;
 
 	//========== Manejo de la velocidad del juego =============
 	game_FPS = _FPS;
@@ -145,6 +146,7 @@ void Game::processMessage(MessageServer* message)
 								{
 									changeLevelNextFrame = true;
 									changeLevelTime = currentTime;
+									loadTransition = false;
 								}
 							}
 							//===============================================
@@ -354,7 +356,8 @@ void Game::update()
 			}
 			if(boss->bossIsDead()){
 				level->deleteBoss();
-				this->nextLevel();
+				levelTransition->updateScore(currentLevel);
+				loadTransition = true;
 			}
 		}
 	}
@@ -661,19 +664,24 @@ void Game::render()
 {
 	serverMessageHandler->sendToAllClients(new MessageServer(VIEW, CLEAR, 0));
 
-    level->render();
+	if (!loadTransition) {
+		level->render();
 
-    for(int i = 0; i < max_players; i++)
-    {
-    	players.at(i)->renderLives();
+		for(int i = 0; i < max_players; i++)
+		{
+			players.at(i)->renderLives();
 
-    	if(!players.at(i)->outOfLives())
-    	{
-    		players.at(i)->renderPlayer();
-    	}
+			if(!players.at(i)->outOfLives())
+			{
+				players.at(i)->renderPlayer();
+			}
 
-    	players.at(i)->renderGun();
-    }
+			players.at(i)->renderGun();
+		}
+	}
+	else {
+		levelTransition->render();
+	}
 
 	serverMessageHandler->sendToAllClients(new MessageServer(VIEW, SHOW, 0));
 }
