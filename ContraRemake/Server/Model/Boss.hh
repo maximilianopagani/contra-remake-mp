@@ -30,6 +30,7 @@ public:
 	bool isOnScreen() { return !cameraLogic->outOfCameraLimits(posX, posY); }
 	bool waiting(int amount);
 	bool bossIsDead();
+	bool isDead();
 
 	list<Bullet*>* getBulletList() { return &bullets; }
 

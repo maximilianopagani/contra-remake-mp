@@ -489,6 +489,10 @@ int Boss::getBottomLimit()
 	return posY + hight;
 }
 
+bool Boss::isDead() {
+	return dead;
+}
+
 Boss::~Boss() {
 	// TODO Auto-generated destructor stub
 }

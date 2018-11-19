@@ -550,6 +550,10 @@ void Game::update()
         		/*Seccion de Boss*/
         		if(CollisionHelper::collides(*bulletsIterator,boss)){
         		    boss->wasHit();
+        		    players.at(i)->increaseLevelScore(currentLevel, 10);
+        		    if (boss->isDead()) {
+        		    	players.at(i)->increaseLevelScore(currentLevel, 500);
+        		    }
 
         		    delete (*bulletsIterator);
         		    bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
