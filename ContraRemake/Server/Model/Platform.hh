@@ -29,6 +29,7 @@ class Platform : public ICollisional
 		int getPosX() { return posX; }
 		int getPosY() { return posY; }
 		int getXCentre() { return posX + (tileWidth * tileAmount / 2); }
+		int getLength() { return tileWidth * tileAmount; }
 
 		//Collisional
 		int getLeftLimit();

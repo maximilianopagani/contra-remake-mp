@@ -56,8 +56,6 @@ int ServerMain(GameParser* parser)
 
 	Game* synergy = new Game(server, messageHandler, serverParser->getMaximumquantityclients(), parser, GAME_FPS);
 
-	//Game* synergy = new Game(server, messageHandler, MAX_GAME_PLAYERS, parser, GAME_FPS);
-
 	LOGGER_DEBUG("Juego creado");
 
 	server->startListeningThread();
@@ -72,11 +70,12 @@ int ServerMain(GameParser* parser)
 	}
 
 	//Ciclo del juego. NO DEBERIA EMPEZAR HASTA QUE SE CONECTEN TODOS LOS JUGADORES DE LA PARTIDA
-	LOGGER_DEBUG("Se alcanzó la cantidad de jugadores conectados necesaria. Comienza el juego");
+	LOGGER_INFO("Se alcanzó la cantidad de jugadores conectados necesaria.");
 
 	synergy->init();
-	LOGGER_DEBUG("Juego Inicializado");
+	LOGGER_DEBUG("Carga de recursos iniciales realizada.");
 
+	LOGGER_INFO("Comienza el juego.");
 	synergy->runGame();
 
 	//Destruyo juego

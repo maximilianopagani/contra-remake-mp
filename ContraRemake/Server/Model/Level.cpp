@@ -230,15 +230,10 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 	LOGGER_INFO("Iniciando carga en level y creación de enemigos.");
 
 	int platformsAmount = platforms.size();
-	int randomPlatformId, alreadySpawnedAmount, initialSpawnX;
-	bool spawned;
+	int randomPlatformId, platformX, platformLength, alreadySpawnedAmount, spawnX;
+	bool spawned, spawn_collision_found;
 
-	std::vector<int> platforms_spawns;
-
-	for(int i = 0; i < platformsAmount; i++)
-	{
-		platforms_spawns.push_back(0);
-	}
+	std::vector<vector<int>> platforms_spawns(platformsAmount);
 
 	srand(time(0)); // Cambio la semilla del generador de aleatorios para que no se repitan en distintas ejecuciones del juego
 
@@ -250,29 +245,39 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 
 		while(!spawned)
 		{
-			randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
+			randomPlatformId = rand() % (platformsAmount - 1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 
 			// Busco esa plataforma y extraigo información
 			std::list<Platform*>::iterator it = platforms.begin();
 			std::advance(it, randomPlatformId);
-			alreadySpawnedAmount = platforms_spawns.at(randomPlatformId);
 
-			if((*it)->getPosX() + 60 > (*it)->getXCentre()) // @suppress("Method cannot be resolved")
-			{
-				initialSpawnX = (*it)->getXCentre(); // @suppress("Method cannot be resolved")
-			}
-			else
-			{
-				initialSpawnX = (*it)->getPosX(); // @suppress("Method cannot be resolved")
-			}
+			platformLength = (*it)->getLength(); // @suppress("Method cannot be resolved")
+			platformX = (*it)->getPosX(); // @suppress("Method cannot be resolved")
+			alreadySpawnedAmount = platforms_spawns.at(randomPlatformId).size();
 
-			// Calculo cuanto mas a la derecha lo tengo que spawnear, si me paso del limite de la plataforma busco otra
-			if((initialSpawnX + alreadySpawnedAmount * 120) < ((*it)->getRightLimit() - 60)) // @suppress("Method cannot be resolved")
+			if(platformLength > 60)
 			{
-				// Spawneo
-				enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RIFLEMAN, initialSpawnX + alreadySpawnedAmount * 120, (*it)->getPosY() - 100));
-				platforms_spawns.at(randomPlatformId) = alreadySpawnedAmount + 1;
-				spawned = true;
+				spawnX = rand() % (platformLength - 60) + platformX;
+				//cout<<"Platform: "<<randomPlatformId<<" - AlreadySpawned: "<<alreadySpawnedAmount<<" - SpawnX: "<<spawnX<<endl;
+				spawn_collision_found = false;
+
+				for(int i = 0; i < alreadySpawnedAmount; i++)
+				{
+					if(spawnX > (platforms_spawns.at(randomPlatformId).at(i) - 120) && spawnX < (platforms_spawns.at(randomPlatformId).at(i) + 80))
+					{
+						//cout<<"Collision Found, searching new platform..."<<endl;
+						spawn_collision_found = true;
+						break;
+					}
+				}
+
+				if(!spawn_collision_found)
+				{
+					enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RIFLEMAN, spawnX, (*it)->getPosY() - 100));
+					platforms_spawns.at(randomPlatformId).push_back(spawnX);
+					LOGGER_DEBUG("Creado RIFLEMAN en plataforma " + std::to_string(randomPlatformId) + " y posX " + std::to_string(spawnX));
+					spawned = true;
+				}
 			}
 		}
 	}
@@ -287,29 +292,39 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 
 		while(!spawned)
 		{
-			randomPlatformId = rand() % (platformsAmount-1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
+			randomPlatformId = rand() % (platformsAmount - 1) + 1; // Buscamos una plataforma al azar entre todas las que hay en el nivel, excepto la primera, que se supone es la de spawn
 
 			// Busco esa plataforma y extraigo información
 			std::list<Platform*>::iterator it = platforms.begin();
 			std::advance(it, randomPlatformId);
-			alreadySpawnedAmount = platforms_spawns.at(randomPlatformId);
 
-			if((*it)->getPosX() + 60 > (*it)->getXCentre()) // @suppress("Method cannot be resolved")
-			{
-				initialSpawnX = (*it)->getXCentre(); // @suppress("Method cannot be resolved")
-			}
-			else
-			{
-				initialSpawnX = (*it)->getPosX(); // @suppress("Method cannot be resolved")
-			}
+			platformLength = (*it)->getLength(); // @suppress("Method cannot be resolved")
+			platformX = (*it)->getPosX(); // @suppress("Method cannot be resolved")
+			alreadySpawnedAmount = platforms_spawns.at(randomPlatformId).size();
 
-			// Calculo cuanto mas a la derecha lo tengo que spawnear, si me paso del limite de la plataforma busco otra
-			if((initialSpawnX + alreadySpawnedAmount * 120) < ((*it)->getRightLimit() - 60)) // @suppress("Method cannot be resolved")
+			if(platformLength > 60)
 			{
-				// Spawneo
-				enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RUNNER, initialSpawnX + alreadySpawnedAmount * 120, (*it)->getPosY() - 90));
-				platforms_spawns.at(randomPlatformId) = alreadySpawnedAmount + 1;
-				spawned = true;
+				spawnX = rand() % (platformLength - 60) + platformX;
+				//cout<<"Platform: "<<randomPlatformId<<" - AlreadySpawned: "<<alreadySpawnedAmount<<" - SpawnX: "<<spawnX<<endl;
+				spawn_collision_found = false;
+
+				for(int i = 0; i < alreadySpawnedAmount; i++)
+				{
+					if(spawnX > (platforms_spawns.at(randomPlatformId).at(i) - 120) && spawnX < (platforms_spawns.at(randomPlatformId).at(i) + 80))
+					{
+						//cout<<"Collision Found, searching new platform..."<<endl;
+						spawn_collision_found = true;
+						break;
+					}
+				}
+
+				if(!spawn_collision_found)
+				{
+					enemies.push_back(new Enemy(cameraLogic, serverMessageHandler, EnemyType::ENEMY_TYPE_RUNNER, spawnX, (*it)->getPosY() - 100));
+					platforms_spawns.at(randomPlatformId).push_back(spawnX);
+					LOGGER_DEBUG("Creado RUNNER en plataforma " + std::to_string(randomPlatformId) + " y posX " + std::to_string(spawnX));
+					spawned = true;
+				}
 			}
 		}
 	}
