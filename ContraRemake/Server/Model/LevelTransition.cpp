@@ -20,6 +20,7 @@ LevelTransition::LevelTransition(ServerMessageHandler* _serverMessageHandler, st
 		level3Score[i] = 0;
 		totalScore.push_back(i);
 		totalScore[i] = 0;
+		serverMessageHandler->sendToAllClients(new MessageServer(LEVELTRANSITION, LOADNAMES, players[i]->getUsername()));
 	}
 }
 

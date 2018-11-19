@@ -90,6 +90,8 @@ class Player : public ICollisional
 		int getLevelScore(int level) { return level_score[level]; }
 		int getTotalScore() { return (level_score[0] + level_score[1] + level_score[2]); }
 
+		string getUsername();
+
 		list<Bullet*>* getBulletList() { return gun->getBullets(); }
 
 	private:

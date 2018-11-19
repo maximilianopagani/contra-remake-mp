@@ -355,6 +355,11 @@ void ClientMessageHandler::processMessage(Message* message)
 					levelTransitionView->render();
 					break;
 				}
+				case LOADNAMES:
+				{
+					levelTransitionView->loadPlayerNames(param1);
+					break;
+				}
 			}
 		}
 	}

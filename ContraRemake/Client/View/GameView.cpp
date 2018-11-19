@@ -206,10 +206,9 @@ SDL_Texture* GameView::textureGenerator(std::string path)
 	return texture;
 }
 
-SDL_Texture* GameView::textTextureGenerator(std::string text)
+SDL_Texture* GameView::textTextureGenerator(std::string text, SDL_Color textColor)
 {
-	TTF_Font* font = TTF_OpenFont("../.fonts/8bit.ttf", 16);
-	SDL_Color textColor = { 255, 255, 255, 0xFF };
+	TTF_Font* font = TTF_OpenFont("../.fonts/8bit.ttf", 12);
 	SDL_Texture* texture = NULL;
 	SDL_Surface* textSurface = NULL;
 	textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);

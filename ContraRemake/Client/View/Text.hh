@@ -13,7 +13,7 @@
 class Text {
 
 public:
-	Text(GameView* _gameView, std::string text);
+	Text(GameView* _gameView, std::string text, SDL_Color _textColor);
 	virtual ~Text();
 
 	void render(int x , int y);
