@@ -16,7 +16,7 @@ BossView::BossView(GameView* _gameView) {
 	bosslevel1[BOSS1_CLOSE_EYE] = new Sprite(gameView, "../.images/bosses/1/closeEye.png",  129, 97, 258, 194);
 	bosslevel1[BOSS1_SHOOT] = new Sprite(gameView, "../.images/bosses/1/shoot.png",  129, 97, 258, 194);
 	bosslevel1[BOSS1_UNDERGROUND1] = new Sprite(gameView, "../.images/bosses/1/underground1.png", 129, 97, 258, 194);
-	bosslevel1[BOSS1_UNDERGROUND2] = new Sprite(gameView, "../.images/bosses/1/underground2.png",  129, 97, 258, 194);
+	bosslevel1[BOSS1_UNDERGROUND2] = new Sprite(gameView, "../.images/bosses/1/undergroumd2.png",  129, 97, 258, 194);
 	bosslevel1[BOSS1_GETTING_DMG] = new Sprite(gameView, "../.images/bosses/1/gettingDmg.png",129, 97, 258, 194);
 	bosslevel1[BOSS1_DEAD] = new Sprite(gameView, "../.images/bosses/1/dead.png",  129, 97,  258, 194);
 
@@ -26,6 +26,7 @@ BossView::BossView(GameView* _gameView) {
 	bosslevel2[BOSS2_GETTING_DMG] = new Sprite(gameView, "../.images/bosses/2/gettingDmg.png",254,140,504,208);
 	bosslevel2[BOSS2_SHOOT] = new Sprite(gameView, "../.images/bosses/2/shoot.png",254,140,504,208);
 	bosslevel2[BOSS2_DEAD] = new Sprite(gameView, "../.images/bosses/2/dead.png",254,64,504,128);
+	bosslevel2[BOSS2_BODY] = new Sprite(gameView, "../.images/bosses/2/body.png",129,180,258,360);
 
 	bosslevel3[BOSS3_STANDING] = new Sprite(gameView, "../.images/bosses/3/standing.png",99,112,99,112);
 	bosslevel3[BOSS3_ATTACKING] = new Sprite(gameView, "../.images/bosses/3/attacking.png",99,112,99,112);
@@ -40,13 +41,17 @@ BossView::BossView(GameView* _gameView) {
 
 void BossView::render(int _id, int state, int pos_x, int pos_y)
 {
-	sprites[_id][state]->render(pos_x, pos_y);
+	if( _id == 1 ) sprites[1][BOSS2_BODY]->render(271,0);
 
+	sprites[_id][state]->render(pos_x, pos_y);
 }
 
-void BossView::update(int player_id, int state)
+void BossView::update(int _id, int state)
 {
-	sprites[player_id][state]->update();
+	sprites[_id][state]->update();
+
+	if( _id == 1 && state== 1) sprites[1][BOSS2_BODY]->update();
+
 }
 
 void BossView::destroy()

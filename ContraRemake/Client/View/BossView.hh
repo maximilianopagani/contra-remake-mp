@@ -26,7 +26,8 @@ enum boss2States{
 		BOSS2_ATTACKING_END,
 		BOSS2_GETTING_DMG,
 		BOSS2_SHOOT,
-		BOSS2_DEAD
+		BOSS2_DEAD,
+		BOSS2_BODY
 };
 enum boss3States{
 		BOSS3_STANDING,
@@ -53,7 +54,7 @@ private:
 	GameView* gameView;
 
 	Sprite* bosslevel1[9];
-	Sprite* bosslevel2[6];
+	Sprite* bosslevel2[7];
 	Sprite* bosslevel3[5];
 
 	Sprite** sprites[3];
