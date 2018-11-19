@@ -196,21 +196,7 @@
 					<id>32</id>				
 					<tipo>GRASS</tipo>
 					<xinicial>7050</xinicial>
-					<xfinal>7400</xfinal>
-					<altura>452</altura>
-				</plataforma>
-				<plataforma>
-					<id>33</id>				
-					<tipo>ICE</tipo>
-					<xinicial>7500</xinicial>
-					<xfinal>7800</xfinal>
-					<altura>452</altura>
-				</plataforma>
-				<plataforma>
-					<id>34</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>7800</xinicial>
-					<xfinal>7950</xfinal>
+					<xfinal>7960</xfinal>
 					<altura>452</altura>
 				</plataforma>
 				<plataforma>

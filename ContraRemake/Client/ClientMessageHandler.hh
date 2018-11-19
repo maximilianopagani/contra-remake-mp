@@ -19,6 +19,7 @@
 #include "View/ItemView.hh"
 #include "View/BulletView.hh"
 #include "View/EnemyView.hh"
+#include "View/BossView.hh"
 #include "Sound/Sound.hh"
 #include "View/LivesView.hh"
 #include "View/LevelTransitionView.hh"
@@ -34,7 +35,7 @@ class ClientMessageHandler
 		ClientMessageHandler();
 		virtual ~ClientMessageHandler();
 
-		void setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView, Sound* _sound);
+		void setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView ,BossView* _bossView , Sound* _sound);
 		bool setClientHandler(ClientHandler* _client);
 		void processMessage(Message* message);
 
@@ -51,6 +52,7 @@ class ClientMessageHandler
 		EnemyView* enemyView;
 		LivesView* livesView;
 		LevelTransitionView* levelTransitionView;
+		BossView* bossView ;
 
 		Sound* sound;
 };

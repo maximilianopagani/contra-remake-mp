@@ -80,10 +80,11 @@ int ClientMain()
 		EnemyView* enemyView = new EnemyView(gameView);
 		LivesView* livesView = new LivesView(gameView);
 		LevelTransitionView* levelTransitionView = new LevelTransitionView(gameView);
+		BossView* bossView = new BossView(gameView);
 
 		LOGGER_DEBUG("Vistas de los modulos creadas");
 
-		clientMessageHandler->setParams(gameView, playerView, levelView, platformView, itemView, bulletView, enemyView, livesView, levelTransitionView, sound);
+		clientMessageHandler->setParams(gameView, playerView, levelView, platformView, itemView, bulletView, enemyView, livesView, levelTransitionView,bossView, sound);
 
 		client->run();
 

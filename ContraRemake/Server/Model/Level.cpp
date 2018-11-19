@@ -17,6 +17,8 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 	{
 		case LEVEL1:
 		{
+			boss = new Boss(cameraLogic, serverMessageHandler,0,7950,265);
+
 			serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,0,1));
 
 			scrolling = SCROLLING_HORIZONTAL;
@@ -60,6 +62,8 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 
 		case LEVEL2:
 		{
+			boss = new Boss(cameraLogic, serverMessageHandler,1,148,10);
+
 			serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,0,2));
 
 			scrolling = SCROLLING_VERTICAL;
@@ -105,6 +109,8 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 
 		case LEVEL3:
 		{
+			boss = new Boss(cameraLogic, serverMessageHandler,2,7700,10);
+
 			serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,0,3));
 
 			scrolling = SCROLLING_HORIZONTAL;
@@ -357,6 +363,8 @@ void Level::render()
 		(*enemiesIterator)->render();
 	}
 
+	if(boss!= NULL) boss->render();
+
 	//============================================================================================================
 }
 void Level::update()
@@ -368,12 +376,18 @@ void Level::update()
 		(*enemiesIterator)->update();
 	}
 
+	if(boss!= NULL) boss->update();
+
     //============================================================================================================
 }
 
 void Level::deleteEnemy(Enemy* _enemy)
 {
 	enemies.remove(_enemy);
+}
+
+void Level::deleteBoss(){
+	boss=NULL;
 }
 
 void Level::destroy()

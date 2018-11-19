@@ -18,10 +18,11 @@ ClientMessageHandler::ClientMessageHandler()
 	enemyView = NULL;
 	livesView = NULL;
 	sound = NULL;
+	bossView= NULL;
 	levelTransitionView = NULL;
 }
 
-void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView, Sound* _sound)
+void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerView, LevelView* _levelView, PlatformView* _platformView, ItemView* _itemView, BulletView* _bulletView, EnemyView* _enemyView, LivesView* _livesView, LevelTransitionView* _levelTransitionView,BossView* _bossView , Sound* _sound)
 {
 	gameView = _gameView;
 	playerView = _playerView;
@@ -31,6 +32,7 @@ void ClientMessageHandler::setParams(GameView* _gameView, PlayerView* _playerVie
 	bulletView = _bulletView;
 	enemyView = _enemyView;
 	livesView = _livesView;
+	bossView = _bossView;
 	sound = _sound;
 	levelTransitionView = _levelTransitionView;
 }
@@ -332,7 +334,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				{
 					int type = atoi(param1);
 					int subtype = atoi(param2);
-					sound->play(type, subtype, 0, 50);
+					sound->play(type, subtype, 0, 30);
 					break;
 				}
 			}
@@ -361,6 +363,29 @@ void ClientMessageHandler::processMessage(Message* message)
 					break;
 				}
 			}
+			break;
+		}
+		case BOSS:{
+
+			switch(MSG_HEADER_2){
+
+				case RENDER:{
+					int type = atoi(param1);
+					int state = atoi(param2);
+					int pos_x = atoi(param3);
+					int pos_y = atoi(param4);
+					bossView->render(type, state, pos_x, pos_y);
+					break;
+				}
+				case LOAD:{
+					int type = atoi(param1);
+					int state = atoi(param2);
+					bossView->update(type, state);
+					break;
+				}
+			}
+
+			break;
 		}
 	}
 

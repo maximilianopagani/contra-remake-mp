@@ -13,6 +13,7 @@
 #include "Platform.hh"
 #include "Item.hh"
 #include "Enemy.hh"
+#include "Boss.hh"
 #include "CameraLogic.hh"
 #include "ServerMessageHandler.hh"
 
@@ -31,6 +32,7 @@ class Level
 		void moveForward(int pixels_to_move);
 		void update();
 		void deleteEnemy(Enemy* _enemy);
+		void deleteBoss();
 
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
@@ -52,6 +54,7 @@ class Level
 		list<Platform*>* getPlatformsList() { return &platforms; }
 		list<Enemy*>* getEnemiesList() { return &enemies; }
 		list<Item*>* getItemsList() { return &items; }
+		Boss* getBoss(){return boss;}
 
 		void restart();
 
@@ -82,6 +85,8 @@ class Level
 
 		std::list<Enemy*> enemies;
 		std::list<Enemy*>::iterator enemiesIterator;
+
+		Boss* boss;
 };
 
 #endif /* MODEL_LEVEL_HH_ */

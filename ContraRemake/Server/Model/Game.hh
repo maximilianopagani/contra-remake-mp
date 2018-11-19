@@ -59,6 +59,7 @@ class Game
         //=========================================================
 
         int max_players;
+        bool oneTime ;
 
         GameParser* gameParser;
 

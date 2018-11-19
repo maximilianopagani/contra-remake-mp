@@ -12,6 +12,7 @@ Game::Game(ServerHandler* _server, ServerMessageHandler* _serverMessageHandler, 
 	serverMessageHandler = _serverMessageHandler;
 	server = _server;
 	max_players = _max_players;
+	oneTime = true;
 
 	//========== Manejo de la velocidad del juego =============
 	game_FPS = _FPS;
@@ -237,6 +238,8 @@ void Game::nextLevel()
 		case LEVEL3: // No borrar el nivel 3, porque el ciclo sigue, y quedan varias cosas que tiene que ejecutar todavia con el puntero a Level
 			endGame();
 	}
+
+	oneTime= true;
 }
 
 void Game::endGame()
@@ -339,6 +342,22 @@ void Game::update()
 {
 	list<Enemy*>* enemies = level->getEnemiesList();
 	list<Enemy*>::iterator enemiesIterator;
+	Boss* boss = level->getBoss();
+
+	//======================================== END LEVEL ========================================================
+
+	if(boss!=NULL) {
+		if(boss->getLife() == 0 ) {
+			if(oneTime){
+				serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 1, 2));
+				oneTime = false;
+			}
+			if(boss->bossIsDead()){
+				level->deleteBoss();
+				this->nextLevel();
+			}
+		}
+	}
 
 	//============================================= IA DE ENEMIGOS ===============================================
 
@@ -505,6 +524,11 @@ void Game::update()
     			   	players.at(i)->kill();
     			   	break;
     			}
+    			/*Contra el boss*/
+    			if(CollisionHelper::collides(players.at(i),boss)) {
+    			    players.at(i)->kill();
+    			    break;
+    			}
     		}
     	}
     }
@@ -519,6 +543,17 @@ void Game::update()
         	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
         	{
         		bool collided = false;
+
+        		/*Seccion de Boss*/
+        		if(CollisionHelper::collides(*bulletsIterator,boss)){
+        		    boss->wasHit();
+
+        		    delete (*bulletsIterator);
+        		    bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+
+        		    collided = true;
+        		    continue;
+        		}
 
         		for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end();)
         		{
@@ -558,6 +593,7 @@ void Game::update()
     for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
 	{
     	bullets = (*enemiesIterator)->getBulletList(); // @suppress("Method cannot be resolved")
+    	if(boss!=NULL) bullets->merge( *boss->getBulletList() );
 
     	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
 		{
