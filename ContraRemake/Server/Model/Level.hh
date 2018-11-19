@@ -49,12 +49,12 @@ class Level
 
 		void loadPlatforms(std::list<PlataformParser>* platformParser);
 		void loadItems(std::list<ItemParser>* itemParser);
-		void loadEnemies(int runner_amount = 10, int rifleman_amount = 10);
+		void loadEnemies(int runner_amount, int rifleman_amount);
 
 		list<Platform*>* getPlatformsList() { return &platforms; }
 		list<Enemy*>* getEnemiesList() { return &enemies; }
 		list<Item*>* getItemsList() { return &items; }
-		Boss* getBoss(){return boss;}
+		Boss* getBoss() { return boss; }
 
 		void restart();
 

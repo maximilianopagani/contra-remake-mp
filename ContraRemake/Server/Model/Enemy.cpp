@@ -154,6 +154,8 @@ void Enemy::update()
 			default:
 				break;
 		}
+
+		this->updateCollisionBox();
 	}
 }
 
@@ -185,23 +187,42 @@ void Enemy::render()
 	}
 }
 
-int Enemy::getLeftLimit()
+void Enemy::updateCollisionBox()
 {
-	return posX + 15 ;
-}
+	switch(type)
+	{
+		case EnemyType::ENEMY_TYPE_RUNNER:
+		{
+			col_box_xi = posX + 15;
+			col_box_xf = posX + 29;
 
-int Enemy::getRightLimit()
-{
-	return (posX + 44 - 15);
-}
+			col_box_yi = posY;
+			col_box_yf = col_box_yi + 87;
 
-int Enemy::getTopLimit()
-{
-	return posY;
-}
+			break;
+		}
 
-int Enemy::getBottomLimit()
-{
-	return posY + 87;
+		case EnemyType::ENEMY_TYPE_RIFLEMAN:
+		{
+			col_box_yi = posY + 15;
+			col_box_yf = col_box_yi + 78;
+
+			if(state == RIFLEMAN_STATE_LEFT_DOWN || state == RIFLEMAN_STATE_LEFT_UP || state == RIFLEMAN_STATE_LEFT_FRONT)
+			{
+				col_box_xi = posX + 18;
+				col_box_xf = col_box_xi + 41;
+			}
+			else // state == RIFLEMAN_STATE_RIGH_DOWN || state == RIFLEMAN_STATE_RIGHT_UP || state == RIFLEMAN_STATE_RIGHT_FRONT
+			{
+				col_box_xi = posX;
+				col_box_xf = col_box_xi + 41;
+			}
+
+			break;
+		}
+
+		default:
+			break;
+	}
 }
 

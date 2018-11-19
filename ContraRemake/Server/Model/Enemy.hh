@@ -28,6 +28,7 @@ class Enemy: public ICollisional
 
 		void render();
 		void update();
+		void updateCollisionBox();
 		void fallingStop() { falling = false; }
 		void fallingDown() { falling = true;}
 		void wasHit() { dead = true; }; //ANIMACION DE MUERTO O DIRECTAMENTE BORRARLO
@@ -42,10 +43,10 @@ class Enemy: public ICollisional
 		list<Bullet*>* getBulletList() { return &bullets; }
 
 		//Collisional
-		int getLeftLimit();
-		int getRightLimit();
-		int getTopLimit();
-		int getBottomLimit();
+		int getLeftLimit() { return col_box_xi; }
+		int getRightLimit() { return col_box_xf; }
+		int getTopLimit() { return col_box_yi; }
+		int getBottomLimit() { return col_box_yf; }
 
 	private:
 
@@ -68,6 +69,8 @@ class Enemy: public ICollisional
 		EnemyType type;
 		int posX, posY, state, changeDirectionTime;
 		bool falling, dead;
+
+		int col_box_xi, col_box_yi, col_box_xf, col_box_yf;
 };
 
 #endif /* ENEMY_HH_ */

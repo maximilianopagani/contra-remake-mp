@@ -14,10 +14,10 @@ EnemyView::EnemyView(GameView* _gameView){
 	sprites_runner[EnemyRunnerStates::RUNNER_STATE_RUNNING_LEFT] = new Sprite(gameView, "../.images/enemies/runner/runner_left.png", 16, 32, 42, 84);
 	sprites_runner[EnemyRunnerStates::RUNNER_STATE_RUNNING_RIGHT] = new Sprite(gameView, "../.images/enemies/runner/runner_right.png", 16, 32, 42, 84);
 
-	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_UP] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_left_up.png", 18, 38, 44, 93);
+	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_UP] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_left_up.png", 24, 38, 59, 93);
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_FRONT] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_left_front.png", 24, 38, 59, 93);
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_DOWN] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_left_down.png", 24, 38, 59, 93);
-	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_UP] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_right_up.png", 18, 38, 44, 93);
+	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_UP] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_right_up.png", 24, 38, 59, 93);
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_FRONT] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_right_front.png", 24, 38, 59, 93);
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_DOWN] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_right_down.png", 24, 38, 59, 93);
 

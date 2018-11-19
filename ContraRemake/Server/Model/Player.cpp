@@ -531,7 +531,3 @@ void Player::updateCollisionBox()
 		col_box_yf = pos_y + PlayerStateHandler::getDestinationHeight(state);
 	}
 }
-
-string Player::getUsername() {
-	return this->username;
-}

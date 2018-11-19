@@ -16,7 +16,7 @@ BossView::BossView(GameView* _gameView) {
 	bosslevel1[BOSS1_CLOSE_EYE] = new Sprite(gameView, "../.images/bosses/1/closeEye.png",  129, 97, 258, 194);
 	bosslevel1[BOSS1_SHOOT] = new Sprite(gameView, "../.images/bosses/1/shoot.png",  129, 97, 258, 194);
 	bosslevel1[BOSS1_UNDERGROUND1] = new Sprite(gameView, "../.images/bosses/1/underground1.png", 129, 97, 258, 194);
-	bosslevel1[BOSS1_UNDERGROUND2] = new Sprite(gameView, "../.images/bosses/1/undergroumd2.png",  129, 97, 258, 194);
+	bosslevel1[BOSS1_UNDERGROUND2] = new Sprite(gameView, "../.images/bosses/1/underground2.png",  129, 97, 258, 194);
 	bosslevel1[BOSS1_GETTING_DMG] = new Sprite(gameView, "../.images/bosses/1/gettingDmg.png",129, 97, 258, 194);
 	bosslevel1[BOSS1_DEAD] = new Sprite(gameView, "../.images/bosses/1/dead.png",  129, 97,  258, 194);
 

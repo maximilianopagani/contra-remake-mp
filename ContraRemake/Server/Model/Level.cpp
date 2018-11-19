@@ -46,8 +46,7 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 
 			this->loadItems(gameParser->getItems1());
 
-			//this->loadEnemies(gameParser->getRunners1(), gameParser->getRiflemans1())
-			//this->loadEnemies(gameParser->getQuantityRunnersLevel1(), gameParser->getQuantityRiflemansLevel1());
+			this->loadEnemies(gameParser->getQuantityRunnersLevel1(), gameParser->getQuantityRiflemansLevel1());
 
 		    //============================================================================================================
 
@@ -91,8 +90,7 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 
 			this->loadItems(gameParser->getItems2());
 
-			//this->loadEnemies(gameParser->getRunners2(), gameParser->getRiflemans2())
-			//this->loadEnemies(gameParser->getQuantityRunnersLevel2(), gameParser->getQuantityRiflemansLevel2());
+			this->loadEnemies(gameParser->getQuantityRunnersLevel2(), gameParser->getQuantityRiflemansLevel2());
 
 		    //============================================================================================================
 
@@ -101,8 +99,6 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 
 			playerRespawnX = 400; // Relativo a la ventana, donde van a aparecer cuando caigan
 			playerRespawnY = 350;
-
-			//enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level2.png", 150, 0, 253, 103);
 
 			break;
 		}
@@ -138,8 +134,7 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 
 			this->loadItems(gameParser->getItems3());
 
-			//this->loadEnemies(gameParser->getRunners3(), gameParser->getRiflemans3())
-			//this->loadEnemies(gameParser->getQuantityRunnersLevel3(), gameParser->getQuantityRiflemansLevel3());
+			this->loadEnemies(gameParser->getQuantityRunnersLevel3(), gameParser->getQuantityRiflemansLevel3());
 
 		    //============================================================================================================
 
@@ -149,17 +144,9 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 			playerRespawnX = 100; // Relativo a la ventana, donde van a aparecer cuando caigan
 			playerRespawnY = 200;
 
-			//enemy = new Enemy(cameraLogic, ".images/enemies/contra_boss_level3.png", 7800, 310, 127, 95);
-
 			break;
 		}
 	}
-
-    //========================================= CARGA DE ENEMIGOS ================================================
-
-	this->loadEnemies();
-
-    //============================================================================================================
 
     //============================== CONFIGURACION DE POSICIONES INICIALES Y BORDE ===============================
 
@@ -208,7 +195,7 @@ Level::~Level()
 
 void Level::loadPlatforms(std::list<PlataformParser>* platformParser)
 {
-	LOGGER_DEBUG("Iniciando carga en level y creación de plataformas.");
+	LOGGER_INFO("Iniciando carga en level y creación de plataformas.");
 
 	std::list<PlataformParser>::iterator platformParserIterator;
 
@@ -225,7 +212,7 @@ void Level::loadPlatforms(std::list<PlataformParser>* platformParser)
 
 void Level::loadItems(std::list<ItemParser>* itemParser)
 {
-	LOGGER_DEBUG("Iniciando carga en level y creación de items.");
+	LOGGER_INFO("Iniciando carga en level y creación de items.");
 
 	std::list<ItemParser>::iterator itemParserIterator;
 
@@ -240,7 +227,7 @@ void Level::loadItems(std::list<ItemParser>* itemParser)
 
 void Level::loadEnemies(int runner_amount, int rifleman_amount)
 {
-	LOGGER_DEBUG("Iniciando carga en level y creación de enemigos.");
+	LOGGER_INFO("Iniciando carga en level y creación de enemigos.");
 
 	int platformsAmount = platforms.size();
 	int randomPlatformId, alreadySpawnedAmount, initialSpawnX;
@@ -255,7 +242,7 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 
 	srand(time(0)); // Cambio la semilla del generador de aleatorios para que no se repitan en distintas ejecuciones del juego
 
-	LOGGER_DEBUG("Iniciando creación de " + std::to_string(rifleman_amount) + " riflemans.");
+	LOGGER_INFO("Iniciando creación de " + std::to_string(rifleman_amount) + " riflemans.");
 
 	for(int i = 0; i < rifleman_amount; i++)
 	{
@@ -290,9 +277,9 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 		}
 	}
 
-	LOGGER_DEBUG("Finalizada la creación de riflemans.");
+	LOGGER_INFO("Finalizada la creación de riflemans.");
 
-	LOGGER_DEBUG("Iniciando creación de " + std::to_string(runner_amount) + " runner.");
+	LOGGER_INFO("Iniciando creación de " + std::to_string(runner_amount) + " runner.");
 
 	for(int i = 0; i < runner_amount; i++)
 	{
@@ -327,7 +314,7 @@ void Level::loadEnemies(int runner_amount, int rifleman_amount)
 		}
 	}
 
-	LOGGER_DEBUG("Finalizada la creación de runners.");
+	LOGGER_INFO("Finalizada la creación de runners.");
 }
 
 void Level::render()
@@ -376,7 +363,8 @@ void Level::update()
 		(*enemiesIterator)->update();
 	}
 
-	if(boss!= NULL) boss->update();
+	if(boss != NULL)
+		boss->update();
 
     //============================================================================================================
 }
