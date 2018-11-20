@@ -22,33 +22,39 @@
 			<items>
 				<item>
 					<id>101</id>				
-					<tipo>SPREADGUNFALCON</tipo>
-					<xpos>1000</xpos>
-					<ypos>300</ypos>
+					<tipo>LASERFALCON</tipo>
+					<xpos>2622</xpos>
+					<ypos>258</ypos>
 				</item>
 				<item>
 					<id>102</id>				
 					<tipo>LASERFALCON</tipo>
-					<xpos>1500</xpos>
-					<ypos>300</ypos>
+					<xpos>6183</xpos>
+					<ypos>248</ypos>
 				</item>
 				<item>
 					<id>103</id>				
 					<tipo>MACHINEGUNFALCON</tipo>
-					<xpos>2000</xpos>
-					<ypos>300</ypos>
+					<xpos>3981</xpos>
+					<ypos>89</ypos>
 				</item>
 				<item>
 					<id>104</id>				
-					<tipo>RAPIDFIREFALCON</tipo>
-					<xpos>2500</xpos>
-					<ypos>300</ypos>
+					<tipo>MACHINEGUNFALCON</tipo>
+					<xpos>7112</xpos>
+					<ypos>49</ypos>
 				</item>
 				<item>
 					<id>105</id>				
 					<tipo>SPREADGUNFALCON</tipo>
-					<xpos>7000</xpos>
-					<ypos>300</ypos>
+					<xpos>1371</xpos>
+					<ypos>94</ypos>
+				</item>
+				<item>
+					<id>106</id>				
+					<tipo>SPREADGUNFALCON</tipo>
+					<xpos>5166</xpos>
+					<ypos>66</ypos>
 				</item>
 			</items>
 			<plataformas>
@@ -56,162 +62,239 @@
 					<id>1</id>				
 					<tipo>GRASS</tipo>
 					<xinicial>1</xinicial>
-					<xfinal>200</xfinal>
-					<altura>452</altura>
+					<xfinal>241</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
 					<id>2</id>				
-					<tipo>ICE</tipo>
-					<xinicial>500</xinicial>
-					<xfinal>700</xfinal>
-					<altura>452</altura>
+					<tipo>GRASS</tipo>
+					<xinicial>450</xinicial>
+					<xfinal>1122</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
 					<id>3</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>800</xinicial>
-					<xfinal>1150</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>577</xinicial>
+					<xfinal>913</xfinal>
+					<altura>320</altura>
 				</plataforma>
 				<plataforma>
-					<id>4</id>
+					<id>4</id>				
 					<tipo>WOOD</tipo>
-					<xinicial>800</xinicial>
-					<xfinal>1200</xfinal>
-					<altura>350</altura>
+					<xinicial>1090</xinicial>
+					<xfinal>1426</xfinal>
+					<altura>320</altura>
+				</plataforma>
+				<plataforma>
+					<id>5</id>				
+					<tipo>WOOD</tipo>
+					<xinicial>803</xinicial>
+					<xfinal>1187</xfinal>
+					<altura>190</altura>
+				</plataforma>
+				<plataforma>
+					<id>6</id>				
+					<tipo>WOOD</tipo>
+					<xinicial>1566</xinicial>
+					<xfinal>1998</xfinal>
+					<altura>320</altura>
+				</plataforma>
+				<plataforma>
+					<id>7</id>				
+					<tipo>WOOD</tipo>
+					<xinicial>1566</xinicial>
+					<xfinal>1998</xfinal>
+					<altura>320</altura>
+				</plataforma>
+				<plataforma>
+					<id>8</id>				
+					<tipo>WOOD</tipo>
+					<xinicial>1728</xinicial>
+					<xfinal>1824</xfinal>
+					<altura>190</altura>
+				</plataforma>
+				<plataforma>
+					<id>9</id>				
+					<tipo>WOOD</tipo>
+					<xinicial>1992</xinicial>
+					<xfinal>2136</xfinal>
+					<altura>190</altura>
+				</plataforma>
+				<plataforma>
+					<id>10</id>				
+					<tipo>WOOD</tipo>
+					<xinicial>2280</xinicial>
+					<xfinal>2808</xfinal>
+					<altura>190</altura>
 				</plataforma>
 				<plataforma>
 					<id>11</id>				
-					<tipo>WOOD</tipo>
-					<xinicial>1250</xinicial>
-					<xfinal>1500</xfinal>
-					<altura>452</altura>
+					<tipo>GRASS</tipo>
+					<xinicial>2185</xinicial>
+					<xfinal>2473</xfinal>
+					<altura>450</altura>
+				</plataforma>
+				<plataforma>
+					<id>12</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>2830</xinicial>
+					<xfinal>3454</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
 					<id>13</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>1600</xinicial>
-					<xfinal>1900</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>2565</xinicial>
+					<xfinal>2709</xfinal>
+					<altura>320</altura>
 				</plataforma>
 				<plataforma>
 					<id>14</id>				
-					<tipo>ROCK</tipo>
-					<xinicial>2000</xinicial>
-					<xfinal>2400</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>3020</xinicial>
+					<xfinal>3116</xfinal>
+					<altura>190</altura>
 				</plataforma>
 				<plataforma>
 					<id>15</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>2450</xinicial>
-					<xfinal>2800</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>3300</xinicial>
+					<xfinal>3396</xfinal>
+					<altura>190</altura>
 				</plataforma>
 				<plataforma>
 					<id>16</id>				
-					<tipo>ICE</tipo>
-					<xinicial>2900</xinicial>
-					<xfinal>3400</xfinal>
-					<altura>452</altura>
+					<tipo>GRASS</tipo>
+					<xinicial>3605</xinicial>
+					<xfinal>3941</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
 					<id>17</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>3500</xinicial>
-					<xfinal>3600</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>3910</xinicial>
+					<xfinal>4246</xfinal>
+					<altura>320</altura>
 				</plataforma>
 				<plataforma>
 					<id>18</id>				
-					<tipo>ROCK</tipo>
-					<xinicial>3650</xinicial>
-					<xfinal>3950</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>4215</xinicial>
+					<xfinal>4551</xfinal>
+					<altura>190</altura>
 				</plataforma>
 				<plataforma>
 					<id>19</id>				
-					<tipo>WOOD</tipo>
-					<xinicial>4000</xinicial>
-					<xfinal>4400</xfinal>
-					<altura>452</altura>
+					<tipo>GRASS</tipo>
+					<xinicial>4620</xinicial>
+					<xfinal>4860</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
 					<id>20</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>4500</xinicial>
-					<xfinal>4800</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>5060</xinicial>
+					<xfinal>5108</xfinal>
+					<altura>320</altura>
 				</plataforma>
 				<plataforma>
 					<id>21</id>				
-					<tipo>ICE</tipo>
-					<xinicial>4850</xinicial>
-					<xfinal>5200</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>5160</xinicial>
+					<xfinal>5208</xfinal>
+					<altura>190</altura>
 				</plataforma>
 				<plataforma>
 					<id>22</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>5100</xinicial>
-					<xfinal>5500</xfinal>
-					<altura>350</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>5470</xinicial>
+					<xfinal>5566</xfinal>
+					<altura>240</altura>
 				</plataforma>
 				<plataforma>
 					<id>23</id>				
 					<tipo>WOOD</tipo>
-					<xinicial>5300</xinicial>
-					<xfinal>5600</xfinal>
-					<altura>452</altura>
+					<xinicial>5750</xinicial>
+					<xfinal>6038</xfinal>
+					<altura>190</altura>
+				</plataforma>
+				<plataforma>
+					<id>24</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>5060</xinicial>
+					<xfinal>5780</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
 					<id>25</id>				
 					<tipo>GRASS</tipo>
-					<xinicial>5700</xinicial>
-					<xfinal>6000</xfinal>
-					<altura>452</altura>
+					<xinicial>5960</xinicial>
+					<xfinal>6104</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
 					<id>26</id>				
-					<tipo>ROCK</tipo>
-					<xinicial>6050</xinicial>
-					<xfinal>6400</xfinal>
-					<altura>452</altura>
+					<tipo>GRASS</tipo>
+					<xinicial>6280</xinicial>
+					<xfinal>6424</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
-					<id>27</id>
+					<id>27</id>				
 					<tipo>WOOD</tipo>
-					<xinicial>5800</xinicial>
-					<xfinal>6200</xfinal>
-					<altura>300</altura>
+					<xinicial>6450</xinicial>
+					<xfinal>6978</xfinal>
+					<altura>320</altura>
+				</plataforma>
+				<plataforma>
+					<id>28</id>				
+					<tipo>WOOD</tipo>
+					<xinicial>6670</xinicial>
+					<xfinal>6766</xfinal>
+					<altura>190</altura>
+				</plataforma>
+				<plataforma>
+					<id>29</id>				
+					<tipo>WOOD</tipo>
+					<xinicial>6940</xinicial>
+					<xfinal>7324</xfinal>
+					<altura>190</altura>
+				</plataforma>
+				<plataforma>
+					<id>30</id>				
+					<tipo>GRASS</tipo>
+					<xinicial>7183</xinicial>
+					<xfinal>7999</xfinal>
+					<altura>450</altura>
 				</plataforma>
 				<plataforma>
 					<id>31</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>6550</xinicial>
-					<xfinal>7000</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>7455</xinicial>
+					<xfinal>7647</xfinal>
+					<altura>190</altura>
 				</plataforma>
 				<plataforma>
 					<id>32</id>				
-					<tipo>GRASS</tipo>
-					<xinicial>7050</xinicial>
-					<xfinal>7960</xfinal>
-					<altura>452</altura>
+					<tipo>WOOD</tipo>
+					<xinicial>7270</xinicial>
+					<xfinal>7414</xfinal>
+					<altura>320</altura>
 				</plataforma>
 				<plataforma>
-					<id>35</id>
+					<id>33</id>				
 					<tipo>WOOD</tipo>
-					<xinicial>7500</xinicial>
-					<xfinal>7900</xfinal>
-					<altura>300</altura>
+					<xinicial>7575</xinicial>
+					<xfinal>7671</xfinal>
+					<altura>320</altura>
 				</plataforma>
 				<plataforma>
-					<id>60</id>				
+					<id>34</id>				
 					<tipo>WOOD</tipo>
-					<xinicial>7000</xinicial>
-					<xfinal>7400</xfinal>
-					<altura>200</altura>
+					<xinicial>7807</xinicial>
+					<xfinal>7999</xfinal>
+					<altura>320</altura>
 				</plataforma>
 			</plataformas>
 		</nivel1>

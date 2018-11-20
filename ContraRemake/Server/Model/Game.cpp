@@ -528,7 +528,7 @@ void Game::update()
     			   	break;
     			}
     			/*Contra el boss*/
-    			if(CollisionHelper::collides(players.at(i),boss)) {
+    			if(CollisionHelper::collides(players.at(i),boss)) { // seprar en un bloque distinto, si no hay enemigos no entra a esta parte
     			    players.at(i)->kill();
     			    break;
     			}
@@ -600,7 +600,7 @@ void Game::update()
     for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
 	{
     	bullets = (*enemiesIterator)->getBulletList(); // @suppress("Method cannot be resolved")
-    	if(boss!=NULL) bullets->merge( *boss->getBulletList() );
+    	if(boss!=NULL) bullets->merge( *boss->getBulletList() ); // arreglar esto y hacerlo en un for separado, ya experimente un bug donde no te mata el boss ni te hace nada, estimo porque no hay enemigos y no mergea su lista de balas. LO MISMO PARA COLISION CUERPO A CUERPO
 
     	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
 		{
