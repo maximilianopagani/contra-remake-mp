@@ -29,6 +29,8 @@ class GameView
 		SDL_Texture* textureGenerator(std::string path);
 		SDL_Texture* textTextureGenerator(std::string text, SDL_Color textColor);
 
+		void showWindow() { SDL_ShowWindow(window); }
+
 		void destroy();
 		void queryTexture(SDL_Texture* texture, int* widthResponse, int* heightResponse);
 

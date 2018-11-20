@@ -286,7 +286,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				case GAME_OVER:
 				{
 					gameView->showGameOverScreen();
-					client->quit(3000);
+					client->quit(6000);
 					break;
 				}
 				case GAME_VICTORY:

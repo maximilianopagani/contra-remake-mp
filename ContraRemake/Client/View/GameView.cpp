@@ -52,6 +52,8 @@ bool GameView::init()
 			LOGGER_INFO("Ventana creada con éxito.");
 		}
 
+		SDL_HideWindow(window);
+
 		renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
 		if(renderer == NULL)

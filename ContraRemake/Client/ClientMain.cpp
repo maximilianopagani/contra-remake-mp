@@ -72,6 +72,8 @@ int ClientMain()
 
 	if(clientLogin(client, sound))
 	{
+		gameView->showWindow();
+
 		PlayerView* playerView = new PlayerView(gameView);
 		LevelView* levelView = new LevelView(gameView);
 		PlatformView* platformView = new PlatformView(gameView);
