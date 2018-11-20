@@ -40,19 +40,19 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 		case 0:{
 
 				if(subtype == 0){
-					Mix_PlayMusic(musicLogin,loops);
+					Mix_PlayMusic(musicLogin,-1);
 					Mix_VolumeMusic(volumen-20);
 				}
 				if(subtype == 1){
-					Mix_PlayMusic(musicLevel1,loops);
+					Mix_PlayMusic(musicLevel1,-1);
 					Mix_VolumeMusic(volumen-20);
 				}
 				if(subtype == 2){
-					Mix_PlayMusic(musicLevel2,loops);
+					Mix_PlayMusic(musicLevel2,-1);
 					Mix_VolumeMusic(volumen-20);
 				}
 				if(subtype == 3){
-					Mix_PlayMusic(musicLevel3,loops);
+					Mix_PlayMusic(musicLevel3,-1);
 					Mix_VolumeMusic(volumen+10);
 				}
 
@@ -85,7 +85,7 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 
 		case 2:{
 					if(subtype == 0){
-						Mix_PlayChannel(2,enemy_dead, loops);
+						Mix_PlayChannel(4,enemy_dead, loops);
 						Mix_VolumeChunk(enemy_dead, volumen+10);
 					}
 

@@ -151,7 +151,7 @@ void Game::processMessage(MessageServer* message)
 							}
 							//===============================================
 
-							players.at(player_id)->handleKeys(player_keys);
+							 if (!loadTransition) players.at(player_id)->handleKeys(player_keys);
 						}
 					}
 					break;
@@ -547,6 +547,7 @@ void Game::update()
     }
 
     //BalasJugador-Enemigo
+    if (!loadTransition) {
     for(int i = 0; i < max_players; i++)
     {
     	if(players.at(i)->isOnline())
@@ -604,7 +605,7 @@ void Game::update()
         		}
         	}
     	}
-    }
+    } }
 
     //BalasBoss-Jugador
     if(boss != NULL)
