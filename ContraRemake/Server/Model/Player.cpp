@@ -16,8 +16,8 @@ Player::Player(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHa
 
 	gun = new Gun(_cameraLogic, _serverMessageHandler);
 
-	pos_x = 600;
-	pos_y = 200;
+	pos_x = 0;
+	pos_y = 0;
 	maxDistanceJump = 150;
 	falling = true;
 	lives_remaining = 3;

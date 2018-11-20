@@ -51,10 +51,10 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 		    //============================================================================================================
 
 			playerSpawnX = 150;
-			playerSpawnY = 300;
+			playerSpawnY = 220;
 
 			playerRespawnX = 100; // Relativo a la ventana, donde van a aparecer cuando caigan
-			playerRespawnY = 200;
+			playerRespawnY = 180;
 
 			break;
 		}
@@ -98,7 +98,7 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 			playerSpawnY = 3800;
 
 			playerRespawnX = 400; // Relativo a la ventana, donde van a aparecer cuando caigan
-			playerRespawnY = 350;
+			playerRespawnY = 330;
 
 			break;
 		}
@@ -139,10 +139,10 @@ Level::Level(CameraLogic* _cameraLogic, int _level, ServerMessageHandler* _serve
 		    //============================================================================================================
 
 			playerSpawnX = 150;
-			playerSpawnY = 300;
+			playerSpawnY = 220;
 
 			playerRespawnX = 100; // Relativo a la ventana, donde van a aparecer cuando caigan
-			playerRespawnY = 200;
+			playerRespawnY = 180;
 
 			break;
 		}

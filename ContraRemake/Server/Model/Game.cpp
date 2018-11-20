@@ -527,13 +527,23 @@ void Game::update()
     			   	players.at(i)->kill();
     			   	break;
     			}
-    			/*Contra el boss*/
-    			if(CollisionHelper::collides(players.at(i),boss)) { // seprar en un bloque distinto, si no hay enemigos no entra a esta parte
-    			    players.at(i)->kill();
-    			    break;
-    			}
     		}
     	}
+    }
+
+    //Jugador-Boss
+    if(boss != NULL)
+    {
+        for(int i = 0; i < max_players; i++)
+        {
+        	if(players.at(i)->isOnline() && players.at(i)->isAlive() && !players.at(i)->isImmortal())
+        	{
+    			if(CollisionHelper::collides(players.at(i), boss))
+    			{
+    			    players.at(i)->kill();
+    			}
+        	}
+        }
     }
 
     //BalasJugador-Enemigo
@@ -596,11 +606,44 @@ void Game::update()
     	}
     }
 
+    //BalasBoss-Jugador
+    if(boss != NULL)
+    {
+    	bullets = boss->getBulletList();
+
+    	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
+		{
+			bool collided = false;
+
+			for(int i = 0; i < max_players; i++)
+			{
+				if(players.at(i)->isOnline() && players.at(i)->isAlive() && !players.at(i)->isImmortal())
+				{
+					if(CollisionHelper::collides(*bulletsIterator, players.at(i)))
+					{
+						players.at(i)->kill();
+
+						delete (*bulletsIterator);
+						bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+
+						collided = true;
+
+						break;
+					}
+				}
+			}
+
+			if(!collided) // Si no colisionó, muevo el iterador manualmente (si colisionó ya lo moví al eliminarlo)
+			{
+				++bulletsIterator;
+			}
+		}
+    }
+
     //BalasEnemigo-Jugador
     for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end(); ++enemiesIterator)
 	{
     	bullets = (*enemiesIterator)->getBulletList(); // @suppress("Method cannot be resolved")
-    	if(boss!=NULL) bullets->merge( *boss->getBulletList() ); // arreglar esto y hacerlo en un for separado, ya experimente un bug donde no te mata el boss ni te hace nada, estimo porque no hay enemigos y no mergea su lista de balas. LO MISMO PARA COLISION CUERPO A CUERPO
 
     	for(bulletsIterator = bullets->begin(); bulletsIterator != bullets->end();)
 		{
