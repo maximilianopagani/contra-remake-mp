@@ -33,12 +33,13 @@ class Game
         void destroy();
 
         int getMaxPlayers() { return max_players; }
+        bool allPlayersDead();
         bool isValidPlayerId(int player_id) { return (player_id >= 0 && player_id < max_players); }
 
         void scrollLevel();
         void restartGame();
         void nextLevel();
-        void endGame();
+        void endGame(bool replay = false);
 
     private:
 

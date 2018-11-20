@@ -281,6 +281,19 @@ void ClientMessageHandler::processMessage(Message* message)
 				{
 					gameView->showServerClosedScreen();
 					client->quit(3000);
+					break;
+				}
+				case GAME_OVER:
+				{
+					gameView->showGameOverScreen();
+					client->quit(3000);
+					break;
+				}
+				case GAME_VICTORY:
+				{
+					gameView->showVictoryScreen();
+					client->quit(3000);
+					break;
 				}
 			}
 			break;

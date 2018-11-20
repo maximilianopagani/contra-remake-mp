@@ -16,6 +16,8 @@ GameView::GameView()
 	gameFullTexture = NULL;
 	alreadyConnectedTexture = NULL;
 	serverClosedTexture = NULL;
+	gameOverTexture = NULL;
+	victoryTexture = NULL;
 }
 
 GameView::~GameView()
@@ -96,8 +98,24 @@ bool GameView::init()
 	gameFullTexture = textureGenerator("../.images/screens/gameFull.png");
 	alreadyConnectedTexture = textureGenerator("../.images/screens/alreadyConnected.png");
 	serverClosedTexture = textureGenerator("../.images/screens/serverClosed.png");
+	gameOverTexture = textureGenerator("../.images/screens/gameOver.png");
+	victoryTexture = textureGenerator("../.images/screens/victory.png");
 
 	return true;
+}
+
+void GameView::showVictoryScreen()
+{
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, victoryTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
+}
+
+void GameView::showGameOverScreen()
+{
+	SDL_RenderClear(renderer);
+	SDL_RenderCopy(renderer, gameOverTexture, NULL, NULL);
+	SDL_RenderPresent(renderer);
 }
 
 void GameView::showServerClosedScreen()

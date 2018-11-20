@@ -40,6 +40,8 @@ class GameView
 		void showInvalidLoginScreen();
 		void showWaitingPlayersScreen();
 		void showServerClosedScreen();
+		void showGameOverScreen();
+		void showVictoryScreen();
 
 	private:
 
@@ -52,6 +54,8 @@ class GameView
 		SDL_Texture* gameFullTexture;
 		SDL_Texture* alreadyConnectedTexture;
 		SDL_Texture* serverClosedTexture;
+		SDL_Texture* gameOverTexture;
+		SDL_Texture* victoryTexture;
 };
 
 #endif /* GAMEVIEW_H_ */

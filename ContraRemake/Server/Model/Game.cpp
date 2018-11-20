@@ -238,17 +238,15 @@ void Game::nextLevel()
 			break;
 
 		case LEVEL3: // No borrar el nivel 3, porque el ciclo sigue, y quedan varias cosas que tiene que ejecutar todavia con el puntero a Level
-			endGame();
+			endGame(true);
 	}
 
-	oneTime= true;
+	oneTime = true;
 }
 
-void Game::endGame()
+void Game::endGame(bool replay)
 {
-	bool want_replay = true; // Hasta que haya algun menu o nunca si no lo implementamos
-
-	if(want_replay)
+	if(replay)
 		restartGame();
 	else
 		enEjecucion = false;
@@ -340,6 +338,20 @@ void Game::scrollLevel()
 	}
 }
 
+bool Game::allPlayersDead()
+{
+
+    for(int i = 0; i < max_players; i++)
+    {
+    	if(players.at(i)->isOnline() && !players.at(i)->outOfLives())
+    	{
+    		return false;
+    	}
+    }
+
+    return true;
+}
+
 void Game::update()
 {
 	list<Enemy*>* enemies = level->getEnemiesList();
@@ -347,6 +359,13 @@ void Game::update()
 	Boss* boss = level->getBoss();
 
 	//======================================== END LEVEL ========================================================
+
+	if(this->allPlayersDead())
+	{
+		LOGGER_INFO("Partida perdida. Se informa GAMEOVER a clientes y se cierra servidor.")
+		serverMessageHandler->sendToAllClients(new MessageServer(INFO, GAME_OVER, 0));
+		this->endGame();
+	}
 
 	if(boss!=NULL) {
 		if(boss->getLife() == 0 ) {
