@@ -86,7 +86,7 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 		case 2:{
 					if(subtype == 0){
 						Mix_PlayChannel(4,enemy_dead, loops);
-						Mix_VolumeChunk(enemy_dead, volumen+10);
+						Mix_VolumeChunk(enemy_dead, volumen-10);
 					}
 
 					break;
