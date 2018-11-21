@@ -360,7 +360,7 @@ bool ServerHandler::receiveOneMessageFromSocket(int socket, char* dest_char, int
 {
 	int bytes_received = 0;
 
-	bytes_received = recv(socket, dest_char, dest_char_size, 0); // LLAMADA BLOQUEANTE. NO avanza hasta recibir un mensaje
+	bytes_received = recv(socket, dest_char, dest_char_size, MSG_WAITALL); // LLAMADA BLOQUEANTE)
 
 	if(bytes_received > 0)
 		return true;
@@ -376,7 +376,7 @@ void ServerHandler::recieveMessagesFrom(Client* client)
 
 	while(client->isOnline())
 	{
-		bytes_received = recv(client->getSocket(), buffer, sizeof(buffer), 0); // LLAMADA BLOQUEANTE. NO avanza hasta recibir un mensaje
+		bytes_received = recv(client->getSocket(), buffer, sizeof(buffer), MSG_WAITALL); // LLAMADA BLOQUEANTE)
 
 		if(bytes_received > 0)
 		{

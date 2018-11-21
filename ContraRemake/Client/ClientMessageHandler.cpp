@@ -51,7 +51,6 @@ ClientMessageHandler::~ClientMessageHandler() {}
 
 void ClientMessageHandler::processMessage(Message* message)
 {
-
 	int MSG_HEADER_1, MSG_HEADER_2;
 	char param1[32]; char param2[32]; char param3[32]; char param4[32];
 
