@@ -13,8 +13,8 @@ EnemyView::EnemyView(GameView* _gameView){
 
 	bloodSprite =  new Sprite(gameView, "../.images/background/blood.png", 30, 30, 80, 80);
 
-	sprites_runner[EnemyRunnerStates::RUNNER_STATE_RUNNING_LEFT] = new Sprite(gameView, "../.images/enemies/runner/runner_left.png", 16, 32, 42, 84);
-	sprites_runner[EnemyRunnerStates::RUNNER_STATE_RUNNING_RIGHT] = new Sprite(gameView, "../.images/enemies/runner/runner_right.png", 16, 32, 42, 84);
+	sprites_runner[EnemyRunnerStates::RUNNER_STATE_RUNNING_LEFT] = new Sprite(gameView, "../.images/enemies/runner/runner_left.png", 18, 32, 42, 84);
+	sprites_runner[EnemyRunnerStates::RUNNER_STATE_RUNNING_RIGHT] = new Sprite(gameView, "../.images/enemies/runner/runner_right.png", 18, 32, 42, 84);
 
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_UP] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_left_up.png", 24, 38, 59, 93);
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_LEFT_FRONT] = new Sprite(gameView, "../.images/enemies/rifleman/rifleman_left_front.png", 24, 38, 59, 93);
