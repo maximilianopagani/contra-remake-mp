@@ -370,7 +370,8 @@ void Game::update()
 	{
 		LOGGER_INFO("Partida perdida. Se informa GAMEOVER a clientes y se cierra servidor.")
 		serverMessageHandler->sendToAllClients(new MessageServer(INFO, GAME_OVER, 0));
-		this->endGame();
+		enEjecucion = false; //Si no pongo esto, el servidor sigue corriendo
+		//this->endGame();
 	}
 
 	if(boss!=NULL) {
