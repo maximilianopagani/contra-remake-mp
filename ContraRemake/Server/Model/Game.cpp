@@ -144,8 +144,14 @@ void Game::processMessage(MessageServer* message)
 
 								if(changeLevelTime + changeLevelCooldown < currentTime) // pongo un cooldown de 1000 milisecs pq aveces es muy rapido el detectar de la tecla y pasa de a 2 niveles
 								{
-									changeLevelNextFrame = true;
-									changeLevelTime = currentTime;
+									if (currentLevel != LEVEL3) {
+										changeLevelNextFrame = true;
+										changeLevelTime = currentTime;
+									}
+									else {
+										serverMessageHandler->sendToAllClients(new MessageServer(INFO, GAME_VICTORY, 0));
+										enEjecucion = false; //Si no pongo esto, el servidor sigue corriendo
+									}
 									loadTransition = false;
 								}
 							}
@@ -238,7 +244,7 @@ void Game::nextLevel()
 			break;
 
 		case LEVEL3: // No borrar el nivel 3, porque el ciclo sigue, y quedan varias cosas que tiene que ejecutar todavia con el puntero a Level
-			endGame(true);
+			endGame(false);
 	}
 
 	oneTime = true;
@@ -248,8 +254,8 @@ void Game::endGame(bool replay)
 {
 	if(replay)
 		restartGame();
-	else
-		enEjecucion = false;
+	//else
+	//	enEjecucion = false;
 }
 
 void Game::scrollLevel()
