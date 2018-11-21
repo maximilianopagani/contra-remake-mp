@@ -368,7 +368,7 @@
 				<plataforma>
 					<id>2004</id>
 					<tipo>GRASS</tipo>
-					<xinicial>400</xinicial>
+					<xinicial>416</xinicial>
 					<xfinal>800</xfinal>
 					<altura>3650</altura>
 				</plataforma>
@@ -389,7 +389,7 @@
 				<plataforma>
 					<id>2007</id>
 					<tipo>GRASS</tipo>
-					<xinicial>600</xinicial>
+					<xinicial>608</xinicial>
 					<xfinal>800</xfinal>
 					<altura>3350</altura>
 				</plataforma>
@@ -417,7 +417,7 @@
 				<plataforma>
 					<id>2011</id>
 					<tipo>GRASS</tipo>
-					<xinicial>650</xinicial>
+					<xinicial>656</xinicial>
 					<xfinal>800</xfinal>
 					<altura>2950</altura>
 				</plataforma>
@@ -438,7 +438,7 @@
 				<plataforma>
 					<id>2014</id>
 					<tipo>WOOD</tipo>
-					<xinicial>450</xinicial>
+					<xinicial>464</xinicial>
 					<xfinal>800</xfinal>
 					<altura>2615</altura>
 				</plataforma>
@@ -459,7 +459,7 @@
 				<plataforma>
 					<id>2017</id>
 					<tipo>WOOD</tipo>
-					<xinicial>700</xinicial>
+					<xinicial>704</xinicial>
 					<xfinal>800</xfinal>
 					<altura>2300</altura>
 				</plataforma>
@@ -494,7 +494,7 @@
 				<plataforma>
 					<id>2022</id>
 					<tipo>GRASS</tipo>
-					<xinicial>300</xinicial>
+					<xinicial>320</xinicial>
 					<xfinal>800</xfinal>
 					<altura>1800</altura>
 				</plataforma>
@@ -550,7 +550,7 @@
 				<plataforma>
 					<id>2030</id>
 					<tipo>GRASS</tipo>
-					<xinicial>600</xinicial>
+					<xinicial>608</xinicial>
 					<xfinal>800</xfinal>
 					<altura>1000</altura>
 				</plataforma>
@@ -578,7 +578,7 @@
 				<plataforma>
 					<id>2034</id>
 					<tipo>GRASS</tipo>
-					<xinicial>600</xinicial>
+					<xinicial>608</xinicial>
 					<xfinal>800</xfinal>
 					<altura>600</altura>
 				</plataforma>
@@ -592,7 +592,7 @@
 				<plataforma>
 					<id>2036</id>
 					<tipo>WOOD</tipo>
-					<xinicial>600</xinicial>
+					<xinicial>608</xinicial>
 					<xfinal>800</xfinal>
 					<altura>400</altura>
 				</plataforma>
@@ -601,7 +601,7 @@
 					<tipo>GRASS</tipo>
 					<xinicial>200</xinicial>
 					<xfinal>450</xfinal>
-					<altura>300</altura>
+					<altura>350</altura>
 				</plataforma>
 			</plataformas>
 		</nivel2>
