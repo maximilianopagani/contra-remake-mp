@@ -152,15 +152,8 @@ void Game::processMessage(MessageServer* message)
 									}
 									else
 									{
-										if(loadTransition)
-										{
-											serverMessageHandler->sendToAllClients(new MessageServer(INFO, GAME_VICTORY, 0));
-											this->endGame();
-										}
-										else
-										{
-											this->endGame(true);
-										}
+										serverMessageHandler->sendToAllClients(new MessageServer(INFO, GAME_VICTORY, 0));
+										this->endGame();
 									}
 								}
 							}
