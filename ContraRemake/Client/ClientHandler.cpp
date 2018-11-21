@@ -124,11 +124,13 @@ void ClientHandler::receiveMessages()
 		}
 		else if(bytes_received == -1)
 		{
-			string error_string = strerror(errno);
-			LOGGER_ERROR("Falla en recepción de mensaje - Error: " + error_string);
-			clientMessageHandler->processMessage(new Message(ERROR, LOST_CONNECTION, 0));
-			break;
-
+			if(continue_flag.load())
+			{
+				string error_string = strerror(errno);
+				LOGGER_ERROR("Falla en recepción de mensaje - Error: " + error_string);
+				clientMessageHandler->processMessage(new Message(ERROR, LOST_CONNECTION, 0));
+				break;
+			}
 		}
 		else if(bytes_received == 0)
 		{
