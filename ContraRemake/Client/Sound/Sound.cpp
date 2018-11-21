@@ -41,19 +41,19 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 
 				if(subtype == 0){
 					Mix_PlayMusic(musicLogin,-1);
-					Mix_VolumeMusic(volumen-20);
+					Mix_VolumeMusic(volumen);
 				}
 				if(subtype == 1){
 					Mix_PlayMusic(musicLevel1,-1);
-					Mix_VolumeMusic(volumen-20);
+					Mix_VolumeMusic(volumen);
 				}
 				if(subtype == 2){
 					Mix_PlayMusic(musicLevel2,-1);
-					Mix_VolumeMusic(volumen-20);
+					Mix_VolumeMusic(volumen);
 				}
 				if(subtype == 3){
 					Mix_PlayMusic(musicLevel3,-1);
-					Mix_VolumeMusic(volumen+10);
+					Mix_VolumeMusic(volumen);
 				}
 
 					break;
@@ -62,12 +62,12 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 		case 1:{
 					if(subtype == 0){
 						Mix_PlayChannel(2,item,loops);
-						Mix_VolumeChunk(item, volumen-10);
+						Mix_VolumeChunk(item, volumen);
 					}
 					if(subtype == 1){
 						Mix_HaltMusic();
 						Mix_PlayMusic(gameover,0);
-						Mix_VolumeMusic(volumen-10);
+						Mix_VolumeMusic(volumen);
 					}
 					if(subtype == 2){
 						Mix_HaltMusic();
@@ -77,7 +77,7 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 					if(subtype == 3){
 						Mix_HaltMusic();
 						Mix_PlayMusic(boss,-1);
-						Mix_VolumeMusic(volumen-20);
+						Mix_VolumeMusic(volumen);
 					}
 
 					break;
@@ -86,7 +86,7 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 		case 2:{
 					if(subtype == 0){
 						Mix_PlayChannel(4,enemy_dead, loops);
-						Mix_VolumeChunk(enemy_dead, volumen-10);
+						Mix_VolumeChunk(enemy_dead, volumen-20);
 					}
 
 					break;
@@ -104,19 +104,19 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 		case 4:{
 					if(subtype == 0){
 						Mix_PlayChannel(3,bullet1, loops);
-						Mix_VolumeChunk(bullet1, volumen-20);
+						Mix_VolumeChunk(bullet1, volumen);
 					}
 					if(subtype == 1){
 						Mix_PlayChannel(3,bullet2, loops);
-						Mix_VolumeChunk(bullet2, volumen-20);
+						Mix_VolumeChunk(bullet2, volumen);
 					}
 					if(subtype == 2){
 						Mix_PlayChannel(3,bullet1, loops);
-						Mix_VolumeChunk(bullet1, volumen-10);
+						Mix_VolumeChunk(bullet1, volumen);
 					}
 					if(subtype == 3){
 						Mix_PlayChannel(3,bullet3, loops);
-						Mix_VolumeChunk(bullet3, volumen-10);
+						Mix_VolumeChunk(bullet3, volumen);
 					}
 
 					break;
