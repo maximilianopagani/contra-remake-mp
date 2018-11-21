@@ -27,7 +27,7 @@ public:
 	virtual ~Sound();
 
 	void play(int type, int subtype , int loops , int volumen);
-	void stopMustic();
+	void stopMusic();
 
 	void destroy();
 

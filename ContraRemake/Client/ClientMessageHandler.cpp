@@ -279,6 +279,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				}
 				case SERVER_CLOSED:
 				{
+					sound->stopMusic();
 					gameView->showServerClosedScreen();
 					client->quit(3000);
 					break;
@@ -291,6 +292,7 @@ void ClientMessageHandler::processMessage(Message* message)
 				}
 				case GAME_VICTORY:
 				{
+					sound->play(1, 2, 0, 30);
 					gameView->showVictoryScreen();
 					client->quit(6000);
 					break;

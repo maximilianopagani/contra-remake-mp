@@ -126,7 +126,7 @@ void Sound::play(int type, int subtype , int loops , int volumen){
 }
 
 
-void Sound::stopMustic(){
+void Sound::stopMusic(){
 	Mix_HaltMusic();
 }
 
