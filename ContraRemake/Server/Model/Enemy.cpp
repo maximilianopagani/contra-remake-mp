@@ -8,7 +8,7 @@
 #include "Enemy.hh"
 #include <math.h>
 
-Enemy::Enemy(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, EnemyType _type, int pos_x, int pos_y)
+Enemy::Enemy(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandler, EnemyType _type, int pos_x, int pos_y) // @suppress("Class members should be properly initialized")
 {
 	serverMessageHandler = _serverMessageHandler;
 	cameraLogic = _cameraLogic;

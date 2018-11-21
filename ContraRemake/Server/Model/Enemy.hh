@@ -38,7 +38,7 @@ class Enemy: public ICollisional
 		void updateTargetPos(int playerPosX, int playerPosY);
 		int getTarget() { return targetingPlayerId; }
 
-		bool isOnScreen() { return !cameraLogic->outOfCameraLimits(posX, posY); }
+		bool isOnScreen() { return !cameraLogic->outOfCameraLimits(posX, posY, -40, 0, -21, 0); }
 
 		list<Bullet*>* getBulletList() { return &bullets; }
 

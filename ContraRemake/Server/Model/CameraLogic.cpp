@@ -26,6 +26,15 @@ bool CameraLogic::outOfCameraLimits(int x, int y)
 		return false;
 }
 
+bool CameraLogic::outOfCameraLimits(int x, int y, int y_tolerance_top, int y_tolerance_bot, int x_tolerance_right, int x_tolerance_left)
+{
+	// Esto chequea para la posicion absoluta pasada por parametro, si luego del ajuste del offset queda dentro o fuera de la ventana
+	if(outOfCameraLeftLimit(x, x_tolerance_left) || outOfCameraRightLimit(x, x_tolerance_right) || outOfCameraLowerLimit(y, y_tolerance_bot) || outOfCameraHigherLimit(y, y_tolerance_top))
+		return true;
+	else
+		return false;
+}
+
 CameraLogic::~CameraLogic()
 {
 	// TODO Auto-generated destructor stub

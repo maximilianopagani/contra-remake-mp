@@ -34,7 +34,7 @@ void Bullet::updatePos()
 
 bool Bullet::outOfLimits()
 {
-	if((max_travel_distance > 0 && traveled_distance > max_travel_distance) || cameraLogic->outOfCameraLimits(pos_x, pos_y))
+	if((max_travel_distance > 0 && traveled_distance > max_travel_distance) || cameraLogic->outOfCameraLimits(pos_x, pos_y, 0, -8, -8, 0))
 		return true;
 	else
 		return false;
@@ -42,7 +42,7 @@ bool Bullet::outOfLimits()
 
 void Bullet::render(int player_id)
 {
-	if (oneShot)
+	if(oneShot)
 		serverMessageHandler->sendToAllClients(new MessageServer(BULLET, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY()));
 	else
 		serverMessageHandler->sendToAllClients(new MessageServer(BULLET_LASER, RENDER, player_id, pos_x - cameraLogic->getCameraPosX(), pos_y - cameraLogic->getCameraPosY(), getDirection()));
