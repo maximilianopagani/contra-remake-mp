@@ -299,9 +299,9 @@ void Boss::updateBoss3(){
 					timeAtIterationStart=0;
 				}
 
-				posX = moverPos(posX,caer+7410,8);
-				if( posX <= caer+7410 ){
-					posX = caer+7410;
+				posX = moverPos(posX,caer+7280,8);
+				if( posX <= caer+7280 ){
+					posX = caer+7280;
 
 					fase = 2;
 				}
@@ -318,9 +318,9 @@ void Boss::updateBoss3(){
 				}
 
 				//Recordatorio: DesHarcodear las posiciones
-				posX = moverPos(posX,7750,8);
-				if( posX >= 7750 ){
-					posX = 7750;
+				posX = moverPos(posX,7850,8);
+				if( posX >= 7850 ){
+					posX = 7850;
 
 					direccionY1 = rand() % 10 + 1;
 					direccionY2 = rand() % 10 + 1;
@@ -334,9 +334,9 @@ void Boss::updateBoss3(){
 
 				state=0;
 
-				posY = moverPos(posY,400,16);
-				if( posY >= 400 ){
-					posY = 400;
+				posY = moverPos(posY,350,16);
+				if( posY >= 350 ){
+					posY = 350;
 
 					fase = 1;
 				}
@@ -362,7 +362,7 @@ void Boss::updateBoss3(){
 
 					state = 0;
 					amountToWait=15;
-					caer = 10+rand()%(701-10);
+					caer = 10+rand()%(501-10);
 
 					fase = 6;
 				}

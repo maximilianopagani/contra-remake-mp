@@ -29,6 +29,7 @@ class EnemyView
 
 		Sprite* sprites_runner[MAX_RUNNER_STATES];
 		Sprite* sprites_rifleman[MAX_RIFLEMAN_STATES];
+		Sprite* bloodSprite;
 
 		Sprite** sprites[MAX_ENEMY_TYPES];
 };

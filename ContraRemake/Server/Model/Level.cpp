@@ -364,6 +364,14 @@ void Level::render()
 	{
 		(*enemiesIterator)->render();
 	}
+	for(enemiesDeadIterator = enemiesDead.begin(); enemiesDeadIterator != enemiesDead.end();enemiesDeadIterator++ )
+	{
+		int x = (*enemiesDeadIterator)->getPosX();
+		int y = (*enemiesDeadIterator)->getPosY();
+		serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, RENDER, -1, 0, x - cameraLogic->getCameraPosX(), y - cameraLogic->getCameraPosY()));
+
+		(*enemiesDeadIterator)->wasHit();
+	}
 
 	if(boss!= NULL) boss->render();
 
@@ -376,6 +384,18 @@ void Level::update()
 	for(enemiesIterator = enemies.begin(); enemiesIterator != enemies.end(); ++enemiesIterator)
 	{
 		(*enemiesIterator)->update();
+	}
+	for(enemiesDeadIterator = enemiesDead.begin(); enemiesDeadIterator != enemiesDead.end(); ++enemiesDeadIterator)
+	{
+		serverMessageHandler->sendToAllClients(new MessageServer(ENEMY, LOAD, -1, 0, 0));
+
+		if((*enemiesDeadIterator)->isDead()){
+			enemiesDead.erase(enemiesDeadIterator++);
+			if( enemiesDead.empty() ) {
+				enemiesDead.clear();
+				break;
+			}
+		}
 	}
 
 	if(boss != NULL)

@@ -33,6 +33,7 @@ class Level
 		void update();
 		void deleteEnemy(Enemy* _enemy);
 		void deleteBoss();
+		void pushDeadEnemy(Enemy* a){ enemiesDead.push_back(a); }
 
 		int getSpawnPointX() { return playerSpawnX; }
 		int getSpawnPointY() { return playerSpawnY; }
@@ -85,6 +86,9 @@ class Level
 
 		std::list<Enemy*> enemies;
 		std::list<Enemy*>::iterator enemiesIterator;
+
+		std::list<Enemy*> enemiesDead;
+		std::list<Enemy*>::iterator enemiesDeadIterator;
 
 		Boss* boss;
 };

@@ -614,6 +614,8 @@ void Game::update()
         				players.at(i)->increaseLevelScore(currentLevel, 50);
         				serverMessageHandler->sendToAllClients(new MessageServer(SOUND, LOAD, 2,0));
 
+        				level->pushDeadEnemy(*enemiesIterator);
+
         			    delete (*enemiesIterator);
         			    enemies->erase(enemiesIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
 

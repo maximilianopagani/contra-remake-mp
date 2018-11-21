@@ -31,7 +31,11 @@ class Enemy: public ICollisional
 		void updateCollisionBox();
 		void fallingStop() { falling = false; }
 		void fallingDown() { falling = true;}
-		void wasHit() { dead = true; }; //ANIMACION DE MUERTO O DIRECTAMENTE BORRARLO
+		void wasHit() {
+			countDown--;
+			if(countDown == 0) dead = true;
+		};
+		bool isDead(){ return dead; }
 
 		bool hasNoTarget() { return !isTargetingPlayer; }
 		void targetPlayer(int playerId, int playerPosX, int playerPosY);
@@ -69,6 +73,7 @@ class Enemy: public ICollisional
 		EnemyType type;
 		int posX, posY, state, changeDirectionTime;
 		bool falling, dead;
+		int countDown = 6 ;
 
 		int col_box_xi, col_box_yi, col_box_xf, col_box_yf;
 };

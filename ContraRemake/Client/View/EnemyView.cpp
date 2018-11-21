@@ -11,6 +11,8 @@ EnemyView::EnemyView(GameView* _gameView){
 
 	gameView = _gameView;
 
+	bloodSprite =  new Sprite(gameView, "../.images/background/blood.png", 30, 30, 80, 80);
+
 	sprites_runner[EnemyRunnerStates::RUNNER_STATE_RUNNING_LEFT] = new Sprite(gameView, "../.images/enemies/runner/runner_left.png", 16, 32, 42, 84);
 	sprites_runner[EnemyRunnerStates::RUNNER_STATE_RUNNING_RIGHT] = new Sprite(gameView, "../.images/enemies/runner/runner_right.png", 16, 32, 42, 84);
 
@@ -32,12 +34,14 @@ EnemyView::~EnemyView()
 
 void EnemyView::update(int enemy_type, int state, int animation)
 {
-	sprites[enemy_type][state]->moveToPos(animation);
+	if(enemy_type == -1) bloodSprite->update();
+	else sprites[enemy_type][state]->moveToPos(animation);
 }
 
 void EnemyView::render(int enemy_type, int state, int pos_x, int pos_y)
 {
-	sprites[enemy_type][state]->render(pos_x, pos_y);
+	if(enemy_type == -1) bloodSprite->render(pos_x, pos_y);
+	else sprites[enemy_type][state]->render(pos_x, pos_y);
 }
 
 void EnemyView::destroy()
@@ -61,4 +65,6 @@ void EnemyView::destroy()
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_UP] = NULL;
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_FRONT] = NULL;
 	sprites_rifleman[EnemyRiflemanStates::RIFLEMAN_STATE_RIGHT_DOWN] = NULL;
+
+	bloodSprite = NULL;
 }
