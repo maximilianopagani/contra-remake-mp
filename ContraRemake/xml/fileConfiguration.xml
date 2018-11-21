@@ -56,6 +56,12 @@
 					<xpos>5166</xpos>
 					<ypos>66</ypos>
 				</item>
+				<item>
+					<id>107</id>				
+					<tipo>RAPIDFIREFALCON</tipo>
+					<xpos>6700</xpos>
+					<ypos>260</ypos>
+				</item>
 			</items>
 			<plataformas>
 				<plataforma>
@@ -316,13 +322,13 @@
 			<items>
 				<item>
 					<id>201</id>				
-					<tipo>FIREBALLFALCON</tipo>
+					<tipo>SPREADGUNFALCON</tipo>
 					<xpos>200</xpos>
 					<ypos>3600</ypos>
 				</item>
 				<item>
 					<id>202</id>				
-					<tipo>FORCEFIELDFALCON</tipo>
+					<tipo>SPREADGUNFALCON</tipo>
 					<xpos>200</xpos>
 					<ypos>3000</ypos>
 				</item>
@@ -364,98 +370,98 @@
 					<tipo>WOOD</tipo>
 					<xinicial>380</xinicial>
 					<xfinal>590</xfinal>
-					<altura>3800</altura>
+					<altura>3850</altura>
 				</plataforma>
 				<plataforma>
 					<id>2003</id>
 					<tipo>GRASS</tipo>
 					<xinicial>1</xinicial>
 					<xfinal>200</xfinal>
-					<altura>3700</altura>
+					<altura>3750</altura>
 				</plataforma>
 				<plataforma>
 					<id>2004</id>
 					<tipo>GRASS</tipo>
 					<xinicial>400</xinicial>
 					<xfinal>800</xfinal>
-					<altura>3600</altura>
+					<altura>3650</altura>
 				</plataforma>
 				<plataforma>
 					<id>2005</id>
 					<tipo>WOOD</tipo>
 					<xinicial>150</xinicial>
 					<xfinal>300</xfinal>
-					<altura>3500</altura>
+					<altura>3550</altura>
 				</plataforma>
 				<plataforma>
 					<id>2006</id>
 					<tipo>WOOD</tipo>
 					<xinicial>400</xinicial>
 					<xfinal>500</xfinal>
-					<altura>3400</altura>
+					<altura>3450</altura>
 				</plataforma>
 				<plataforma>
 					<id>2007</id>
 					<tipo>GRASS</tipo>
 					<xinicial>600</xinicial>
 					<xfinal>800</xfinal>
-					<altura>3300</altura>
+					<altura>3350</altura>
 				</plataforma>
 				<plataforma>
 					<id>2008</id>
 					<tipo>WOOD</tipo>
 					<xinicial>300</xinicial>
 					<xfinal>500</xfinal>
-					<altura>3200</altura>
+					<altura>3250</altura>
 				</plataforma>
 				<plataforma>
 					<id>2009</id>
 					<tipo>GRASS</tipo>
 					<xinicial>1</xinicial>
 					<xfinal>250</xfinal>
-					<altura>3100</altura>
+					<altura>3150</altura>
 				</plataforma>
 				<plataforma>
 					<id>2010</id>
 					<tipo>GRASS</tipo>
 					<xinicial>400</xinicial>
 					<xfinal>500</xfinal>
-					<altura>3000</altura>
+					<altura>3050</altura>
 				</plataforma>
 				<plataforma>
 					<id>2011</id>
 					<tipo>GRASS</tipo>
 					<xinicial>650</xinicial>
 					<xfinal>800</xfinal>
-					<altura>2900</altura>
+					<altura>2950</altura>
 				</plataforma>
 				<plataforma>
 					<id>2012</id>
 					<tipo>WOOD</tipo>
 					<xinicial>400</xinicial>
 					<xfinal>500</xfinal>
-					<altura>2800</altura>
+					<altura>2850</altura>
 				</plataforma>
 				<plataforma>
 					<id>2013</id>
 					<tipo>GRASS</tipo>
 					<xinicial>200</xinicial>
 					<xfinal>300</xfinal>
-					<altura>2700</altura>
+					<altura>2725</altura>
 				</plataforma>
 				<plataforma>
 					<id>2014</id>
 					<tipo>WOOD</tipo>
 					<xinicial>450</xinicial>
 					<xfinal>800</xfinal>
-					<altura>2600</altura>
+					<altura>2615</altura>
 				</plataforma>
 				<plataforma>
 					<id>2015</id>
 					<tipo>GRASS</tipo>
 					<xinicial>1</xinicial>
 					<xfinal>250</xfinal>
-					<altura>2500</altura>
+					<altura>2505</altura>
 				</plataforma>
 				<plataforma>
 					<id>2016</id>
@@ -631,13 +637,13 @@
 			<items>
 				<item>
 					<id>301</id>				
-					<tipo>FIREBALLFALCON</tipo>
+					<tipo>RAPIDFIREFALCON</tipo>
 					<xpos>1</xpos>
 					<ypos>200</ypos>
 				</item>
 				<item>
 					<id>302</id>				
-					<tipo>FORCEFIELDFALCON</tipo>
+					<tipo>SPREADGUNFALCON</tipo>
 					<xpos>1000</xpos>
 					<ypos>200</ypos>
 				</item>
