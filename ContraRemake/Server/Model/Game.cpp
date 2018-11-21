@@ -578,18 +578,26 @@ void Game::update()
         		bool collided = false;
 
         		/*Seccion de Boss*/
-        		if(CollisionHelper::collides(*bulletsIterator,boss)){
-        		    boss->wasHit();
-        		    players.at(i)->increaseLevelScore(currentLevel, 10);
-        		    if (boss->isDead()) {
-        		    	players.at(i)->increaseLevelScore(currentLevel, 500);
-        		    }
+        		if (!boss->isDead())
+        		{
+					if(CollisionHelper::collides(*bulletsIterator,boss)){
+						if (boss->wasHit())
+						{
+							LOGGER_DEBUG("SUMA 10, DISPARO AL BOSS");
+							LOGGER_DEBUG("VIDA DEL BOSS: " + std::to_string(boss->getLife()));
+							players.at(i)->increaseLevelScore(currentLevel, 10);
+							if (boss->isDead()) {
+								LOGGER_INFO("SUMA 500, MATA AL BOSS EL PLAYER: " + std::to_string(i+1));
+								players.at(i)->increaseLevelScore(currentLevel, 500);
+							}
+						}
 
-        		    delete (*bulletsIterator);
-        		    bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
+						delete (*bulletsIterator);
+						bullets->erase(bulletsIterator++); // Muevo el iterador al siguiente, y borro el valor anterior del iterador
 
-        		    collided = true;
-        		    continue;
+						collided = true;
+						continue;
+					}
         		}
 
         		for(enemiesIterator = enemies->begin(); enemiesIterator != enemies->end();)

@@ -422,7 +422,7 @@ int Boss::moverPos(int origin , int destiny , int paso){
 	return origin;
 }
 
-void Boss::wasHit(){
+bool Boss::wasHit(){
 
 	//Logica de cuando recibe danio el primer boss
 	if(type == 0) {
@@ -435,11 +435,12 @@ void Boss::wasHit(){
 				vida=0;
 				contador = 0;
 			}
+			return true;
 		}
 
 	}
 	//Logica de cuando recibe danio el segundo boss
-	if(type == 1) {
+	else if(type == 1) {
 		if(fase!=4) {
 			serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
 			vida--;
@@ -448,10 +449,11 @@ void Boss::wasHit(){
 				vida=0;
 				contador = 0;
 			}
+			return true;
 		}
 	}
 	//Logica de cuando recibe danio el tercer boss
-	if(type == 2){
+	else if(type == 2){
 		if(fase!=4) {
 			serverMessageHandler->sendToAllClients(new MessageServer(SOUND,LOAD,2,0));
 			vida--;
@@ -460,9 +462,11 @@ void Boss::wasHit(){
 				vida=0;
 				contador = 0;
 			}
+			return true;
 		}
 	}
 
+	return false;
 }
 bool Boss::bossIsDead(){
 	fase = 4;
@@ -490,7 +494,9 @@ int Boss::getBottomLimit()
 }
 
 bool Boss::isDead() {
-	return dead;
+	if(vida<=0)
+		return true;
+	return false;
 }
 
 Boss::~Boss() {

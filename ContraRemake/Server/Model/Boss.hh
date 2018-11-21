@@ -22,7 +22,7 @@ public:
 
 	void render();
 	void update();
-	void wasHit();
+	bool wasHit();
 	void updateBoss1();
 	void updateBoss2();
 	void updateBoss3();
