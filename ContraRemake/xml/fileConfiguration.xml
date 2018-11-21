@@ -11,13 +11,6 @@
 
 			<quantityrunners>10</quantityrunners>
 			<quantityriflemans>10</quantityriflemans>
-			<quantitygunners>0</quantitygunners>
-			<quantityscubasoldiers>0</quantityscubasoldiers>
-			<quantitywallturrets>0</quantitywallturrets>
-			<quantitycannons>0</quantitycannons>
-			<quantityfloaters>0</quantityfloaters>
-			<quantityspores>0</quantityspores>
-			<quantitycrawlers>0</quantitycrawlers>
 
 			<items>
 				<item>
@@ -311,13 +304,6 @@
 			
 			<quantityrunners>10</quantityrunners>
 			<quantityriflemans>15</quantityriflemans>
-			<quantitygunners>0</quantitygunners>
-			<quantityscubasoldiers>0</quantityscubasoldiers>
-			<quantitywallturrets>0</quantitywallturrets>
-			<quantitycannons>0</quantitycannons>
-			<quantityfloaters>0</quantityfloaters>
-			<quantityspores>0</quantityspores>
-			<quantitycrawlers>0</quantitycrawlers>
 			
 			<items>
 				<item>
@@ -626,13 +612,6 @@
 
 			<quantityrunners>15</quantityrunners>
 			<quantityriflemans>15</quantityriflemans>
-			<quantitygunners>0</quantitygunners>
-			<quantityscubasoldiers>0</quantityscubasoldiers>
-			<quantitywallturrets>0</quantitywallturrets>
-			<quantitycannons>0</quantitycannons>
-			<quantityfloaters>0</quantityfloaters>
-			<quantityspores>0</quantityspores>
-			<quantitycrawlers>0</quantitycrawlers>
 
 			<items>
 				<item>

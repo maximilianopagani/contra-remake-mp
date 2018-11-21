@@ -254,8 +254,8 @@ void Game::endGame(bool replay)
 {
 	if(replay)
 		restartGame();
-	//else
-	//	enEjecucion = false;
+	else
+		enEjecucion = false;
 }
 
 void Game::scrollLevel()
