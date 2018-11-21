@@ -585,7 +585,7 @@ void Game::update()
         		bool collided = false;
 
         		/*Seccion de Boss*/
-        		if (!boss->isDead())
+        		if (!boss->isDead() && boss->isOnScreen())
         		{
 					if(CollisionHelper::collides(*bulletsIterator,boss)){
 						if (boss->wasHit())
