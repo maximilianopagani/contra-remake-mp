@@ -126,7 +126,7 @@ void ClientHandler::receiveMessages()
 		{
 			string error_string = strerror(errno);
 			LOGGER_ERROR("Falla en recepción de mensaje - Error: " + error_string);
-			this->quit();
+			clientMessageHandler->processMessage(new Message(ERROR, LOST_CONNECTION, 0));
 			break;
 
 		}
