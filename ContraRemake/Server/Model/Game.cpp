@@ -153,6 +153,7 @@ void Game::processMessage(MessageServer* message)
 									else
 									{
 										serverMessageHandler->sendToAllClients(new MessageServer(INFO, GAME_VICTORY, 0));
+										Utils::setDelay(200);
 										this->endGame();
 									}
 								}

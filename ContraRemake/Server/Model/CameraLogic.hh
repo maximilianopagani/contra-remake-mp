@@ -53,6 +53,7 @@ class CameraLogic
 		int camera_width, camera_height;
 		int border;
 		bool canMove; // Flag que me indica si la camara se puede seguir moviendo en ese nivel, o si ya llegó al fondo
+		bool vertical_scrolling = false;
 };
 
 #endif /* MODEL_CAMERALOGIC_HH_ */

@@ -14,7 +14,7 @@ Boss::Boss(CameraLogic* _cameraLogic, ServerMessageHandler* _serverMessageHandle
 	//Boss stats
 	posX = pos_x;
 	posY = pos_y;
-	vida=150;
+	vida = 100;
 	type = _type;
 	state = 0;
 	distanceToTravel = 800;

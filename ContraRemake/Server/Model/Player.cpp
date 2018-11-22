@@ -295,12 +295,9 @@ void Player::walkLeft()
 
 bool Player::canMoveRight(int new_pos_x)
 {
-	if(!cameraLogic->canMoveForward()) // si ya la camara esta bloqueada, es decir llegué al fondo del nivel
+	if(cameraLogic->outOfCameraRightLimit(new_pos_x))
 	{
-		if(!cameraLogic->outOfCameraRightLimit(new_pos_x))
-			return true;
-		else
-			return false;
+		return false;
 	}
 	else if(!this->canMoveBeyondBorder() && new_pos_x >= cameraLogic->getBorder())
 	{
